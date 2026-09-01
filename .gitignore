@@ -9,3 +9,9 @@
 *.VC.db
 *.xcodeproj/xcuserdata/
 *.xcworkspace/xcuserdata/
+
+# Local reverse-engineering specimens (never publish reference binaries)
+/research/legacy-editor/*.exe
+/research/legacy-editor/*.dll
+/research/legacy-editor/*.sme
+/research/legacy-editor/*.osm

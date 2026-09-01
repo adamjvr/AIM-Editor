@@ -82,6 +82,30 @@ def verify_checksum(decoded: bytes) -> bool:
     return len(decoded) >= 19 and read_u32be(decoded, 15) == checksum_complement(decoded)
 
 
+def encode_patch_sysex(decoded_input: bytes) -> bytes:
+    """Repack one 378-byte candidate patch image, recalculating checksum.
+
+    The caller supplies the complete decoded image so unknown bytes are
+    preserved. AIM Editor never constructs a blank hardware patch from partial
+    semantic knowledge.
+    """
+    if len(decoded_input) != 378:
+        raise ValueError(f"decoded patch must be 378 bytes, got {len(decoded_input)}")
+    if decoded_input[0:3] != bytes((0x00, 0x0E, 0x22)):
+        raise ValueError("decoded manufacturer/product bytes do not match candidate Ion format")
+    if decoded_input[7:15] != b"Q01SYNTH":
+        raise ValueError("decoded patch lacks Q01SYNTH tag")
+    if read_u32be(decoded_input, 51) != 315:
+        raise ValueError("decoded patch-size field is not 315")
+
+    decoded = bytearray(decoded_input)
+    decoded[15:19] = struct.pack(">I", checksum_complement(decoded))
+    encoded = encode_7of8(decoded)
+    if len(encoded) != 432:
+        raise ValueError(f"encoded patch payload must be 432 bytes, got {len(encoded)}")
+    return b"\xF0" + encoded + b"\xF7"
+
+
 def _decode_scalar(field: dict[str, Any], data: bytes) -> Any:
     off = field["offset"]
     width = field["width_bytes"]
@@ -204,8 +228,9 @@ def self_test() -> None:
     synthetic[108] = 73
     synthetic[126:128] = bytes((2, 0))
     synthetic[15:19] = struct.pack(">I", checksum_complement(synthetic))
-    wire = b"\xF0" + encode_7of8(synthetic) + b"\xF7"
+    wire = encode_patch_sysex(synthetic)
     parsed = decode_patch_sysex(wire)
+    assert encode_patch_sysex(bytes(parsed["decoded_bytes"])) == wire
     assert parsed["name"] == "AIM Test"
     assert parsed["checksum"]["valid"] is True
     assert parsed["fields"]["filter1.frequency"]["raw"] == 512
@@ -226,6 +251,10 @@ def main() -> int:
     dec.add_argument("--output", "-o", type=Path)
     dec.add_argument("--spec", type=Path, default=DEFAULT_SPEC)
 
+    repack = sub.add_parser("repack", help="decode and losslessly repack one candidate single-patch .syx")
+    repack.add_argument("input", type=Path)
+    repack.add_argument("output", type=Path)
+
     sub.add_parser("self-test", help="run protocol codec self-tests")
 
     args = parser.parse_args()
@@ -240,6 +269,10 @@ def main() -> int:
             args.output.write_text(text)
         else:
             sys.stdout.write(text)
+        return 0
+    if args.command == "repack":
+        parsed = decode_patch_sysex(read_sysex(args.input))
+        args.output.write_bytes(encode_patch_sysex(bytes(parsed["decoded_bytes"])))
         return 0
     if args.command == "self-test":
         self_test()

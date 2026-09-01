@@ -31,7 +31,8 @@
       "absolute_file_offset_hex": "0x001a9200",
       "size": 5871641,
       "size_hex": "0x00599819",
-      "end_file_offset_hex": "0x00742a19"
+      "end_file_offset_hex": "0x00742a19",
+      "sha256": "10ff27af3cd043ad106e1d71a009008d716578a71c0e19f2ce551beede2df9de"
     },
     "layout": [
       "uint32_le absolute_file_offset",
@@ -45,7 +46,14 @@
   "notes": [
     "The mod.sme payload occupies the PE overlay up to the 27-byte OSSM directory/footer.",
     "The footer proves that 0x001a9200 is not merely an accidental PE overlay boundary; the container itself records that exact payload file offset.",
-    "The first roughly 0x201000 bytes of mod.sme are high entropy, after which the byte distribution becomes strongly structured. The exact codec/serialization boundary is still under investigation.",
+    "The 4 KiB entropy profile detects a sharp statistical transition at the window beginning 0x00201000: the preceding region is high entropy and subsequent windows become strongly structured. This is not yet treated as an exact codec/serialization boundary.",
     "No application protocol constants should be promoted to verified status until independently supported by documentation, captures, or reproducible reference behavior."
-  ]
+  ],
+  "sme_profile": {
+    "derived_profile": "research/legacy-editor/mod-sme-profile.json",
+    "window_size": 4096,
+    "candidate_entropy_transition": 2101248,
+    "candidate_entropy_transition_hex": "0x00201000",
+    "interpretation": "statistical transition only; exact codec/object boundary unverified"
+  }
 }

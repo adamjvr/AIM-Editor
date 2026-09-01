@@ -55,8 +55,9 @@ AIM Editor implements this candidate conversion separately from the generic
 MIDI NRPN encoder as `IonProtocol::encodeIonSigned14()` and
 `IonProtocol::makeIonNrpnSequence()`.
 
-It is **not yet wired to automatic knob writes**. That remains blocked until
-hardware captures verify address/value behavior.
+It is now wired to **opt-in** live knob writes through `IonParameterTransmitter`.
+The feature starts disabled, transmits only interactive editor changes, and remains
+marked candidate until hardware captures verify address/value behavior.
 
 ## Current coverage
 

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aim-editor.org/schema/nrpn-capture-analysis.schema.json",
+  "title": "AIM Editor candidate NRPN capture analysis",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "schema_version", "source_format", "direction_filter", "transaction_count", "transactions"],
+  "properties": {
+    "format": { "const": "aim-editor.nrpn-capture-analysis" },
+    "schema_version": { "const": 1 },
+    "source_format": { "const": "aim-editor.midi-capture" },
+    "direction_filter": { "enum": ["all", "input", "output"] },
+    "transaction_count": { "type": "integer", "minimum": 0 },
+    "transactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["event_index", "direction", "channel", "nrpn", "encoded_value14", "semantic_value", "mapping_status"],
+        "properties": {
+          "event_index": { "type": "integer", "minimum": 0 },
+          "utc_ms": { "type": ["integer", "null"] },
+          "direction": { "enum": ["input", "output"] },
+          "device_identifier": { "type": "string" },
+          "channel": { "type": "integer", "minimum": 1, "maximum": 16 },
+          "nrpn": { "type": "integer", "minimum": 0, "maximum": 16383 },
+          "encoded_value14": { "type": "integer", "minimum": 0, "maximum": 16383 },
+          "semantic_value": { "type": "integer", "minimum": -8192, "maximum": 16383 },
+          "mapping_status": { "enum": ["candidate", "unknown"] },
+          "within_candidate_range": { "type": "boolean" },
+          "parameter": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}

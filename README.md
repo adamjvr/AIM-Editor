@@ -34,10 +34,15 @@ This is the initial implementation scaffold. It currently contains:
 - a buildable JUCE application shell;
 - five editor pages matching the reference application's Front, Dual 1, Dual 2, Randomizer, and Rear organization;
 - a global MIDI/program control strip;
-- a typed parameter registry loaded from JSON;
+- a typed parameter registry loaded from JSON, including explicit enum domains;
+- an observable semantic `ProgramState` shared across all editor views;
+- JSON-driven knob/selector/toggle control construction rather than hard-coded per-widget protocol logic;
 - an initial screenshot-derived inventory of 178 visible/semantic parameters;
 - JSON program import/export infrastructure;
 - a MIDI service boundary for device enumeration/input/output;
+- opt-in candidate live NRPN editing with explicit MIDI channel selection;
+- incoming NRPN decoding that updates shared state without MIDI feedback loops;
+- synchronized semantic parameter state shared by every editor page;
 - a live MIDI/SysEx capture inspector with JSON export;
 - a candidate Ion/Micron 7-of-8 patch codec, checksum verifier, and single-patch request path;
 - machine-readable candidate SysEx and NRPN specifications with explicit evidence status;
@@ -119,6 +124,12 @@ Program exports use a nested JSON representation such as:
 
 ## Data tooling
 
+Run all repository-level JSON/protocol/research checks:
+
+```bash
+./tools/check_repository.py
+```
+
 Validate the canonical database:
 
 ```bash
@@ -145,6 +156,12 @@ Research the candidate Ion SysEx format without building JUCE:
 ./tools/validate_protocol_data.py
 ```
 
+## Live editing
+
+Candidate NRPN live editing is deliberately disabled by default. See
+[`docs/LIVE_EDITING.md`](docs/LIVE_EDITING.md) for the no-echo safety model and
+hardware-verification workflow.
+
 ## Reverse engineering
 
 The original editor was identified as a 32-bit Windows application exported from a SynthMaker/FlowStone-style runtime and wrapped with UPX. The application-specific behavior appears likely to be represented substantially by serialized project/module data rather than only handwritten x86.
@@ -154,3 +171,23 @@ AIM Editor's reverse-engineering work should focus on extracting a verified para
 ## License
 
 Open-source release is intended, but the project license has not yet been selected. Choose the license before the first public release.
+
+## Hardware verification tools
+
+The current protocol maps are candidate data until tested on hardware. For controlled A/B patch-dump comparison:
+
+```bash
+./tools/protocol/ion_patch_diff.py diff before.json after.json \
+  --expected filter1.frequency \
+  --output research/captures/filter1-frequency-001.diff.json
+```
+
+See `docs/HARDWARE_VERIFICATION.md`. The diff report keeps raw decoded-byte changes authoritative and layers candidate field names on top.
+
+The SysEx codec can also perform a template-preserving repack test:
+
+```bash
+./tools/protocol/ion_sysex.py repack input.syx output.syx
+```
+
+AIM Editor never synthesizes a hardware patch from only the parameters it currently understands; encoding starts from a complete source patch image so unmapped bytes/bits are preserved.

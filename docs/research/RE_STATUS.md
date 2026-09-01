@@ -56,3 +56,15 @@ None of this section is promoted to hardware-verified yet.
 
 The JSON research files keep confidence/evidence metadata and preserve
 contradictions rather than silently choosing convenient answers.
+
+
+## Legacy container refinement
+
+The OSSM footer parser now independently extracts the single `mod.sme` payload
+from a local copy of the reference executable. The extracted payload is
+5,871,641 bytes with SHA-256
+`10ff27af3cd043ad106e1d71a009008d716578a71c0e19f2ce551beede2df9de`. A
+4 KiB statistical profile detects a sharp entropy transition at the window
+beginning `0x00201000`; this is a useful probe point, **not** yet an asserted
+serialization boundary. Original binaries/payloads remain excluded from the
+repository.

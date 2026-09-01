@@ -38,6 +38,8 @@ add_library(AIMEditorCore STATIC
     Source/Core/IonProgram.h
     Source/Core/ProgramJson.cpp
     Source/Core/ProgramJson.h
+    Source/Core/ProgramState.cpp
+    Source/Core/ProgramState.h
 )
 
 target_include_directories(AIMEditorCore PUBLIC Source)
@@ -56,10 +58,16 @@ add_library(AIMEditorMidi STATIC
     Source/Midi/IonMidiService.h
     Source/Midi/IonProtocol.cpp
     Source/Midi/IonProtocol.h
+    Source/Midi/IonParameterTransmitter.cpp
+    Source/Midi/IonParameterTransmitter.h
+    Source/Midi/IonNrpnDecoder.cpp
+    Source/Midi/IonNrpnDecoder.h
     Source/Midi/IonSysExCodec.cpp
     Source/Midi/IonSysExCodec.h
     Source/Midi/IonProgramDecoder.cpp
     Source/Midi/IonProgramDecoder.h
+    Source/Midi/IonProgramEncoder.cpp
+    Source/Midi/IonProgramEncoder.h
 )
 
 target_include_directories(AIMEditorMidi PUBLIC Source)

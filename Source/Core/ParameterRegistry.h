@@ -14,6 +14,7 @@ public:
     juce::Result loadFromJson (const juce::String& jsonText);
 
     [[nodiscard]] const ParameterDefinition* find (std::string_view id) const;
+    [[nodiscard]] const ParameterDefinition* findByNrpn (int nrpn) const;
     [[nodiscard]] std::vector<const ParameterDefinition*> parametersForPage (const juce::String& page) const;
     [[nodiscard]] std::vector<const ParameterDefinition*> parametersForSection (const juce::String& section) const;
     [[nodiscard]] const std::vector<ParameterDefinition>& all() const noexcept { return definitions; }

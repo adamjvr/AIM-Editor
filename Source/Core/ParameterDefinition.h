@@ -23,6 +23,13 @@ enum class MappingStatus
     verified
 };
 
+struct ParameterEnumValue
+{
+    int raw = 0;
+    juce::String id;
+    juce::String name;
+};
+
 struct SysExMapping
 {
     std::optional<int> offset;
@@ -44,6 +51,8 @@ struct ParameterDefinition
     std::optional<double> rawMin;
     std::optional<double> rawMax;
     std::optional<double> defaultRaw;
+
+    std::vector<ParameterEnumValue> enumValues;
 
     juce::String unit;
     juce::String displayTransform { "unknown" };

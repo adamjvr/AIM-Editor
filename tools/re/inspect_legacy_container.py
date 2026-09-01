@@ -125,9 +125,33 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("executable", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--extract-dir", type=Path,
+                        help="optionally extract OSSM payloads from your local reference executable")
     args = parser.parse_args()
 
     result = inspect(args.executable)
+
+    if args.extract_dir:
+        data = args.executable.read_bytes()
+        args.extract_dir.mkdir(parents=True, exist_ok=True)
+        extracted = []
+        for entry in result["ossm_footer"]["entries"]:
+            start = entry["absolute_file_offset"]
+            end = entry["end_file_offset"]
+            if start < 0 or end > len(data) or end < start:
+                raise ValueError(f"invalid OSSM entry bounds for {entry['name']}")
+            safe_name = Path(entry["name"]).name
+            destination = args.extract_dir / safe_name
+            payload = data[start:end]
+            destination.write_bytes(payload)
+            extracted.append({
+                "name": safe_name,
+                "size": len(payload),
+                "sha256": hashlib.sha256(payload).hexdigest(),
+                "path": str(destination),
+            })
+        result["extracted"] = extracted
+
     text = json.dumps(result, indent=2) + "\n"
 
     if args.output:

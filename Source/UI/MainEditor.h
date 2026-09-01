@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Core/ParameterRegistry.h"
+#include "Core/ProgramState.h"
 #include "Midi/IonMidiService.h"
+#include "Midi/IonParameterTransmitter.h"
+#include "Midi/IonNrpnDecoder.h"
 #include "UI/GlobalControlBar.h"
 #include "UI/Panels/EditorPage.h"
 #include "UI/SysExInspector.h"
@@ -17,6 +20,7 @@ class MainEditor final : public juce::Component
 {
 public:
     MainEditor (const ParameterRegistry& registry, IonMidiService& midiService);
+    ~MainEditor() override;
 
     void paint (juce::Graphics&) override;
     void resized() override;
@@ -26,7 +30,13 @@ private:
     void updateViewedPageSize();
     void showSysExInspector();
     void hideSysExInspector();
+    void applyIncomingNrpn (const DecodedNrpn& decoded);
 
+    const ParameterRegistry& registry;
+    IonMidiService& midi;
+    ProgramState programState;
+    IonNrpnDecoder nrpnDecoder;
+    IonParameterTransmitter parameterTransmitter;
     juce::Viewport viewport;
     GlobalControlBar controlBar;
     SysExInspector sysExInspector;

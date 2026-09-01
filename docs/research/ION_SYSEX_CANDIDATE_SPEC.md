@@ -83,6 +83,8 @@ We do not repair contradictions by intuition. For example, the 2008 document rep
 
 The same rule applies to boolean polarity and any UI concept that does not map one-to-one to a raw field.
 
+The source also contains a bank-length arithmetic contradiction that we now preserve explicitly. A normal 128-patch bank is printed as **46,154 wire bytes**; that number corresponds to a 63-byte decoded header plus `128 * 315` patch bytes. However, the formula is written using `56`, and the printed Edit-bank length of **1,506 bytes** corresponds to that 56-byte form. Single-patch dumps independently require a 63-byte pre-patch region. AIM Editor therefore does **not** guess the bank-dump layout yet; bank parsing remains blocked on real captures or another independent implementation.
+
 ## Current machine-readable coverage
 
 `data/protocol/ion-sysex.json` currently contains:

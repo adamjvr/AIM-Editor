@@ -1,9 +1,13 @@
 #include "Core/IonProgram.h"
 #include "Core/ParameterRegistry.h"
 #include "Core/ProgramJson.h"
+#include "Core/ProgramState.h"
 #include "Midi/IonProtocol.h"
 #include "Midi/IonSysExCodec.h"
 #include "Midi/IonProgramDecoder.h"
+#include "Midi/IonProgramEncoder.h"
+#include "Midi/IonParameterTransmitter.h"
+#include "Midi/IonNrpnDecoder.h"
 #include "Midi/MidiCaptureEvent.h"
 
 #include <BinaryData.h>
@@ -43,6 +47,32 @@ int main()
 
     if (registry.find ("mod_matrix.slot12.destination") == nullptr)
         return fail ("mod_matrix.slot12.destination missing from registry");
+
+    const auto* filterTypeDefinition = registry.find ("filter1.type");
+    if (filterTypeDefinition == nullptr || filterTypeDefinition->enumValues.size() != 21
+        || filterTypeDefinition->enumValues.front().id != "bypass"
+        || filterTypeDefinition->enumValues.back().raw != 20)
+        return fail ("filter1.type enum domain was not loaded from JSON");
+
+    aim::ProgramState state (registry);
+    if (const auto* initialFilterType = state.valueFor ("filter1.type");
+        initialFilterType == nullptr || static_cast<int> (*initialFilterType) != 0)
+        return fail ("ProgramState did not choose a deterministic enum fallback");
+
+    if (const auto result = state.setValue ("filter1.type", 999); result.failed())
+        return fail ("ProgramState unexpectedly rejected known parameter");
+    if (const auto* clampedFilterType = state.valueFor ("filter1.type");
+        clampedFilterType == nullptr || static_cast<int> (*clampedFilterType) != 0)
+        return fail ("ProgramState did not reject an invalid enum raw value to a stable fallback");
+
+    if (const auto result = state.setValue ("mod_matrix.slot01.level", 5000); result.failed())
+        return fail ("ProgramState rejected numeric parameter");
+    if (const auto* clampedLevel = state.valueFor ("mod_matrix.slot01.level");
+        clampedLevel == nullptr || static_cast<int> (static_cast<double> (*clampedLevel)) != 1000)
+        return fail ("ProgramState did not clamp numeric values to JSON raw_max");
+
+    if (state.setValue ("does.not.exist", 1).wasOk())
+        return fail ("ProgramState accepted an unknown parameter ID");
 
     aim::IonProgram source;
     source.setName ("Round Trip");
@@ -91,6 +121,52 @@ int main()
         || ionNegativeNrpn[3].getControllerValue() != 28)
         return fail ("Ion signed NRPN framing failed");
 
+    const auto liveFrequency = aim::IonParameterTransmitter::messagesForParameter (*filter1FrequencyDefinition,
+                                                                                   juce::var (777),
+                                                                                   3);
+    if (! liveFrequency
+        || (*liveFrequency)[0].getChannel() != 3
+        || (*liveFrequency)[0].getControllerNumber() != 99
+        || (*liveFrequency)[0].getControllerValue() != 0
+        || (*liveFrequency)[1].getControllerNumber() != 98
+        || (*liveFrequency)[1].getControllerValue() != 44
+        || (*liveFrequency)[2].getControllerValue() != 6
+        || (*liveFrequency)[3].getControllerValue() != 9)
+        return fail ("Live unsigned candidate NRPN mapping failed");
+
+    const auto* modLevelDefinition = registry.find ("mod_matrix.slot01.level");
+    if (modLevelDefinition == nullptr)
+        return fail ("mod_matrix.slot01.level missing from registry");
+    const auto liveNegative = aim::IonParameterTransmitter::messagesForParameter (*modLevelDefinition,
+                                                                                  juce::var (-100),
+                                                                                  1);
+    if (! liveNegative
+        || (*liveNegative)[0].getControllerValue() != 1
+        || (*liveNegative)[1].getControllerValue() != 54
+        || (*liveNegative)[2].getControllerValue() != 127
+        || (*liveNegative)[3].getControllerValue() != 28)
+        return fail ("Live signed candidate NRPN mapping failed");
+
+    aim::ParameterDefinition unmappedDefinition;
+    unmappedDefinition.id = "test.unmapped";
+    if (aim::IonParameterTransmitter::messagesForParameter (unmappedDefinition, juce::var (1), 1))
+        return fail ("Live transmitter created MIDI for an unmapped parameter");
+
+    aim::IonNrpnDecoder nrpnDecoder;
+    std::optional<aim::DecodedNrpn> decodedNrpn;
+    for (const auto& message : *liveNegative)
+        if (const auto value = nrpnDecoder.push (message))
+            decodedNrpn = value;
+    if (! decodedNrpn
+        || decodedNrpn->midiChannel != 1
+        || decodedNrpn->parameter != 182
+        || decodedNrpn->value14Bit != 16284
+        || aim::IonProtocol::decodeIonSigned14 (decodedNrpn->value14Bit) != -100)
+        return fail ("Incoming NRPN state machine did not reconstruct signed candidate value");
+
+    nrpnDecoder.reset();
+    if (nrpnDecoder.push (juce::MidiMessage::controllerEvent (1, 38, 42)))
+        return fail ("NRPN decoder accepted Data Entry LSB without address/MSB state");
 
     // Candidate Ion patch request framing from the community SysEx spec.
     const auto request = aim::IonSysExCodec::makeSinglePatchRequest (aim::IonBank::yellow, 42);
@@ -172,6 +248,30 @@ int main()
     if (decodedFilter == nullptr || static_cast<int> (*decodedFilter) != 512
         || decodedOscLevel == nullptr || static_cast<int> (*decodedOscLevel) != 73)
         return fail ("Ion candidate program decoder did not map raw patch fields");
+
+    // Candidate re-encoding overlays semantic values onto the original image
+    // instead of constructing a blank patch. This must preserve bytes AIM
+    // Editor does not understand while updating checksum and changed fields.
+    parsedPatch.decodedBytes[375] = 0x5a; // intentionally unknown/padding evidence
+    decodedSyntheticProgram.setName ("Edited Test");
+    decodedSyntheticProgram.setParameter ("filter1.frequency", 777);
+
+    juce::MidiMessage reencodedMessage;
+    if (const auto result = aim::IonProgramEncoder::encodeOntoTemplate (decodedSyntheticProgram, registry, parsedPatch, reencodedMessage); result.failed())
+        return fail ("Ion candidate program encoder failed: " + result.getErrorMessage());
+
+    aim::IonPatchDump reencodedPatch;
+    if (const auto result = aim::IonSysExCodec::decodeSinglePatchDump (reencodedMessage, reencodedPatch); result.failed())
+        return fail ("Re-encoded Ion patch did not decode: " + result.getErrorMessage());
+    if (! reencodedPatch.checksumValid || reencodedPatch.name != "Edited Test" || reencodedPatch.decodedBytes[375] != 0x5a)
+        return fail ("Ion encoder did not preserve template bytes/name/checksum");
+
+    aim::IonProgram redecodedProgram;
+    if (const auto result = aim::IonProgramDecoder::decode (reencodedPatch, registry, redecodedProgram); result.failed())
+        return fail ("Re-encoded candidate program could not be decoded");
+    const auto* redecodedFilter = redecodedProgram.getParameter ("filter1.frequency");
+    if (redecodedFilter == nullptr || static_cast<int> (*redecodedFilter) != 777)
+        return fail ("Ion encode/decode semantic round trip changed filter1.frequency");
 
     const std::vector<std::uint8_t> testPayload { 0x00, 0x01, 0x7f };
     const auto testSysEx = aim::IonProtocol::makeSysExFromPayload (testPayload);

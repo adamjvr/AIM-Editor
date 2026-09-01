@@ -25,7 +25,18 @@ Run:
 ./tools/re/inspect_legacy_container.py "/path/to/ion-editor demo.exe"
 ```
 
-The tool emits JSON and does not require Windows.
+The tool emits JSON and does not require Windows. To extract the payload from
+your own local copy for research without adding it to the repository:
+
+```bash
+./tools/re/inspect_legacy_container.py "/path/to/ion-editor demo.exe" \
+  --extract-dir /tmp/aim-legacy
+./tools/re/profile_sme.py /tmp/aim-legacy/mod.sme \
+  --output research/legacy-editor/mod-sme-profile.json
+```
+
+Reference `.exe`, `.dll`, `.sme`, and `.osm` files are ignored by git. Only
+derived metadata, hashes, analysis code, and clean-room fixtures belong here.
 
 ## Current next questions
 

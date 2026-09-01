@@ -28,13 +28,16 @@ SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegi
     sysexOnly.setTooltip ("Show only SysEx in the text view. JSON export still preserves the complete capture.");
 
     for (auto* component : { static_cast<juce::Component*> (&title), &summary, &log, &sysexOnly,
-                             &clearButton, &copyButton, &saveButton, &closeButton })
+                             &clearButton, &copyButton, &saveButton, &loadPatchButton, &closeButton })
         addAndMakeVisible (component);
 
     sysexOnly.onClick = [this] { rebuildLog(); };
     clearButton.onClick = [this] { clearCapture(); };
     copyButton.onClick = [this] { copyJsonToClipboard(); };
     saveButton.onClick = [this] { saveJson(); };
+    loadPatchButton.setEnabled (false);
+    loadPatchButton.setTooltip ("Load the latest checksum-valid candidate Ion patch into the semantic editor state");
+    loadPatchButton.onClick = [this] { loadLatestCandidateProgram(); };
     closeButton.onClick = [this]
     {
         if (onClose)
@@ -91,6 +94,8 @@ void SysExInspector::resized()
     controls.removeFromLeft (gap);
     saveButton.setBounds (controls.removeFromLeft (100));
     controls.removeFromLeft (gap);
+    loadPatchButton.setBounds (controls.removeFromLeft (100));
+    controls.removeFromLeft (gap);
     closeButton.setBounds (controls.removeFromRight (80));
 
     area.removeFromBottom (8);
@@ -106,6 +111,7 @@ void SysExInspector::addEventOnMessageThread (MidiCaptureEvent event)
 
     const auto shouldShow = ! sysexOnly.getToggleState() || event.isSysEx();
     events.push_back (std::move (event));
+    inspectCandidatePatch (events.back());
 
     if (shouldShow)
     {
@@ -120,6 +126,37 @@ void SysExInspector::addEventOnMessageThread (MidiCaptureEvent event)
 
     summary.setText (juce::String (static_cast<juce::int64> (events.size())) + " captured / " + juce::String (static_cast<juce::int64> (sysexCount)) + " SysEx",
                      juce::dontSendNotification);
+}
+
+void SysExInspector::inspectCandidatePatch (const MidiCaptureEvent& event)
+{
+    if (! event.isSysEx()
+        || event.message.getSysExDataSize() != static_cast<int> (IonSysExCodec::encodedSinglePatchPayloadSize))
+        return;
+
+    IonPatchDump patch;
+    if (const auto result = IonSysExCodec::decodeSinglePatchDump (event.message, patch); result.failed())
+        return;
+
+    if (! patch.checksumValid)
+        return;
+
+    IonProgram program;
+    if (const auto result = IonProgramDecoder::decode (patch, registry, program); result.failed())
+        return;
+
+    latestCandidateName = patch.name;
+    latestCandidateProgram = std::move (program);
+    loadPatchButton.setEnabled (true);
+    loadPatchButton.setButtonText (latestCandidateName.isNotEmpty() ? "Load " + latestCandidateName : "Load Patch");
+}
+
+void SysExInspector::loadLatestCandidateProgram()
+{
+    if (! latestCandidateProgram || ! onLoadCandidateProgram)
+        return;
+
+    onLoadCandidateProgram (*latestCandidateProgram);
 }
 
 void SysExInspector::rebuildLog()
@@ -138,6 +175,10 @@ void SysExInspector::rebuildLog()
 void SysExInspector::clearCapture()
 {
     events.clear();
+    latestCandidateProgram.reset();
+    latestCandidateName.clear();
+    loadPatchButton.setEnabled (false);
+    loadPatchButton.setButtonText ("Load Patch");
     log.setText ({}, false);
     summary.setText ("0 captured", juce::dontSendNotification);
 }

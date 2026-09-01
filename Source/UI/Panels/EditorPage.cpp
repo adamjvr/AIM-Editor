@@ -1,12 +1,14 @@
 #include "EditorPage.h"
 
+#include <algorithm>
 #include <map>
 
 namespace aim
 {
 EditorPage::EditorPage (juce::String pageKey,
                         juce::String pageTitle,
-                        const ParameterRegistry& registry)
+                        const ParameterRegistry& registry,
+                        ProgramState& state)
     : key (std::move (pageKey)), title (std::move (pageTitle))
 {
     std::map<juce::String, std::vector<const ParameterDefinition*>> groups;
@@ -23,7 +25,7 @@ EditorPage::EditorPage (juce::String pageKey,
     {
         if (const auto found = groups.find (group); found != groups.end())
         {
-            auto section = std::make_unique<SectionPanel> (titleForGroup (group), found->second);
+            auto section = std::make_unique<SectionPanel> (titleForGroup (group), found->second, state);
             addAndMakeVisible (*section);
             sections.push_back (std::move (section));
             groups.erase (found);
@@ -32,7 +34,7 @@ EditorPage::EditorPage (juce::String pageKey,
 
     for (const auto& [group, parameters] : groups)
     {
-        auto section = std::make_unique<SectionPanel> (titleForGroup (group), parameters);
+        auto section = std::make_unique<SectionPanel> (titleForGroup (group), parameters, state);
         addAndMakeVisible (*section);
         sections.push_back (std::move (section));
     }
@@ -40,7 +42,7 @@ EditorPage::EditorPage (juce::String pageKey,
     if (key == "randomizer" && sections.empty())
     {
         std::vector<const ParameterDefinition*> none;
-        auto section = std::make_unique<SectionPanel> ("Randomizer — editor feature", none);
+        auto section = std::make_unique<SectionPanel> ("Randomizer — editor feature", none, state);
         addAndMakeVisible (*section);
         sections.push_back (std::move (section));
     }
@@ -57,7 +59,7 @@ void EditorPage::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::black.withAlpha (0.46f));
     g.setFont (juce::FontOptions (11.0f));
-    g.drawText ("AIM Editor — parameter model driven from JSON", top,
+    g.drawText ("AIM Editor — live semantic state driven from JSON", top,
                 juce::Justification::centredRight, false);
 }
 
@@ -66,28 +68,43 @@ void EditorPage::resized()
     auto area = getLocalBounds().reduced (12);
     area.removeFromTop (42);
 
-    const int gap = 10;
-    const int columns = area.getWidth() >= 1100 ? 3 : (area.getWidth() >= 700 ? 2 : 1);
-    const int cellWidth = (area.getWidth() - gap * (columns - 1)) / columns;
-    constexpr int cellHeight = 226;
+    constexpr int gap = 10;
+    const auto columns = columnCountForWidth (area.getWidth());
+    const auto cellWidth = (area.getWidth() - gap * (columns - 1)) / columns;
 
-    for (int i = 0; i < static_cast<int> (sections.size()); ++i)
+    std::vector<int> columnY (static_cast<std::size_t> (columns), area.getY());
+
+    for (const auto& section : sections)
     {
-        const auto column = i % columns;
-        const auto row = i / columns;
-        sections[static_cast<std::size_t> (i)]->setBounds (area.getX() + column * (cellWidth + gap),
-                                                           area.getY() + row * (cellHeight + gap),
-                                                           cellWidth,
-                                                           cellHeight);
+        const auto shortest = std::min_element (columnY.begin(), columnY.end());
+        const auto column = static_cast<int> (std::distance (columnY.begin(), shortest));
+        const auto height = section->preferredHeightForWidth (cellWidth);
+        section->setBounds (area.getX() + column * (cellWidth + gap), *shortest, cellWidth, height);
+        *shortest += height + gap;
     }
 }
 
 int EditorPage::preferredHeightForWidth (int width) const
 {
-    const auto usable = juce::jmax (1, width - 24);
-    const int columns = usable >= 1100 ? 3 : (usable >= 700 ? 2 : 1);
-    const int rows = (static_cast<int> (sections.size()) + columns - 1) / columns;
-    return 54 + juce::jmax (1, rows) * 236 + 12;
+    const auto usableWidth = juce::jmax (1, width - 24);
+    constexpr int gap = 10;
+    const auto columns = columnCountForWidth (usableWidth);
+    const auto cellWidth = juce::jmax (1, (usableWidth - gap * (columns - 1)) / columns);
+
+    std::vector<int> columnHeights (static_cast<std::size_t> (columns), 0);
+    for (const auto& section : sections)
+    {
+        const auto shortest = std::min_element (columnHeights.begin(), columnHeights.end());
+        *shortest += section->preferredHeightForWidth (cellWidth) + gap;
+    }
+
+    const auto contentHeight = columnHeights.empty() ? 0 : *std::max_element (columnHeights.begin(), columnHeights.end());
+    return 54 + juce::jmax (120, contentHeight) + 12;
+}
+
+int EditorPage::columnCountForWidth (int width) const
+{
+    return width >= 1100 ? 3 : (width >= 700 ? 2 : 1);
 }
 
 juce::String EditorPage::groupKeyForSection (const juce::String& section)

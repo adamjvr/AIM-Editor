@@ -67,3 +67,15 @@ A 432-byte SysEx payload that passes the candidate Ion structural checks is deco
 These are explicitly candidate interpretations. The original `bytes`, `hex`, and `sysex_payload_hex` remain the source of truth.
 
 The control bar can now send the candidate single-patch request for Red/Green/Blue/Yellow/Edit banks so the response can be captured and checked.
+
+## Loading a captured candidate patch
+
+When a 434-byte candidate Ion patch dump passes the structural checks and checksum, the inspector enables **Load Patch**. Loading updates AIM Editor's shared semantic `ProgramState`, so every duplicate control view refreshes from the same decoded program. The raw capture remains preserved separately and is still the authoritative evidence.
+
+
+## NRPN analysis
+
+`tools/protocol/ion_nrpn_capture.py` reads the same capture JSON and emits
+`aim-editor.nrpn-capture-analysis` JSON. Incoming and outgoing directions are
+tracked independently so interleaved monitor traffic cannot combine into a
+false NRPN transaction.

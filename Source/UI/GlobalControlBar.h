@@ -19,6 +19,8 @@ public:
 
     std::function<void (int)> onPageChanged;
     std::function<void()> onSysExToolsRequested;
+    std::function<void (bool)> onLiveEditingChanged;
+    std::function<void (int)> onMidiChannelChanged;
 
 private:
     void refreshMidiDevices();
@@ -34,12 +36,14 @@ private:
     juce::ComboBox midiBank;
     juce::ComboBox programSelector;
     juce::ComboBox midiOutput;
+    juce::ComboBox midiChannel;
     juce::ComboBox pageSelector;
 
     juce::TextButton requestPatch { "request patch" };
     juce::TextButton sysexTools { "sysex tools" };
     juce::TextButton updateEditBuffer { "update edit buffer" };
     juce::TextButton allNotesOff { "all notes off" };
+    juce::ToggleButton liveEdit { "live NRPN" };
     juce::TextButton settings { "settings" };
 
     juce::Label status;

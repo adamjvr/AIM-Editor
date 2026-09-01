@@ -104,6 +104,10 @@
     {
       "field": "boolean_polarity",
       "issue": "Several source descriptions write raw {0,1} as {on,off}; polarity is retained as candidate raw-bit data until hardware verification."
+    },
+    {
+      "field": "bank_dump_length_arithmetic",
+      "issue": "The BEE text writes the bank-length formula with a 56-byte header, but its printed 46,154-byte normal-bank result corresponds to a 63-byte header (63 + 128*315 decoded bytes). Its printed 1,506-byte Edit-bank result instead corresponds to 56 + 4*315. Single-patch framing also proves a 63-byte pre-patch region. Bank-dump parsing therefore remains deliberately unimplemented until hardware or an independent dump resolves the contradiction."
     }
   ],
   "fields": [

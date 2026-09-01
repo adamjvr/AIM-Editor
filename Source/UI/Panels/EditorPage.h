@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/ParameterRegistry.h"
+#include "Core/ProgramState.h"
 #include "UI/Components/SectionPanel.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -13,7 +14,10 @@ namespace aim
 class EditorPage final : public juce::Component
 {
 public:
-    EditorPage (juce::String pageKey, juce::String pageTitle, const ParameterRegistry& registry);
+    EditorPage (juce::String pageKey,
+                juce::String pageTitle,
+                const ParameterRegistry& registry,
+                ProgramState& state);
 
     void paint (juce::Graphics&) override;
     void resized() override;
@@ -24,6 +28,7 @@ public:
 private:
     static juce::String groupKeyForSection (const juce::String& section);
     static juce::String titleForGroup (const juce::String& group);
+    [[nodiscard]] int columnCountForWidth (int width) const;
 
     juce::String key;
     juce::String title;

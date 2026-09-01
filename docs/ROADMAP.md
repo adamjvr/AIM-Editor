@@ -8,6 +8,8 @@
 - [x] JSON Schema for parameter database and programs
 - [x] typed parameter registry
 - [x] semantic program model
+- [x] observable ProgramState shared by duplicate editor views
+- [x] JSON enum-domain loading and control factory
 - [x] nested human-readable program JSON export/import
 - [x] preservation container for unknown raw bytes
 - [x] MIDI device service
@@ -36,18 +38,20 @@
 ## Phase 2 — verified data model
 
 - [ ] complete parameter value domains
-- [ ] complete enum tables
+- [ ] complete enum tables (19 explicit domains loaded; 8 enum domains still incomplete)
 - [ ] complete display transforms (Hz, ms, %, semitones, etc.)
 - [ ] map every SysEx field/bit
 - [ ] map all modulation source/destination IDs
 - [ ] decode tracking-generator points
-- [ ] byte-perfect program decode -> encode tests
+- [x] template-preserving candidate program decode -> encode tests
+- [ ] byte-perfect hardware program decode -> encode tests
 - [ ] bank round-trip tests
 
 ## Phase 3 — functional editor
 
-- [ ] live NRPN editing
-- [ ] request patch
+- [x] opt-in live NRPN editing
+- [x] incoming candidate NRPN decoding with no-echo ProgramState origin tracking
+- [x] candidate request patch UI (hardware verification pending)
 - [ ] update edit buffer
 - [ ] program naming/category support
 - [ ] load/save `.syx`
@@ -80,3 +84,13 @@
 - [ ] Linux AppImage/Flatpak packaging evaluation
 - [ ] reproducible release archives
 - [ ] protocol/spec documentation generated from JSON
+
+
+## Current implementation checkpoint
+
+- Shared `ProgramState` now keeps duplicate controls synchronized across all five views.
+- Candidate patch dumps can be loaded into semantic state without echoing back to hardware.
+- Template-preserving candidate patch re-encoding keeps unknown bytes intact.
+- A/B patch-diff tooling emits machine-readable JSON for hardware verification.
+- Opt-in live NRPN transmission is implemented for mapped `unsigned_14` and `signed_14_wrap` parameters.
+- Next: compile/test on macOS + iPadOS, then use hardware captures to promote candidate mappings to verified.

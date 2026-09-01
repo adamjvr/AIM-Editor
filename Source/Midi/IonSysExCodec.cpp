@@ -186,6 +186,38 @@ juce::Result IonSysExCodec::decodeSinglePatchDump (const juce::MidiMessage& mess
     return juce::Result::ok();
 }
 
+juce::Result IonSysExCodec::encodeSinglePatchDump (const std::vector<std::uint8_t>& decodedInput,
+                                                    juce::MidiMessage& message)
+{
+    message = {};
+
+    if (decodedInput.size() != decodedSinglePatchSize)
+        return juce::Result::fail ("Decoded single patch must contain exactly 378 bytes");
+
+    if (decodedInput[0] != 0x00 || decodedInput[1] != 0x0e || decodedInput[2] != productId)
+        return juce::Result::fail ("Decoded patch does not contain candidate Ion manufacturer/product bytes");
+
+    if (! std::equal (synthTag.begin(), synthTag.end(), decodedInput.begin() + 7))
+        return juce::Result::fail ("Decoded patch is missing Q01SYNTH tag");
+
+    if (readU32BE (decodedInput.data() + 51) != patchDataSize)
+        return juce::Result::fail ("Decoded patch check-size field is not 315 bytes");
+
+    auto decoded = decodedInput;
+    const auto checksum = computePatchChecksumComplement (decoded);
+    decoded[15] = static_cast<std::uint8_t> ((checksum >> 24u) & 0xffu);
+    decoded[16] = static_cast<std::uint8_t> ((checksum >> 16u) & 0xffu);
+    decoded[17] = static_cast<std::uint8_t> ((checksum >> 8u) & 0xffu);
+    decoded[18] = static_cast<std::uint8_t> (checksum & 0xffu);
+
+    const auto encoded = encode7Of8 (decoded);
+    if (encoded.size() != encodedSinglePatchPayloadSize)
+        return juce::Result::fail ("Encoded candidate patch did not produce 432 transport bytes");
+
+    message = juce::MidiMessage::createSysExMessage (encoded.data(), static_cast<int> (encoded.size()));
+    return juce::Result::ok();
+}
+
 std::uint32_t IonSysExCodec::computePatchChecksumComplement (const std::vector<std::uint8_t>& decoded)
 {
     // 78 network-order uint32 values begin at offset 63 and cover bytes

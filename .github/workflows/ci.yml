@@ -5,6 +5,16 @@ on:
   pull_request:
 
 jobs:
+  data-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate JSON/protocol/research data
+        run: python tools/check_repository.py
+
   desktop:
     strategy:
       fail-fast: false

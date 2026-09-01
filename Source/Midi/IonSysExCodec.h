@@ -78,6 +78,13 @@ public:
     [[nodiscard]] static juce::Result decodeSinglePatchDump (const juce::MidiMessage& message,
                                                               IonPatchDump& patch);
 
+    /** Encode a decoded 378-byte candidate patch image back to SysEx. The
+        checksum is recalculated in the copied image before 7-of-8 packing.
+        Unknown/unmapped bytes are therefore preserved byte-for-byte.
+    */
+    [[nodiscard]] static juce::Result encodeSinglePatchDump (const std::vector<std::uint8_t>& decoded,
+                                                              juce::MidiMessage& message);
+
     [[nodiscard]] static std::uint32_t computePatchChecksumComplement (const std::vector<std::uint8_t>& decoded);
     [[nodiscard]] static bool validatePatchChecksum (const std::vector<std::uint8_t>& decoded);
 

@@ -87,6 +87,28 @@ juce::Result ParameterRegistry::loadFromJson (const juce::String& jsonText)
             definition.rawMin = optionalDouble (domain->getProperty ("raw_min"));
             definition.rawMax = optionalDouble (domain->getProperty ("raw_max"));
             definition.defaultRaw = optionalDouble (domain->getProperty ("default_raw"));
+
+            if (const auto* values = domain->getProperty ("values").getArray())
+            {
+                for (const auto& item : *values)
+                {
+                    const auto* valueObject = objectOf (item);
+                    if (valueObject == nullptr)
+                        continue;
+
+                    const auto raw = optionalInt (valueObject->getProperty ("raw"));
+                    if (! raw)
+                        continue;
+
+                    ParameterEnumValue enumValue;
+                    enumValue.raw = *raw;
+                    enumValue.id = valueObject->getProperty ("id").toString();
+                    enumValue.name = valueObject->getProperty ("name").toString();
+                    if (enumValue.name.isEmpty())
+                        enumValue.name = enumValue.id.replaceCharacter ('_', ' ');
+                    definition.enumValues.push_back (std::move (enumValue));
+                }
+            }
         }
 
         if (const auto* display = objectOf (parameterObject->getProperty ("display")))
@@ -142,6 +164,16 @@ const ParameterDefinition* ParameterRegistry::find (std::string_view id) const
         return &definitions[found->second];
 
     return nullptr;
+}
+
+const ParameterDefinition* ParameterRegistry::findByNrpn (int nrpn) const
+{
+    const auto found = std::find_if (definitions.begin(), definitions.end(),
+                                     [nrpn] (const ParameterDefinition& definition)
+                                     {
+                                         return definition.nrpn && *definition.nrpn == nrpn;
+                                     });
+    return found != definitions.end() ? &*found : nullptr;
 }
 
 std::vector<const ParameterDefinition*> ParameterRegistry::parametersForPage (const juce::String& page) const

@@ -1,51 +1,263 @@
 #include "SectionPanel.h"
 
 #include <algorithm>
+#include <cmath>
 
 namespace aim
 {
-ParameterKnob::ParameterKnob (const ParameterDefinition& definition)
+namespace
 {
-    slider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
-    slider.setTextBoxStyle (juce::Slider::NoTextBox, false, 0, 0);
-
-    if (definition.rawMin && definition.rawMax && *definition.rawMax > *definition.rawMin)
-        slider.setRange (*definition.rawMin, *definition.rawMax, 0.0);
-    else
-        slider.setRange (0.0, 1.0, 0.001);
-
-    slider.setValue (definition.defaultRaw.value_or (slider.getMinimum()), juce::dontSendNotification);
-    slider.setTooltip (definition.mappingStatus == MappingStatus::verified
-                           ? definition.name
-                           : definition.name + " — hardware mapping not verified yet");
-    addAndMakeVisible (slider);
-
-    label.setText (definition.name, juce::dontSendNotification);
-    label.setJustificationType (juce::Justification::centredTop);
-    label.setFont (juce::FontOptions (10.0f));
-    label.setMinimumHorizontalScale (0.65f);
-    addAndMakeVisible (label);
+juce::String humanizeId (juce::String text)
+{
+    text = text.replaceCharacter ('_', ' ');
+    if (text.isNotEmpty())
+        text = text.substring (0, 1).toUpperCase() + text.substring (1);
+    return text;
+}
 }
 
-void ParameterKnob::resized()
+ParameterControl::ParameterControl (const ParameterDefinition& definitionToUse,
+                                    ProgramState& stateToUse)
+    : definition (definitionToUse), state (stateToUse), widgetKind (chooseWidgetKind())
 {
-    auto area = getLocalBounds();
-    label.setBounds (area.removeFromBottom (26));
-    slider.setBounds (area.reduced (4));
+    label.setText (definition.name, juce::dontSendNotification);
+    label.setJustificationType (juce::Justification::centredTop);
+    label.setFont (juce::FontOptions (9.5f));
+    label.setMinimumHorizontalScale (0.6f);
+    addAndMakeVisible (label);
+
+    valueLabel.setJustificationType (juce::Justification::centred);
+    valueLabel.setFont (juce::FontOptions (9.0f));
+    valueLabel.setColour (juce::Label::textColourId, juce::Colours::black.withAlpha (0.72f));
+    addAndMakeVisible (valueLabel);
+
+    if (widgetKind == WidgetKind::slider)
+    {
+        slider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
+        slider.setTextBoxStyle (juce::Slider::NoTextBox, false, 0, 0);
+
+        auto minimum = definition.rawMin.value_or (definition.nrpnMin.value_or (0.0));
+        auto maximum = definition.rawMax.value_or (definition.nrpnMax.value_or (1.0));
+        if (maximum <= minimum)
+            maximum = minimum + 1.0;
+
+        const auto interval = definition.kind == ParameterKind::continuous ? 0.0 : 1.0;
+        slider.setRange (minimum, maximum, interval);
+        slider.setDoubleClickReturnValue (true, definition.defaultRaw.value_or (minimum));
+        slider.onValueChange = [this]
+        {
+            (void) state.setValue (definition.id, slider.getValue());
+        };
+        addAndMakeVisible (slider);
+    }
+    else if (widgetKind == WidgetKind::selector)
+    {
+        if (! definition.enumValues.empty())
+        {
+            int itemId = 1;
+            for (const auto& item : definition.enumValues)
+            {
+                selector.addItem (item.name.isNotEmpty() ? item.name : humanizeId (item.id), itemId++);
+                selectorRawValues.push_back (item.raw);
+            }
+        }
+        else if (definition.rawMin && definition.rawMax
+                 && (*definition.rawMax - *definition.rawMin) <= 32.0)
+        {
+            int itemId = 1;
+            for (int raw = static_cast<int> (std::ceil (*definition.rawMin));
+                 raw <= static_cast<int> (std::floor (*definition.rawMax)); ++raw)
+            {
+                selector.addItem (juce::String (raw), itemId++);
+                selectorRawValues.push_back (raw);
+            }
+        }
+        else
+        {
+            selector.addItem ("Unmapped", 1);
+            selectorRawValues.push_back (0);
+            selector.setEnabled (false);
+        }
+
+        selector.onChange = [this]
+        {
+            const auto index = selector.getSelectedItemIndex();
+            if (juce::isPositiveAndBelow (index, static_cast<int> (selectorRawValues.size())))
+                (void) state.setValue (definition.id, selectorRawValues[static_cast<std::size_t> (index)]);
+        };
+        addAndMakeVisible (selector);
+    }
+    else
+    {
+        toggle.onClick = [this]
+        {
+            if (definition.enumValues.size() == 2)
+            {
+                const auto raw = definition.enumValues[toggle.getToggleState() ? 1u : 0u].raw;
+                (void) state.setValue (definition.id, raw);
+            }
+            else
+            {
+                (void) state.setValue (definition.id, toggle.getToggleState());
+            }
+        };
+        addAndMakeVisible (toggle);
+    }
+
+    const auto mappingText = definition.mappingStatus == MappingStatus::verified
+                               ? "verified"
+                               : (definition.mappingStatus == MappingStatus::candidate ? "candidate mapping" : "unmapped");
+    const auto tooltip = definition.name + " — " + mappingText;
+    slider.setTooltip (tooltip);
+    selector.setTooltip (tooltip);
+    toggle.setTooltip (tooltip);
+
+    state.addListener (this);
+    refreshFromState();
+}
+
+ParameterControl::~ParameterControl()
+{
+    state.removeListener (this);
+}
+
+void ParameterControl::resized()
+{
+    auto area = getLocalBounds().reduced (3);
+    label.setBounds (area.removeFromBottom (22));
+    valueLabel.setBounds (area.removeFromBottom (16));
+
+    if (widgetKind == WidgetKind::slider)
+        slider.setBounds (area.reduced (5, 0));
+    else if (widgetKind == WidgetKind::selector)
+        selector.setBounds (area.withSizeKeepingCentre (juce::jmax (60, area.getWidth() - 6), 24));
+    else
+        toggle.setBounds (area.withSizeKeepingCentre (24, 24));
+}
+
+void ParameterControl::parameterValueChanged (std::string_view id,
+                                              const juce::var& value,
+                                              ProgramChangeOrigin)
+{
+    if (id != definition.id)
+        return;
+
+    if (juce::MessageManager::getInstance()->isThisTheMessageThread())
+    {
+        if (widgetKind == WidgetKind::slider)
+            slider.setValue (static_cast<double> (value), juce::dontSendNotification);
+        else if (widgetKind == WidgetKind::selector)
+        {
+            const auto raw = static_cast<int> (value);
+            const auto found = std::find (selectorRawValues.begin(), selectorRawValues.end(), raw);
+            if (found != selectorRawValues.end())
+                selector.setSelectedItemIndex (static_cast<int> (std::distance (selectorRawValues.begin(), found)),
+                                               juce::dontSendNotification);
+        }
+        else if (definition.enumValues.size() == 2)
+            toggle.setToggleState (static_cast<int> (value) == definition.enumValues[1].raw,
+                                   juce::dontSendNotification);
+        else
+            toggle.setToggleState (static_cast<bool> (value), juce::dontSendNotification);
+
+        refreshValueText (value);
+        return;
+    }
+
+    juce::MessageManager::callAsync ([safe = juce::Component::SafePointer<ParameterControl> (this)]
+    {
+        if (safe != nullptr)
+            safe->refreshFromState();
+    });
+}
+
+void ParameterControl::programReplaced (ProgramChangeOrigin)
+{
+    if (juce::MessageManager::getInstance()->isThisTheMessageThread())
+        refreshFromState();
+    else
+        juce::MessageManager::callAsync ([safe = juce::Component::SafePointer<ParameterControl> (this)]
+        {
+            if (safe != nullptr)
+                safe->refreshFromState();
+        });
+}
+
+void ParameterControl::refreshFromState()
+{
+    const auto* value = state.valueFor (definition.id);
+    if (value == nullptr)
+        return;
+
+    if (widgetKind == WidgetKind::slider)
+        slider.setValue (static_cast<double> (*value), juce::dontSendNotification);
+    else if (widgetKind == WidgetKind::selector)
+    {
+        const auto raw = static_cast<int> (*value);
+        const auto found = std::find (selectorRawValues.begin(), selectorRawValues.end(), raw);
+        if (found != selectorRawValues.end())
+            selector.setSelectedItemIndex (static_cast<int> (std::distance (selectorRawValues.begin(), found)),
+                                           juce::dontSendNotification);
+    }
+    else if (definition.enumValues.size() == 2)
+        toggle.setToggleState (static_cast<int> (*value) == definition.enumValues[1].raw,
+                               juce::dontSendNotification);
+    else
+        toggle.setToggleState (static_cast<bool> (*value), juce::dontSendNotification);
+
+    refreshValueText (*value);
+}
+
+void ParameterControl::refreshValueText (const juce::var& value)
+{
+    valueLabel.setText (displayTextFor (value), juce::dontSendNotification);
+}
+
+juce::String ParameterControl::displayTextFor (const juce::var& value) const
+{
+    if (! definition.enumValues.empty())
+    {
+        const auto raw = static_cast<int> (value);
+        const auto found = std::find_if (definition.enumValues.begin(), definition.enumValues.end(),
+                                         [raw] (const ParameterEnumValue& item) { return item.raw == raw; });
+        if (found != definition.enumValues.end())
+            return found->name.isNotEmpty() ? found->name : humanizeId (found->id);
+    }
+
+    if (definition.kind == ParameterKind::boolean)
+        return static_cast<bool> (value) ? "On" : "Off";
+
+    auto text = value.toString();
+    if (definition.unit.isNotEmpty())
+        text << " " << definition.unit;
+    return text;
+}
+
+ParameterControl::WidgetKind ParameterControl::chooseWidgetKind() const
+{
+    if (definition.control == "selector" || definition.kind == ParameterKind::enumeration
+        || definition.enumValues.size() > 2)
+        return WidgetKind::selector;
+
+    if (definition.control == "toggle" || definition.kind == ParameterKind::boolean)
+        return WidgetKind::toggle;
+
+    return WidgetKind::slider;
 }
 
 SectionPanel::SectionPanel (juce::String newTitle,
-                            const std::vector<const ParameterDefinition*>& definitions)
-    : title (std::move (newTitle)), totalParameterCount (static_cast<int> (definitions.size()))
+                            const std::vector<const ParameterDefinition*>& definitions,
+                            ProgramState& state)
+    : title (std::move (newTitle))
 {
-    constexpr int maximumPreviewControls = 8;
-    const auto count = std::min (maximumPreviewControls, totalParameterCount);
-
-    for (int i = 0; i < count; ++i)
+    for (const auto* definition : definitions)
     {
-        auto knob = std::make_unique<ParameterKnob> (*definitions[static_cast<std::size_t> (i)]);
-        addAndMakeVisible (*knob);
-        knobs.push_back (std::move (knob));
+        if (definition == nullptr)
+            continue;
+
+        auto control = std::make_unique<ParameterControl> (*definition, state);
+        addAndMakeVisible (*control);
+        controls.push_back (std::move (control));
     }
 }
 
@@ -68,7 +280,7 @@ void SectionPanel::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white.withAlpha (0.75f));
     g.setFont (juce::FontOptions (10.0f));
-    g.drawText (juce::String (totalParameterCount) + " params", header.reduced (8.0f, 0.0f),
+    g.drawText (juce::String (controls.size()) + " params", header.reduced (8.0f, 0.0f),
                 juce::Justification::centredRight, true);
 }
 
@@ -77,22 +289,35 @@ void SectionPanel::resized()
     auto area = getLocalBounds().reduced (8);
     area.removeFromTop (31);
 
-    if (knobs.empty())
+    if (controls.empty())
         return;
 
-    const int columns = juce::jmax (1, juce::jmin (4, area.getWidth() / 82));
-    const int rows = (static_cast<int> (knobs.size()) + columns - 1) / columns;
-    const int cellWidth = area.getWidth() / columns;
-    const int cellHeight = juce::jmax (58, area.getHeight() / juce::jmax (1, rows));
+    const auto columns = columnsForWidth (area.getWidth());
+    const auto rows = (static_cast<int> (controls.size()) + columns - 1) / columns;
+    const auto cellWidth = area.getWidth() / columns;
+    const auto cellHeight = juce::jmax (84, area.getHeight() / juce::jmax (1, rows));
 
-    for (int i = 0; i < static_cast<int> (knobs.size()); ++i)
+    for (int i = 0; i < static_cast<int> (controls.size()); ++i)
     {
         const auto column = i % columns;
         const auto row = i / columns;
-        knobs[static_cast<std::size_t> (i)]->setBounds (area.getX() + column * cellWidth,
-                                                        area.getY() + row * cellHeight,
-                                                        cellWidth,
-                                                        cellHeight);
+        controls[static_cast<std::size_t> (i)]->setBounds (area.getX() + column * cellWidth,
+                                                           area.getY() + row * cellHeight,
+                                                           cellWidth,
+                                                           cellHeight);
     }
+}
+
+int SectionPanel::preferredHeightForWidth (int width) const
+{
+    const auto usableWidth = juce::jmax (1, width - 16);
+    const auto columns = columnsForWidth (usableWidth);
+    const auto rows = (static_cast<int> (controls.size()) + columns - 1) / columns;
+    return 39 + juce::jmax (1, rows) * 94 + 8;
+}
+
+int SectionPanel::columnsForWidth (int width) const
+{
+    return juce::jmax (1, juce::jmin (5, width / 86));
 }
 }

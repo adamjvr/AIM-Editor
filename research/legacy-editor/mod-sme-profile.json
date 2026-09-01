@@ -1,0 +1,8624 @@
+{
+  "format": "aim-editor.legacy-sme-profile",
+  "schema_version": 1,
+  "file": {
+    "name": "mod.sme",
+    "size": 5871641,
+    "sha256": "10ff27af3cd043ad106e1d71a009008d716578a71c0e19f2ce551beede2df9de"
+  },
+  "window_size": 4096,
+  "overall_entropy_bits_per_byte": 5.888264,
+  "overall_printable_ratio": 0.244361,
+  "candidate_entropy_transition": {
+    "window_offset": 2101248,
+    "window_offset_hex": "0x00201000",
+    "criterion": "previous window >= 7.5 bits/byte and next four windows < 6.0",
+    "interpretation": "statistical transition only; exact codec/object boundary unverified"
+  },
+  "windows": [
+    {
+      "offset": 0,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.602401,
+      "printable_ratio": 0.305908
+    },
+    {
+      "offset": 4096,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.943104,
+      "printable_ratio": 0.378662
+    },
+    {
+      "offset": 8192,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.933014,
+      "printable_ratio": 0.378906
+    },
+    {
+      "offset": 12288,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924317,
+      "printable_ratio": 0.37085
+    },
+    {
+      "offset": 16384,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.928004,
+      "printable_ratio": 0.390381
+    },
+    {
+      "offset": 20480,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.935386,
+      "printable_ratio": 0.371826
+    },
+    {
+      "offset": 24576,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.938434,
+      "printable_ratio": 0.381592
+    },
+    {
+      "offset": 28672,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.945926,
+      "printable_ratio": 0.372559
+    },
+    {
+      "offset": 32768,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.93135,
+      "printable_ratio": 0.351318
+    },
+    {
+      "offset": 36864,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.943731,
+      "printable_ratio": 0.397705
+    },
+    {
+      "offset": 40960,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.94514,
+      "printable_ratio": 0.386963
+    },
+    {
+      "offset": 45056,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.952351,
+      "printable_ratio": 0.384277
+    },
+    {
+      "offset": 49152,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.936102,
+      "printable_ratio": 0.380371
+    },
+    {
+      "offset": 53248,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.94077,
+      "printable_ratio": 0.378418
+    },
+    {
+      "offset": 57344,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.931409,
+      "printable_ratio": 0.374268
+    },
+    {
+      "offset": 61440,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.941122,
+      "printable_ratio": 0.371582
+    },
+    {
+      "offset": 65536,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.948223,
+      "printable_ratio": 0.384766
+    },
+    {
+      "offset": 69632,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.947279,
+      "printable_ratio": 0.370117
+    },
+    {
+      "offset": 73728,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.945587,
+      "printable_ratio": 0.375488
+    },
+    {
+      "offset": 77824,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.945133,
+      "printable_ratio": 0.385498
+    },
+    {
+      "offset": 81920,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.937157,
+      "printable_ratio": 0.36499
+    },
+    {
+      "offset": 86016,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.922008,
+      "printable_ratio": 0.36084
+    },
+    {
+      "offset": 90112,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.935771,
+      "printable_ratio": 0.373779
+    },
+    {
+      "offset": 94208,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.935613,
+      "printable_ratio": 0.35791
+    },
+    {
+      "offset": 98304,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.935351,
+      "printable_ratio": 0.360596
+    },
+    {
+      "offset": 102400,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.929469,
+      "printable_ratio": 0.36499
+    },
+    {
+      "offset": 106496,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.92419,
+      "printable_ratio": 0.351318
+    },
+    {
+      "offset": 110592,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.933786,
+      "printable_ratio": 0.379883
+    },
+    {
+      "offset": 114688,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.949173,
+      "printable_ratio": 0.383301
+    },
+    {
+      "offset": 118784,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.943939,
+      "printable_ratio": 0.378174
+    },
+    {
+      "offset": 122880,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.94011,
+      "printable_ratio": 0.360596
+    },
+    {
+      "offset": 126976,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.93458,
+      "printable_ratio": 0.384033
+    },
+    {
+      "offset": 131072,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.933991,
+      "printable_ratio": 0.376709
+    },
+    {
+      "offset": 135168,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.929113,
+      "printable_ratio": 0.374268
+    },
+    {
+      "offset": 139264,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.937446,
+      "printable_ratio": 0.385254
+    },
+    {
+      "offset": 143360,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.925957,
+      "printable_ratio": 0.362793
+    },
+    {
+      "offset": 147456,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.932278,
+      "printable_ratio": 0.360596
+    },
+    {
+      "offset": 151552,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.940817,
+      "printable_ratio": 0.378174
+    },
+    {
+      "offset": 155648,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.928878,
+      "printable_ratio": 0.369873
+    },
+    {
+      "offset": 159744,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.928924,
+      "printable_ratio": 0.367676
+    },
+    {
+      "offset": 163840,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.94094,
+      "printable_ratio": 0.364014
+    },
+    {
+      "offset": 167936,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.9449,
+      "printable_ratio": 0.380371
+    },
+    {
+      "offset": 172032,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.939741,
+      "printable_ratio": 0.373535
+    },
+    {
+      "offset": 176128,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924082,
+      "printable_ratio": 0.36377
+    },
+    {
+      "offset": 180224,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.929445,
+      "printable_ratio": 0.352783
+    },
+    {
+      "offset": 184320,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.938646,
+      "printable_ratio": 0.39209
+    },
+    {
+      "offset": 188416,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.9398,
+      "printable_ratio": 0.38623
+    },
+    {
+      "offset": 192512,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.941814,
+      "printable_ratio": 0.377197
+    },
+    {
+      "offset": 196608,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.93902,
+      "printable_ratio": 0.373047
+    },
+    {
+      "offset": 200704,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.934323,
+      "printable_ratio": 0.37793
+    },
+    {
+      "offset": 204800,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.935101,
+      "printable_ratio": 0.380371
+    },
+    {
+      "offset": 208896,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.929079,
+      "printable_ratio": 0.362549
+    },
+    {
+      "offset": 212992,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.945171,
+      "printable_ratio": 0.369873
+    },
+    {
+      "offset": 217088,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.942037,
+      "printable_ratio": 0.369629
+    },
+    {
+      "offset": 221184,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.947103,
+      "printable_ratio": 0.375244
+    },
+    {
+      "offset": 225280,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.937732,
+      "printable_ratio": 0.37915
+    },
+    {
+      "offset": 229376,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.936688,
+      "printable_ratio": 0.353027
+    },
+    {
+      "offset": 233472,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.93885,
+      "printable_ratio": 0.377686
+    },
+    {
+      "offset": 237568,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.95174,
+      "printable_ratio": 0.37915
+    },
+    {
+      "offset": 241664,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.948014,
+      "printable_ratio": 0.366455
+    },
+    {
+      "offset": 245760,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.955232,
+      "printable_ratio": 0.384521
+    },
+    {
+      "offset": 249856,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.947391,
+      "printable_ratio": 0.388916
+    },
+    {
+      "offset": 253952,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.945012,
+      "printable_ratio": 0.376953
+    },
+    {
+      "offset": 258048,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912595,
+      "printable_ratio": 0.366943
+    },
+    {
+      "offset": 262144,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.927742,
+      "printable_ratio": 0.353271
+    },
+    {
+      "offset": 266240,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.938018,
+      "printable_ratio": 0.371094
+    },
+    {
+      "offset": 270336,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.942888,
+      "printable_ratio": 0.385254
+    },
+    {
+      "offset": 274432,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.947166,
+      "printable_ratio": 0.37085
+    },
+    {
+      "offset": 278528,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.940228,
+      "printable_ratio": 0.375488
+    },
+    {
+      "offset": 282624,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.94147,
+      "printable_ratio": 0.383057
+    },
+    {
+      "offset": 286720,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.930933,
+      "printable_ratio": 0.371582
+    },
+    {
+      "offset": 290816,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.9427,
+      "printable_ratio": 0.374268
+    },
+    {
+      "offset": 294912,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.951334,
+      "printable_ratio": 0.376465
+    },
+    {
+      "offset": 299008,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.94481,
+      "printable_ratio": 0.369629
+    },
+    {
+      "offset": 303104,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.947493,
+      "printable_ratio": 0.371826
+    },
+    {
+      "offset": 307200,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.936523,
+      "printable_ratio": 0.367188
+    },
+    {
+      "offset": 311296,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.944025,
+      "printable_ratio": 0.373779
+    },
+    {
+      "offset": 315392,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.942397,
+      "printable_ratio": 0.386719
+    },
+    {
+      "offset": 319488,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.942488,
+      "printable_ratio": 0.378662
+    },
+    {
+      "offset": 323584,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.938628,
+      "printable_ratio": 0.362793
+    },
+    {
+      "offset": 327680,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.948589,
+      "printable_ratio": 0.381104
+    },
+    {
+      "offset": 331776,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.939391,
+      "printable_ratio": 0.367188
+    },
+    {
+      "offset": 335872,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.94582,
+      "printable_ratio": 0.36792
+    },
+    {
+      "offset": 339968,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.935576,
+      "printable_ratio": 0.374512
+    },
+    {
+      "offset": 344064,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.950847,
+      "printable_ratio": 0.376221
+    },
+    {
+      "offset": 348160,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.94047,
+      "printable_ratio": 0.391357
+    },
+    {
+      "offset": 352256,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.915048,
+      "printable_ratio": 0.374268
+    },
+    {
+      "offset": 356352,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.885374,
+      "printable_ratio": 0.356445
+    },
+    {
+      "offset": 360448,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.911964,
+      "printable_ratio": 0.355469
+    },
+    {
+      "offset": 364544,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924489,
+      "printable_ratio": 0.37793
+    },
+    {
+      "offset": 368640,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.878507,
+      "printable_ratio": 0.351318
+    },
+    {
+      "offset": 372736,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.853003,
+      "printable_ratio": 0.36792
+    },
+    {
+      "offset": 376832,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.818435,
+      "printable_ratio": 0.363525
+    },
+    {
+      "offset": 380928,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.796953,
+      "printable_ratio": 0.355469
+    },
+    {
+      "offset": 385024,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924272,
+      "printable_ratio": 0.360596
+    },
+    {
+      "offset": 389120,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.93992,
+      "printable_ratio": 0.370605
+    },
+    {
+      "offset": 393216,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.812496,
+      "printable_ratio": 0.370117
+    },
+    {
+      "offset": 397312,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.796907,
+      "printable_ratio": 0.377686
+    },
+    {
+      "offset": 401408,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.926966,
+      "printable_ratio": 0.37793
+    },
+    {
+      "offset": 405504,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.932392,
+      "printable_ratio": 0.378906
+    },
+    {
+      "offset": 409600,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.930517,
+      "printable_ratio": 0.361572
+    },
+    {
+      "offset": 413696,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907491,
+      "printable_ratio": 0.36792
+    },
+    {
+      "offset": 417792,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.84364,
+      "printable_ratio": 0.336914
+    },
+    {
+      "offset": 421888,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.808696,
+      "printable_ratio": 0.360107
+    },
+    {
+      "offset": 425984,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.869953,
+      "printable_ratio": 0.358643
+    },
+    {
+      "offset": 430080,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.932772,
+      "printable_ratio": 0.374023
+    },
+    {
+      "offset": 434176,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.933705,
+      "printable_ratio": 0.379639
+    },
+    {
+      "offset": 438272,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.933691,
+      "printable_ratio": 0.388916
+    },
+    {
+      "offset": 442368,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.934748,
+      "printable_ratio": 0.389648
+    },
+    {
+      "offset": 446464,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.917805,
+      "printable_ratio": 0.380615
+    },
+    {
+      "offset": 450560,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.895251,
+      "printable_ratio": 0.365723
+    },
+    {
+      "offset": 454656,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.812403,
+      "printable_ratio": 0.348877
+    },
+    {
+      "offset": 458752,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.783628,
+      "printable_ratio": 0.361328
+    },
+    {
+      "offset": 462848,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.799513,
+      "printable_ratio": 0.377441
+    },
+    {
+      "offset": 466944,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.806787,
+      "printable_ratio": 0.358887
+    },
+    {
+      "offset": 471040,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.836105,
+      "printable_ratio": 0.355957
+    },
+    {
+      "offset": 475136,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.852075,
+      "printable_ratio": 0.350586
+    },
+    {
+      "offset": 479232,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.846375,
+      "printable_ratio": 0.35083
+    },
+    {
+      "offset": 483328,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.822656,
+      "printable_ratio": 0.352539
+    },
+    {
+      "offset": 487424,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.85558,
+      "printable_ratio": 0.351562
+    },
+    {
+      "offset": 491520,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.864004,
+      "printable_ratio": 0.349609
+    },
+    {
+      "offset": 495616,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.882787,
+      "printable_ratio": 0.362549
+    },
+    {
+      "offset": 499712,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.87393,
+      "printable_ratio": 0.35791
+    },
+    {
+      "offset": 503808,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.880922,
+      "printable_ratio": 0.354248
+    },
+    {
+      "offset": 507904,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.893342,
+      "printable_ratio": 0.345703
+    },
+    {
+      "offset": 512000,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.875283,
+      "printable_ratio": 0.35083
+    },
+    {
+      "offset": 516096,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.866647,
+      "printable_ratio": 0.349365
+    },
+    {
+      "offset": 520192,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.858169,
+      "printable_ratio": 0.352051
+    },
+    {
+      "offset": 524288,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.858152,
+      "printable_ratio": 0.357178
+    },
+    {
+      "offset": 528384,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.863658,
+      "printable_ratio": 0.357666
+    },
+    {
+      "offset": 532480,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.876187,
+      "printable_ratio": 0.349854
+    },
+    {
+      "offset": 536576,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.843723,
+      "printable_ratio": 0.355713
+    },
+    {
+      "offset": 540672,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.872864,
+      "printable_ratio": 0.350098
+    },
+    {
+      "offset": 544768,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.860485,
+      "printable_ratio": 0.35376
+    },
+    {
+      "offset": 548864,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.87477,
+      "printable_ratio": 0.346436
+    },
+    {
+      "offset": 552960,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.861972,
+      "printable_ratio": 0.360107
+    },
+    {
+      "offset": 557056,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.860982,
+      "printable_ratio": 0.351562
+    },
+    {
+      "offset": 561152,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.860478,
+      "printable_ratio": 0.35083
+    },
+    {
+      "offset": 565248,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.852976,
+      "printable_ratio": 0.349365
+    },
+    {
+      "offset": 569344,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.891486,
+      "printable_ratio": 0.344482
+    },
+    {
+      "offset": 573440,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.875453,
+      "printable_ratio": 0.363281
+    },
+    {
+      "offset": 577536,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.879401,
+      "printable_ratio": 0.356689
+    },
+    {
+      "offset": 581632,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.857902,
+      "printable_ratio": 0.369629
+    },
+    {
+      "offset": 585728,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.877071,
+      "printable_ratio": 0.363281
+    },
+    {
+      "offset": 589824,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.879143,
+      "printable_ratio": 0.364258
+    },
+    {
+      "offset": 593920,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.895571,
+      "printable_ratio": 0.360107
+    },
+    {
+      "offset": 598016,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.874816,
+      "printable_ratio": 0.339844
+    },
+    {
+      "offset": 602112,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89326,
+      "printable_ratio": 0.351807
+    },
+    {
+      "offset": 606208,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.889719,
+      "printable_ratio": 0.35791
+    },
+    {
+      "offset": 610304,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.876501,
+      "printable_ratio": 0.356689
+    },
+    {
+      "offset": 614400,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89839,
+      "printable_ratio": 0.341553
+    },
+    {
+      "offset": 618496,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.859752,
+      "printable_ratio": 0.358887
+    },
+    {
+      "offset": 622592,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.87751,
+      "printable_ratio": 0.356689
+    },
+    {
+      "offset": 626688,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.869699,
+      "printable_ratio": 0.37207
+    },
+    {
+      "offset": 630784,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.883471,
+      "printable_ratio": 0.35376
+    },
+    {
+      "offset": 634880,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.875275,
+      "printable_ratio": 0.354492
+    },
+    {
+      "offset": 638976,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.878372,
+      "printable_ratio": 0.35083
+    },
+    {
+      "offset": 643072,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.871964,
+      "printable_ratio": 0.351807
+    },
+    {
+      "offset": 647168,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.882659,
+      "printable_ratio": 0.348877
+    },
+    {
+      "offset": 651264,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.874128,
+      "printable_ratio": 0.356934
+    },
+    {
+      "offset": 655360,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.859675,
+      "printable_ratio": 0.356201
+    },
+    {
+      "offset": 659456,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.871022,
+      "printable_ratio": 0.348877
+    },
+    {
+      "offset": 663552,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.85592,
+      "printable_ratio": 0.361084
+    },
+    {
+      "offset": 667648,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.868767,
+      "printable_ratio": 0.357422
+    },
+    {
+      "offset": 671744,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.881545,
+      "printable_ratio": 0.358398
+    },
+    {
+      "offset": 675840,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.887558,
+      "printable_ratio": 0.343018
+    },
+    {
+      "offset": 679936,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.87295,
+      "printable_ratio": 0.354004
+    },
+    {
+      "offset": 684032,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.852565,
+      "printable_ratio": 0.356689
+    },
+    {
+      "offset": 688128,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.878955,
+      "printable_ratio": 0.35083
+    },
+    {
+      "offset": 692224,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.880682,
+      "printable_ratio": 0.360596
+    },
+    {
+      "offset": 696320,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.901604,
+      "printable_ratio": 0.365723
+    },
+    {
+      "offset": 700416,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.895743,
+      "printable_ratio": 0.36377
+    },
+    {
+      "offset": 704512,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.900944,
+      "printable_ratio": 0.369873
+    },
+    {
+      "offset": 708608,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.891419,
+      "printable_ratio": 0.345703
+    },
+    {
+      "offset": 712704,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.891715,
+      "printable_ratio": 0.357422
+    },
+    {
+      "offset": 716800,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.900056,
+      "printable_ratio": 0.368896
+    },
+    {
+      "offset": 720896,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.871328,
+      "printable_ratio": 0.358154
+    },
+    {
+      "offset": 724992,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.896232,
+      "printable_ratio": 0.353027
+    },
+    {
+      "offset": 729088,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.902135,
+      "printable_ratio": 0.365967
+    },
+    {
+      "offset": 733184,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.901285,
+      "printable_ratio": 0.370117
+    },
+    {
+      "offset": 737280,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.885911,
+      "printable_ratio": 0.349121
+    },
+    {
+      "offset": 741376,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.900421,
+      "printable_ratio": 0.365967
+    },
+    {
+      "offset": 745472,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.898883,
+      "printable_ratio": 0.353027
+    },
+    {
+      "offset": 749568,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.877548,
+      "printable_ratio": 0.367676
+    },
+    {
+      "offset": 753664,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89191,
+      "printable_ratio": 0.357422
+    },
+    {
+      "offset": 757760,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.890564,
+      "printable_ratio": 0.357666
+    },
+    {
+      "offset": 761856,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.872899,
+      "printable_ratio": 0.350098
+    },
+    {
+      "offset": 765952,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.892793,
+      "printable_ratio": 0.359863
+    },
+    {
+      "offset": 770048,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.887598,
+      "printable_ratio": 0.361572
+    },
+    {
+      "offset": 774144,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.891744,
+      "printable_ratio": 0.36377
+    },
+    {
+      "offset": 778240,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.886125,
+      "printable_ratio": 0.354004
+    },
+    {
+      "offset": 782336,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.881501,
+      "printable_ratio": 0.356689
+    },
+    {
+      "offset": 786432,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.878139,
+      "printable_ratio": 0.371582
+    },
+    {
+      "offset": 790528,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.877909,
+      "printable_ratio": 0.364258
+    },
+    {
+      "offset": 794624,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.882008,
+      "printable_ratio": 0.374023
+    },
+    {
+      "offset": 798720,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.869613,
+      "printable_ratio": 0.363525
+    },
+    {
+      "offset": 802816,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.891024,
+      "printable_ratio": 0.361084
+    },
+    {
+      "offset": 806912,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.863994,
+      "printable_ratio": 0.369141
+    },
+    {
+      "offset": 811008,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.877405,
+      "printable_ratio": 0.376465
+    },
+    {
+      "offset": 815104,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.868853,
+      "printable_ratio": 0.36084
+    },
+    {
+      "offset": 819200,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.870061,
+      "printable_ratio": 0.368896
+    },
+    {
+      "offset": 823296,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.875394,
+      "printable_ratio": 0.357666
+    },
+    {
+      "offset": 827392,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.875949,
+      "printable_ratio": 0.340576
+    },
+    {
+      "offset": 831488,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.879702,
+      "printable_ratio": 0.353027
+    },
+    {
+      "offset": 835584,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.884429,
+      "printable_ratio": 0.349365
+    },
+    {
+      "offset": 839680,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.876859,
+      "printable_ratio": 0.358887
+    },
+    {
+      "offset": 843776,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.873223,
+      "printable_ratio": 0.366211
+    },
+    {
+      "offset": 847872,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89342,
+      "printable_ratio": 0.368164
+    },
+    {
+      "offset": 851968,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.880507,
+      "printable_ratio": 0.345215
+    },
+    {
+      "offset": 856064,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.880605,
+      "printable_ratio": 0.351318
+    },
+    {
+      "offset": 860160,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89165,
+      "printable_ratio": 0.36792
+    },
+    {
+      "offset": 864256,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.880948,
+      "printable_ratio": 0.375488
+    },
+    {
+      "offset": 868352,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.889679,
+      "printable_ratio": 0.369629
+    },
+    {
+      "offset": 872448,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89139,
+      "printable_ratio": 0.352295
+    },
+    {
+      "offset": 876544,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.877648,
+      "printable_ratio": 0.357422
+    },
+    {
+      "offset": 880640,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.892276,
+      "printable_ratio": 0.367432
+    },
+    {
+      "offset": 884736,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.890611,
+      "printable_ratio": 0.354492
+    },
+    {
+      "offset": 888832,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.897917,
+      "printable_ratio": 0.356445
+    },
+    {
+      "offset": 892928,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.893093,
+      "printable_ratio": 0.354736
+    },
+    {
+      "offset": 897024,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.892525,
+      "printable_ratio": 0.362305
+    },
+    {
+      "offset": 901120,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.875459,
+      "printable_ratio": 0.344971
+    },
+    {
+      "offset": 905216,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.842234,
+      "printable_ratio": 0.349365
+    },
+    {
+      "offset": 909312,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.867509,
+      "printable_ratio": 0.347168
+    },
+    {
+      "offset": 913408,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.874962,
+      "printable_ratio": 0.35791
+    },
+    {
+      "offset": 917504,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.874621,
+      "printable_ratio": 0.372314
+    },
+    {
+      "offset": 921600,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.880185,
+      "printable_ratio": 0.349609
+    },
+    {
+      "offset": 925696,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.873245,
+      "printable_ratio": 0.346436
+    },
+    {
+      "offset": 929792,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.860633,
+      "printable_ratio": 0.350342
+    },
+    {
+      "offset": 933888,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.889569,
+      "printable_ratio": 0.364502
+    },
+    {
+      "offset": 937984,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.892032,
+      "printable_ratio": 0.367676
+    },
+    {
+      "offset": 942080,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.891041,
+      "printable_ratio": 0.351318
+    },
+    {
+      "offset": 946176,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.889862,
+      "printable_ratio": 0.343506
+    },
+    {
+      "offset": 950272,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.88958,
+      "printable_ratio": 0.370361
+    },
+    {
+      "offset": 954368,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.883138,
+      "printable_ratio": 0.356201
+    },
+    {
+      "offset": 958464,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.874943,
+      "printable_ratio": 0.356445
+    },
+    {
+      "offset": 962560,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.879793,
+      "printable_ratio": 0.374512
+    },
+    {
+      "offset": 966656,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.890951,
+      "printable_ratio": 0.358398
+    },
+    {
+      "offset": 970752,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.85706,
+      "printable_ratio": 0.348633
+    },
+    {
+      "offset": 974848,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.872028,
+      "printable_ratio": 0.369629
+    },
+    {
+      "offset": 978944,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.872641,
+      "printable_ratio": 0.359375
+    },
+    {
+      "offset": 983040,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.897583,
+      "printable_ratio": 0.374023
+    },
+    {
+      "offset": 987136,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.880027,
+      "printable_ratio": 0.358643
+    },
+    {
+      "offset": 991232,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.882821,
+      "printable_ratio": 0.350342
+    },
+    {
+      "offset": 995328,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.888767,
+      "printable_ratio": 0.349854
+    },
+    {
+      "offset": 999424,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.886732,
+      "printable_ratio": 0.364014
+    },
+    {
+      "offset": 1003520,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.878507,
+      "printable_ratio": 0.361084
+    },
+    {
+      "offset": 1007616,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.879516,
+      "printable_ratio": 0.367676
+    },
+    {
+      "offset": 1011712,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.885431,
+      "printable_ratio": 0.365723
+    },
+    {
+      "offset": 1015808,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.888683,
+      "printable_ratio": 0.362305
+    },
+    {
+      "offset": 1019904,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.886586,
+      "printable_ratio": 0.350342
+    },
+    {
+      "offset": 1024000,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.904444,
+      "printable_ratio": 0.359375
+    },
+    {
+      "offset": 1028096,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.90372,
+      "printable_ratio": 0.364014
+    },
+    {
+      "offset": 1032192,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.894902,
+      "printable_ratio": 0.361084
+    },
+    {
+      "offset": 1036288,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.878807,
+      "printable_ratio": 0.35791
+    },
+    {
+      "offset": 1040384,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.889788,
+      "printable_ratio": 0.349609
+    },
+    {
+      "offset": 1044480,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.889118,
+      "printable_ratio": 0.364746
+    },
+    {
+      "offset": 1048576,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89633,
+      "printable_ratio": 0.367188
+    },
+    {
+      "offset": 1052672,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.878845,
+      "printable_ratio": 0.36499
+    },
+    {
+      "offset": 1056768,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.888967,
+      "printable_ratio": 0.343506
+    },
+    {
+      "offset": 1060864,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.88423,
+      "printable_ratio": 0.347168
+    },
+    {
+      "offset": 1064960,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.885326,
+      "printable_ratio": 0.374268
+    },
+    {
+      "offset": 1069056,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.897868,
+      "printable_ratio": 0.347412
+    },
+    {
+      "offset": 1073152,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.888292,
+      "printable_ratio": 0.357178
+    },
+    {
+      "offset": 1077248,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.88606,
+      "printable_ratio": 0.359375
+    },
+    {
+      "offset": 1081344,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.893484,
+      "printable_ratio": 0.345459
+    },
+    {
+      "offset": 1085440,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.884271,
+      "printable_ratio": 0.356934
+    },
+    {
+      "offset": 1089536,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.871614,
+      "printable_ratio": 0.348145
+    },
+    {
+      "offset": 1093632,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.879284,
+      "printable_ratio": 0.348633
+    },
+    {
+      "offset": 1097728,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89565,
+      "printable_ratio": 0.355225
+    },
+    {
+      "offset": 1101824,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.887935,
+      "printable_ratio": 0.352295
+    },
+    {
+      "offset": 1105920,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.877179,
+      "printable_ratio": 0.359863
+    },
+    {
+      "offset": 1110016,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.889123,
+      "printable_ratio": 0.362061
+    },
+    {
+      "offset": 1114112,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.894304,
+      "printable_ratio": 0.357178
+    },
+    {
+      "offset": 1118208,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.899481,
+      "printable_ratio": 0.349609
+    },
+    {
+      "offset": 1122304,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.882314,
+      "printable_ratio": 0.348633
+    },
+    {
+      "offset": 1126400,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.898836,
+      "printable_ratio": 0.356445
+    },
+    {
+      "offset": 1130496,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89687,
+      "printable_ratio": 0.354004
+    },
+    {
+      "offset": 1134592,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.893496,
+      "printable_ratio": 0.356934
+    },
+    {
+      "offset": 1138688,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.890489,
+      "printable_ratio": 0.344727
+    },
+    {
+      "offset": 1142784,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.869691,
+      "printable_ratio": 0.341553
+    },
+    {
+      "offset": 1146880,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.898074,
+      "printable_ratio": 0.36499
+    },
+    {
+      "offset": 1150976,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.882627,
+      "printable_ratio": 0.352295
+    },
+    {
+      "offset": 1155072,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.881985,
+      "printable_ratio": 0.359619
+    },
+    {
+      "offset": 1159168,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.888101,
+      "printable_ratio": 0.357178
+    },
+    {
+      "offset": 1163264,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.882071,
+      "printable_ratio": 0.35498
+    },
+    {
+      "offset": 1167360,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.879431,
+      "printable_ratio": 0.346436
+    },
+    {
+      "offset": 1171456,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.885354,
+      "printable_ratio": 0.357666
+    },
+    {
+      "offset": 1175552,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.873429,
+      "printable_ratio": 0.373047
+    },
+    {
+      "offset": 1179648,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.87608,
+      "printable_ratio": 0.369629
+    },
+    {
+      "offset": 1183744,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.865388,
+      "printable_ratio": 0.354248
+    },
+    {
+      "offset": 1187840,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.875696,
+      "printable_ratio": 0.347656
+    },
+    {
+      "offset": 1191936,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.861308,
+      "printable_ratio": 0.359375
+    },
+    {
+      "offset": 1196032,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.857389,
+      "printable_ratio": 0.347656
+    },
+    {
+      "offset": 1200128,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.883824,
+      "printable_ratio": 0.357422
+    },
+    {
+      "offset": 1204224,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.88975,
+      "printable_ratio": 0.358398
+    },
+    {
+      "offset": 1208320,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.876657,
+      "printable_ratio": 0.361572
+    },
+    {
+      "offset": 1212416,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.883818,
+      "printable_ratio": 0.359375
+    },
+    {
+      "offset": 1216512,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.88065,
+      "printable_ratio": 0.340576
+    },
+    {
+      "offset": 1220608,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.877084,
+      "printable_ratio": 0.36084
+    },
+    {
+      "offset": 1224704,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.891384,
+      "printable_ratio": 0.356934
+    },
+    {
+      "offset": 1228800,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.893945,
+      "printable_ratio": 0.371338
+    },
+    {
+      "offset": 1232896,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.893602,
+      "printable_ratio": 0.376465
+    },
+    {
+      "offset": 1236992,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.899572,
+      "printable_ratio": 0.365479
+    },
+    {
+      "offset": 1241088,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.896275,
+      "printable_ratio": 0.360107
+    },
+    {
+      "offset": 1245184,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.8951,
+      "printable_ratio": 0.367188
+    },
+    {
+      "offset": 1249280,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.883261,
+      "printable_ratio": 0.375977
+    },
+    {
+      "offset": 1253376,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.898374,
+      "printable_ratio": 0.354736
+    },
+    {
+      "offset": 1257472,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.893504,
+      "printable_ratio": 0.360596
+    },
+    {
+      "offset": 1261568,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.914923,
+      "printable_ratio": 0.376709
+    },
+    {
+      "offset": 1265664,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.8645,
+      "printable_ratio": 0.39502
+    },
+    {
+      "offset": 1269760,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.921702,
+      "printable_ratio": 0.382812
+    },
+    {
+      "offset": 1273856,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907316,
+      "printable_ratio": 0.375
+    },
+    {
+      "offset": 1277952,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.913012,
+      "printable_ratio": 0.363281
+    },
+    {
+      "offset": 1282048,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89826,
+      "printable_ratio": 0.38208
+    },
+    {
+      "offset": 1286144,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.920825,
+      "printable_ratio": 0.393555
+    },
+    {
+      "offset": 1290240,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.910709,
+      "printable_ratio": 0.399902
+    },
+    {
+      "offset": 1294336,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.914068,
+      "printable_ratio": 0.394043
+    },
+    {
+      "offset": 1298432,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.869299,
+      "printable_ratio": 0.381592
+    },
+    {
+      "offset": 1302528,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.910404,
+      "printable_ratio": 0.395996
+    },
+    {
+      "offset": 1306624,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912111,
+      "printable_ratio": 0.388672
+    },
+    {
+      "offset": 1310720,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.870444,
+      "printable_ratio": 0.378662
+    },
+    {
+      "offset": 1314816,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.9144,
+      "printable_ratio": 0.385498
+    },
+    {
+      "offset": 1318912,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.925464,
+      "printable_ratio": 0.385986
+    },
+    {
+      "offset": 1323008,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.898592,
+      "printable_ratio": 0.391846
+    },
+    {
+      "offset": 1327104,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.914271,
+      "printable_ratio": 0.392822
+    },
+    {
+      "offset": 1331200,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.918786,
+      "printable_ratio": 0.388916
+    },
+    {
+      "offset": 1335296,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912046,
+      "printable_ratio": 0.372559
+    },
+    {
+      "offset": 1339392,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.869496,
+      "printable_ratio": 0.393311
+    },
+    {
+      "offset": 1343488,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.916426,
+      "printable_ratio": 0.383301
+    },
+    {
+      "offset": 1347584,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907957,
+      "printable_ratio": 0.385498
+    },
+    {
+      "offset": 1351680,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.862723,
+      "printable_ratio": 0.374512
+    },
+    {
+      "offset": 1355776,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89822,
+      "printable_ratio": 0.378662
+    },
+    {
+      "offset": 1359872,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.922118,
+      "printable_ratio": 0.379883
+    },
+    {
+      "offset": 1363968,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.913489,
+      "printable_ratio": 0.366211
+    },
+    {
+      "offset": 1368064,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.920468,
+      "printable_ratio": 0.394531
+    },
+    {
+      "offset": 1372160,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924378,
+      "printable_ratio": 0.391113
+    },
+    {
+      "offset": 1376256,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.913669,
+      "printable_ratio": 0.378418
+    },
+    {
+      "offset": 1380352,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.916646,
+      "printable_ratio": 0.386963
+    },
+    {
+      "offset": 1384448,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.917792,
+      "printable_ratio": 0.384521
+    },
+    {
+      "offset": 1388544,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907104,
+      "printable_ratio": 0.402588
+    },
+    {
+      "offset": 1392640,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.899855,
+      "printable_ratio": 0.393799
+    },
+    {
+      "offset": 1396736,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.914341,
+      "printable_ratio": 0.395264
+    },
+    {
+      "offset": 1400832,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.91774,
+      "printable_ratio": 0.384766
+    },
+    {
+      "offset": 1404928,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.929127,
+      "printable_ratio": 0.380371
+    },
+    {
+      "offset": 1409024,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.920676,
+      "printable_ratio": 0.383545
+    },
+    {
+      "offset": 1413120,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.897249,
+      "printable_ratio": 0.402344
+    },
+    {
+      "offset": 1417216,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.892365,
+      "printable_ratio": 0.39502
+    },
+    {
+      "offset": 1421312,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.899156,
+      "printable_ratio": 0.401611
+    },
+    {
+      "offset": 1425408,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.926369,
+      "printable_ratio": 0.36499
+    },
+    {
+      "offset": 1429504,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.904741,
+      "printable_ratio": 0.380859
+    },
+    {
+      "offset": 1433600,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.930951,
+      "printable_ratio": 0.380127
+    },
+    {
+      "offset": 1437696,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.894332,
+      "printable_ratio": 0.378418
+    },
+    {
+      "offset": 1441792,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.911008,
+      "printable_ratio": 0.382568
+    },
+    {
+      "offset": 1445888,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.923201,
+      "printable_ratio": 0.38208
+    },
+    {
+      "offset": 1449984,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.920156,
+      "printable_ratio": 0.388184
+    },
+    {
+      "offset": 1454080,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.916165,
+      "printable_ratio": 0.401855
+    },
+    {
+      "offset": 1458176,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907947,
+      "printable_ratio": 0.38623
+    },
+    {
+      "offset": 1462272,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912818,
+      "printable_ratio": 0.40332
+    },
+    {
+      "offset": 1466368,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.913738,
+      "printable_ratio": 0.381592
+    },
+    {
+      "offset": 1470464,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.886966,
+      "printable_ratio": 0.377686
+    },
+    {
+      "offset": 1474560,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.889867,
+      "printable_ratio": 0.398682
+    },
+    {
+      "offset": 1478656,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907061,
+      "printable_ratio": 0.387207
+    },
+    {
+      "offset": 1482752,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.899782,
+      "printable_ratio": 0.385498
+    },
+    {
+      "offset": 1486848,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.922458,
+      "printable_ratio": 0.386719
+    },
+    {
+      "offset": 1490944,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.914691,
+      "printable_ratio": 0.405762
+    },
+    {
+      "offset": 1495040,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.938777,
+      "printable_ratio": 0.397705
+    },
+    {
+      "offset": 1499136,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.93652,
+      "printable_ratio": 0.381104
+    },
+    {
+      "offset": 1503232,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.92947,
+      "printable_ratio": 0.384766
+    },
+    {
+      "offset": 1507328,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.941307,
+      "printable_ratio": 0.403076
+    },
+    {
+      "offset": 1511424,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.935918,
+      "printable_ratio": 0.393311
+    },
+    {
+      "offset": 1515520,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.950306,
+      "printable_ratio": 0.39624
+    },
+    {
+      "offset": 1519616,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.93386,
+      "printable_ratio": 0.378662
+    },
+    {
+      "offset": 1523712,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.939704,
+      "printable_ratio": 0.386719
+    },
+    {
+      "offset": 1527808,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.938862,
+      "printable_ratio": 0.377686
+    },
+    {
+      "offset": 1531904,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.933153,
+      "printable_ratio": 0.377686
+    },
+    {
+      "offset": 1536000,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.948635,
+      "printable_ratio": 0.387695
+    },
+    {
+      "offset": 1540096,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.93299,
+      "printable_ratio": 0.396484
+    },
+    {
+      "offset": 1544192,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.931894,
+      "printable_ratio": 0.374268
+    },
+    {
+      "offset": 1548288,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.933264,
+      "printable_ratio": 0.38623
+    },
+    {
+      "offset": 1552384,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.931264,
+      "printable_ratio": 0.394287
+    },
+    {
+      "offset": 1556480,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.905618,
+      "printable_ratio": 0.399902
+    },
+    {
+      "offset": 1560576,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.945674,
+      "printable_ratio": 0.388184
+    },
+    {
+      "offset": 1564672,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.929272,
+      "printable_ratio": 0.405029
+    },
+    {
+      "offset": 1568768,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.931629,
+      "printable_ratio": 0.395996
+    },
+    {
+      "offset": 1572864,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.921682,
+      "printable_ratio": 0.393555
+    },
+    {
+      "offset": 1576960,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907052,
+      "printable_ratio": 0.39502
+    },
+    {
+      "offset": 1581056,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.934304,
+      "printable_ratio": 0.406982
+    },
+    {
+      "offset": 1585152,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.927391,
+      "printable_ratio": 0.39209
+    },
+    {
+      "offset": 1589248,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.934004,
+      "printable_ratio": 0.381836
+    },
+    {
+      "offset": 1593344,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.927753,
+      "printable_ratio": 0.390381
+    },
+    {
+      "offset": 1597440,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924517,
+      "printable_ratio": 0.388184
+    },
+    {
+      "offset": 1601536,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.928141,
+      "printable_ratio": 0.384033
+    },
+    {
+      "offset": 1605632,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.931798,
+      "printable_ratio": 0.397461
+    },
+    {
+      "offset": 1609728,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.925947,
+      "printable_ratio": 0.395752
+    },
+    {
+      "offset": 1613824,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.925173,
+      "printable_ratio": 0.383545
+    },
+    {
+      "offset": 1617920,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924694,
+      "printable_ratio": 0.385742
+    },
+    {
+      "offset": 1622016,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.932654,
+      "printable_ratio": 0.387939
+    },
+    {
+      "offset": 1626112,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.941942,
+      "printable_ratio": 0.386719
+    },
+    {
+      "offset": 1630208,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.833805,
+      "printable_ratio": 0.400146
+    },
+    {
+      "offset": 1634304,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.936696,
+      "printable_ratio": 0.390625
+    },
+    {
+      "offset": 1638400,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.94724,
+      "printable_ratio": 0.389648
+    },
+    {
+      "offset": 1642496,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.941922,
+      "printable_ratio": 0.372803
+    },
+    {
+      "offset": 1646592,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.927203,
+      "printable_ratio": 0.383301
+    },
+    {
+      "offset": 1650688,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.814599,
+      "printable_ratio": 0.39624
+    },
+    {
+      "offset": 1654784,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924607,
+      "printable_ratio": 0.388672
+    },
+    {
+      "offset": 1658880,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.934275,
+      "printable_ratio": 0.375488
+    },
+    {
+      "offset": 1662976,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.92957,
+      "printable_ratio": 0.382324
+    },
+    {
+      "offset": 1667072,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.887417,
+      "printable_ratio": 0.367432
+    },
+    {
+      "offset": 1671168,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.903968,
+      "printable_ratio": 0.374512
+    },
+    {
+      "offset": 1675264,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.905753,
+      "printable_ratio": 0.377441
+    },
+    {
+      "offset": 1679360,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.888006,
+      "printable_ratio": 0.375732
+    },
+    {
+      "offset": 1683456,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.906355,
+      "printable_ratio": 0.373047
+    },
+    {
+      "offset": 1687552,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.893773,
+      "printable_ratio": 0.374023
+    },
+    {
+      "offset": 1691648,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.89567,
+      "printable_ratio": 0.368896
+    },
+    {
+      "offset": 1695744,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.895123,
+      "printable_ratio": 0.363037
+    },
+    {
+      "offset": 1699840,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.905703,
+      "printable_ratio": 0.366455
+    },
+    {
+      "offset": 1703936,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.892288,
+      "printable_ratio": 0.351318
+    },
+    {
+      "offset": 1708032,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.90777,
+      "printable_ratio": 0.348877
+    },
+    {
+      "offset": 1712128,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912569,
+      "printable_ratio": 0.356445
+    },
+    {
+      "offset": 1716224,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.908027,
+      "printable_ratio": 0.36377
+    },
+    {
+      "offset": 1720320,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.887451,
+      "printable_ratio": 0.354492
+    },
+    {
+      "offset": 1724416,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.902825,
+      "printable_ratio": 0.355225
+    },
+    {
+      "offset": 1728512,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.90774,
+      "printable_ratio": 0.373535
+    },
+    {
+      "offset": 1732608,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.903607,
+      "printable_ratio": 0.358887
+    },
+    {
+      "offset": 1736704,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907888,
+      "printable_ratio": 0.359619
+    },
+    {
+      "offset": 1740800,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.906639,
+      "printable_ratio": 0.368164
+    },
+    {
+      "offset": 1744896,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.899513,
+      "printable_ratio": 0.354492
+    },
+    {
+      "offset": 1748992,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.90951,
+      "printable_ratio": 0.36499
+    },
+    {
+      "offset": 1753088,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.919509,
+      "printable_ratio": 0.360596
+    },
+    {
+      "offset": 1757184,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.913589,
+      "printable_ratio": 0.36377
+    },
+    {
+      "offset": 1761280,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.894448,
+      "printable_ratio": 0.362305
+    },
+    {
+      "offset": 1765376,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.913128,
+      "printable_ratio": 0.343994
+    },
+    {
+      "offset": 1769472,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.888387,
+      "printable_ratio": 0.36792
+    },
+    {
+      "offset": 1773568,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.903359,
+      "printable_ratio": 0.359619
+    },
+    {
+      "offset": 1777664,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.895727,
+      "printable_ratio": 0.367188
+    },
+    {
+      "offset": 1781760,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.909898,
+      "printable_ratio": 0.360352
+    },
+    {
+      "offset": 1785856,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.906769,
+      "printable_ratio": 0.359375
+    },
+    {
+      "offset": 1789952,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.905378,
+      "printable_ratio": 0.359375
+    },
+    {
+      "offset": 1794048,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912883,
+      "printable_ratio": 0.355713
+    },
+    {
+      "offset": 1798144,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.90045,
+      "printable_ratio": 0.357178
+    },
+    {
+      "offset": 1802240,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.917838,
+      "printable_ratio": 0.367432
+    },
+    {
+      "offset": 1806336,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.903375,
+      "printable_ratio": 0.369385
+    },
+    {
+      "offset": 1810432,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.894281,
+      "printable_ratio": 0.357422
+    },
+    {
+      "offset": 1814528,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.897269,
+      "printable_ratio": 0.363037
+    },
+    {
+      "offset": 1818624,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.902241,
+      "printable_ratio": 0.381348
+    },
+    {
+      "offset": 1822720,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.894725,
+      "printable_ratio": 0.35791
+    },
+    {
+      "offset": 1826816,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.929564,
+      "printable_ratio": 0.378906
+    },
+    {
+      "offset": 1830912,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.883645,
+      "printable_ratio": 0.366943
+    },
+    {
+      "offset": 1835008,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.91526,
+      "printable_ratio": 0.369873
+    },
+    {
+      "offset": 1839104,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907252,
+      "printable_ratio": 0.368164
+    },
+    {
+      "offset": 1843200,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.925167,
+      "printable_ratio": 0.367188
+    },
+    {
+      "offset": 1847296,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.922491,
+      "printable_ratio": 0.374023
+    },
+    {
+      "offset": 1851392,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.919183,
+      "printable_ratio": 0.353271
+    },
+    {
+      "offset": 1855488,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.914514,
+      "printable_ratio": 0.363037
+    },
+    {
+      "offset": 1859584,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912668,
+      "printable_ratio": 0.35083
+    },
+    {
+      "offset": 1863680,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.925071,
+      "printable_ratio": 0.37207
+    },
+    {
+      "offset": 1867776,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.927906,
+      "printable_ratio": 0.369385
+    },
+    {
+      "offset": 1871872,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.923131,
+      "printable_ratio": 0.364502
+    },
+    {
+      "offset": 1875968,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.921059,
+      "printable_ratio": 0.377441
+    },
+    {
+      "offset": 1880064,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.92185,
+      "printable_ratio": 0.364746
+    },
+    {
+      "offset": 1884160,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.914333,
+      "printable_ratio": 0.349121
+    },
+    {
+      "offset": 1888256,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.934218,
+      "printable_ratio": 0.370605
+    },
+    {
+      "offset": 1892352,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.918918,
+      "printable_ratio": 0.366699
+    },
+    {
+      "offset": 1896448,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.902666,
+      "printable_ratio": 0.363037
+    },
+    {
+      "offset": 1900544,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924766,
+      "printable_ratio": 0.357666
+    },
+    {
+      "offset": 1904640,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.923968,
+      "printable_ratio": 0.367676
+    },
+    {
+      "offset": 1908736,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.913082,
+      "printable_ratio": 0.357666
+    },
+    {
+      "offset": 1912832,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.921033,
+      "printable_ratio": 0.359619
+    },
+    {
+      "offset": 1916928,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.92426,
+      "printable_ratio": 0.35498
+    },
+    {
+      "offset": 1921024,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.911751,
+      "printable_ratio": 0.356445
+    },
+    {
+      "offset": 1925120,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.913275,
+      "printable_ratio": 0.357666
+    },
+    {
+      "offset": 1929216,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.920168,
+      "printable_ratio": 0.370605
+    },
+    {
+      "offset": 1933312,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.930724,
+      "printable_ratio": 0.363281
+    },
+    {
+      "offset": 1937408,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924156,
+      "printable_ratio": 0.359375
+    },
+    {
+      "offset": 1941504,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.910237,
+      "printable_ratio": 0.367432
+    },
+    {
+      "offset": 1945600,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.919511,
+      "printable_ratio": 0.356689
+    },
+    {
+      "offset": 1949696,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.922474,
+      "printable_ratio": 0.362305
+    },
+    {
+      "offset": 1953792,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.925514,
+      "printable_ratio": 0.367676
+    },
+    {
+      "offset": 1957888,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.924636,
+      "printable_ratio": 0.359131
+    },
+    {
+      "offset": 1961984,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.915536,
+      "printable_ratio": 0.373047
+    },
+    {
+      "offset": 1966080,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912941,
+      "printable_ratio": 0.354492
+    },
+    {
+      "offset": 1970176,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.931698,
+      "printable_ratio": 0.358154
+    },
+    {
+      "offset": 1974272,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.920195,
+      "printable_ratio": 0.382812
+    },
+    {
+      "offset": 1978368,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.918942,
+      "printable_ratio": 0.358887
+    },
+    {
+      "offset": 1982464,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.909877,
+      "printable_ratio": 0.363525
+    },
+    {
+      "offset": 1986560,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.907493,
+      "printable_ratio": 0.367676
+    },
+    {
+      "offset": 1990656,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.902638,
+      "printable_ratio": 0.356934
+    },
+    {
+      "offset": 1994752,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.921517,
+      "printable_ratio": 0.360107
+    },
+    {
+      "offset": 1998848,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.901691,
+      "printable_ratio": 0.370117
+    },
+    {
+      "offset": 2002944,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.918751,
+      "printable_ratio": 0.360596
+    },
+    {
+      "offset": 2007040,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.918953,
+      "printable_ratio": 0.384521
+    },
+    {
+      "offset": 2011136,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912991,
+      "printable_ratio": 0.362061
+    },
+    {
+      "offset": 2015232,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.929114,
+      "printable_ratio": 0.367676
+    },
+    {
+      "offset": 2019328,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.916777,
+      "printable_ratio": 0.37793
+    },
+    {
+      "offset": 2023424,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.917735,
+      "printable_ratio": 0.364014
+    },
+    {
+      "offset": 2027520,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.926806,
+      "printable_ratio": 0.355225
+    },
+    {
+      "offset": 2031616,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.912953,
+      "printable_ratio": 0.363281
+    },
+    {
+      "offset": 2035712,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.901373,
+      "printable_ratio": 0.36499
+    },
+    {
+      "offset": 2039808,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.913672,
+      "printable_ratio": 0.379639
+    },
+    {
+      "offset": 2043904,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.893469,
+      "printable_ratio": 0.353271
+    },
+    {
+      "offset": 2048000,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.846309,
+      "printable_ratio": 0.333984
+    },
+    {
+      "offset": 2052096,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.856074,
+      "printable_ratio": 0.345459
+    },
+    {
+      "offset": 2056192,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.851665,
+      "printable_ratio": 0.330322
+    },
+    {
+      "offset": 2060288,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.839846,
+      "printable_ratio": 0.3396
+    },
+    {
+      "offset": 2064384,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.844571,
+      "printable_ratio": 0.345215
+    },
+    {
+      "offset": 2068480,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.847843,
+      "printable_ratio": 0.335205
+    },
+    {
+      "offset": 2072576,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.839014,
+      "printable_ratio": 0.338623
+    },
+    {
+      "offset": 2076672,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.851701,
+      "printable_ratio": 0.341064
+    },
+    {
+      "offset": 2080768,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.848321,
+      "printable_ratio": 0.333984
+    },
+    {
+      "offset": 2084864,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.843746,
+      "printable_ratio": 0.331055
+    },
+    {
+      "offset": 2088960,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.859367,
+      "printable_ratio": 0.338623
+    },
+    {
+      "offset": 2093056,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.846229,
+      "printable_ratio": 0.336182
+    },
+    {
+      "offset": 2097152,
+      "size": 4096,
+      "entropy_bits_per_byte": 7.859583,
+      "printable_ratio": 0.341553
+    },
+    {
+      "offset": 2101248,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.488151,
+      "printable_ratio": 0.20459
+    },
+    {
+      "offset": 2105344,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.401881,
+      "printable_ratio": 0.215576
+    },
+    {
+      "offset": 2109440,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.07197,
+      "printable_ratio": 0.179932
+    },
+    {
+      "offset": 2113536,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.60466,
+      "printable_ratio": 0.148438
+    },
+    {
+      "offset": 2117632,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.524847,
+      "printable_ratio": 0.104004
+    },
+    {
+      "offset": 2121728,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.853944,
+      "printable_ratio": 0.165039
+    },
+    {
+      "offset": 2125824,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.512762,
+      "printable_ratio": 0.213135
+    },
+    {
+      "offset": 2129920,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.49165,
+      "printable_ratio": 0.157715
+    },
+    {
+      "offset": 2134016,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.229794,
+      "printable_ratio": 0.207275
+    },
+    {
+      "offset": 2138112,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.414151,
+      "printable_ratio": 0.20874
+    },
+    {
+      "offset": 2142208,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.546886,
+      "printable_ratio": 0.162842
+    },
+    {
+      "offset": 2146304,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.611786,
+      "printable_ratio": 0.207764
+    },
+    {
+      "offset": 2150400,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.418915,
+      "printable_ratio": 0.147461
+    },
+    {
+      "offset": 2154496,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.208115,
+      "printable_ratio": 0.210205
+    },
+    {
+      "offset": 2158592,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.437526,
+      "printable_ratio": 0.20874
+    },
+    {
+      "offset": 2162688,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.534453,
+      "printable_ratio": 0.16626
+    },
+    {
+      "offset": 2166784,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.519342,
+      "printable_ratio": 0.222412
+    },
+    {
+      "offset": 2170880,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.456658,
+      "printable_ratio": 0.152832
+    },
+    {
+      "offset": 2174976,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.148564,
+      "printable_ratio": 0.196289
+    },
+    {
+      "offset": 2179072,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.42538,
+      "printable_ratio": 0.199463
+    },
+    {
+      "offset": 2183168,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.785342,
+      "printable_ratio": 0.158936
+    },
+    {
+      "offset": 2187264,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.544904,
+      "printable_ratio": 0.212402
+    },
+    {
+      "offset": 2191360,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.487748,
+      "printable_ratio": 0.150879
+    },
+    {
+      "offset": 2195456,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.429457,
+      "printable_ratio": 0.20874
+    },
+    {
+      "offset": 2199552,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.184442,
+      "printable_ratio": 0.195312
+    },
+    {
+      "offset": 2203648,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.843665,
+      "printable_ratio": 0.1604
+    },
+    {
+      "offset": 2207744,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.570623,
+      "printable_ratio": 0.20752
+    },
+    {
+      "offset": 2211840,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.564089,
+      "printable_ratio": 0.1521
+    },
+    {
+      "offset": 2215936,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.552761,
+      "printable_ratio": 0.216064
+    },
+    {
+      "offset": 2220032,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.959881,
+      "printable_ratio": 0.193848
+    },
+    {
+      "offset": 2224128,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.989089,
+      "printable_ratio": 0.168213
+    },
+    {
+      "offset": 2228224,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.455976,
+      "printable_ratio": 0.200928
+    },
+    {
+      "offset": 2232320,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.44029,
+      "printable_ratio": 0.140381
+    },
+    {
+      "offset": 2236416,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.559727,
+      "printable_ratio": 0.204834
+    },
+    {
+      "offset": 2240512,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.037605,
+      "printable_ratio": 0.188477
+    },
+    {
+      "offset": 2244608,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.938348,
+      "printable_ratio": 0.178955
+    },
+    {
+      "offset": 2248704,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.014958,
+      "printable_ratio": 0.1875
+    },
+    {
+      "offset": 2252800,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.981931,
+      "printable_ratio": 0.183594
+    },
+    {
+      "offset": 2256896,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.990405,
+      "printable_ratio": 0.179932
+    },
+    {
+      "offset": 2260992,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.065061,
+      "printable_ratio": 0.176025
+    },
+    {
+      "offset": 2265088,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.704447,
+      "printable_ratio": 0.183838
+    },
+    {
+      "offset": 2269184,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.359928,
+      "printable_ratio": 0.165283
+    },
+    {
+      "offset": 2273280,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.104179,
+      "printable_ratio": 0.186768
+    },
+    {
+      "offset": 2277376,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.471402,
+      "printable_ratio": 0.203125
+    },
+    {
+      "offset": 2281472,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.198153,
+      "printable_ratio": 0.152832
+    },
+    {
+      "offset": 2285568,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.698816,
+      "printable_ratio": 0.222168
+    },
+    {
+      "offset": 2289664,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.580791,
+      "printable_ratio": 0.158936
+    },
+    {
+      "offset": 2293760,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.179981,
+      "printable_ratio": 0.188477
+    },
+    {
+      "offset": 2297856,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.500527,
+      "printable_ratio": 0.202881
+    },
+    {
+      "offset": 2301952,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.422997,
+      "printable_ratio": 0.154541
+    },
+    {
+      "offset": 2306048,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.680401,
+      "printable_ratio": 0.226318
+    },
+    {
+      "offset": 2310144,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.983356,
+      "printable_ratio": 0.194092
+    },
+    {
+      "offset": 2314240,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.481608,
+      "printable_ratio": 0.223145
+    },
+    {
+      "offset": 2318336,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.455528,
+      "printable_ratio": 0.197998
+    },
+    {
+      "offset": 2322432,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.541208,
+      "printable_ratio": 0.155273
+    },
+    {
+      "offset": 2326528,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.536035,
+      "printable_ratio": 0.202148
+    },
+    {
+      "offset": 2330624,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.107373,
+      "printable_ratio": 0.188721
+    },
+    {
+      "offset": 2334720,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.327609,
+      "printable_ratio": 0.203613
+    },
+    {
+      "offset": 2338816,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.190455,
+      "printable_ratio": 0.138428
+    },
+    {
+      "offset": 2342912,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.685124,
+      "printable_ratio": 0.228271
+    },
+    {
+      "offset": 2347008,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.775236,
+      "printable_ratio": 0.166504
+    },
+    {
+      "offset": 2351104,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.156377,
+      "printable_ratio": 0.180908
+    },
+    {
+      "offset": 2355200,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.522096,
+      "printable_ratio": 0.20459
+    },
+    {
+      "offset": 2359296,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.808447,
+      "printable_ratio": 0.151367
+    },
+    {
+      "offset": 2363392,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.544284,
+      "printable_ratio": 0.21167
+    },
+    {
+      "offset": 2367488,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.072185,
+      "printable_ratio": 0.190186
+    },
+    {
+      "offset": 2371584,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.729756,
+      "printable_ratio": 0.152588
+    },
+    {
+      "offset": 2375680,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.202694,
+      "printable_ratio": 0.186523
+    },
+    {
+      "offset": 2379776,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.38129,
+      "printable_ratio": 0.168945
+    },
+    {
+      "offset": 2383872,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.559544,
+      "printable_ratio": 0.1521
+    },
+    {
+      "offset": 2387968,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.438231,
+      "printable_ratio": 0.208252
+    },
+    {
+      "offset": 2392064,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.307145,
+      "printable_ratio": 0.170166
+    },
+    {
+      "offset": 2396160,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.968431,
+      "printable_ratio": 0.177246
+    },
+    {
+      "offset": 2400256,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.982402,
+      "printable_ratio": 0.181396
+    },
+    {
+      "offset": 2404352,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.111875,
+      "printable_ratio": 0.174316
+    },
+    {
+      "offset": 2408448,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.959892,
+      "printable_ratio": 0.18457
+    },
+    {
+      "offset": 2412544,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.023815,
+      "printable_ratio": 0.183105
+    },
+    {
+      "offset": 2416640,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.989215,
+      "printable_ratio": 0.172852
+    },
+    {
+      "offset": 2420736,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.862678,
+      "printable_ratio": 0.154785
+    },
+    {
+      "offset": 2424832,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.745083,
+      "printable_ratio": 0.226562
+    },
+    {
+      "offset": 2428928,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.832956,
+      "printable_ratio": 0.178711
+    },
+    {
+      "offset": 2433024,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.930084,
+      "printable_ratio": 0.173584
+    },
+    {
+      "offset": 2437120,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.824794,
+      "printable_ratio": 0.167969
+    },
+    {
+      "offset": 2441216,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.721232,
+      "printable_ratio": 0.158691
+    },
+    {
+      "offset": 2445312,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.171864,
+      "printable_ratio": 0.197266
+    },
+    {
+      "offset": 2449408,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.484197,
+      "printable_ratio": 0.210938
+    },
+    {
+      "offset": 2453504,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.65288,
+      "printable_ratio": 0.159668
+    },
+    {
+      "offset": 2457600,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.6877,
+      "printable_ratio": 0.220703
+    },
+    {
+      "offset": 2461696,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.402884,
+      "printable_ratio": 0.159424
+    },
+    {
+      "offset": 2465792,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.242274,
+      "printable_ratio": 0.190674
+    },
+    {
+      "offset": 2469888,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.433253,
+      "printable_ratio": 0.201172
+    },
+    {
+      "offset": 2473984,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.700091,
+      "printable_ratio": 0.158691
+    },
+    {
+      "offset": 2478080,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.639933,
+      "printable_ratio": 0.206543
+    },
+    {
+      "offset": 2482176,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.559111,
+      "printable_ratio": 0.152344
+    },
+    {
+      "offset": 2486272,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.129024,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 2490368,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.39888,
+      "printable_ratio": 0.202637
+    },
+    {
+      "offset": 2494464,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.68134,
+      "printable_ratio": 0.151123
+    },
+    {
+      "offset": 2498560,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.637381,
+      "printable_ratio": 0.227783
+    },
+    {
+      "offset": 2502656,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.820845,
+      "printable_ratio": 0.181885
+    },
+    {
+      "offset": 2506752,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.674273,
+      "printable_ratio": 0.167236
+    },
+    {
+      "offset": 2510848,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.718421,
+      "printable_ratio": 0.158447
+    },
+    {
+      "offset": 2514944,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.311115,
+      "printable_ratio": 0.211182
+    },
+    {
+      "offset": 2519040,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.874693,
+      "printable_ratio": 0.17041
+    },
+    {
+      "offset": 2523136,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.062769,
+      "printable_ratio": 0.182373
+    },
+    {
+      "offset": 2527232,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.978892,
+      "printable_ratio": 0.178467
+    },
+    {
+      "offset": 2531328,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.947065,
+      "printable_ratio": 0.182617
+    },
+    {
+      "offset": 2535424,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.804407,
+      "printable_ratio": 0.17041
+    },
+    {
+      "offset": 2539520,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.355482,
+      "printable_ratio": 0.189697
+    },
+    {
+      "offset": 2543616,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.148307,
+      "printable_ratio": 0.19165
+    },
+    {
+      "offset": 2547712,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.965706,
+      "printable_ratio": 0.183594
+    },
+    {
+      "offset": 2551808,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.405166,
+      "printable_ratio": 0.156738
+    },
+    {
+      "offset": 2555904,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.396269,
+      "printable_ratio": 0.148193
+    },
+    {
+      "offset": 2560000,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.514681,
+      "printable_ratio": 0.143799
+    },
+    {
+      "offset": 2564096,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.114335,
+      "printable_ratio": 0.187012
+    },
+    {
+      "offset": 2568192,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.573805,
+      "printable_ratio": 0.220703
+    },
+    {
+      "offset": 2572288,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.657615,
+      "printable_ratio": 0.160156
+    },
+    {
+      "offset": 2576384,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.043913,
+      "printable_ratio": 0.188721
+    },
+    {
+      "offset": 2580480,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.593748,
+      "printable_ratio": 0.208008
+    },
+    {
+      "offset": 2584576,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.538163,
+      "printable_ratio": 0.161865
+    },
+    {
+      "offset": 2588672,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.97216,
+      "printable_ratio": 0.174561
+    },
+    {
+      "offset": 2592768,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.544138,
+      "printable_ratio": 0.197266
+    },
+    {
+      "offset": 2596864,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.909846,
+      "printable_ratio": 0.188965
+    },
+    {
+      "offset": 2600960,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.449198,
+      "printable_ratio": 0.154785
+    },
+    {
+      "offset": 2605056,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.619189,
+      "printable_ratio": 0.157471
+    },
+    {
+      "offset": 2609152,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.898061,
+      "printable_ratio": 0.177246
+    },
+    {
+      "offset": 2613248,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.772634,
+      "printable_ratio": 0.163574
+    },
+    {
+      "offset": 2617344,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.13755,
+      "printable_ratio": 0.197754
+    },
+    {
+      "offset": 2621440,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.303634,
+      "printable_ratio": 0.145752
+    },
+    {
+      "offset": 2625536,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.137197,
+      "printable_ratio": 0.197266
+    },
+    {
+      "offset": 2629632,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.126148,
+      "printable_ratio": 0.191895
+    },
+    {
+      "offset": 2633728,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.068429,
+      "printable_ratio": 0.184814
+    },
+    {
+      "offset": 2637824,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.123287,
+      "printable_ratio": 0.143066
+    },
+    {
+      "offset": 2641920,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.162116,
+      "printable_ratio": 0.190918
+    },
+    {
+      "offset": 2646016,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.574683,
+      "printable_ratio": 0.16626
+    },
+    {
+      "offset": 2650112,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.959422,
+      "printable_ratio": 0.178223
+    },
+    {
+      "offset": 2654208,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.808614,
+      "printable_ratio": 0.162109
+    },
+    {
+      "offset": 2658304,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.811742,
+      "printable_ratio": 0.168701
+    },
+    {
+      "offset": 2662400,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.609294,
+      "printable_ratio": 0.15918
+    },
+    {
+      "offset": 2666496,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.861814,
+      "printable_ratio": 0.180176
+    },
+    {
+      "offset": 2670592,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.737384,
+      "printable_ratio": 0.153564
+    },
+    {
+      "offset": 2674688,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.507478,
+      "printable_ratio": 0.151611
+    },
+    {
+      "offset": 2678784,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.958601,
+      "printable_ratio": 0.168945
+    },
+    {
+      "offset": 2682880,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.597937,
+      "printable_ratio": 0.160645
+    },
+    {
+      "offset": 2686976,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.715198,
+      "printable_ratio": 0.164551
+    },
+    {
+      "offset": 2691072,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.911906,
+      "printable_ratio": 0.172852
+    },
+    {
+      "offset": 2695168,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.814191,
+      "printable_ratio": 0.18335
+    },
+    {
+      "offset": 2699264,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.863475,
+      "printable_ratio": 0.164062
+    },
+    {
+      "offset": 2703360,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.80901,
+      "printable_ratio": 0.173584
+    },
+    {
+      "offset": 2707456,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.794995,
+      "printable_ratio": 0.184326
+    },
+    {
+      "offset": 2711552,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.72778,
+      "printable_ratio": 0.166504
+    },
+    {
+      "offset": 2715648,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.822184,
+      "printable_ratio": 0.177734
+    },
+    {
+      "offset": 2719744,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.75968,
+      "printable_ratio": 0.170654
+    },
+    {
+      "offset": 2723840,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.744311,
+      "printable_ratio": 0.172363
+    },
+    {
+      "offset": 2727936,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.801172,
+      "printable_ratio": 0.174805
+    },
+    {
+      "offset": 2732032,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.796601,
+      "printable_ratio": 0.182617
+    },
+    {
+      "offset": 2736128,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.726754,
+      "printable_ratio": 0.166992
+    },
+    {
+      "offset": 2740224,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.854873,
+      "printable_ratio": 0.169189
+    },
+    {
+      "offset": 2744320,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.612601,
+      "printable_ratio": 0.158203
+    },
+    {
+      "offset": 2748416,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.976582,
+      "printable_ratio": 0.16748
+    },
+    {
+      "offset": 2752512,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.421489,
+      "printable_ratio": 0.157959
+    },
+    {
+      "offset": 2756608,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.507122,
+      "printable_ratio": 0.156738
+    },
+    {
+      "offset": 2760704,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.58462,
+      "printable_ratio": 0.221924
+    },
+    {
+      "offset": 2764800,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.517545,
+      "printable_ratio": 0.163086
+    },
+    {
+      "offset": 2768896,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.190516,
+      "printable_ratio": 0.191406
+    },
+    {
+      "offset": 2772992,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.387259,
+      "printable_ratio": 0.20752
+    },
+    {
+      "offset": 2777088,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.55644,
+      "printable_ratio": 0.158203
+    },
+    {
+      "offset": 2781184,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.524572,
+      "printable_ratio": 0.205322
+    },
+    {
+      "offset": 2785280,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.995875,
+      "printable_ratio": 0.174805
+    },
+    {
+      "offset": 2789376,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.938414,
+      "printable_ratio": 0.178467
+    },
+    {
+      "offset": 2793472,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.266796,
+      "printable_ratio": 0.217773
+    },
+    {
+      "offset": 2797568,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.577171,
+      "printable_ratio": 0.213135
+    },
+    {
+      "offset": 2801664,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.88421,
+      "printable_ratio": 0.181885
+    },
+    {
+      "offset": 2805760,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.321365,
+      "printable_ratio": 0.148682
+    },
+    {
+      "offset": 2809856,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.727075,
+      "printable_ratio": 0.227783
+    },
+    {
+      "offset": 2813952,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.957176,
+      "printable_ratio": 0.182617
+    },
+    {
+      "offset": 2818048,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.561748,
+      "printable_ratio": 0.163086
+    },
+    {
+      "offset": 2822144,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.838706,
+      "printable_ratio": 0.179932
+    },
+    {
+      "offset": 2826240,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.423367,
+      "printable_ratio": 0.202393
+    },
+    {
+      "offset": 2830336,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.373731,
+      "printable_ratio": 0.200684
+    },
+    {
+      "offset": 2834432,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.530595,
+      "printable_ratio": 0.158691
+    },
+    {
+      "offset": 2838528,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.124659,
+      "printable_ratio": 0.187012
+    },
+    {
+      "offset": 2842624,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.737352,
+      "printable_ratio": 0.175293
+    },
+    {
+      "offset": 2846720,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.403254,
+      "printable_ratio": 0.197021
+    },
+    {
+      "offset": 2850816,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.61303,
+      "printable_ratio": 0.156982
+    },
+    {
+      "offset": 2854912,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.886278,
+      "printable_ratio": 0.17041
+    },
+    {
+      "offset": 2859008,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.618831,
+      "printable_ratio": 0.155518
+    },
+    {
+      "offset": 2863104,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.778776,
+      "printable_ratio": 0.165771
+    },
+    {
+      "offset": 2867200,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.20477,
+      "printable_ratio": 0.20752
+    },
+    {
+      "offset": 2871296,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.660137,
+      "printable_ratio": 0.156494
+    },
+    {
+      "offset": 2875392,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.750617,
+      "printable_ratio": 0.167725
+    },
+    {
+      "offset": 2879488,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.060375,
+      "printable_ratio": 0.182861
+    },
+    {
+      "offset": 2883584,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.911243,
+      "printable_ratio": 0.174316
+    },
+    {
+      "offset": 2887680,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.70329,
+      "printable_ratio": 0.166992
+    },
+    {
+      "offset": 2891776,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.488054,
+      "printable_ratio": 0.192627
+    },
+    {
+      "offset": 2895872,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.702151,
+      "printable_ratio": 0.171875
+    },
+    {
+      "offset": 2899968,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.696289,
+      "printable_ratio": 0.158203
+    },
+    {
+      "offset": 2904064,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.499798,
+      "printable_ratio": 0.205322
+    },
+    {
+      "offset": 2908160,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.859811,
+      "printable_ratio": 0.169678
+    },
+    {
+      "offset": 2912256,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.919884,
+      "printable_ratio": 0.171143
+    },
+    {
+      "offset": 2916352,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.622359,
+      "printable_ratio": 0.167969
+    },
+    {
+      "offset": 2920448,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.568923,
+      "printable_ratio": 0.207764
+    },
+    {
+      "offset": 2924544,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.324015,
+      "printable_ratio": 0.206543
+    },
+    {
+      "offset": 2928640,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.552942,
+      "printable_ratio": 0.161377
+    },
+    {
+      "offset": 2932736,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.925344,
+      "printable_ratio": 0.162109
+    },
+    {
+      "offset": 2936832,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.57493,
+      "printable_ratio": 0.227783
+    },
+    {
+      "offset": 2940928,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.236112,
+      "printable_ratio": 0.226318
+    },
+    {
+      "offset": 2945024,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.832951,
+      "printable_ratio": 0.154541
+    },
+    {
+      "offset": 2949120,
+      "size": 4096,
+      "entropy_bits_per_byte": 5.381351,
+      "printable_ratio": 0.231445
+    },
+    {
+      "offset": 2953216,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.616478,
+      "printable_ratio": 0.168457
+    },
+    {
+      "offset": 2957312,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.137919,
+      "printable_ratio": 0.170898
+    },
+    {
+      "offset": 2961408,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.278426,
+      "printable_ratio": 0.155762
+    },
+    {
+      "offset": 2965504,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.710843,
+      "printable_ratio": 0.207764
+    },
+    {
+      "offset": 2969600,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.800786,
+      "printable_ratio": 0.167725
+    },
+    {
+      "offset": 2973696,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.482394,
+      "printable_ratio": 0.158447
+    },
+    {
+      "offset": 2977792,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.639272,
+      "printable_ratio": 0.228027
+    },
+    {
+      "offset": 2981888,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.496459,
+      "printable_ratio": 0.160889
+    },
+    {
+      "offset": 2985984,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.104347,
+      "printable_ratio": 0.1875
+    },
+    {
+      "offset": 2990080,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.384347,
+      "printable_ratio": 0.21167
+    },
+    {
+      "offset": 2994176,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.52255,
+      "printable_ratio": 0.205078
+    },
+    {
+      "offset": 2998272,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.341923,
+      "printable_ratio": 0.151367
+    },
+    {
+      "offset": 3002368,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.86599,
+      "printable_ratio": 0.174805
+    },
+    {
+      "offset": 3006464,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.435578,
+      "printable_ratio": 0.210205
+    },
+    {
+      "offset": 3010560,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.435847,
+      "printable_ratio": 0.148926
+    },
+    {
+      "offset": 3014656,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.873323,
+      "printable_ratio": 0.174072
+    },
+    {
+      "offset": 3018752,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.082598,
+      "printable_ratio": 0.181885
+    },
+    {
+      "offset": 3022848,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.768433,
+      "printable_ratio": 0.155029
+    },
+    {
+      "offset": 3026944,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.077054,
+      "printable_ratio": 0.182861
+    },
+    {
+      "offset": 3031040,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.035817,
+      "printable_ratio": 0.188232
+    },
+    {
+      "offset": 3035136,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.852921,
+      "printable_ratio": 0.167725
+    },
+    {
+      "offset": 3039232,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.789438,
+      "printable_ratio": 0.170654
+    },
+    {
+      "offset": 3043328,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.782345,
+      "printable_ratio": 0.168945
+    },
+    {
+      "offset": 3047424,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.720916,
+      "printable_ratio": 0.171387
+    },
+    {
+      "offset": 3051520,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.988756,
+      "printable_ratio": 0.182373
+    },
+    {
+      "offset": 3055616,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.861181,
+      "printable_ratio": 0.160645
+    },
+    {
+      "offset": 3059712,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.938461,
+      "printable_ratio": 0.165527
+    },
+    {
+      "offset": 3063808,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.745045,
+      "printable_ratio": 0.165527
+    },
+    {
+      "offset": 3067904,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.711801,
+      "printable_ratio": 0.151367
+    },
+    {
+      "offset": 3072000,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.221556,
+      "printable_ratio": 0.133057
+    },
+    {
+      "offset": 3076096,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.089025,
+      "printable_ratio": 0.16748
+    },
+    {
+      "offset": 3080192,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.253958,
+      "printable_ratio": 0.134277
+    },
+    {
+      "offset": 3084288,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.048813,
+      "printable_ratio": 0.18457
+    },
+    {
+      "offset": 3088384,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.850748,
+      "printable_ratio": 0.186523
+    },
+    {
+      "offset": 3092480,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.560705,
+      "printable_ratio": 0.16748
+    },
+    {
+      "offset": 3096576,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.651033,
+      "printable_ratio": 0.159668
+    },
+    {
+      "offset": 3100672,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.993057,
+      "printable_ratio": 0.186035
+    },
+    {
+      "offset": 3104768,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.738434,
+      "printable_ratio": 0.180176
+    },
+    {
+      "offset": 3108864,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.471988,
+      "printable_ratio": 0.150391
+    },
+    {
+      "offset": 3112960,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.043866,
+      "printable_ratio": 0.191406
+    },
+    {
+      "offset": 3117056,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.768488,
+      "printable_ratio": 0.178223
+    },
+    {
+      "offset": 3121152,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.0563,
+      "printable_ratio": 0.175537
+    },
+    {
+      "offset": 3125248,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.7736,
+      "printable_ratio": 0.165283
+    },
+    {
+      "offset": 3129344,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.129507,
+      "printable_ratio": 0.186523
+    },
+    {
+      "offset": 3133440,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.605568,
+      "printable_ratio": 0.175537
+    },
+    {
+      "offset": 3137536,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.545462,
+      "printable_ratio": 0.160156
+    },
+    {
+      "offset": 3141632,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.013428,
+      "printable_ratio": 0.167236
+    },
+    {
+      "offset": 3145728,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.028498,
+      "printable_ratio": 0.184326
+    },
+    {
+      "offset": 3149824,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.074468,
+      "printable_ratio": 0.178955
+    },
+    {
+      "offset": 3153920,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.156517,
+      "printable_ratio": 0.183105
+    },
+    {
+      "offset": 3158016,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.610762,
+      "printable_ratio": 0.169922
+    },
+    {
+      "offset": 3162112,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.278863,
+      "printable_ratio": 0.186523
+    },
+    {
+      "offset": 3166208,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.819129,
+      "printable_ratio": 0.17627
+    },
+    {
+      "offset": 3170304,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.116297,
+      "printable_ratio": 0.193359
+    },
+    {
+      "offset": 3174400,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.983533,
+      "printable_ratio": 0.184814
+    },
+    {
+      "offset": 3178496,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.740172,
+      "printable_ratio": 0.182129
+    },
+    {
+      "offset": 3182592,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.270441,
+      "printable_ratio": 0.139893
+    },
+    {
+      "offset": 3186688,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.54736,
+      "printable_ratio": 0.213867
+    },
+    {
+      "offset": 3190784,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.845954,
+      "printable_ratio": 0.195068
+    },
+    {
+      "offset": 3194880,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.573834,
+      "printable_ratio": 0.219727
+    },
+    {
+      "offset": 3198976,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.268758,
+      "printable_ratio": 0.119141
+    },
+    {
+      "offset": 3203072,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.270902,
+      "printable_ratio": 0.198975
+    },
+    {
+      "offset": 3207168,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.401264,
+      "printable_ratio": 0.216309
+    },
+    {
+      "offset": 3211264,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.529739,
+      "printable_ratio": 0.154541
+    },
+    {
+      "offset": 3215360,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.110968,
+      "printable_ratio": 0.17334
+    },
+    {
+      "offset": 3219456,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.502385,
+      "printable_ratio": 0.151611
+    },
+    {
+      "offset": 3223552,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.308331,
+      "printable_ratio": 0.202881
+    },
+    {
+      "offset": 3227648,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.251361,
+      "printable_ratio": 0.196777
+    },
+    {
+      "offset": 3231744,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.718481,
+      "printable_ratio": 0.160645
+    },
+    {
+      "offset": 3235840,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.500332,
+      "printable_ratio": 0.15625
+    },
+    {
+      "offset": 3239936,
+      "size": 4096,
+      "entropy_bits_per_byte": 1.936676,
+      "printable_ratio": 0.095215
+    },
+    {
+      "offset": 3244032,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.372333,
+      "printable_ratio": 0.125977
+    },
+    {
+      "offset": 3248128,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.992342,
+      "printable_ratio": 0.179932
+    },
+    {
+      "offset": 3252224,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.914906,
+      "printable_ratio": 0.180176
+    },
+    {
+      "offset": 3256320,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.404547,
+      "printable_ratio": 0.141357
+    },
+    {
+      "offset": 3260416,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.353173,
+      "printable_ratio": 0.237793
+    },
+    {
+      "offset": 3264512,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.07848,
+      "printable_ratio": 0.177979
+    },
+    {
+      "offset": 3268608,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.066765,
+      "printable_ratio": 0.189209
+    },
+    {
+      "offset": 3272704,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.99145,
+      "printable_ratio": 0.188232
+    },
+    {
+      "offset": 3276800,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.882175,
+      "printable_ratio": 0.176025
+    },
+    {
+      "offset": 3280896,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.976359,
+      "printable_ratio": 0.186035
+    },
+    {
+      "offset": 3284992,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.990266,
+      "printable_ratio": 0.182129
+    },
+    {
+      "offset": 3289088,
+      "size": 4096,
+      "entropy_bits_per_byte": 5.269906,
+      "printable_ratio": 0.256104
+    },
+    {
+      "offset": 3293184,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.060633,
+      "printable_ratio": 0.177734
+    },
+    {
+      "offset": 3297280,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.518945,
+      "printable_ratio": 0.154541
+    },
+    {
+      "offset": 3301376,
+      "size": 4096,
+      "entropy_bits_per_byte": 1.644661,
+      "printable_ratio": 0.172363
+    },
+    {
+      "offset": 3305472,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.950239,
+      "printable_ratio": 0.17749
+    },
+    {
+      "offset": 3309568,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.475548,
+      "printable_ratio": 0.146484
+    },
+    {
+      "offset": 3313664,
+      "size": 4096,
+      "entropy_bits_per_byte": 1.976885,
+      "printable_ratio": 0.102051
+    },
+    {
+      "offset": 3317760,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.101306,
+      "printable_ratio": 0.169434
+    },
+    {
+      "offset": 3321856,
+      "size": 4096,
+      "entropy_bits_per_byte": 1.884213,
+      "printable_ratio": 0.114502
+    },
+    {
+      "offset": 3325952,
+      "size": 4096,
+      "entropy_bits_per_byte": 1.715801,
+      "printable_ratio": 0.145508
+    },
+    {
+      "offset": 3330048,
+      "size": 4096,
+      "entropy_bits_per_byte": 1.809563,
+      "printable_ratio": 0.179199
+    },
+    {
+      "offset": 3334144,
+      "size": 4096,
+      "entropy_bits_per_byte": 1.668392,
+      "printable_ratio": 0.119385
+    },
+    {
+      "offset": 3338240,
+      "size": 4096,
+      "entropy_bits_per_byte": 1.956189,
+      "printable_ratio": 0.110596
+    },
+    {
+      "offset": 3342336,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.591814,
+      "printable_ratio": 0.161133
+    },
+    {
+      "offset": 3346432,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.537963,
+      "printable_ratio": 0.224121
+    },
+    {
+      "offset": 3350528,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.474507,
+      "printable_ratio": 0.14624
+    },
+    {
+      "offset": 3354624,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.347125,
+      "printable_ratio": 0.203369
+    },
+    {
+      "offset": 3358720,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.202799,
+      "printable_ratio": 0.192871
+    },
+    {
+      "offset": 3362816,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.043629,
+      "printable_ratio": 0.178467
+    },
+    {
+      "offset": 3366912,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.680426,
+      "printable_ratio": 0.162842
+    },
+    {
+      "offset": 3371008,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.98202,
+      "printable_ratio": 0.171387
+    },
+    {
+      "offset": 3375104,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.185024,
+      "printable_ratio": 0.188965
+    },
+    {
+      "offset": 3379200,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.677274,
+      "printable_ratio": 0.164062
+    },
+    {
+      "offset": 3383296,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.558582,
+      "printable_ratio": 0.206543
+    },
+    {
+      "offset": 3387392,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.76724,
+      "printable_ratio": 0.159424
+    },
+    {
+      "offset": 3391488,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.41648,
+      "printable_ratio": 0.217773
+    },
+    {
+      "offset": 3395584,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.427517,
+      "printable_ratio": 0.154297
+    },
+    {
+      "offset": 3399680,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.539673,
+      "printable_ratio": 0.202881
+    },
+    {
+      "offset": 3403776,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.780539,
+      "printable_ratio": 0.166016
+    },
+    {
+      "offset": 3407872,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.153926,
+      "printable_ratio": 0.183594
+    },
+    {
+      "offset": 3411968,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.017654,
+      "printable_ratio": 0.181396
+    },
+    {
+      "offset": 3416064,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.798858,
+      "printable_ratio": 0.158691
+    },
+    {
+      "offset": 3420160,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.264087,
+      "printable_ratio": 0.193848
+    },
+    {
+      "offset": 3424256,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.347493,
+      "printable_ratio": 0.195068
+    },
+    {
+      "offset": 3428352,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.550084,
+      "printable_ratio": 0.164062
+    },
+    {
+      "offset": 3432448,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.576053,
+      "printable_ratio": 0.230469
+    },
+    {
+      "offset": 3436544,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.072144,
+      "printable_ratio": 0.132568
+    },
+    {
+      "offset": 3440640,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.579965,
+      "printable_ratio": 0.215332
+    },
+    {
+      "offset": 3444736,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.827922,
+      "printable_ratio": 0.167969
+    },
+    {
+      "offset": 3448832,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.23708,
+      "printable_ratio": 0.18335
+    },
+    {
+      "offset": 3452928,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.730254,
+      "printable_ratio": 0.182861
+    },
+    {
+      "offset": 3457024,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.976985,
+      "printable_ratio": 0.172363
+    },
+    {
+      "offset": 3461120,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.939902,
+      "printable_ratio": 0.157715
+    },
+    {
+      "offset": 3465216,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.153238,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 3469312,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.982345,
+      "printable_ratio": 0.182129
+    },
+    {
+      "offset": 3473408,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.020333,
+      "printable_ratio": 0.178467
+    },
+    {
+      "offset": 3477504,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.903012,
+      "printable_ratio": 0.175537
+    },
+    {
+      "offset": 3481600,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.908716,
+      "printable_ratio": 0.185547
+    },
+    {
+      "offset": 3485696,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.953019,
+      "printable_ratio": 0.17749
+    },
+    {
+      "offset": 3489792,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.597649,
+      "printable_ratio": 0.150391
+    },
+    {
+      "offset": 3493888,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.978446,
+      "printable_ratio": 0.185791
+    },
+    {
+      "offset": 3497984,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.913287,
+      "printable_ratio": 0.185547
+    },
+    {
+      "offset": 3502080,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.567988,
+      "printable_ratio": 0.146973
+    },
+    {
+      "offset": 3506176,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.070353,
+      "printable_ratio": 0.191895
+    },
+    {
+      "offset": 3510272,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.899391,
+      "printable_ratio": 0.186523
+    },
+    {
+      "offset": 3514368,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.519049,
+      "printable_ratio": 0.141846
+    },
+    {
+      "offset": 3518464,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.071836,
+      "printable_ratio": 0.189697
+    },
+    {
+      "offset": 3522560,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.946963,
+      "printable_ratio": 0.19043
+    },
+    {
+      "offset": 3526656,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.553311,
+      "printable_ratio": 0.144287
+    },
+    {
+      "offset": 3530752,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.035834,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 3534848,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.955951,
+      "printable_ratio": 0.191406
+    },
+    {
+      "offset": 3538944,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.513703,
+      "printable_ratio": 0.139404
+    },
+    {
+      "offset": 3543040,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.92452,
+      "printable_ratio": 0.186279
+    },
+    {
+      "offset": 3547136,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.049947,
+      "printable_ratio": 0.191406
+    },
+    {
+      "offset": 3551232,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.593833,
+      "printable_ratio": 0.146973
+    },
+    {
+      "offset": 3555328,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.963309,
+      "printable_ratio": 0.182617
+    },
+    {
+      "offset": 3559424,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.022697,
+      "printable_ratio": 0.193359
+    },
+    {
+      "offset": 3563520,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.595611,
+      "printable_ratio": 0.155762
+    },
+    {
+      "offset": 3567616,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.859018,
+      "printable_ratio": 0.174316
+    },
+    {
+      "offset": 3571712,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.050898,
+      "printable_ratio": 0.185059
+    },
+    {
+      "offset": 3575808,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.764635,
+      "printable_ratio": 0.179199
+    },
+    {
+      "offset": 3579904,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.720396,
+      "printable_ratio": 0.158203
+    },
+    {
+      "offset": 3584000,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.047365,
+      "printable_ratio": 0.19043
+    },
+    {
+      "offset": 3588096,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.847975,
+      "printable_ratio": 0.174072
+    },
+    {
+      "offset": 3592192,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.584674,
+      "printable_ratio": 0.14624
+    },
+    {
+      "offset": 3596288,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.973256,
+      "printable_ratio": 0.187988
+    },
+    {
+      "offset": 3600384,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.939914,
+      "printable_ratio": 0.189209
+    },
+    {
+      "offset": 3604480,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.65364,
+      "printable_ratio": 0.157959
+    },
+    {
+      "offset": 3608576,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.956357,
+      "printable_ratio": 0.185059
+    },
+    {
+      "offset": 3612672,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.940093,
+      "printable_ratio": 0.188721
+    },
+    {
+      "offset": 3616768,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.518334,
+      "printable_ratio": 0.137695
+    },
+    {
+      "offset": 3620864,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.070144,
+      "printable_ratio": 0.184082
+    },
+    {
+      "offset": 3624960,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.959761,
+      "printable_ratio": 0.195557
+    },
+    {
+      "offset": 3629056,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.498622,
+      "printable_ratio": 0.144775
+    },
+    {
+      "offset": 3633152,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.079298,
+      "printable_ratio": 0.193115
+    },
+    {
+      "offset": 3637248,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.919634,
+      "printable_ratio": 0.17627
+    },
+    {
+      "offset": 3641344,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.574178,
+      "printable_ratio": 0.151367
+    },
+    {
+      "offset": 3645440,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.953337,
+      "printable_ratio": 0.170654
+    },
+    {
+      "offset": 3649536,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.046313,
+      "printable_ratio": 0.203369
+    },
+    {
+      "offset": 3653632,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.52089,
+      "printable_ratio": 0.153809
+    },
+    {
+      "offset": 3657728,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.966766,
+      "printable_ratio": 0.182129
+    },
+    {
+      "offset": 3661824,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.001149,
+      "printable_ratio": 0.192627
+    },
+    {
+      "offset": 3665920,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.539141,
+      "printable_ratio": 0.146484
+    },
+    {
+      "offset": 3670016,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.954108,
+      "printable_ratio": 0.172607
+    },
+    {
+      "offset": 3674112,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.015281,
+      "printable_ratio": 0.193359
+    },
+    {
+      "offset": 3678208,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.734713,
+      "printable_ratio": 0.168457
+    },
+    {
+      "offset": 3682304,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.68225,
+      "printable_ratio": 0.154541
+    },
+    {
+      "offset": 3686400,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.917109,
+      "printable_ratio": 0.186035
+    },
+    {
+      "offset": 3690496,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.928502,
+      "printable_ratio": 0.193115
+    },
+    {
+      "offset": 3694592,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.512228,
+      "printable_ratio": 0.144775
+    },
+    {
+      "offset": 3698688,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.084423,
+      "printable_ratio": 0.194092
+    },
+    {
+      "offset": 3702784,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.938776,
+      "printable_ratio": 0.178467
+    },
+    {
+      "offset": 3706880,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.506799,
+      "printable_ratio": 0.155029
+    },
+    {
+      "offset": 3710976,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.082107,
+      "printable_ratio": 0.191895
+    },
+    {
+      "offset": 3715072,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.938645,
+      "printable_ratio": 0.177246
+    },
+    {
+      "offset": 3719168,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.554223,
+      "printable_ratio": 0.153564
+    },
+    {
+      "offset": 3723264,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.911117,
+      "printable_ratio": 0.186768
+    },
+    {
+      "offset": 3727360,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.103225,
+      "printable_ratio": 0.188477
+    },
+    {
+      "offset": 3731456,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.488887,
+      "printable_ratio": 0.149414
+    },
+    {
+      "offset": 3735552,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.995198,
+      "printable_ratio": 0.186768
+    },
+    {
+      "offset": 3739648,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.004282,
+      "printable_ratio": 0.192139
+    },
+    {
+      "offset": 3743744,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.528255,
+      "printable_ratio": 0.148926
+    },
+    {
+      "offset": 3747840,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.959374,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 3751936,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.038509,
+      "printable_ratio": 0.183838
+    },
+    {
+      "offset": 3756032,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.683997,
+      "printable_ratio": 0.176758
+    },
+    {
+      "offset": 3760128,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.735593,
+      "printable_ratio": 0.152344
+    },
+    {
+      "offset": 3764224,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.053554,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 3768320,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.806092,
+      "printable_ratio": 0.182373
+    },
+    {
+      "offset": 3772416,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.642523,
+      "printable_ratio": 0.14624
+    },
+    {
+      "offset": 3776512,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.033077,
+      "printable_ratio": 0.186523
+    },
+    {
+      "offset": 3780608,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.904873,
+      "printable_ratio": 0.188965
+    },
+    {
+      "offset": 3784704,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.630203,
+      "printable_ratio": 0.143311
+    },
+    {
+      "offset": 3788800,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.97498,
+      "printable_ratio": 0.185791
+    },
+    {
+      "offset": 3792896,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.893034,
+      "printable_ratio": 0.186523
+    },
+    {
+      "offset": 3796992,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.576314,
+      "printable_ratio": 0.140625
+    },
+    {
+      "offset": 3801088,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.023963,
+      "printable_ratio": 0.190186
+    },
+    {
+      "offset": 3805184,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.963101,
+      "printable_ratio": 0.178955
+    },
+    {
+      "offset": 3809280,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.504936,
+      "printable_ratio": 0.15332
+    },
+    {
+      "offset": 3813376,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.019602,
+      "printable_ratio": 0.187988
+    },
+    {
+      "offset": 3817472,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.993309,
+      "printable_ratio": 0.192139
+    },
+    {
+      "offset": 3821568,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.523821,
+      "printable_ratio": 0.141357
+    },
+    {
+      "offset": 3825664,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.963932,
+      "printable_ratio": 0.174805
+    },
+    {
+      "offset": 3829760,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.991575,
+      "printable_ratio": 0.199707
+    },
+    {
+      "offset": 3833856,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.522445,
+      "printable_ratio": 0.152832
+    },
+    {
+      "offset": 3837952,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.96354,
+      "printable_ratio": 0.183105
+    },
+    {
+      "offset": 3842048,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.063225,
+      "printable_ratio": 0.189941
+    },
+    {
+      "offset": 3846144,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.54915,
+      "printable_ratio": 0.150879
+    },
+    {
+      "offset": 3850240,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.003033,
+      "printable_ratio": 0.173828
+    },
+    {
+      "offset": 3854336,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.028448,
+      "printable_ratio": 0.188965
+    },
+    {
+      "offset": 3858432,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.634994,
+      "printable_ratio": 0.168213
+    },
+    {
+      "offset": 3862528,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.742223,
+      "printable_ratio": 0.163818
+    },
+    {
+      "offset": 3866624,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.09537,
+      "printable_ratio": 0.19458
+    },
+    {
+      "offset": 3870720,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.799378,
+      "printable_ratio": 0.182129
+    },
+    {
+      "offset": 3874816,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.57942,
+      "printable_ratio": 0.154541
+    },
+    {
+      "offset": 3878912,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.039091,
+      "printable_ratio": 0.186523
+    },
+    {
+      "offset": 3883008,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.939252,
+      "printable_ratio": 0.189453
+    },
+    {
+      "offset": 3887104,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.591161,
+      "printable_ratio": 0.150146
+    },
+    {
+      "offset": 3891200,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.982768,
+      "printable_ratio": 0.190186
+    },
+    {
+      "offset": 3895296,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.885284,
+      "printable_ratio": 0.188965
+    },
+    {
+      "offset": 3899392,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.589135,
+      "printable_ratio": 0.155762
+    },
+    {
+      "offset": 3903488,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.686754,
+      "printable_ratio": 0.177002
+    },
+    {
+      "offset": 3907584,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.738473,
+      "printable_ratio": 0.15332
+    },
+    {
+      "offset": 3911680,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.881956,
+      "printable_ratio": 0.172363
+    },
+    {
+      "offset": 3915776,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.052776,
+      "printable_ratio": 0.175781
+    },
+    {
+      "offset": 3919872,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.566865,
+      "printable_ratio": 0.142822
+    },
+    {
+      "offset": 3923968,
+      "size": 4096,
+      "entropy_bits_per_byte": 5.725371,
+      "printable_ratio": 0.234619
+    },
+    {
+      "offset": 3928064,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.869531,
+      "printable_ratio": 0.172119
+    },
+    {
+      "offset": 3932160,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.566121,
+      "printable_ratio": 0.156494
+    },
+    {
+      "offset": 3936256,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.100109,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 3940352,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.589354,
+      "printable_ratio": 0.161377
+    },
+    {
+      "offset": 3944448,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.867576,
+      "printable_ratio": 0.163086
+    },
+    {
+      "offset": 3948544,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.062437,
+      "printable_ratio": 0.178955
+    },
+    {
+      "offset": 3952640,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.919229,
+      "printable_ratio": 0.171387
+    },
+    {
+      "offset": 3956736,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.011093,
+      "printable_ratio": 0.182861
+    },
+    {
+      "offset": 3960832,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.709022,
+      "printable_ratio": 0.172363
+    },
+    {
+      "offset": 3964928,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.997142,
+      "printable_ratio": 0.171631
+    },
+    {
+      "offset": 3969024,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.567897,
+      "printable_ratio": 0.150391
+    },
+    {
+      "offset": 3973120,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.956046,
+      "printable_ratio": 0.178467
+    },
+    {
+      "offset": 3977216,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.315986,
+      "printable_ratio": 0.188232
+    },
+    {
+      "offset": 3981312,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.72891,
+      "printable_ratio": 0.15918
+    },
+    {
+      "offset": 3985408,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.780916,
+      "printable_ratio": 0.168945
+    },
+    {
+      "offset": 3989504,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.049155,
+      "printable_ratio": 0.180176
+    },
+    {
+      "offset": 3993600,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.934446,
+      "printable_ratio": 0.175049
+    },
+    {
+      "offset": 3997696,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.044063,
+      "printable_ratio": 0.181152
+    },
+    {
+      "offset": 4001792,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.868368,
+      "printable_ratio": 0.164307
+    },
+    {
+      "offset": 4005888,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.328732,
+      "printable_ratio": 0.212158
+    },
+    {
+      "offset": 4009984,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.415046,
+      "printable_ratio": 0.201172
+    },
+    {
+      "offset": 4014080,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.207935,
+      "printable_ratio": 0.189697
+    },
+    {
+      "offset": 4018176,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.175725,
+      "printable_ratio": 0.187012
+    },
+    {
+      "offset": 4022272,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.483491,
+      "printable_ratio": 0.203125
+    },
+    {
+      "offset": 4026368,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.392957,
+      "printable_ratio": 0.201416
+    },
+    {
+      "offset": 4030464,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.341806,
+      "printable_ratio": 0.144775
+    },
+    {
+      "offset": 4034560,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.633983,
+      "printable_ratio": 0.156982
+    },
+    {
+      "offset": 4038656,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.493516,
+      "printable_ratio": 0.202393
+    },
+    {
+      "offset": 4042752,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.43199,
+      "printable_ratio": 0.159424
+    },
+    {
+      "offset": 4046848,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.25267,
+      "printable_ratio": 0.194824
+    },
+    {
+      "offset": 4050944,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.366013,
+      "printable_ratio": 0.19458
+    },
+    {
+      "offset": 4055040,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.895504,
+      "printable_ratio": 0.165771
+    },
+    {
+      "offset": 4059136,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.644851,
+      "printable_ratio": 0.209717
+    },
+    {
+      "offset": 4063232,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.742333,
+      "printable_ratio": 0.158203
+    },
+    {
+      "offset": 4067328,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.243275,
+      "printable_ratio": 0.20459
+    },
+    {
+      "offset": 4071424,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.422225,
+      "printable_ratio": 0.206543
+    },
+    {
+      "offset": 4075520,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.549785,
+      "printable_ratio": 0.164551
+    },
+    {
+      "offset": 4079616,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.549716,
+      "printable_ratio": 0.216553
+    },
+    {
+      "offset": 4083712,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.767567,
+      "printable_ratio": 0.155762
+    },
+    {
+      "offset": 4087808,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.206146,
+      "printable_ratio": 0.195801
+    },
+    {
+      "offset": 4091904,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.868598,
+      "printable_ratio": 0.178711
+    },
+    {
+      "offset": 4096000,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.982523,
+      "printable_ratio": 0.19043
+    },
+    {
+      "offset": 4100096,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.725735,
+      "printable_ratio": 0.15918
+    },
+    {
+      "offset": 4104192,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.131124,
+      "printable_ratio": 0.19043
+    },
+    {
+      "offset": 4108288,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.472306,
+      "printable_ratio": 0.157227
+    },
+    {
+      "offset": 4112384,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.042556,
+      "printable_ratio": 0.18042
+    },
+    {
+      "offset": 4116480,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.698691,
+      "printable_ratio": 0.157715
+    },
+    {
+      "offset": 4120576,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.086338,
+      "printable_ratio": 0.167969
+    },
+    {
+      "offset": 4124672,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.309863,
+      "printable_ratio": 0.194336
+    },
+    {
+      "offset": 4128768,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.723582,
+      "printable_ratio": 0.18335
+    },
+    {
+      "offset": 4132864,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.872758,
+      "printable_ratio": 0.169434
+    },
+    {
+      "offset": 4136960,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.225815,
+      "printable_ratio": 0.209717
+    },
+    {
+      "offset": 4141056,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.849338,
+      "printable_ratio": 0.16626
+    },
+    {
+      "offset": 4145152,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.225087,
+      "printable_ratio": 0.196533
+    },
+    {
+      "offset": 4149248,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.933014,
+      "printable_ratio": 0.157471
+    },
+    {
+      "offset": 4153344,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.427565,
+      "printable_ratio": 0.141357
+    },
+    {
+      "offset": 4157440,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.167796,
+      "printable_ratio": 0.195312
+    },
+    {
+      "offset": 4161536,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.385148,
+      "printable_ratio": 0.216553
+    },
+    {
+      "offset": 4165632,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.586767,
+      "printable_ratio": 0.159668
+    },
+    {
+      "offset": 4169728,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.588993,
+      "printable_ratio": 0.218262
+    },
+    {
+      "offset": 4173824,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.771951,
+      "printable_ratio": 0.162354
+    },
+    {
+      "offset": 4177920,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.320292,
+      "printable_ratio": 0.193604
+    },
+    {
+      "offset": 4182016,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.388517,
+      "printable_ratio": 0.200439
+    },
+    {
+      "offset": 4186112,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.82529,
+      "printable_ratio": 0.147461
+    },
+    {
+      "offset": 4190208,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.63585,
+      "printable_ratio": 0.227539
+    },
+    {
+      "offset": 4194304,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.460885,
+      "printable_ratio": 0.153564
+    },
+    {
+      "offset": 4198400,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.218945,
+      "printable_ratio": 0.205322
+    },
+    {
+      "offset": 4202496,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.431357,
+      "printable_ratio": 0.200928
+    },
+    {
+      "offset": 4206592,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.8897,
+      "printable_ratio": 0.166504
+    },
+    {
+      "offset": 4210688,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.017041,
+      "printable_ratio": 0.183594
+    },
+    {
+      "offset": 4214784,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.074567,
+      "printable_ratio": 0.180664
+    },
+    {
+      "offset": 4218880,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.718524,
+      "printable_ratio": 0.175293
+    },
+    {
+      "offset": 4222976,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.127568,
+      "printable_ratio": 0.149902
+    },
+    {
+      "offset": 4227072,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.432932,
+      "printable_ratio": 0.1604
+    },
+    {
+      "offset": 4231168,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.031261,
+      "printable_ratio": 0.178711
+    },
+    {
+      "offset": 4235264,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.788403,
+      "printable_ratio": 0.168945
+    },
+    {
+      "offset": 4239360,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.079348,
+      "printable_ratio": 0.162598
+    },
+    {
+      "offset": 4243456,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.193743,
+      "printable_ratio": 0.190674
+    },
+    {
+      "offset": 4247552,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.928285,
+      "printable_ratio": 0.192139
+    },
+    {
+      "offset": 4251648,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.085253,
+      "printable_ratio": 0.179688
+    },
+    {
+      "offset": 4255744,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.025578,
+      "printable_ratio": 0.184326
+    },
+    {
+      "offset": 4259840,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.808922,
+      "printable_ratio": 0.16748
+    },
+    {
+      "offset": 4263936,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.236195,
+      "printable_ratio": 0.192627
+    },
+    {
+      "offset": 4268032,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.907579,
+      "printable_ratio": 0.157959
+    },
+    {
+      "offset": 4272128,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.473839,
+      "printable_ratio": 0.150391
+    },
+    {
+      "offset": 4276224,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.205535,
+      "printable_ratio": 0.187744
+    },
+    {
+      "offset": 4280320,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.379315,
+      "printable_ratio": 0.200684
+    },
+    {
+      "offset": 4284416,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.521795,
+      "printable_ratio": 0.153809
+    },
+    {
+      "offset": 4288512,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.622837,
+      "printable_ratio": 0.228271
+    },
+    {
+      "offset": 4292608,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.76411,
+      "printable_ratio": 0.150879
+    },
+    {
+      "offset": 4296704,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.253605,
+      "printable_ratio": 0.198486
+    },
+    {
+      "offset": 4300800,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.434655,
+      "printable_ratio": 0.199463
+    },
+    {
+      "offset": 4304896,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.859111,
+      "printable_ratio": 0.168457
+    },
+    {
+      "offset": 4308992,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.539966,
+      "printable_ratio": 0.20459
+    },
+    {
+      "offset": 4313088,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.429967,
+      "printable_ratio": 0.155518
+    },
+    {
+      "offset": 4317184,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.252307,
+      "printable_ratio": 0.205811
+    },
+    {
+      "offset": 4321280,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.402087,
+      "printable_ratio": 0.20166
+    },
+    {
+      "offset": 4325376,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.848975,
+      "printable_ratio": 0.156494
+    },
+    {
+      "offset": 4329472,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.843919,
+      "printable_ratio": 0.175049
+    },
+    {
+      "offset": 4333568,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.032401,
+      "printable_ratio": 0.178711
+    },
+    {
+      "offset": 4337664,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.774758,
+      "printable_ratio": 0.171631
+    },
+    {
+      "offset": 4341760,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.828986,
+      "printable_ratio": 0.155518
+    },
+    {
+      "offset": 4345856,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.706205,
+      "printable_ratio": 0.165283
+    },
+    {
+      "offset": 4349952,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.066058,
+      "printable_ratio": 0.178955
+    },
+    {
+      "offset": 4354048,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.73991,
+      "printable_ratio": 0.178467
+    },
+    {
+      "offset": 4358144,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.116304,
+      "printable_ratio": 0.165039
+    },
+    {
+      "offset": 4362240,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.979935,
+      "printable_ratio": 0.179932
+    },
+    {
+      "offset": 4366336,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.098755,
+      "printable_ratio": 0.197266
+    },
+    {
+      "offset": 4370432,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.812441,
+      "printable_ratio": 0.167236
+    },
+    {
+      "offset": 4374528,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.214353,
+      "printable_ratio": 0.197998
+    },
+    {
+      "offset": 4378624,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.827971,
+      "printable_ratio": 0.16333
+    },
+    {
+      "offset": 4382720,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.251091,
+      "printable_ratio": 0.189209
+    },
+    {
+      "offset": 4386816,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.952066,
+      "printable_ratio": 0.155762
+    },
+    {
+      "offset": 4390912,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.853712,
+      "printable_ratio": 0.159668
+    },
+    {
+      "offset": 4395008,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.732851,
+      "printable_ratio": 0.170654
+    },
+    {
+      "offset": 4399104,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.776597,
+      "printable_ratio": 0.179443
+    },
+    {
+      "offset": 4403200,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.052052,
+      "printable_ratio": 0.181885
+    },
+    {
+      "offset": 4407296,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.757099,
+      "printable_ratio": 0.165527
+    },
+    {
+      "offset": 4411392,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.44148,
+      "printable_ratio": 0.134521
+    },
+    {
+      "offset": 4415488,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.49767,
+      "printable_ratio": 0.200684
+    },
+    {
+      "offset": 4419584,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.112308,
+      "printable_ratio": 0.179688
+    },
+    {
+      "offset": 4423680,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.57618,
+      "printable_ratio": 0.150635
+    },
+    {
+      "offset": 4427776,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.161092,
+      "printable_ratio": 0.193848
+    },
+    {
+      "offset": 4431872,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.504278,
+      "printable_ratio": 0.204102
+    },
+    {
+      "offset": 4435968,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.597084,
+      "printable_ratio": 0.151611
+    },
+    {
+      "offset": 4440064,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.560766,
+      "printable_ratio": 0.217285
+    },
+    {
+      "offset": 4444160,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.059119,
+      "printable_ratio": 0.182861
+    },
+    {
+      "offset": 4448256,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.789347,
+      "printable_ratio": 0.166748
+    },
+    {
+      "offset": 4452352,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.505663,
+      "printable_ratio": 0.203613
+    },
+    {
+      "offset": 4456448,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.090725,
+      "printable_ratio": 0.214355
+    },
+    {
+      "offset": 4460544,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.4365,
+      "printable_ratio": 0.215576
+    },
+    {
+      "offset": 4464640,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.172054,
+      "printable_ratio": 0.195801
+    },
+    {
+      "offset": 4468736,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.025813,
+      "printable_ratio": 0.178955
+    },
+    {
+      "offset": 4472832,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.11931,
+      "printable_ratio": 0.192627
+    },
+    {
+      "offset": 4476928,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.822334,
+      "printable_ratio": 0.173584
+    },
+    {
+      "offset": 4481024,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.345782,
+      "printable_ratio": 0.196777
+    },
+    {
+      "offset": 4485120,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.542579,
+      "printable_ratio": 0.210693
+    },
+    {
+      "offset": 4489216,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.656931,
+      "printable_ratio": 0.163574
+    },
+    {
+      "offset": 4493312,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.017818,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 4497408,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.518244,
+      "printable_ratio": 0.157715
+    },
+    {
+      "offset": 4501504,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.854978,
+      "printable_ratio": 0.162354
+    },
+    {
+      "offset": 4505600,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.342166,
+      "printable_ratio": 0.198242
+    },
+    {
+      "offset": 4509696,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.97925,
+      "printable_ratio": 0.179688
+    },
+    {
+      "offset": 4513792,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.754363,
+      "printable_ratio": 0.155762
+    },
+    {
+      "offset": 4517888,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.445548,
+      "printable_ratio": 0.204102
+    },
+    {
+      "offset": 4521984,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.072422,
+      "printable_ratio": 0.195801
+    },
+    {
+      "offset": 4526080,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.837427,
+      "printable_ratio": 0.158203
+    },
+    {
+      "offset": 4530176,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.524044,
+      "printable_ratio": 0.200928
+    },
+    {
+      "offset": 4534272,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.624339,
+      "printable_ratio": 0.161865
+    },
+    {
+      "offset": 4538368,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.010601,
+      "printable_ratio": 0.179932
+    },
+    {
+      "offset": 4542464,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.449134,
+      "printable_ratio": 0.208496
+    },
+    {
+      "offset": 4546560,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.228566,
+      "printable_ratio": 0.190674
+    },
+    {
+      "offset": 4550656,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.653381,
+      "printable_ratio": 0.226318
+    },
+    {
+      "offset": 4554752,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.887064,
+      "printable_ratio": 0.176025
+    },
+    {
+      "offset": 4558848,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.955935,
+      "printable_ratio": 0.181152
+    },
+    {
+      "offset": 4562944,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.205823,
+      "printable_ratio": 0.201172
+    },
+    {
+      "offset": 4567040,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.445775,
+      "printable_ratio": 0.135742
+    },
+    {
+      "offset": 4571136,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.24462,
+      "printable_ratio": 0.195557
+    },
+    {
+      "offset": 4575232,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.414024,
+      "printable_ratio": 0.201416
+    },
+    {
+      "offset": 4579328,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.809888,
+      "printable_ratio": 0.17627
+    },
+    {
+      "offset": 4583424,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.963116,
+      "printable_ratio": 0.182861
+    },
+    {
+      "offset": 4587520,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.525403,
+      "printable_ratio": 0.1521
+    },
+    {
+      "offset": 4591616,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.344366,
+      "printable_ratio": 0.192139
+    },
+    {
+      "offset": 4595712,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.934183,
+      "printable_ratio": 0.17334
+    },
+    {
+      "offset": 4599808,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.004274,
+      "printable_ratio": 0.186768
+    },
+    {
+      "offset": 4603904,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.7793,
+      "printable_ratio": 0.159424
+    },
+    {
+      "offset": 4608000,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.581179,
+      "printable_ratio": 0.218506
+    },
+    {
+      "offset": 4612096,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.652335,
+      "printable_ratio": 0.174561
+    },
+    {
+      "offset": 4616192,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.935729,
+      "printable_ratio": 0.170166
+    },
+    {
+      "offset": 4620288,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.464128,
+      "printable_ratio": 0.203613
+    },
+    {
+      "offset": 4624384,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.180038,
+      "printable_ratio": 0.188965
+    },
+    {
+      "offset": 4628480,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.716425,
+      "printable_ratio": 0.210938
+    },
+    {
+      "offset": 4632576,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.900888,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 4636672,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.98523,
+      "printable_ratio": 0.185303
+    },
+    {
+      "offset": 4640768,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.187005,
+      "printable_ratio": 0.199463
+    },
+    {
+      "offset": 4644864,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.470452,
+      "printable_ratio": 0.141113
+    },
+    {
+      "offset": 4648960,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.24444,
+      "printable_ratio": 0.209961
+    },
+    {
+      "offset": 4653056,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.396368,
+      "printable_ratio": 0.205322
+    },
+    {
+      "offset": 4657152,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.65484,
+      "printable_ratio": 0.155518
+    },
+    {
+      "offset": 4661248,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.635036,
+      "printable_ratio": 0.20874
+    },
+    {
+      "offset": 4665344,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.972157,
+      "printable_ratio": 0.188477
+    },
+    {
+      "offset": 4669440,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.932253,
+      "printable_ratio": 0.179688
+    },
+    {
+      "offset": 4673536,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.479798,
+      "printable_ratio": 0.213867
+    },
+    {
+      "offset": 4677632,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.231406,
+      "printable_ratio": 0.140381
+    },
+    {
+      "offset": 4681728,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.257251,
+      "printable_ratio": 0.188232
+    },
+    {
+      "offset": 4685824,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.625445,
+      "printable_ratio": 0.157471
+    },
+    {
+      "offset": 4689920,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.672568,
+      "printable_ratio": 0.172607
+    },
+    {
+      "offset": 4694016,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.81687,
+      "printable_ratio": 0.1604
+    },
+    {
+      "offset": 4698112,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.583932,
+      "printable_ratio": 0.163574
+    },
+    {
+      "offset": 4702208,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.777244,
+      "printable_ratio": 0.167236
+    },
+    {
+      "offset": 4706304,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.688617,
+      "printable_ratio": 0.157715
+    },
+    {
+      "offset": 4710400,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.590207,
+      "printable_ratio": 0.151855
+    },
+    {
+      "offset": 4714496,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.976525,
+      "printable_ratio": 0.175049
+    },
+    {
+      "offset": 4718592,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.931479,
+      "printable_ratio": 0.177002
+    },
+    {
+      "offset": 4722688,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.853999,
+      "printable_ratio": 0.176514
+    },
+    {
+      "offset": 4726784,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.820014,
+      "printable_ratio": 0.176758
+    },
+    {
+      "offset": 4730880,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.720024,
+      "printable_ratio": 0.161621
+    },
+    {
+      "offset": 4734976,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.046991,
+      "printable_ratio": 0.168213
+    },
+    {
+      "offset": 4739072,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.86639,
+      "printable_ratio": 0.166504
+    },
+    {
+      "offset": 4743168,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.672647,
+      "printable_ratio": 0.163818
+    },
+    {
+      "offset": 4747264,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.086032,
+      "printable_ratio": 0.179199
+    },
+    {
+      "offset": 4751360,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.678281,
+      "printable_ratio": 0.158936
+    },
+    {
+      "offset": 4755456,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.049941,
+      "printable_ratio": 0.186279
+    },
+    {
+      "offset": 4759552,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.685769,
+      "printable_ratio": 0.167236
+    },
+    {
+      "offset": 4763648,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.061649,
+      "printable_ratio": 0.192627
+    },
+    {
+      "offset": 4767744,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.360879,
+      "printable_ratio": 0.144531
+    },
+    {
+      "offset": 4771840,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.094888,
+      "printable_ratio": 0.184326
+    },
+    {
+      "offset": 4775936,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.828061,
+      "printable_ratio": 0.189209
+    },
+    {
+      "offset": 4780032,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.605219,
+      "printable_ratio": 0.168457
+    },
+    {
+      "offset": 4784128,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.838969,
+      "printable_ratio": 0.142578
+    },
+    {
+      "offset": 4788224,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.475382,
+      "printable_ratio": 0.131592
+    },
+    {
+      "offset": 4792320,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.62534,
+      "printable_ratio": 0.146484
+    },
+    {
+      "offset": 4796416,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.11316,
+      "printable_ratio": 0.196045
+    },
+    {
+      "offset": 4800512,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.319628,
+      "printable_ratio": 0.193115
+    },
+    {
+      "offset": 4804608,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.910812,
+      "printable_ratio": 0.176025
+    },
+    {
+      "offset": 4808704,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.5248,
+      "printable_ratio": 0.169189
+    },
+    {
+      "offset": 4812800,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.930367,
+      "printable_ratio": 0.164795
+    },
+    {
+      "offset": 4816896,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.719726,
+      "printable_ratio": 0.165771
+    },
+    {
+      "offset": 4820992,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.658083,
+      "printable_ratio": 0.158203
+    },
+    {
+      "offset": 4825088,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.971093,
+      "printable_ratio": 0.171387
+    },
+    {
+      "offset": 4829184,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.778378,
+      "printable_ratio": 0.169189
+    },
+    {
+      "offset": 4833280,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.601038,
+      "printable_ratio": 0.151611
+    },
+    {
+      "offset": 4837376,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.764581,
+      "printable_ratio": 0.166016
+    },
+    {
+      "offset": 4841472,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.584132,
+      "printable_ratio": 0.156738
+    },
+    {
+      "offset": 4845568,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.960674,
+      "printable_ratio": 0.164062
+    },
+    {
+      "offset": 4849664,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.753076,
+      "printable_ratio": 0.168701
+    },
+    {
+      "offset": 4853760,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.608313,
+      "printable_ratio": 0.161865
+    },
+    {
+      "offset": 4857856,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.985339,
+      "printable_ratio": 0.16626
+    },
+    {
+      "offset": 4861952,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.77925,
+      "printable_ratio": 0.164795
+    },
+    {
+      "offset": 4866048,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.596615,
+      "printable_ratio": 0.149414
+    },
+    {
+      "offset": 4870144,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.747791,
+      "printable_ratio": 0.166016
+    },
+    {
+      "offset": 4874240,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.608072,
+      "printable_ratio": 0.163574
+    },
+    {
+      "offset": 4878336,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.950689,
+      "printable_ratio": 0.162598
+    },
+    {
+      "offset": 4882432,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.754686,
+      "printable_ratio": 0.167969
+    },
+    {
+      "offset": 4886528,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.615121,
+      "printable_ratio": 0.155762
+    },
+    {
+      "offset": 4890624,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.968969,
+      "printable_ratio": 0.17041
+    },
+    {
+      "offset": 4894720,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.784472,
+      "printable_ratio": 0.169189
+    },
+    {
+      "offset": 4898816,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.597434,
+      "printable_ratio": 0.150635
+    },
+    {
+      "offset": 4902912,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.739683,
+      "printable_ratio": 0.165527
+    },
+    {
+      "offset": 4907008,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.614289,
+      "printable_ratio": 0.162598
+    },
+    {
+      "offset": 4911104,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.965205,
+      "printable_ratio": 0.162598
+    },
+    {
+      "offset": 4915200,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.756737,
+      "printable_ratio": 0.168701
+    },
+    {
+      "offset": 4919296,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.637571,
+      "printable_ratio": 0.155273
+    },
+    {
+      "offset": 4923392,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.958894,
+      "printable_ratio": 0.169922
+    },
+    {
+      "offset": 4927488,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.793616,
+      "printable_ratio": 0.170166
+    },
+    {
+      "offset": 4931584,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.602406,
+      "printable_ratio": 0.147705
+    },
+    {
+      "offset": 4935680,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.750739,
+      "printable_ratio": 0.165771
+    },
+    {
+      "offset": 4939776,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.95155,
+      "printable_ratio": 0.182373
+    },
+    {
+      "offset": 4943872,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.608922,
+      "printable_ratio": 0.151611
+    },
+    {
+      "offset": 4947968,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.11851,
+      "printable_ratio": 0.191406
+    },
+    {
+      "offset": 4952064,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.933069,
+      "printable_ratio": 0.19165
+    },
+    {
+      "offset": 4956160,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.267647,
+      "printable_ratio": 0.202393
+    },
+    {
+      "offset": 4960256,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.008038,
+      "printable_ratio": 0.185791
+    },
+    {
+      "offset": 4964352,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.752359,
+      "printable_ratio": 0.155273
+    },
+    {
+      "offset": 4968448,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.952436,
+      "printable_ratio": 0.190918
+    },
+    {
+      "offset": 4972544,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.927498,
+      "printable_ratio": 0.188721
+    },
+    {
+      "offset": 4976640,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.37128,
+      "printable_ratio": 0.218018
+    },
+    {
+      "offset": 4980736,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.932412,
+      "printable_ratio": 0.177246
+    },
+    {
+      "offset": 4984832,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.693427,
+      "printable_ratio": 0.150879
+    },
+    {
+      "offset": 4988928,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.991075,
+      "printable_ratio": 0.183105
+    },
+    {
+      "offset": 4993024,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.953275,
+      "printable_ratio": 0.183594
+    },
+    {
+      "offset": 4997120,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.447698,
+      "printable_ratio": 0.205078
+    },
+    {
+      "offset": 5001216,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.923993,
+      "printable_ratio": 0.174561
+    },
+    {
+      "offset": 5005312,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.637586,
+      "printable_ratio": 0.155518
+    },
+    {
+      "offset": 5009408,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.044001,
+      "printable_ratio": 0.190674
+    },
+    {
+      "offset": 5013504,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.965841,
+      "printable_ratio": 0.188232
+    },
+    {
+      "offset": 5017600,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.714193,
+      "printable_ratio": 0.17041
+    },
+    {
+      "offset": 5021696,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.078024,
+      "printable_ratio": 0.185303
+    },
+    {
+      "offset": 5025792,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.577783,
+      "printable_ratio": 0.145508
+    },
+    {
+      "offset": 5029888,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.137461,
+      "printable_ratio": 0.192383
+    },
+    {
+      "offset": 5033984,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.86498,
+      "printable_ratio": 0.186035
+    },
+    {
+      "offset": 5038080,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.881624,
+      "printable_ratio": 0.168213
+    },
+    {
+      "offset": 5042176,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.710624,
+      "printable_ratio": 0.164062
+    },
+    {
+      "offset": 5046272,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.032195,
+      "printable_ratio": 0.184326
+    },
+    {
+      "offset": 5050368,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.00194,
+      "printable_ratio": 0.188477
+    },
+    {
+      "offset": 5054464,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.651651,
+      "printable_ratio": 0.172119
+    },
+    {
+      "offset": 5058560,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.11766,
+      "printable_ratio": 0.186523
+    },
+    {
+      "offset": 5062656,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.602447,
+      "printable_ratio": 0.150391
+    },
+    {
+      "offset": 5066752,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.116483,
+      "printable_ratio": 0.190186
+    },
+    {
+      "offset": 5070848,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.860725,
+      "printable_ratio": 0.18457
+    },
+    {
+      "offset": 5074944,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.788175,
+      "printable_ratio": 0.166992
+    },
+    {
+      "offset": 5079040,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.86624,
+      "printable_ratio": 0.172363
+    },
+    {
+      "offset": 5083136,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.96342,
+      "printable_ratio": 0.177979
+    },
+    {
+      "offset": 5087232,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.963154,
+      "printable_ratio": 0.187012
+    },
+    {
+      "offset": 5091328,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.727166,
+      "printable_ratio": 0.175537
+    },
+    {
+      "offset": 5095424,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.100259,
+      "printable_ratio": 0.185547
+    },
+    {
+      "offset": 5099520,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.635411,
+      "printable_ratio": 0.154053
+    },
+    {
+      "offset": 5103616,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.10479,
+      "printable_ratio": 0.189941
+    },
+    {
+      "offset": 5107712,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.83648,
+      "printable_ratio": 0.187012
+    },
+    {
+      "offset": 5111808,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.809614,
+      "printable_ratio": 0.177734
+    },
+    {
+      "offset": 5115904,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.88092,
+      "printable_ratio": 0.172852
+    },
+    {
+      "offset": 5120000,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.829587,
+      "printable_ratio": 0.163818
+    },
+    {
+      "offset": 5124096,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.021469,
+      "printable_ratio": 0.192627
+    },
+    {
+      "offset": 5128192,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.701065,
+      "printable_ratio": 0.17749
+    },
+    {
+      "offset": 5132288,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.033064,
+      "printable_ratio": 0.177979
+    },
+    {
+      "offset": 5136384,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.722356,
+      "printable_ratio": 0.155762
+    },
+    {
+      "offset": 5140480,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.019097,
+      "printable_ratio": 0.185791
+    },
+    {
+      "offset": 5144576,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.930771,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 5148672,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.868337,
+      "printable_ratio": 0.168213
+    },
+    {
+      "offset": 5152768,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.846435,
+      "printable_ratio": 0.180664
+    },
+    {
+      "offset": 5156864,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.854268,
+      "printable_ratio": 0.157471
+    },
+    {
+      "offset": 5160960,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.959212,
+      "printable_ratio": 0.19458
+    },
+    {
+      "offset": 5165056,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.71629,
+      "printable_ratio": 0.17334
+    },
+    {
+      "offset": 5169152,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.06836,
+      "printable_ratio": 0.181152
+    },
+    {
+      "offset": 5173248,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.592309,
+      "printable_ratio": 0.146484
+    },
+    {
+      "offset": 5177344,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.163511,
+      "printable_ratio": 0.19873
+    },
+    {
+      "offset": 5181440,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.805757,
+      "printable_ratio": 0.186279
+    },
+    {
+      "offset": 5185536,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.946019,
+      "printable_ratio": 0.172607
+    },
+    {
+      "offset": 5189632,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.695144,
+      "printable_ratio": 0.150879
+    },
+    {
+      "offset": 5193728,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.029392,
+      "printable_ratio": 0.187256
+    },
+    {
+      "offset": 5197824,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.917757,
+      "printable_ratio": 0.194336
+    },
+    {
+      "offset": 5201920,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.881867,
+      "printable_ratio": 0.167969
+    },
+    {
+      "offset": 5206016,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.840949,
+      "printable_ratio": 0.177979
+    },
+    {
+      "offset": 5210112,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.819984,
+      "printable_ratio": 0.167969
+    },
+    {
+      "offset": 5214208,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.969615,
+      "printable_ratio": 0.1875
+    },
+    {
+      "offset": 5218304,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.723798,
+      "printable_ratio": 0.172363
+    },
+    {
+      "offset": 5222400,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.061868,
+      "printable_ratio": 0.187012
+    },
+    {
+      "offset": 5226496,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.983702,
+      "printable_ratio": 0.1875
+    },
+    {
+      "offset": 5230592,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.08601,
+      "printable_ratio": 0.197266
+    },
+    {
+      "offset": 5234688,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.824111,
+      "printable_ratio": 0.184326
+    },
+    {
+      "offset": 5238784,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.936134,
+      "printable_ratio": 0.177979
+    },
+    {
+      "offset": 5242880,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.675039,
+      "printable_ratio": 0.15625
+    },
+    {
+      "offset": 5246976,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.092792,
+      "printable_ratio": 0.193848
+    },
+    {
+      "offset": 5251072,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.853023,
+      "printable_ratio": 0.187988
+    },
+    {
+      "offset": 5255168,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.876261,
+      "printable_ratio": 0.175049
+    },
+    {
+      "offset": 5259264,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.802656,
+      "printable_ratio": 0.170898
+    },
+    {
+      "offset": 5263360,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.938705,
+      "printable_ratio": 0.177734
+    },
+    {
+      "offset": 5267456,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.907815,
+      "printable_ratio": 0.185059
+    },
+    {
+      "offset": 5271552,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.744469,
+      "printable_ratio": 0.175293
+    },
+    {
+      "offset": 5275648,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.08911,
+      "printable_ratio": 0.185303
+    },
+    {
+      "offset": 5279744,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.60212,
+      "printable_ratio": 0.156006
+    },
+    {
+      "offset": 5283840,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.070181,
+      "printable_ratio": 0.195801
+    },
+    {
+      "offset": 5287936,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.822613,
+      "printable_ratio": 0.184326
+    },
+    {
+      "offset": 5292032,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.955444,
+      "printable_ratio": 0.179688
+    },
+    {
+      "offset": 5296128,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.685929,
+      "printable_ratio": 0.15625
+    },
+    {
+      "offset": 5300224,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.110172,
+      "printable_ratio": 0.194092
+    },
+    {
+      "offset": 5304320,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.838127,
+      "printable_ratio": 0.188721
+    },
+    {
+      "offset": 5308416,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.790414,
+      "printable_ratio": 0.170166
+    },
+    {
+      "offset": 5312512,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.804888,
+      "printable_ratio": 0.165527
+    },
+    {
+      "offset": 5316608,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.040781,
+      "printable_ratio": 0.183594
+    },
+    {
+      "offset": 5320704,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.872991,
+      "printable_ratio": 0.189453
+    },
+    {
+      "offset": 5324800,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.821372,
+      "printable_ratio": 0.17334
+    },
+    {
+      "offset": 5328896,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.103536,
+      "printable_ratio": 0.186768
+    },
+    {
+      "offset": 5332992,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.575078,
+      "printable_ratio": 0.149902
+    },
+    {
+      "offset": 5337088,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.139214,
+      "printable_ratio": 0.198486
+    },
+    {
+      "offset": 5341184,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.756596,
+      "printable_ratio": 0.184814
+    },
+    {
+      "offset": 5345280,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.963947,
+      "printable_ratio": 0.173828
+    },
+    {
+      "offset": 5349376,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.638261,
+      "printable_ratio": 0.158447
+    },
+    {
+      "offset": 5353472,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.110171,
+      "printable_ratio": 0.187744
+    },
+    {
+      "offset": 5357568,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.860325,
+      "printable_ratio": 0.192383
+    },
+    {
+      "offset": 5361664,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.917233,
+      "printable_ratio": 0.171631
+    },
+    {
+      "offset": 5365760,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.055271,
+      "printable_ratio": 0.180664
+    },
+    {
+      "offset": 5369856,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.835566,
+      "printable_ratio": 0.174072
+    },
+    {
+      "offset": 5373952,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.97819,
+      "printable_ratio": 0.17749
+    },
+    {
+      "offset": 5378048,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.908689,
+      "printable_ratio": 0.177002
+    },
+    {
+      "offset": 5382144,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.961397,
+      "printable_ratio": 0.178955
+    },
+    {
+      "offset": 5386240,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.993659,
+      "printable_ratio": 0.181152
+    },
+    {
+      "offset": 5390336,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.841597,
+      "printable_ratio": 0.176025
+    },
+    {
+      "offset": 5394432,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.94635,
+      "printable_ratio": 0.176025
+    },
+    {
+      "offset": 5398528,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.930783,
+      "printable_ratio": 0.177734
+    },
+    {
+      "offset": 5402624,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.948786,
+      "printable_ratio": 0.177979
+    },
+    {
+      "offset": 5406720,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.011775,
+      "printable_ratio": 0.182129
+    },
+    {
+      "offset": 5410816,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.829388,
+      "printable_ratio": 0.165283
+    },
+    {
+      "offset": 5414912,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.706354,
+      "printable_ratio": 0.167725
+    },
+    {
+      "offset": 5419008,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.804224,
+      "printable_ratio": 0.17041
+    },
+    {
+      "offset": 5423104,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.072822,
+      "printable_ratio": 0.186279
+    },
+    {
+      "offset": 5427200,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.873228,
+      "printable_ratio": 0.176025
+    },
+    {
+      "offset": 5431296,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.617322,
+      "printable_ratio": 0.14917
+    },
+    {
+      "offset": 5435392,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.900187,
+      "printable_ratio": 0.158691
+    },
+    {
+      "offset": 5439488,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.615973,
+      "printable_ratio": 0.153564
+    },
+    {
+      "offset": 5443584,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.612713,
+      "printable_ratio": 0.132324
+    },
+    {
+      "offset": 5447680,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.748196,
+      "printable_ratio": 0.167236
+    },
+    {
+      "offset": 5451776,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.611553,
+      "printable_ratio": 0.153564
+    },
+    {
+      "offset": 5455872,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.798746,
+      "printable_ratio": 0.150879
+    },
+    {
+      "offset": 5459968,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.78429,
+      "printable_ratio": 0.17041
+    },
+    {
+      "offset": 5464064,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.569672,
+      "printable_ratio": 0.137695
+    },
+    {
+      "offset": 5468160,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.866977,
+      "printable_ratio": 0.160645
+    },
+    {
+      "offset": 5472256,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.057296,
+      "printable_ratio": 0.175781
+    },
+    {
+      "offset": 5476352,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.973226,
+      "printable_ratio": 0.148438
+    },
+    {
+      "offset": 5480448,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.749446,
+      "printable_ratio": 0.173096
+    },
+    {
+      "offset": 5484544,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.586625,
+      "printable_ratio": 0.144043
+    },
+    {
+      "offset": 5488640,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.810163,
+      "printable_ratio": 0.151123
+    },
+    {
+      "offset": 5492736,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.759825,
+      "printable_ratio": 0.16626
+    },
+    {
+      "offset": 5496832,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.584271,
+      "printable_ratio": 0.141113
+    },
+    {
+      "offset": 5500928,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.786881,
+      "printable_ratio": 0.165283
+    },
+    {
+      "offset": 5505024,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.491474,
+      "printable_ratio": 0.145996
+    },
+    {
+      "offset": 5509120,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.780245,
+      "printable_ratio": 0.146484
+    },
+    {
+      "offset": 5513216,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.779255,
+      "printable_ratio": 0.16748
+    },
+    {
+      "offset": 5517312,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.587279,
+      "printable_ratio": 0.14917
+    },
+    {
+      "offset": 5521408,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.819856,
+      "printable_ratio": 0.156494
+    },
+    {
+      "offset": 5525504,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.782082,
+      "printable_ratio": 0.16333
+    },
+    {
+      "offset": 5529600,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.589396,
+      "printable_ratio": 0.132324
+    },
+    {
+      "offset": 5533696,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.765666,
+      "printable_ratio": 0.168213
+    },
+    {
+      "offset": 5537792,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.536957,
+      "printable_ratio": 0.147705
+    },
+    {
+      "offset": 5541888,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.726456,
+      "printable_ratio": 0.143799
+    },
+    {
+      "offset": 5545984,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.815297,
+      "printable_ratio": 0.167969
+    },
+    {
+      "offset": 5550080,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.549874,
+      "printable_ratio": 0.144775
+    },
+    {
+      "offset": 5554176,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.839859,
+      "printable_ratio": 0.157959
+    },
+    {
+      "offset": 5558272,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.803962,
+      "printable_ratio": 0.162842
+    },
+    {
+      "offset": 5562368,
+      "size": 4096,
+      "entropy_bits_per_byte": 6.163982,
+      "printable_ratio": 0.290039
+    },
+    {
+      "offset": 5566464,
+      "size": 4096,
+      "entropy_bits_per_byte": 5.13446,
+      "printable_ratio": 0.204346
+    },
+    {
+      "offset": 5570560,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.075192,
+      "printable_ratio": 0.18457
+    },
+    {
+      "offset": 5574656,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.100876,
+      "printable_ratio": 0.171387
+    },
+    {
+      "offset": 5578752,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.462615,
+      "printable_ratio": 0.143066
+    },
+    {
+      "offset": 5582848,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.865295,
+      "printable_ratio": 0.159668
+    },
+    {
+      "offset": 5586944,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.020222,
+      "printable_ratio": 0.160889
+    },
+    {
+      "offset": 5591040,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.847124,
+      "printable_ratio": 0.162354
+    },
+    {
+      "offset": 5595136,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.927696,
+      "printable_ratio": 0.163818
+    },
+    {
+      "offset": 5599232,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.818864,
+      "printable_ratio": 0.161133
+    },
+    {
+      "offset": 5603328,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.021352,
+      "printable_ratio": 0.181152
+    },
+    {
+      "offset": 5607424,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.777255,
+      "printable_ratio": 0.160645
+    },
+    {
+      "offset": 5611520,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.729452,
+      "printable_ratio": 0.160889
+    },
+    {
+      "offset": 5615616,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.128116,
+      "printable_ratio": 0.191406
+    },
+    {
+      "offset": 5619712,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.010809,
+      "printable_ratio": 0.179932
+    },
+    {
+      "offset": 5623808,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.728683,
+      "printable_ratio": 0.177979
+    },
+    {
+      "offset": 5627904,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.022502,
+      "printable_ratio": 0.166748
+    },
+    {
+      "offset": 5632000,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.050423,
+      "printable_ratio": 0.189209
+    },
+    {
+      "offset": 5636096,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.96018,
+      "printable_ratio": 0.173096
+    },
+    {
+      "offset": 5640192,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.703755,
+      "printable_ratio": 0.173096
+    },
+    {
+      "offset": 5644288,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.952468,
+      "printable_ratio": 0.17749
+    },
+    {
+      "offset": 5648384,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.99475,
+      "printable_ratio": 0.182129
+    },
+    {
+      "offset": 5652480,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.588243,
+      "printable_ratio": 0.144775
+    },
+    {
+      "offset": 5656576,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.197634,
+      "printable_ratio": 0.200928
+    },
+    {
+      "offset": 5660672,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.941696,
+      "printable_ratio": 0.173584
+    },
+    {
+      "offset": 5664768,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.104921,
+      "printable_ratio": 0.196045
+    },
+    {
+      "offset": 5668864,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.111363,
+      "printable_ratio": 0.137451
+    },
+    {
+      "offset": 5672960,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.439456,
+      "printable_ratio": 0.155273
+    },
+    {
+      "offset": 5677056,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.572169,
+      "printable_ratio": 0.154053
+    },
+    {
+      "offset": 5681152,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.083115,
+      "printable_ratio": 0.194824
+    },
+    {
+      "offset": 5685248,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.024124,
+      "printable_ratio": 0.176758
+    },
+    {
+      "offset": 5689344,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.04525,
+      "printable_ratio": 0.196777
+    },
+    {
+      "offset": 5693440,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.52921,
+      "printable_ratio": 0.165527
+    },
+    {
+      "offset": 5697536,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.159502,
+      "printable_ratio": 0.139893
+    },
+    {
+      "offset": 5701632,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.356921,
+      "printable_ratio": 0.140869
+    },
+    {
+      "offset": 5705728,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.188632,
+      "printable_ratio": 0.18457
+    },
+    {
+      "offset": 5709824,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.943808,
+      "printable_ratio": 0.180176
+    },
+    {
+      "offset": 5713920,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.065122,
+      "printable_ratio": 0.182617
+    },
+    {
+      "offset": 5718016,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.553032,
+      "printable_ratio": 0.164551
+    },
+    {
+      "offset": 5722112,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.317528,
+      "printable_ratio": 0.144775
+    },
+    {
+      "offset": 5726208,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.363276,
+      "printable_ratio": 0.155273
+    },
+    {
+      "offset": 5730304,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.313131,
+      "printable_ratio": 0.137695
+    },
+    {
+      "offset": 5734400,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.92727,
+      "printable_ratio": 0.207031
+    },
+    {
+      "offset": 5738496,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.172228,
+      "printable_ratio": 0.170898
+    },
+    {
+      "offset": 5742592,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.901728,
+      "printable_ratio": 0.169922
+    },
+    {
+      "offset": 5746688,
+      "size": 4096,
+      "entropy_bits_per_byte": 5.238466,
+      "printable_ratio": 0.203857
+    },
+    {
+      "offset": 5750784,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.877725,
+      "printable_ratio": 0.173584
+    },
+    {
+      "offset": 5754880,
+      "size": 4096,
+      "entropy_bits_per_byte": 5.650919,
+      "printable_ratio": 0.233154
+    },
+    {
+      "offset": 5758976,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.888342,
+      "printable_ratio": 0.168701
+    },
+    {
+      "offset": 5763072,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.632174,
+      "printable_ratio": 0.149902
+    },
+    {
+      "offset": 5767168,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.710701,
+      "printable_ratio": 0.163574
+    },
+    {
+      "offset": 5771264,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.867101,
+      "printable_ratio": 0.188965
+    },
+    {
+      "offset": 5775360,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.489482,
+      "printable_ratio": 0.165527
+    },
+    {
+      "offset": 5779456,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.557739,
+      "printable_ratio": 0.154053
+    },
+    {
+      "offset": 5783552,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.055309,
+      "printable_ratio": 0.18335
+    },
+    {
+      "offset": 5787648,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.669822,
+      "printable_ratio": 0.173584
+    },
+    {
+      "offset": 5791744,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.490488,
+      "printable_ratio": 0.156982
+    },
+    {
+      "offset": 5795840,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.895637,
+      "printable_ratio": 0.176758
+    },
+    {
+      "offset": 5799936,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.604946,
+      "printable_ratio": 0.148682
+    },
+    {
+      "offset": 5804032,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.921407,
+      "printable_ratio": 0.171875
+    },
+    {
+      "offset": 5808128,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.279867,
+      "printable_ratio": 0.186279
+    },
+    {
+      "offset": 5812224,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.006895,
+      "printable_ratio": 0.185059
+    },
+    {
+      "offset": 5816320,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.204094,
+      "printable_ratio": 0.093506
+    },
+    {
+      "offset": 5820416,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.827329,
+      "printable_ratio": 0.098633
+    },
+    {
+      "offset": 5824512,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.331547,
+      "printable_ratio": 0.085205
+    },
+    {
+      "offset": 5828608,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.047703,
+      "printable_ratio": 0.19043
+    },
+    {
+      "offset": 5832704,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.787688,
+      "printable_ratio": 0.156982
+    },
+    {
+      "offset": 5836800,
+      "size": 4096,
+      "entropy_bits_per_byte": 4.083639,
+      "printable_ratio": 0.191406
+    },
+    {
+      "offset": 5840896,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.340057,
+      "printable_ratio": 0.161133
+    },
+    {
+      "offset": 5844992,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.639546,
+      "printable_ratio": 0.129395
+    },
+    {
+      "offset": 5849088,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.861058,
+      "printable_ratio": 0.179932
+    },
+    {
+      "offset": 5853184,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.981863,
+      "printable_ratio": 0.168701
+    },
+    {
+      "offset": 5857280,
+      "size": 4096,
+      "entropy_bits_per_byte": 3.333605,
+      "printable_ratio": 0.14502
+    },
+    {
+      "offset": 5861376,
+      "size": 4096,
+      "entropy_bits_per_byte": 2.343121,
+      "printable_ratio": 0.084717
+    },
+    {
+      "offset": 5865472,
+      "size": 4096,
+      "entropy_bits_per_byte": 5.070052,
+      "printable_ratio": 0.191895
+    },
+    {
+      "offset": 5869568,
+      "size": 2073,
+      "entropy_bits_per_byte": 2.862675,
+      "printable_ratio": 0.133623
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/IonProgram.h"
 #include "Core/ParameterRegistry.h"
 #include "Core/ProgramJson.h"
 #include "Midi/IonMidiService.h"
@@ -10,6 +11,7 @@
 
 #include <functional>
 #include <memory>
+#include <optional>
 #include <vector>
 
 namespace aim
@@ -24,13 +26,16 @@ public:
     void resized() override;
 
     std::function<void()> onClose;
+    std::function<void (const IonProgram&)> onLoadCandidateProgram;
 
 private:
     void addEventOnMessageThread (MidiCaptureEvent event);
+    void inspectCandidatePatch (const MidiCaptureEvent& event);
     void rebuildLog();
     void clearCapture();
     void copyJsonToClipboard();
     void saveJson();
+    void loadLatestCandidateProgram();
     [[nodiscard]] juce::String makeCaptureJson() const;
     [[nodiscard]] juce::String makeLogLine (const MidiCaptureEvent& event) const;
 
@@ -39,6 +44,8 @@ private:
     IonMidiService& midi;
     const ParameterRegistry& registry;
     std::vector<MidiCaptureEvent> events;
+    std::optional<IonProgram> latestCandidateProgram;
+    juce::String latestCandidateName;
 
     juce::Label title;
     juce::Label summary;
@@ -47,6 +54,7 @@ private:
     juce::TextButton clearButton { "Clear" };
     juce::TextButton copyButton { "Copy JSON" };
     juce::TextButton saveButton { "Save JSON" };
+    juce::TextButton loadPatchButton { "Load Patch" };
     juce::TextButton closeButton { "Close" };
     std::unique_ptr<juce::FileChooser> fileChooser;
 };
