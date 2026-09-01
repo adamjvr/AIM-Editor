@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aim-editor.org/schemas/ion-sysex.schema.json",
+  "title": "AIM Editor Candidate Ion SysEx Specification",
+  "type": "object",
+  "required": ["format", "schema_version", "device", "research_state", "banks", "requests", "transport", "checksum", "fields"],
+  "properties": {
+    "format": { "const": "aim-editor.ion-sysex-spec" },
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "device": { "type": "object" },
+    "research_state": {
+      "type": "object",
+      "required": ["status", "hardware_verified"],
+      "properties": {
+        "status": { "enum": ["candidate", "verified"] },
+        "hardware_verified": { "type": "boolean" },
+        "source": { "type": "object" }
+      },
+      "additionalProperties": true
+    },
+    "banks": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["value", "id", "name", "program_count"],
+        "properties": {
+          "value": { "type": "integer", "minimum": 0, "maximum": 4 },
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "program_count": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "requests": { "type": "object" },
+    "transport": { "type": "object" },
+    "checksum": { "type": "object" },
+    "patch_data": { "type": "object" },
+    "known_source_issues": { "type": "array", "items": { "type": "object" } },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "offset", "width_bytes", "kind", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "offset": { "type": "integer", "minimum": 0, "maximum": 377 },
+          "width_bytes": { "type": "integer", "minimum": 1 },
+          "kind": { "enum": ["u8", "s8", "s16be", "u32be", "ascii", "bytes", "bitfield", "opaque"] },
+          "status": { "enum": ["candidate", "verified"] },
+          "mask": { "type": "integer", "minimum": 0, "maximum": 255 },
+          "shift": { "type": "integer", "minimum": 0, "maximum": 7 },
+          "raw_min": { "type": "number" },
+          "raw_max": { "type": "number" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

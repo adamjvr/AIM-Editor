@@ -15,6 +15,7 @@ DEFAULT_INPUT = ROOT / "data" / "parameters.json"
 def flatten_parameter(parameter: dict) -> dict:
     protocol = parameter.get("protocol", {})
     sysex = protocol.get("sysex", {}) or {}
+    nrpn_evidence = protocol.get("nrpn_evidence", {}) or {}
     domain = parameter.get("domain", {})
     display = parameter.get("display", {})
     ui = parameter.get("ui", {})
@@ -30,6 +31,10 @@ def flatten_parameter(parameter: dict) -> dict:
         "display_transform": display.get("transform"),
         "mapping_status": protocol.get("status"),
         "nrpn": protocol.get("nrpn"),
+        "nrpn_min": nrpn_evidence.get("min"),
+        "nrpn_max": nrpn_evidence.get("max"),
+        "nrpn_value_encoding": nrpn_evidence.get("value_encoding"),
+        "nrpn_source_id": nrpn_evidence.get("source_id"),
         "sysex_offset": sysex.get("offset"),
         "sysex_bits": sysex.get("bits"),
         "sysex_encoding": sysex.get("encoding"),

@@ -1,0 +1,51 @@
+{
+  "format": "aim-editor.legacy-reference-specimen",
+  "schema_version": 1,
+  "reference_only": true,
+  "binary_distributed_with_project": false,
+  "archive": {
+    "name": "ion-editor_DEMO.zip",
+    "sha256": "997646cc729839e0b8d0cc7e09e7e8a990b508d63a8455c41bda215263bdbba0"
+  },
+  "executable": {
+    "name": "ion-editor demo.exe",
+    "sha256": "d0250b6bfa9d98cae8e479e12e18da5d4a95df6d3e0c8cf1d8548d25ce9a1154",
+    "size": 7612980,
+    "format": "PE32 x86 Windows GUI",
+    "packer": "UPX"
+  },
+  "pe_overlay": {
+    "absolute_file_offset": 1741312,
+    "absolute_file_offset_hex": "0x001a9200",
+    "size": 5871668
+  },
+  "ossm_footer": {
+    "status": "verified_against_reference_binary",
+    "magic": "OSSM",
+    "entry_count": 1,
+    "directory_size": 27,
+    "entry": {
+      "name": "mod.sme",
+      "name_length": 7,
+      "absolute_file_offset": 1741312,
+      "absolute_file_offset_hex": "0x001a9200",
+      "size": 5871641,
+      "size_hex": "0x00599819",
+      "end_file_offset_hex": "0x00742a19"
+    },
+    "layout": [
+      "uint32_le absolute_file_offset",
+      "uint32_le payload_size",
+      "byte[name_length] name",
+      "uint32_le name_length",
+      "uint32_le entry_count",
+      "ascii OSSM"
+    ]
+  },
+  "notes": [
+    "The mod.sme payload occupies the PE overlay up to the 27-byte OSSM directory/footer.",
+    "The footer proves that 0x001a9200 is not merely an accidental PE overlay boundary; the container itself records that exact payload file offset.",
+    "The first roughly 0x201000 bytes of mod.sme are high entropy, after which the byte distribution becomes strongly structured. The exact codec/serialization boundary is still under investigation.",
+    "No application protocol constants should be promoted to verified status until independently supported by documentation, captures, or reproducible reference behavior."
+  ]
+}

@@ -1,0 +1,412 @@
+{
+  "format": "aim-editor.enum-table",
+  "schema_version": 1,
+  "id": "modulation-destinations",
+  "research_status": "candidate",
+  "source": {
+    "kind": "community_reverse_engineering",
+    "status": "candidate",
+    "title": "ION/MICRON PATCH DUMP SYSEX FORMAT",
+    "author": "Bernard Escaillas (BEE)",
+    "year": 2008,
+    "url": "https://medias.audiofanzine.com/files/midi-sysex-472872.pdf",
+    "note": "Candidate until independently verified against Alesis Ion hardware/captures. The source contains at least one apparent oscillator-offset typo, so ambiguous fields are not silently guessed."
+  },
+  "values": [
+    {
+      "value": 0,
+      "id": "voice_pitch",
+      "name": "Voice Pitch"
+    },
+    {
+      "value": 1,
+      "id": "osc1_pitch_full",
+      "name": "Osc1 Pitch Full"
+    },
+    {
+      "value": 2,
+      "id": "osc2_pitch_full",
+      "name": "Osc2 Pitch Full"
+    },
+    {
+      "value": 3,
+      "id": "osc3_pitch_full",
+      "name": "Osc3 Pitch Full"
+    },
+    {
+      "value": 4,
+      "id": "osc1_pitch_narrow",
+      "name": "Osc1 Pitch Narrow"
+    },
+    {
+      "value": 5,
+      "id": "osc2_pitch_narrow",
+      "name": "Osc2 Pitch Narrow"
+    },
+    {
+      "value": 6,
+      "id": "osc3_pitch_narrow",
+      "name": "Osc3 Pitch Narrow"
+    },
+    {
+      "value": 7,
+      "id": "osc1_shape",
+      "name": "Osc1 Shape"
+    },
+    {
+      "value": 8,
+      "id": "osc2_shape",
+      "name": "Osc2 Shape"
+    },
+    {
+      "value": 9,
+      "id": "osc3_shape",
+      "name": "Osc3 Shape"
+    },
+    {
+      "value": 10,
+      "id": "fm_level",
+      "name": "Fm Level"
+    },
+    {
+      "value": 11,
+      "id": "osc1_level",
+      "name": "Osc1 Level"
+    },
+    {
+      "value": 12,
+      "id": "osc2_level",
+      "name": "Osc2 Level"
+    },
+    {
+      "value": 13,
+      "id": "osc3_level",
+      "name": "Osc3 Level"
+    },
+    {
+      "value": 14,
+      "id": "ring_mod_level",
+      "name": "Ring Mod Level"
+    },
+    {
+      "value": 15,
+      "id": "noise_level",
+      "name": "Noise Level"
+    },
+    {
+      "value": 16,
+      "id": "external_input_level",
+      "name": "External Input Level"
+    },
+    {
+      "value": 17,
+      "id": "osc1_balance",
+      "name": "Osc1 Balance"
+    },
+    {
+      "value": 18,
+      "id": "osc2_balance",
+      "name": "Osc2 Balance"
+    },
+    {
+      "value": 19,
+      "id": "osc3_balance",
+      "name": "Osc3 Balance"
+    },
+    {
+      "value": 20,
+      "id": "ring_mod_balance",
+      "name": "Ring Mod Balance"
+    },
+    {
+      "value": 21,
+      "id": "noise_balance",
+      "name": "Noise Balance"
+    },
+    {
+      "value": 22,
+      "id": "external_input_balance",
+      "name": "External Input Balance"
+    },
+    {
+      "value": 23,
+      "id": "filter1_to_filter2_level",
+      "name": "Filter1 To Filter2 Level"
+    },
+    {
+      "value": 24,
+      "id": "portamento_time",
+      "name": "Portamento Time"
+    },
+    {
+      "value": 25,
+      "id": "unison_detune",
+      "name": "Unison Detune"
+    },
+    {
+      "value": 26,
+      "id": "filter1_frequency",
+      "name": "Filter1 Frequency"
+    },
+    {
+      "value": 27,
+      "id": "filter1_resonance",
+      "name": "Filter1 Resonance"
+    },
+    {
+      "value": 28,
+      "id": "filter1_env_mod",
+      "name": "Filter1 Env Mod"
+    },
+    {
+      "value": 29,
+      "id": "filter1_keytrack",
+      "name": "Filter1 Keytrack"
+    },
+    {
+      "value": 30,
+      "id": "filter2_frequency",
+      "name": "Filter2 Frequency"
+    },
+    {
+      "value": 31,
+      "id": "filter2_resonance",
+      "name": "Filter2 Resonance"
+    },
+    {
+      "value": 32,
+      "id": "filter2_env_mod",
+      "name": "Filter2 Env Mod"
+    },
+    {
+      "value": 33,
+      "id": "filter2_keytrack",
+      "name": "Filter2 Keytrack"
+    },
+    {
+      "value": 34,
+      "id": "lfo1_rate",
+      "name": "Lfo1 Rate"
+    },
+    {
+      "value": 35,
+      "id": "lfo1_amplitude",
+      "name": "Lfo1 Amplitude"
+    },
+    {
+      "value": 36,
+      "id": "lfo2_rate",
+      "name": "Lfo2 Rate"
+    },
+    {
+      "value": 37,
+      "id": "lfo2_amplitude",
+      "name": "Lfo2 Amplitude"
+    },
+    {
+      "value": 38,
+      "id": "sample_hold_rate",
+      "name": "Sample Hold Rate"
+    },
+    {
+      "value": 39,
+      "id": "sample_hold_smoothing",
+      "name": "Sample Hold Smoothing"
+    },
+    {
+      "value": 40,
+      "id": "sample_hold_amplitude",
+      "name": "Sample Hold Amplitude"
+    },
+    {
+      "value": 41,
+      "id": "filter1_level",
+      "name": "Filter1 Level"
+    },
+    {
+      "value": 42,
+      "id": "filter2_level",
+      "name": "Filter2 Level"
+    },
+    {
+      "value": 43,
+      "id": "pre_filter_level",
+      "name": "Pre Filter Level"
+    },
+    {
+      "value": 44,
+      "id": "filter1_pan",
+      "name": "Filter1 Pan"
+    },
+    {
+      "value": 45,
+      "id": "filter2_pan",
+      "name": "Filter2 Pan"
+    },
+    {
+      "value": 46,
+      "id": "pre_filter_pan",
+      "name": "Pre Filter Pan"
+    },
+    {
+      "value": 47,
+      "id": "drive_level",
+      "name": "Drive Level"
+    },
+    {
+      "value": 48,
+      "id": "program_level",
+      "name": "Program Level"
+    },
+    {
+      "value": 49,
+      "id": "main_aux_balance",
+      "name": "Main Aux Balance"
+    },
+    {
+      "value": 50,
+      "id": "pan",
+      "name": "Pan"
+    },
+    {
+      "value": 51,
+      "id": "env1_amplitude",
+      "name": "Env1 Amplitude"
+    },
+    {
+      "value": 52,
+      "id": "env1_rate",
+      "name": "Env1 Rate"
+    },
+    {
+      "value": 53,
+      "id": "env1_attack",
+      "name": "Env1 Attack"
+    },
+    {
+      "value": 54,
+      "id": "env1_decay",
+      "name": "Env1 Decay"
+    },
+    {
+      "value": 55,
+      "id": "env1_sustain_time",
+      "name": "Env1 Sustain Time"
+    },
+    {
+      "value": 56,
+      "id": "env1_sustain_level",
+      "name": "Env1 Sustain Level"
+    },
+    {
+      "value": 57,
+      "id": "env1_release",
+      "name": "Env1 Release"
+    },
+    {
+      "value": 58,
+      "id": "env2_amplitude",
+      "name": "Env2 Amplitude"
+    },
+    {
+      "value": 59,
+      "id": "env2_rate",
+      "name": "Env2 Rate"
+    },
+    {
+      "value": 60,
+      "id": "env2_attack",
+      "name": "Env2 Attack"
+    },
+    {
+      "value": 61,
+      "id": "env2_decay",
+      "name": "Env2 Decay"
+    },
+    {
+      "value": 62,
+      "id": "env2_sustain_time",
+      "name": "Env2 Sustain Time"
+    },
+    {
+      "value": 63,
+      "id": "env2_sustain_level",
+      "name": "Env2 Sustain Level"
+    },
+    {
+      "value": 64,
+      "id": "env2_release",
+      "name": "Env2 Release"
+    },
+    {
+      "value": 65,
+      "id": "env3_amplitude",
+      "name": "Env3 Amplitude"
+    },
+    {
+      "value": 66,
+      "id": "env3_rate",
+      "name": "Env3 Rate"
+    },
+    {
+      "value": 67,
+      "id": "env3_attack",
+      "name": "Env3 Attack"
+    },
+    {
+      "value": 68,
+      "id": "env3_decay",
+      "name": "Env3 Decay"
+    },
+    {
+      "value": 69,
+      "id": "env3_sustain_time",
+      "name": "Env3 Sustain Time"
+    },
+    {
+      "value": 70,
+      "id": "env3_sustain_level",
+      "name": "Env3 Sustain Level"
+    },
+    {
+      "value": 71,
+      "id": "env3_release",
+      "name": "Env3 Release"
+    },
+    {
+      "value": 72,
+      "id": "dummy",
+      "name": "Dummy"
+    },
+    {
+      "value": 73,
+      "id": "fx_mix",
+      "name": "Fx Mix"
+    },
+    {
+      "value": 74,
+      "id": "fx_param_a",
+      "name": "Fx Param A"
+    },
+    {
+      "value": 75,
+      "id": "fx_param_b",
+      "name": "Fx Param B"
+    },
+    {
+      "value": 76,
+      "id": "fx_param_c",
+      "name": "Fx Param C"
+    },
+    {
+      "value": 77,
+      "id": "fx_param_d",
+      "name": "Fx Param D"
+    },
+    {
+      "value": 78,
+      "id": "voice_pitch_narrow",
+      "name": "Voice Pitch Narrow"
+    }
+  ]
+}

@@ -38,8 +38,13 @@ This is the initial implementation scaffold. It currently contains:
 - an initial screenshot-derived inventory of 178 visible/semantic parameters;
 - JSON program import/export infrastructure;
 - a MIDI service boundary for device enumeration/input/output;
-- protocol placeholders that deliberately avoid inventing unverified Ion addresses;
-- JSON Schemas and core round-trip tests.
+- a live MIDI/SysEx capture inspector with JSON export;
+- a candidate Ion/Micron 7-of-8 patch codec, checksum verifier, and single-patch request path;
+- machine-readable candidate SysEx and NRPN specifications with explicit evidence status;
+- 151 of the 178 initial UI parameters linked to candidate raw patch fields;
+- 160 of the 178 initial UI parameters linked to candidate NRPN addresses;
+- candidate Alesis signed-14-bit NRPN conversion kept separate from generic MIDI NRPN framing;
+- JSON Schemas and protocol/core round-trip tests.
 
 ## Build
 
@@ -87,7 +92,9 @@ cmake -S . -B build -DAIM_EDITOR_JUCE_PATH=/path/to/JUCE
 
 ## Data
 
-`data/parameters.json` is the first canonical parameter inventory. Protocol addresses are intentionally `null` until verified.
+`data/parameters.json` is the canonical semantic parameter inventory. Unknown mappings remain `null`; research-backed but unverified mappings are stored as `candidate` with explicit evidence metadata rather than being mistaken for verified facts.
+
+Transport-specific source material lives separately in `data/protocol/ion-sysex.json` and `data/protocol/ion-nrpn.json`. This is important because the same semantic parameter may use different raw domains over SysEx and NRPN.
 
 Program exports use a nested JSON representation such as:
 
@@ -122,6 +129,20 @@ Export it to a spreadsheet-friendly CSV without changing JSON as the source of t
 
 ```bash
 ./tools/export_parameter_database.py --format csv --output exports/parameter-database.csv
+```
+
+Research the candidate Ion SysEx format without building JUCE:
+
+```bash
+./tools/protocol/ion_sysex.py self-test
+./tools/protocol/ion_sysex.py request --bank yellow --slot 42
+./tools/protocol/ion_sysex.py decode patch.syx --output patch.json
+
+./tools/protocol/ion_nrpn.py self-test
+./tools/protocol/ion_nrpn.py show filter1.frequency
+./tools/protocol/ion_nrpn.py encode filter1.env_amount -100 --channel 1
+
+./tools/validate_protocol_data.py
 ```
 
 ## Reverse engineering

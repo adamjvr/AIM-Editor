@@ -25,6 +25,25 @@ std::array<juce::MidiMessage, 4> IonProtocol::makeNrpnSequence (int midiChannel,
     };
 }
 
+int IonProtocol::encodeIonSigned14 (int signedValue) noexcept
+{
+    signedValue = std::clamp (signedValue, -8192, 8191);
+    return signedValue < 0 ? 16384 + signedValue : signedValue;
+}
+
+int IonProtocol::decodeIonSigned14 (int encodedValue) noexcept
+{
+    encodedValue = std::clamp (encodedValue, 0, 16383);
+    return encodedValue >= 8192 ? encodedValue - 16384 : encodedValue;
+}
+
+std::array<juce::MidiMessage, 4> IonProtocol::makeIonNrpnSequence (int midiChannel,
+                                                                   int nrpnNumber,
+                                                                   int signedValue)
+{
+    return makeNrpnSequence (midiChannel, nrpnNumber, encodeIonSigned14 (signedValue));
+}
+
 juce::MidiMessage IonProtocol::makeSysExFromPayload (const std::vector<std::uint8_t>& payload)
 {
     if (payload.empty())

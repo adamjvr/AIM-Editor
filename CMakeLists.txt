@@ -17,8 +17,16 @@ juce_add_binary_data(AIMEditorData
     NAMESPACE AIMBinaryData
     SOURCES
         data/parameters.json
+        data/protocol/ion-sysex.json
+        data/protocol/ion-nrpn.json
+        data/enums/modulation-sources.json
+        data/enums/modulation-destinations.json
+        data/enums/filter-types.json
         schemas/parameter-database.schema.json
         schemas/program.schema.json
+        schemas/midi-capture.schema.json
+        schemas/ion-sysex.schema.json
+        schemas/ion-nrpn.schema.json
 )
 
 add_library(AIMEditorCore STATIC
@@ -42,10 +50,16 @@ target_link_libraries(AIMEditorCore
 target_compile_definitions(AIMEditorCore PUBLIC JUCE_USE_CURL=0 JUCE_WEB_BROWSER=0)
 
 add_library(AIMEditorMidi STATIC
+    Source/Midi/MidiCaptureEvent.cpp
+    Source/Midi/MidiCaptureEvent.h
     Source/Midi/IonMidiService.cpp
     Source/Midi/IonMidiService.h
     Source/Midi/IonProtocol.cpp
     Source/Midi/IonProtocol.h
+    Source/Midi/IonSysExCodec.cpp
+    Source/Midi/IonSysExCodec.h
+    Source/Midi/IonProgramDecoder.cpp
+    Source/Midi/IonProgramDecoder.h
 )
 
 target_include_directories(AIMEditorMidi PUBLIC Source)
@@ -72,6 +86,8 @@ target_sources(AIMEditor PRIVATE
     Source/UI/IonLookAndFeel.h
     Source/UI/GlobalControlBar.cpp
     Source/UI/GlobalControlBar.h
+    Source/UI/SysExInspector.cpp
+    Source/UI/SysExInspector.h
     Source/UI/Components/SectionPanel.cpp
     Source/UI/Components/SectionPanel.h
     Source/UI/Panels/EditorPage.cpp
@@ -119,6 +135,6 @@ if(AIM_EDITOR_BUILD_TESTS)
     juce_add_console_app(AIMEditorTests PRODUCT_NAME "AIM Editor Tests")
     target_sources(AIMEditorTests PRIVATE Tests/CoreTests.cpp)
     target_include_directories(AIMEditorTests PRIVATE Source)
-    target_link_libraries(AIMEditorTests PRIVATE AIMEditorCore AIMEditorData juce::juce_core juce::juce_data_structures)
+    target_link_libraries(AIMEditorTests PRIVATE AIMEditorCore AIMEditorMidi AIMEditorData juce::juce_core juce::juce_data_structures)
     add_test(NAME AIMEditorCoreTests COMMAND AIMEditorTests)
 endif()

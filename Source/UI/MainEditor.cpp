@@ -3,7 +3,8 @@
 namespace aim
 {
 MainEditor::MainEditor (const ParameterRegistry& registry, IonMidiService& midiService)
-    : controlBar (midiService)
+    : controlBar (midiService),
+      sysExInspector (midiService, registry)
 {
     pages[0] = std::make_unique<EditorPage> ("front", "Front", registry);
     pages[1] = std::make_unique<EditorPage> ("dual1", "Dual 1", registry);
@@ -17,7 +18,11 @@ MainEditor::MainEditor (const ParameterRegistry& registry, IonMidiService& midiS
     addAndMakeVisible (viewport);
 
     controlBar.onPageChanged = [this] (int pageIndex) { showPage (pageIndex); };
+    controlBar.onSysExToolsRequested = [this] { showSysExInspector(); };
     addAndMakeVisible (controlBar);
+
+    sysExInspector.onClose = [this] { hideSysExInspector(); };
+    addChildComponent (sysExInspector);
 }
 
 void MainEditor::paint (juce::Graphics& g)
@@ -29,10 +34,13 @@ void MainEditor::resized()
 {
     auto area = getLocalBounds();
 
-    const auto controlHeight = getWidth() < 1000 ? 116 : (getHeight() < 620 ? 74 : 82);
+    const auto controlHeight = getWidth() < 1000 ? 116 : 96;
     controlBar.setBounds (area.removeFromBottom (controlHeight));
     viewport.setBounds (area);
     updateViewedPageSize();
+
+    const auto margin = juce::jlimit (10, 32, juce::jmin (getWidth(), getHeight()) / 24);
+    sysExInspector.setBounds (getLocalBounds().reduced (margin));
 }
 
 void MainEditor::showPage (int pageIndex)
@@ -55,5 +63,16 @@ void MainEditor::updateViewedPageSize()
     const auto width = juce::jmax (480, viewport.getWidth() - viewport.getScrollBarThickness());
     const auto height = juce::jmax (viewport.getHeight(), page->preferredHeightForWidth (width));
     page->setSize (width, height);
+}
+
+void MainEditor::showSysExInspector()
+{
+    sysExInspector.setVisible (true);
+    sysExInspector.toFront (true);
+}
+
+void MainEditor::hideSysExInspector()
+{
+    sysExInspector.setVisible (false);
 }
 }

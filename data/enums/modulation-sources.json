@@ -1,0 +1,592 @@
+{
+  "format": "aim-editor.enum-table",
+  "schema_version": 1,
+  "id": "modulation-sources",
+  "research_status": "candidate",
+  "source": {
+    "kind": "community_reverse_engineering",
+    "status": "candidate",
+    "title": "ION/MICRON PATCH DUMP SYSEX FORMAT",
+    "author": "Bernard Escaillas (BEE)",
+    "year": 2008,
+    "url": "https://medias.audiofanzine.com/files/midi-sysex-472872.pdf",
+    "note": "Candidate until independently verified against Alesis Ion hardware/captures. The source contains at least one apparent oscillator-offset typo, so ambiguous fields are not silently guessed."
+  },
+  "values": [
+    {
+      "value": 0,
+      "id": "note_on_velocity",
+      "name": "Note On Velocity"
+    },
+    {
+      "value": 1,
+      "id": "release_velocity",
+      "name": "Release Velocity"
+    },
+    {
+      "value": 2,
+      "id": "key_track",
+      "name": "Key Track"
+    },
+    {
+      "value": 3,
+      "id": "m1_wheel",
+      "name": "M1 Wheel"
+    },
+    {
+      "value": 4,
+      "id": "m2_wheel",
+      "name": "M2 Wheel"
+    },
+    {
+      "value": 5,
+      "id": "pitch_wheel",
+      "name": "Pitch Wheel"
+    },
+    {
+      "value": 6,
+      "id": "sustain_pedal",
+      "name": "Sustain Pedal"
+    },
+    {
+      "value": 7,
+      "id": "expression_pedal",
+      "name": "Expression Pedal"
+    },
+    {
+      "value": 8,
+      "id": "env1_level",
+      "name": "Env1 Level"
+    },
+    {
+      "value": 9,
+      "id": "env2_level",
+      "name": "Env2 Level"
+    },
+    {
+      "value": 10,
+      "id": "env3_level",
+      "name": "Env3 Level"
+    },
+    {
+      "value": 11,
+      "id": "lfo1_sine",
+      "name": "Lfo1 Sine"
+    },
+    {
+      "value": 12,
+      "id": "lfo1_cosine",
+      "name": "Lfo1 Cosine"
+    },
+    {
+      "value": 13,
+      "id": "lfo1_triangle",
+      "name": "Lfo1 Triangle"
+    },
+    {
+      "value": 14,
+      "id": "lfo1_cos_triangle",
+      "name": "Lfo1 Cos Triangle"
+    },
+    {
+      "value": 15,
+      "id": "lfo1_saw",
+      "name": "Lfo1 Saw"
+    },
+    {
+      "value": 16,
+      "id": "lfo1_cos_saw",
+      "name": "Lfo1 Cos Saw"
+    },
+    {
+      "value": 17,
+      "id": "lfo1_square",
+      "name": "Lfo1 Square"
+    },
+    {
+      "value": 18,
+      "id": "lfo1_cos_square",
+      "name": "Lfo1 Cos Square"
+    },
+    {
+      "value": 19,
+      "id": "lfo2_sine",
+      "name": "Lfo2 Sine"
+    },
+    {
+      "value": 20,
+      "id": "lfo2_cosine",
+      "name": "Lfo2 Cosine"
+    },
+    {
+      "value": 21,
+      "id": "lfo2_triangle",
+      "name": "Lfo2 Triangle"
+    },
+    {
+      "value": 22,
+      "id": "lfo2_cos_triangle",
+      "name": "Lfo2 Cos Triangle"
+    },
+    {
+      "value": 23,
+      "id": "lfo2_saw",
+      "name": "Lfo2 Saw"
+    },
+    {
+      "value": 24,
+      "id": "lfo2_cos_saw",
+      "name": "Lfo2 Cos Saw"
+    },
+    {
+      "value": 25,
+      "id": "lfo2_square",
+      "name": "Lfo2 Square"
+    },
+    {
+      "value": 26,
+      "id": "lfo2_cos_square",
+      "name": "Lfo2 Cos Square"
+    },
+    {
+      "value": 27,
+      "id": "sample_hold_output",
+      "name": "Sample Hold Output"
+    },
+    {
+      "value": 28,
+      "id": "voice_random",
+      "name": "Voice Random"
+    },
+    {
+      "value": 29,
+      "id": "global_random",
+      "name": "Global Random"
+    },
+    {
+      "value": 30,
+      "id": "portamento_level",
+      "name": "Portamento Level"
+    },
+    {
+      "value": 31,
+      "id": "portamento_effect",
+      "name": "Portamento Effect"
+    },
+    {
+      "value": 32,
+      "id": "tracking_generator",
+      "name": "Tracking Generator"
+    },
+    {
+      "value": 33,
+      "id": "step_track",
+      "name": "Step Track"
+    },
+    {
+      "value": 34,
+      "id": "midi_channel_pressure",
+      "name": "Midi Channel Pressure"
+    },
+    {
+      "value": 35,
+      "id": "midi_poly_aftertouch",
+      "name": "Midi Poly Aftertouch"
+    },
+    {
+      "value": 36,
+      "id": "cc1",
+      "name": "Cc1"
+    },
+    {
+      "value": 37,
+      "id": "cc2",
+      "name": "Cc2"
+    },
+    {
+      "value": 38,
+      "id": "cc3",
+      "name": "Cc3"
+    },
+    {
+      "value": 39,
+      "id": "cc4",
+      "name": "Cc4"
+    },
+    {
+      "value": 40,
+      "id": "cc5",
+      "name": "Cc5"
+    },
+    {
+      "value": 41,
+      "id": "cc6",
+      "name": "Cc6"
+    },
+    {
+      "value": 42,
+      "id": "cc7",
+      "name": "Cc7"
+    },
+    {
+      "value": 43,
+      "id": "cc8",
+      "name": "Cc8"
+    },
+    {
+      "value": 44,
+      "id": "cc9",
+      "name": "Cc9"
+    },
+    {
+      "value": 45,
+      "id": "cc10",
+      "name": "Cc10"
+    },
+    {
+      "value": 46,
+      "id": "cc11",
+      "name": "Cc11"
+    },
+    {
+      "value": 47,
+      "id": "cc12",
+      "name": "Cc12"
+    },
+    {
+      "value": 48,
+      "id": "cc13",
+      "name": "Cc13"
+    },
+    {
+      "value": 49,
+      "id": "cc14",
+      "name": "Cc14"
+    },
+    {
+      "value": 50,
+      "id": "cc15",
+      "name": "Cc15"
+    },
+    {
+      "value": 51,
+      "id": "cc16",
+      "name": "Cc16"
+    },
+    {
+      "value": 52,
+      "id": "cc17",
+      "name": "Cc17"
+    },
+    {
+      "value": 53,
+      "id": "cc18",
+      "name": "Cc18"
+    },
+    {
+      "value": 54,
+      "id": "cc19",
+      "name": "Cc19"
+    },
+    {
+      "value": 55,
+      "id": "cc20",
+      "name": "Cc20"
+    },
+    {
+      "value": 56,
+      "id": "cc21",
+      "name": "Cc21"
+    },
+    {
+      "value": 57,
+      "id": "cc22",
+      "name": "Cc22"
+    },
+    {
+      "value": 58,
+      "id": "cc23",
+      "name": "Cc23"
+    },
+    {
+      "value": 59,
+      "id": "cc24",
+      "name": "Cc24"
+    },
+    {
+      "value": 60,
+      "id": "cc25",
+      "name": "Cc25"
+    },
+    {
+      "value": 61,
+      "id": "cc26",
+      "name": "Cc26"
+    },
+    {
+      "value": 62,
+      "id": "cc27",
+      "name": "Cc27"
+    },
+    {
+      "value": 63,
+      "id": "cc28",
+      "name": "Cc28"
+    },
+    {
+      "value": 64,
+      "id": "cc29",
+      "name": "Cc29"
+    },
+    {
+      "value": 65,
+      "id": "cc30",
+      "name": "Cc30"
+    },
+    {
+      "value": 66,
+      "id": "cc31",
+      "name": "Cc31"
+    },
+    {
+      "value": 67,
+      "id": "cc66",
+      "name": "Cc66"
+    },
+    {
+      "value": 68,
+      "id": "cc67",
+      "name": "Cc67"
+    },
+    {
+      "value": 69,
+      "id": "cc68",
+      "name": "Cc68"
+    },
+    {
+      "value": 70,
+      "id": "cc69",
+      "name": "Cc69"
+    },
+    {
+      "value": 71,
+      "id": "cc70",
+      "name": "Cc70"
+    },
+    {
+      "value": 72,
+      "id": "cc71",
+      "name": "Cc71"
+    },
+    {
+      "value": 73,
+      "id": "cc72",
+      "name": "Cc72"
+    },
+    {
+      "value": 74,
+      "id": "cc73",
+      "name": "Cc73"
+    },
+    {
+      "value": 75,
+      "id": "cc74",
+      "name": "Cc74"
+    },
+    {
+      "value": 76,
+      "id": "cc75",
+      "name": "Cc75"
+    },
+    {
+      "value": 77,
+      "id": "cc76",
+      "name": "Cc76"
+    },
+    {
+      "value": 78,
+      "id": "cc77",
+      "name": "Cc77"
+    },
+    {
+      "value": 79,
+      "id": "cc78",
+      "name": "Cc78"
+    },
+    {
+      "value": 80,
+      "id": "cc79",
+      "name": "Cc79"
+    },
+    {
+      "value": 81,
+      "id": "cc80",
+      "name": "Cc80"
+    },
+    {
+      "value": 82,
+      "id": "cc81",
+      "name": "Cc81"
+    },
+    {
+      "value": 83,
+      "id": "cc82",
+      "name": "Cc82"
+    },
+    {
+      "value": 84,
+      "id": "cc83",
+      "name": "Cc83"
+    },
+    {
+      "value": 85,
+      "id": "cc84",
+      "name": "Cc84"
+    },
+    {
+      "value": 86,
+      "id": "cc85",
+      "name": "Cc85"
+    },
+    {
+      "value": 87,
+      "id": "cc86",
+      "name": "Cc86"
+    },
+    {
+      "value": 88,
+      "id": "cc87",
+      "name": "Cc87"
+    },
+    {
+      "value": 89,
+      "id": "cc88",
+      "name": "Cc88"
+    },
+    {
+      "value": 90,
+      "id": "cc89",
+      "name": "Cc89"
+    },
+    {
+      "value": 91,
+      "id": "cc90",
+      "name": "Cc90"
+    },
+    {
+      "value": 92,
+      "id": "cc91",
+      "name": "Cc91"
+    },
+    {
+      "value": 93,
+      "id": "cc92",
+      "name": "Cc92"
+    },
+    {
+      "value": 94,
+      "id": "cc93",
+      "name": "Cc93"
+    },
+    {
+      "value": 95,
+      "id": "cc94",
+      "name": "Cc94"
+    },
+    {
+      "value": 96,
+      "id": "cc95",
+      "name": "Cc95"
+    },
+    {
+      "value": 97,
+      "id": "cc102",
+      "name": "Cc102"
+    },
+    {
+      "value": 98,
+      "id": "cc103",
+      "name": "Cc103"
+    },
+    {
+      "value": 99,
+      "id": "cc104",
+      "name": "Cc104"
+    },
+    {
+      "value": 100,
+      "id": "cc105",
+      "name": "Cc105"
+    },
+    {
+      "value": 101,
+      "id": "cc106",
+      "name": "Cc106"
+    },
+    {
+      "value": 102,
+      "id": "cc107",
+      "name": "Cc107"
+    },
+    {
+      "value": 103,
+      "id": "cc108",
+      "name": "Cc108"
+    },
+    {
+      "value": 104,
+      "id": "cc109",
+      "name": "Cc109"
+    },
+    {
+      "value": 105,
+      "id": "cc110",
+      "name": "Cc110"
+    },
+    {
+      "value": 106,
+      "id": "cc111",
+      "name": "Cc111"
+    },
+    {
+      "value": 107,
+      "id": "cc112",
+      "name": "Cc112"
+    },
+    {
+      "value": 108,
+      "id": "cc113",
+      "name": "Cc113"
+    },
+    {
+      "value": 109,
+      "id": "cc114",
+      "name": "Cc114"
+    },
+    {
+      "value": 110,
+      "id": "cc115",
+      "name": "Cc115"
+    },
+    {
+      "value": 111,
+      "id": "cc116",
+      "name": "Cc116"
+    },
+    {
+      "value": 112,
+      "id": "cc117",
+      "name": "Cc117"
+    },
+    {
+      "value": 113,
+      "id": "cc118",
+      "name": "Cc118"
+    },
+    {
+      "value": 114,
+      "id": "cc119",
+      "name": "Cc119"
+    }
+  ]
+}

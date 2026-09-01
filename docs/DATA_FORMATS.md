@@ -6,7 +6,7 @@ AIM Editor treats JSON as a public interface, not an implementation detail.
 
 `data/parameters.json` describes the semantic Ion parameter surface. Every entry has a stable ID, human name, section, value-domain state, display metadata, protocol mapping state, and UI placement hints.
 
-Protocol values begin as `null`. A reverse-engineering discovery should not become a concrete number until evidence exists.
+Protocol values begin as `null`. Once evidence exists they may become `candidate`; only repeatable independent/hardware confirmation promotes them to `verified`. SysEx and NRPN evidence are kept transport-specific because their raw value domains can differ.
 
 Mapping confidence progresses through:
 
@@ -24,21 +24,31 @@ Example:
   "type": "continuous",
   "domain": {
     "kind": "continuous",
-    "raw_min": null,
-    "raw_max": null,
+    "raw_min": 0,
+    "raw_max": 1023,
     "default_raw": null
   },
   "display": {
     "unit": "Hz",
-    "transform": "unknown"
+    "transform": "x==1023 ? 20000Hz : exp(x/147.933647)*20Hz"
   },
   "protocol": {
-    "status": "unmapped",
-    "nrpn": null,
+    "status": "candidate",
+    "nrpn": 44,
+    "nrpn_evidence": {
+      "source": "data/protocol/ion-nrpn.json",
+      "status": "candidate",
+      "hardware_verified": false,
+      "min": 0,
+      "max": 1023,
+      "value_encoding": "unsigned_14",
+      "source_id": "filter1.frequency"
+    },
     "sysex": {
-      "offset": null,
-      "bits": null,
-      "encoding": null
+      "offset": 126,
+      "bits": 16,
+      "encoding": "s16be",
+      "field_id": "filter1.frequency"
     }
   },
   "ui": {
@@ -104,5 +114,6 @@ Planned formats use the same design principles:
 - `aim-editor.setup`
 - `aim-editor.protocol-evidence`
 - raw/captured SysEx fixture manifests
+- transport-verification fixture sets
 
 Native JSON documents will coexist with hardware-compatible `.syx` import/export.

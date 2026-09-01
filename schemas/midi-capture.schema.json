@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aim-editor.org/schema/midi-capture.schema.json",
+  "title": "AIM Editor MIDI Capture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "schema_version",
+    "exported_at_utc_ms",
+    "events"
+  ],
+  "properties": {
+    "format": {
+      "const": "aim-editor.midi-capture"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "exported_at_utc_ms": {
+      "type": "integer"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      }
+    }
+  },
+  "$defs": {
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direction",
+        "utc_ms",
+        "device_identifier",
+        "kind",
+        "size",
+        "hex",
+        "bytes"
+      ],
+      "properties": {
+        "direction": {
+          "enum": [
+            "input",
+            "output"
+          ]
+        },
+        "utc_ms": {
+          "type": "integer"
+        },
+        "device_identifier": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hex": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        },
+        "sysex_payload_size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sysex_payload_hex": {
+          "type": "string"
+        },
+        "ion_candidate_patch": {
+          "type": "object",
+          "description": "Optional candidate interpretation of a structurally valid Ion single-patch dump. Raw capture bytes remain authoritative.",
+          "additionalProperties": true
+        },
+        "ion_candidate_program": {
+          "type": "object",
+          "description": "Optional human-readable AIM program decoded through candidate Ion field mappings. Raw MIDI/SysEx bytes remain authoritative."
+        }
+      }
+    }
+  }
+}

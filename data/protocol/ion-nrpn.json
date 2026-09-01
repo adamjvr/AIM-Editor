@@ -1,0 +1,2477 @@
+{
+  "$schema": "../../schemas/ion-nrpn.schema.json",
+  "format": "aim-editor.ion-nrpn-spec",
+  "schema_version": 1,
+  "device": {
+    "manufacturer": "Alesis",
+    "models": [
+      "Ion",
+      "Micron",
+      "Akai Miniak"
+    ]
+  },
+  "research_state": {
+    "status": "candidate",
+    "hardware_verified": false,
+    "source": {
+      "kind": "community_reverse_engineering",
+      "title": "Common FAQ \u2013 MIDI implementation / NRPNs",
+      "url": "https://ion-micron-miniak.fandom.com/wiki/Common_FAQ",
+      "note": "The source explicitly calls this table preliminary and says it contains mistakes. AIM Editor therefore keeps every imported mapping candidate until verified independently or against hardware."
+    }
+  },
+  "transport": {
+    "address": {
+      "cc_msb": 99,
+      "cc_lsb": 98,
+      "formula": "nrpn = (cc99_value << 7) | cc98_value"
+    },
+    "value": {
+      "cc_msb": 6,
+      "cc_lsb": 38,
+      "formula": "value14 = (cc6_value << 7) | cc38_value"
+    },
+    "alesis_quirks": [
+      "For values that fit in 7 bits, community evidence says Alesis expects the Data Entry LSB (CC38), not only the MSB (CC6) used by many generic NRPN controllers.",
+      "Signed parameter values wrap in the 14-bit space: encoded = value for non-negative values, or 16384 + value for negative values.",
+      "Some addresses above the root range may be controller-assignment aliases; prefer root addresses where known.",
+      "Do not enable automatic live writes solely from this candidate table without hardware/capture verification."
+    ],
+    "signed_14": {
+      "minimum": -8192,
+      "maximum": 8191,
+      "modulus": 16384,
+      "encode_negative": "16384 + signed_value"
+    }
+  },
+  "known_conflicts": [
+    {
+      "id": "output.fx_mix",
+      "nrpn_domain": [
+        -50,
+        50
+      ],
+      "sysex_candidate_domain": [
+        0,
+        100
+      ],
+      "status": "unresolved"
+    },
+    {
+      "id": "lfo1.reset_mode",
+      "nrpn_domain": [
+        0,
+        6
+      ],
+      "sysex_candidate_domain": [
+        0,
+        4
+      ],
+      "status": "unresolved"
+    },
+    {
+      "id": "lfo2.reset_mode",
+      "nrpn_domain": [
+        0,
+        6
+      ],
+      "sysex_candidate_domain": [
+        0,
+        4
+      ],
+      "status": "unresolved"
+    },
+    {
+      "id": "sample_hold.input",
+      "nrpn_domain": [
+        0,
+        1
+      ],
+      "reason": "Community NRPN table range is inconsistent with the known large modulation-source set.",
+      "status": "likely_source_error"
+    },
+    {
+      "id": "tracking_generator.input",
+      "nrpn_domain": [
+        0,
+        111
+      ],
+      "reason": "Candidate SysEx source uses a different raw domain; translation is not yet established.",
+      "status": "unresolved"
+    },
+    {
+      "id": "program.category",
+      "nrpn_domain": [
+        0,
+        8
+      ],
+      "reason": "Candidate SysEx source reports a larger category domain.",
+      "status": "unresolved"
+    },
+    {
+      "id": "mod_matrix.slot01.source",
+      "nrpn_domain": [
+        0,
+        77
+      ],
+      "reason": "Slots 2..12 use 0..114 in the same source table.",
+      "status": "likely_source_error"
+    }
+  ],
+  "parameters": [
+    {
+      "number": 0,
+      "id": "voice.poly_mode",
+      "name": "Polyphony / mono-poly mode",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 1,
+      "id": "voice.unison_voices",
+      "name": "Unison voices",
+      "min": 0,
+      "max": 3,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 2,
+      "id": "voice.unison_detune",
+      "name": "Unison detune",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 3,
+      "id": "voice.portamento_enable",
+      "name": "Portamento enabled",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 4,
+      "id": "voice.portamento_type",
+      "name": "Portamento type",
+      "min": 0,
+      "max": 3,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 5,
+      "id": "voice.portamento_time",
+      "name": "Portamento time",
+      "min": 0,
+      "max": 127,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 6,
+      "id": "voice.pitch_wheel_mode",
+      "name": "Pitchwheel type",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 7,
+      "id": "voice.analog_drift",
+      "name": "Analog drift",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 8,
+      "id": "osc.sync_type",
+      "name": "Oscillator sync type",
+      "min": 0,
+      "max": 4,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 9,
+      "id": "osc.fm_amount",
+      "name": "FM amount",
+      "min": 0,
+      "max": 1000,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 10,
+      "id": "osc.fm_type",
+      "name": "FM type",
+      "min": 0,
+      "max": 5,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 11,
+      "id": "osc1.waveform",
+      "name": "Oscillator 1 waveform",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 12,
+      "id": "osc1.shape",
+      "name": "Oscillator 1 wave shape",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 13,
+      "id": "osc1.octave",
+      "name": "Oscillator 1 octave",
+      "min": -3,
+      "max": 3,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 14,
+      "id": "osc1.semitone",
+      "name": "Oscillator 1 transpose",
+      "min": -7,
+      "max": 7,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 15,
+      "id": "osc1.fine",
+      "name": "Oscillator 1 pitch",
+      "min": -999,
+      "max": 999,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 16,
+      "id": "osc1.wheel",
+      "name": "Oscillator 1 pitchwheel range",
+      "min": 0,
+      "max": 12,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 17,
+      "id": "osc2.waveform",
+      "name": "Oscillator 2 waveform",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 18,
+      "id": "osc2.shape",
+      "name": "Oscillator 2 wave shape",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 19,
+      "id": "osc2.octave",
+      "name": "Oscillator 2 octave",
+      "min": -3,
+      "max": 3,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 20,
+      "id": "osc2.semitone",
+      "name": "Oscillator 2 transpose",
+      "min": -7,
+      "max": 7,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 21,
+      "id": "osc2.fine",
+      "name": "Oscillator 2 pitch",
+      "min": -999,
+      "max": 999,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 22,
+      "id": "osc2.wheel",
+      "name": "Oscillator 2 pitchwheel range",
+      "min": 0,
+      "max": 12,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 23,
+      "id": "osc3.waveform",
+      "name": "Oscillator 3 waveform",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 24,
+      "id": "osc3.shape",
+      "name": "Oscillator 3 wave shape",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 25,
+      "id": "osc3.octave",
+      "name": "Oscillator 3 octave",
+      "min": -3,
+      "max": 3,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 26,
+      "id": "osc3.semitone",
+      "name": "Oscillator 3 transpose",
+      "min": -7,
+      "max": 7,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 27,
+      "id": "osc3.fine",
+      "name": "Oscillator 3 pitch",
+      "min": -999,
+      "max": 999,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 28,
+      "id": "osc3.wheel",
+      "name": "Oscillator 3 pitchwheel range",
+      "min": 0,
+      "max": 12,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 29,
+      "id": "pre_filter_mix.osc1.level",
+      "name": "Oscillator 1 level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 30,
+      "id": "pre_filter_mix.osc2.level",
+      "name": "Oscillator 2 level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 31,
+      "id": "pre_filter_mix.osc3.level",
+      "name": "Oscillator 3 level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 32,
+      "id": "pre_filter_mix.ring.level",
+      "name": "Ring modulation level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 33,
+      "id": "pre_filter_mix.noise.level",
+      "name": "Noise level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 34,
+      "id": "pre_filter_mix.external.level",
+      "name": "External input level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 35,
+      "id": "pre_filter_mix.osc1.balance",
+      "name": "Oscillator 1 balance",
+      "min": -50,
+      "max": 50,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 36,
+      "id": "pre_filter_mix.osc2.balance",
+      "name": "Oscillator 2 balance",
+      "min": -50,
+      "max": 50,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 37,
+      "id": "pre_filter_mix.osc3.balance",
+      "name": "Oscillator 3 balance",
+      "min": -50,
+      "max": 50,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 38,
+      "id": "pre_filter_mix.ring.balance",
+      "name": "Ring modulation balance",
+      "min": -50,
+      "max": 50,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 39,
+      "id": "pre_filter_mix.noise.balance",
+      "name": "Noise balance",
+      "min": -50,
+      "max": 50,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 40,
+      "id": "pre_filter_mix.external.balance",
+      "name": "External input balance",
+      "min": -50,
+      "max": 50,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 41,
+      "id": "filters.f1_to_f2",
+      "name": "Filter 1 to Filter 2 series level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Source labels this \"series level???\"; semantic mapping is candidate."
+    },
+    {
+      "number": 42,
+      "id": "noise.color",
+      "name": "Noise type",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 43,
+      "id": "filter1.type",
+      "name": "Filter 1 type",
+      "min": 0,
+      "max": 20,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 44,
+      "id": "filter1.frequency",
+      "name": "Filter 1 frequency",
+      "min": 0,
+      "max": 1023,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 45,
+      "id": "filter1.resonance",
+      "name": "Filter 1 resonance",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 46,
+      "id": "filter1.keytrack",
+      "name": "Filter 1 key track",
+      "min": -100,
+      "max": 200,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 47,
+      "id": "filter1.env_amount",
+      "name": "Filter 1 envelope amount",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 48,
+      "id": "filter2.relative_mode",
+      "name": "Filter 2 relative to Filter 1",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 49,
+      "id": "filter2.type",
+      "name": "Filter 2 type",
+      "min": 0,
+      "max": 20,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 50,
+      "id": "filter2.frequency",
+      "name": "Filter 2 absolute frequency",
+      "min": 0,
+      "max": 1023,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 51,
+      "id": "filter2.resonance",
+      "name": "Filter 2 resonance",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 52,
+      "id": "filter2.keytrack",
+      "name": "Filter 2 key track",
+      "min": -100,
+      "max": 200,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 53,
+      "id": "filter2.env_amount",
+      "name": "Filter 2 envelope amount",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 54,
+      "id": "post_filter_mix.filter1.level",
+      "name": "Filter 1 level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 55,
+      "id": "post_filter_mix.filter2.level",
+      "name": "Filter 2 level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 56,
+      "id": "post_filter_mix.pre_filter.level",
+      "name": "Pre-filter level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 57,
+      "id": "post_filter_mix.filter1.pan",
+      "name": "Filter 1 pan",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 58,
+      "id": "post_filter_mix.filter2.pan",
+      "name": "Filter 2 pan",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 59,
+      "id": "post_filter_mix.pre_filter.pan",
+      "name": "Pre-filter pan",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 60,
+      "id": "output.prefilter_signal",
+      "name": "Pre-filter source",
+      "min": 0,
+      "max": 6,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 61,
+      "id": "output.filter1_polarity",
+      "name": "Filter 1 invert phase",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 62,
+      "id": "output.type",
+      "name": "Drive type",
+      "min": 0,
+      "max": 6,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 63,
+      "id": "output.drive",
+      "name": "Drive level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 64,
+      "id": "output.program_level",
+      "name": "Program level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 65,
+      "id": "output.fx_mix",
+      "name": "FX mix",
+      "min": -50,
+      "max": 50,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Candidate NRPN domain conflicts with candidate SysEx field domain 0..100; do not assume identical raw representation."
+    },
+    {
+      "number": 66,
+      "id": "env.amp.attack",
+      "name": "Amp envelope attack time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 67,
+      "id": "env.amp.attack_slope",
+      "name": "Amp envelope attack slope",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 68,
+      "id": "env.amp.decay",
+      "name": "Amp envelope decay time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 69,
+      "id": "env.amp.decay_slope",
+      "name": "Amp envelope decay slope",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 70,
+      "id": "env.amp.time",
+      "name": "Amp envelope sustain time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 71,
+      "id": "env.amp.sustain",
+      "name": "Amp envelope sustain level",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 72,
+      "id": "env.amp.release",
+      "name": "Amp envelope release time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 73,
+      "id": "env.amp.release_slope",
+      "name": "Amp envelope release slope",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 74,
+      "id": "env.amp.velocity",
+      "name": "Amp envelope velocity amount",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 75,
+      "id": "env.amp.reset",
+      "name": "Amp envelope reset every note",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 76,
+      "id": "env.amp.freerun",
+      "name": "Amp envelope free run",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 77,
+      "id": "env.amp.loop_mode",
+      "name": "Amp envelope loop mode",
+      "min": 0,
+      "max": 3,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 78,
+      "id": "env.amp.pedal",
+      "name": "Amp envelope sustain pedal",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 79,
+      "id": "env.filter.attack",
+      "name": "Filter envelope attack time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 80,
+      "id": "env.filter.attack_slope",
+      "name": "Filter envelope attack slope",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 81,
+      "id": "env.filter.decay",
+      "name": "Filter envelope decay time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 82,
+      "id": "env.filter.decay_slope",
+      "name": "Filter envelope decay slope",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 83,
+      "id": "env.filter.time",
+      "name": "Filter envelope sustain time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 84,
+      "id": "env.filter.sustain",
+      "name": "Filter envelope sustain level",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 85,
+      "id": "env.filter.release",
+      "name": "Filter envelope release time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 86,
+      "id": "env.filter.release_slope",
+      "name": "Filter envelope release slope",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 87,
+      "id": "env.filter.velocity",
+      "name": "Filter envelope velocity amount",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 88,
+      "id": "env.filter.reset",
+      "name": "Filter envelope reset every note",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 89,
+      "id": "env.filter.freerun",
+      "name": "Filter envelope free run",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 90,
+      "id": "env.filter.loop_mode",
+      "name": "Filter envelope loop mode",
+      "min": 0,
+      "max": 3,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 91,
+      "id": "env.filter.pedal",
+      "name": "Filter envelope sustain pedal",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 92,
+      "id": "env.pitch.attack",
+      "name": "Pitch envelope attack time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 93,
+      "id": "env.pitch.attack_slope",
+      "name": "Pitch envelope attack slope",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 94,
+      "id": "env.pitch.decay",
+      "name": "Pitch envelope decay time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 95,
+      "id": "env.pitch.decay_slope",
+      "name": "Pitch envelope decay slope",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 96,
+      "id": "env.pitch.time",
+      "name": "Pitch envelope sustain time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 97,
+      "id": "env.pitch.sustain",
+      "name": "Pitch envelope sustain level",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 98,
+      "id": "env.pitch.release",
+      "name": "Pitch envelope release time",
+      "min": 0,
+      "max": 255,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 99,
+      "id": "env.pitch.release_slope",
+      "name": "Pitch envelope release slope",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 100,
+      "id": "env.pitch.velocity",
+      "name": "Pitch envelope velocity amount",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 101,
+      "id": "env.pitch.reset",
+      "name": "Pitch envelope reset every note",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 102,
+      "id": "env.pitch.freerun",
+      "name": "Pitch envelope free run",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 103,
+      "id": "env.pitch.loop_mode",
+      "name": "Pitch envelope loop mode",
+      "min": 0,
+      "max": 3,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 104,
+      "id": "env.pitch.pedal",
+      "name": "Pitch envelope sustain pedal",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 105,
+      "id": "lfo1.sync",
+      "name": "LFO 1 tempo sync",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 106,
+      "id": "lfo1.rate",
+      "name": "LFO 1 rate (free)",
+      "min": 0,
+      "max": 1023,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 107,
+      "id": "lfo1.reset_mode",
+      "name": "LFO 1 reset",
+      "min": 0,
+      "max": 6,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Candidate NRPN range conflicts with candidate SysEx reset-mode range 0..4."
+    },
+    {
+      "number": 108,
+      "id": "lfo1.m1",
+      "name": "Mod Wheel 1 influence on LFO 1",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 109,
+      "id": "lfo2.sync",
+      "name": "LFO 2 tempo sync",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 110,
+      "id": "lfo2.rate",
+      "name": "LFO 2 rate (free)",
+      "min": 0,
+      "max": 1023,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 111,
+      "id": "lfo2.reset_mode",
+      "name": "LFO 2 reset",
+      "min": 0,
+      "max": 6,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Candidate NRPN range conflicts with candidate SysEx reset-mode range 0..4."
+    },
+    {
+      "number": 112,
+      "id": "lfo2.m1",
+      "name": "Mod Wheel 1 influence on LFO 2",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 113,
+      "id": "sample_hold.sync",
+      "name": "Sample & Hold tempo sync",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 114,
+      "id": "sample_hold.rate",
+      "name": "Sample & Hold rate (free)",
+      "min": 0,
+      "max": 1023,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 115,
+      "id": "sample_hold.reset_mode",
+      "name": "Sample & Hold reset",
+      "min": 0,
+      "max": 4,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 116,
+      "id": "sample_hold.input",
+      "name": "Sample & Hold input",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Source range 0..1 is almost certainly incomplete; separate enum evidence shows many possible modulation inputs."
+    },
+    {
+      "number": 117,
+      "id": "sample_hold.smooth",
+      "name": "Sample & Hold smoothing",
+      "min": 0,
+      "max": 100,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 118,
+      "id": "tracking_generator.input",
+      "name": "Tracking generator input",
+      "min": 0,
+      "max": 111,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "NRPN source range differs from candidate SysEx raw range; enum/domain translation is not yet verified."
+    },
+    {
+      "number": 119,
+      "id": "tracking_generator.preset",
+      "name": "Tracking generator preset",
+      "min": 0,
+      "max": 9,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 120,
+      "id": "tracking_generator.point_count",
+      "name": "Tracking generator grid size",
+      "min": 0,
+      "max": 1,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Mapped to the UI 12/16 point-count selector as a candidate; verify on hardware."
+    },
+    {
+      "number": 121,
+      "id": "tracking_generator.point_minus_16",
+      "name": "Tracking point -16",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 122,
+      "id": "tracking_generator.point_minus_15",
+      "name": "Tracking point -15",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 123,
+      "id": "tracking_generator.point_minus_14",
+      "name": "Tracking point -14",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 124,
+      "id": "tracking_generator.point_minus_13",
+      "name": "Tracking point -13",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 125,
+      "id": "tracking_generator.point_minus_12",
+      "name": "Tracking point -12",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 126,
+      "id": "tracking_generator.point_minus_11",
+      "name": "Tracking point -11",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 127,
+      "id": "tracking_generator.point_minus_10",
+      "name": "Tracking point -10",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 128,
+      "id": "tracking_generator.point_minus_9",
+      "name": "Tracking point -9",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 129,
+      "id": "tracking_generator.point_minus_8",
+      "name": "Tracking point -8",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 130,
+      "id": "tracking_generator.point_minus_7",
+      "name": "Tracking point -7",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 131,
+      "id": "tracking_generator.point_minus_6",
+      "name": "Tracking point -6",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 132,
+      "id": "tracking_generator.point_minus_5",
+      "name": "Tracking point -5",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 133,
+      "id": "tracking_generator.point_minus_4",
+      "name": "Tracking point -4",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 134,
+      "id": "tracking_generator.point_minus_3",
+      "name": "Tracking point -3",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 135,
+      "id": "tracking_generator.point_minus_2",
+      "name": "Tracking point -2",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 136,
+      "id": "tracking_generator.point_minus_1",
+      "name": "Tracking point -1",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 137,
+      "id": "tracking_generator.point_plus_0",
+      "name": "Tracking point 0",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 138,
+      "id": "tracking_generator.point_plus_1",
+      "name": "Tracking point 1",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 139,
+      "id": "tracking_generator.point_plus_2",
+      "name": "Tracking point 2",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 140,
+      "id": "tracking_generator.point_plus_3",
+      "name": "Tracking point 3",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 141,
+      "id": "tracking_generator.point_plus_4",
+      "name": "Tracking point 4",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 142,
+      "id": "tracking_generator.point_plus_5",
+      "name": "Tracking point 5",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 143,
+      "id": "tracking_generator.point_plus_6",
+      "name": "Tracking point 6",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 144,
+      "id": "tracking_generator.point_plus_7",
+      "name": "Tracking point 7",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 145,
+      "id": "tracking_generator.point_plus_8",
+      "name": "Tracking point 8",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 146,
+      "id": "tracking_generator.point_plus_9",
+      "name": "Tracking point 9",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 147,
+      "id": "tracking_generator.point_plus_10",
+      "name": "Tracking point 10",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 148,
+      "id": "tracking_generator.point_plus_11",
+      "name": "Tracking point 11",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 149,
+      "id": "tracking_generator.point_plus_12",
+      "name": "Tracking point 12",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 150,
+      "id": "tracking_generator.point_plus_13",
+      "name": "Tracking point 13",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 151,
+      "id": "tracking_generator.point_plus_14",
+      "name": "Tracking point 14",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 152,
+      "id": "tracking_generator.point_plus_15",
+      "name": "Tracking point 15",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 153,
+      "id": "tracking_generator.point_plus_16",
+      "name": "Tracking point 16",
+      "min": -100,
+      "max": 100,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 154,
+      "id": "program.category",
+      "name": "Program category",
+      "min": 0,
+      "max": 8,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Candidate NRPN range conflicts with candidate SysEx category range 0..10."
+    },
+    {
+      "number": 155,
+      "id": "performance.knob_x",
+      "name": "Knob X assignment",
+      "min": 0,
+      "max": 161,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 156,
+      "id": "performance.knob_y",
+      "name": "Knob Y assignment",
+      "min": 0,
+      "max": 161,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 157,
+      "id": "performance.knob_z",
+      "name": "Knob Z assignment",
+      "min": 0,
+      "max": 161,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 158,
+      "id": "filters.offset",
+      "name": "Filter 2 relative frequency offset",
+      "min": -400,
+      "max": 400,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 159,
+      "id": "lfo1.synced_rate",
+      "name": "LFO 1 rate (tempo-synced)",
+      "min": 0,
+      "max": 24,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 160,
+      "id": "lfo2.synced_rate",
+      "name": "LFO 2 rate (tempo-synced)",
+      "min": 0,
+      "max": 24,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 161,
+      "id": "sample_hold.synced_rate",
+      "name": "Sample & Hold rate (tempo-synced)",
+      "min": 0,
+      "max": 24,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 180,
+      "id": "mod_matrix.slot01.source",
+      "name": "Patch cable 1 source",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Slot 1 source max=77 in source table while slots 2..12 use 114; likely source-table error."
+    },
+    {
+      "number": 181,
+      "id": "mod_matrix.slot01.destination",
+      "name": "Patch cable 1 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 182,
+      "id": "mod_matrix.slot01.level",
+      "name": "Patch cable 1 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 183,
+      "id": "mod_matrix.slot01.offset",
+      "name": "Patch cable 1 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 184,
+      "id": "mod_matrix.slot02.source",
+      "name": "Patch cable 2 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 185,
+      "id": "mod_matrix.slot02.destination",
+      "name": "Patch cable 2 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 186,
+      "id": "mod_matrix.slot02.level",
+      "name": "Patch cable 2 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 187,
+      "id": "mod_matrix.slot02.offset",
+      "name": "Patch cable 2 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 188,
+      "id": "mod_matrix.slot03.source",
+      "name": "Patch cable 3 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 189,
+      "id": "mod_matrix.slot03.destination",
+      "name": "Patch cable 3 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 190,
+      "id": "mod_matrix.slot03.level",
+      "name": "Patch cable 3 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 191,
+      "id": "mod_matrix.slot03.offset",
+      "name": "Patch cable 3 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 192,
+      "id": "mod_matrix.slot04.source",
+      "name": "Patch cable 4 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 193,
+      "id": "mod_matrix.slot04.destination",
+      "name": "Patch cable 4 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 194,
+      "id": "mod_matrix.slot04.level",
+      "name": "Patch cable 4 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 195,
+      "id": "mod_matrix.slot04.offset",
+      "name": "Patch cable 4 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 196,
+      "id": "mod_matrix.slot05.source",
+      "name": "Patch cable 5 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 197,
+      "id": "mod_matrix.slot05.destination",
+      "name": "Patch cable 5 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 198,
+      "id": "mod_matrix.slot05.level",
+      "name": "Patch cable 5 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 199,
+      "id": "mod_matrix.slot05.offset",
+      "name": "Patch cable 5 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 200,
+      "id": "mod_matrix.slot06.source",
+      "name": "Patch cable 6 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 201,
+      "id": "mod_matrix.slot06.destination",
+      "name": "Patch cable 6 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 202,
+      "id": "mod_matrix.slot06.level",
+      "name": "Patch cable 6 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 203,
+      "id": "mod_matrix.slot06.offset",
+      "name": "Patch cable 6 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 204,
+      "id": "mod_matrix.slot07.source",
+      "name": "Patch cable 7 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 205,
+      "id": "mod_matrix.slot07.destination",
+      "name": "Patch cable 7 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 206,
+      "id": "mod_matrix.slot07.level",
+      "name": "Patch cable 7 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 207,
+      "id": "mod_matrix.slot07.offset",
+      "name": "Patch cable 7 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 208,
+      "id": "mod_matrix.slot08.source",
+      "name": "Patch cable 8 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 209,
+      "id": "mod_matrix.slot08.destination",
+      "name": "Patch cable 8 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 210,
+      "id": "mod_matrix.slot08.level",
+      "name": "Patch cable 8 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 211,
+      "id": "mod_matrix.slot08.offset",
+      "name": "Patch cable 8 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 212,
+      "id": "mod_matrix.slot09.source",
+      "name": "Patch cable 9 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 213,
+      "id": "mod_matrix.slot09.destination",
+      "name": "Patch cable 9 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 214,
+      "id": "mod_matrix.slot09.level",
+      "name": "Patch cable 9 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 215,
+      "id": "mod_matrix.slot09.offset",
+      "name": "Patch cable 9 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 216,
+      "id": "mod_matrix.slot10.source",
+      "name": "Patch cable 10 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 217,
+      "id": "mod_matrix.slot10.destination",
+      "name": "Patch cable 10 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 218,
+      "id": "mod_matrix.slot10.level",
+      "name": "Patch cable 10 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 219,
+      "id": "mod_matrix.slot10.offset",
+      "name": "Patch cable 10 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 220,
+      "id": "mod_matrix.slot11.source",
+      "name": "Patch cable 11 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 221,
+      "id": "mod_matrix.slot11.destination",
+      "name": "Patch cable 11 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 222,
+      "id": "mod_matrix.slot11.level",
+      "name": "Patch cable 11 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 223,
+      "id": "mod_matrix.slot11.offset",
+      "name": "Patch cable 11 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 224,
+      "id": "mod_matrix.slot12.source",
+      "name": "Patch cable 12 source",
+      "min": 0,
+      "max": 114,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 225,
+      "id": "mod_matrix.slot12.destination",
+      "name": "Patch cable 12 destination",
+      "min": 0,
+      "max": 77,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 226,
+      "id": "mod_matrix.slot12.level",
+      "name": "Patch cable 12 level",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 227,
+      "id": "mod_matrix.slot12.offset",
+      "name": "Patch cable 12 offset",
+      "min": -1000,
+      "max": 1000,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 230,
+      "id": "effects.balance",
+      "name": "FX 1 / FX 2 balance",
+      "min": -50,
+      "max": 50,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 231,
+      "id": "effects.type",
+      "name": "FX type 1",
+      "min": 0,
+      "max": 6,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 232,
+      "id": "effects.param_a",
+      "name": "FX parameter A",
+      "min": -128,
+      "max": 127,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 233,
+      "id": "effects.param_b",
+      "name": "FX parameter B",
+      "min": -128,
+      "max": 127,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 234,
+      "id": "effects.param_c",
+      "name": "FX parameter C",
+      "min": -128,
+      "max": 127,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 235,
+      "id": "effects.param_d",
+      "name": "FX parameter D",
+      "min": -128,
+      "max": 127,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 236,
+      "id": "effects.param_e",
+      "name": "FX parameter E",
+      "min": -128,
+      "max": 127,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 237,
+      "id": "effects.param_f",
+      "name": "FX parameter F",
+      "min": -128,
+      "max": 127,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 238,
+      "id": "effects.param_g",
+      "name": "FX parameter G",
+      "min": -128,
+      "max": 127,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 239,
+      "id": "effects.param_h_synced",
+      "name": "FX parameter H / LFO synced",
+      "min": 0,
+      "max": 24,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 245,
+      "id": "effects2.type",
+      "name": "FX2 type",
+      "min": 0,
+      "max": 6,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 246,
+      "id": "effects2.param_a",
+      "name": "FX2 parameter A",
+      "min": -32768,
+      "max": 32767,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Source marks this range with ***; transport/value behavior needs verification."
+    },
+    {
+      "number": 247,
+      "id": "effects2.param_b",
+      "name": "FX2 parameter B",
+      "min": -32768,
+      "max": 32767,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Source marks this range with ***; transport/value behavior needs verification."
+    },
+    {
+      "number": 248,
+      "id": "effects2.param_c",
+      "name": "FX2 parameter C",
+      "min": -32768,
+      "max": 32767,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Source marks this range with ***; transport/value behavior needs verification."
+    },
+    {
+      "number": 249,
+      "id": "effects2.param_d",
+      "name": "FX2 parameter D",
+      "min": -32768,
+      "max": 32767,
+      "value_encoding": "signed_14_wrap",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Source marks this range with ***; transport/value behavior needs verification."
+    },
+    {
+      "number": 250,
+      "id": "effects.param_a_synced",
+      "name": "FX parameter A synced",
+      "min": 0,
+      "max": 24,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 512,
+      "id": "tempo_arp.pattern",
+      "name": "Arpeggiator pattern",
+      "min": 0,
+      "max": 31,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false,
+      "notes": "Source notes high/root NRPN aliases; verify on Ion hardware."
+    },
+    {
+      "number": 513,
+      "id": "tempo_arp.multiplier",
+      "name": "Arpeggiator pattern multiplier",
+      "min": 0,
+      "max": 6,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 514,
+      "id": "tempo_arp.length",
+      "name": "Arpeggiator length",
+      "min": 0,
+      "max": 14,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 515,
+      "id": "tempo_arp.octave_range",
+      "name": "Arpeggiator octave range",
+      "min": 0,
+      "max": 4,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 516,
+      "id": "tempo_arp.octave_span",
+      "name": "Arpeggiator octave span",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 517,
+      "id": "tempo_arp.note_order",
+      "name": "Arpeggiator note order",
+      "min": 0,
+      "max": 5,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 518,
+      "id": "tempo_arp.mode",
+      "name": "Arpeggiator enabled/mode",
+      "min": 0,
+      "max": 2,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    },
+    {
+      "number": 519,
+      "id": "tempo_arp.tempo",
+      "name": "Arpeggiator program tempo",
+      "min": 500,
+      "max": 2500,
+      "value_encoding": "unsigned_14",
+      "status": "candidate",
+      "hardware_verified": false
+    }
+  ]
+}

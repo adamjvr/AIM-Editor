@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Midi/IonMidiService.h"
+#include "Midi/IonSysExCodec.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -17,16 +18,20 @@ public:
     void resized() override;
 
     std::function<void (int)> onPageChanged;
+    std::function<void()> onSysExToolsRequested;
 
 private:
     void refreshMidiDevices();
     void selectMidiInput();
     void selectMidiOutput();
     void sendAllNotesOff();
+    void requestCurrentPatch();
+    void refreshProgramSelector();
 
     IonMidiService& midi;
 
     juce::ComboBox midiInput;
+    juce::ComboBox midiBank;
     juce::ComboBox programSelector;
     juce::ComboBox midiOutput;
     juce::ComboBox pageSelector;

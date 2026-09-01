@@ -68,13 +68,57 @@ juce::String IonMidiService::currentOutputIdentifier() const
 
 void IonMidiService::sendNow (const juce::MidiMessage& message)
 {
-    if (output != nullptr)
-        output->sendMessageNow (message);
+    if (output == nullptr)
+        return;
+
+    emitMonitorEvent (MidiDirection::output, output->getIdentifier(), message);
+    output->sendMessageNow (message);
 }
 
-void IonMidiService::handleIncomingMidiMessage (juce::MidiInput*, const juce::MidiMessage& message)
+void IonMidiService::setMessageHandler (MessageHandler handler)
 {
-    if (messageHandler)
-        messageHandler (message);
+    const std::scoped_lock lock (handlerMutex);
+    messageHandler = std::move (handler);
+}
+
+void IonMidiService::setMonitorHandler (MonitorHandler handler)
+{
+    const std::scoped_lock lock (handlerMutex);
+    monitorHandler = std::move (handler);
+}
+
+void IonMidiService::handleIncomingMidiMessage (juce::MidiInput* source, const juce::MidiMessage& message)
+{
+    emitMonitorEvent (MidiDirection::input,
+                      source != nullptr ? source->getIdentifier() : juce::String{},
+                      message);
+
+    MessageHandler handler;
+    {
+        const std::scoped_lock lock (handlerMutex);
+        handler = messageHandler;
+    }
+
+    if (handler)
+        handler (message);
+}
+
+void IonMidiService::emitMonitorEvent (MidiDirection direction,
+                                       const juce::String& deviceIdentifier,
+                                       const juce::MidiMessage& message)
+{
+    MonitorHandler handler;
+    {
+        const std::scoped_lock lock (handlerMutex);
+        handler = monitorHandler;
+    }
+
+    if (! handler)
+        return;
+
+    handler (MidiCaptureEvent { direction,
+                               juce::Time::currentTimeMillis(),
+                               deviceIdentifier,
+                               message });
 }
 }

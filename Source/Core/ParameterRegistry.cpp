@@ -100,11 +100,23 @@ juce::Result ParameterRegistry::loadFromJson (const juce::String& jsonText)
             definition.mappingStatus = mappingStatusFromString (protocol->getProperty ("status").toString());
             definition.nrpn = optionalInt (protocol->getProperty ("nrpn"));
 
+            if (const auto* nrpnEvidence = objectOf (protocol->getProperty ("nrpn_evidence")))
+            {
+                definition.nrpnMin = optionalDouble (nrpnEvidence->getProperty ("min"));
+                definition.nrpnMax = optionalDouble (nrpnEvidence->getProperty ("max"));
+                definition.nrpnValueEncoding = nrpnEvidence->getProperty ("value_encoding").toString();
+                definition.nrpnSourceId = nrpnEvidence->getProperty ("source_id").toString();
+            }
+
             if (const auto* sysex = objectOf (protocol->getProperty ("sysex")))
             {
                 definition.sysex.offset = optionalInt (sysex->getProperty ("offset"));
                 definition.sysex.bits = optionalInt (sysex->getProperty ("bits"));
+                definition.sysex.widthBytes = optionalInt (sysex->getProperty ("width_bytes"));
+                definition.sysex.mask = optionalInt (sysex->getProperty ("mask"));
+                definition.sysex.shift = optionalInt (sysex->getProperty ("shift"));
                 definition.sysex.encoding = sysex->getProperty ("encoding").toString();
+                definition.sysex.fieldId = sysex->getProperty ("field_id").toString();
             }
         }
 

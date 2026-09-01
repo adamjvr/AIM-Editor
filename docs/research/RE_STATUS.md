@@ -6,21 +6,53 @@
 - UPX-packed.
 - Visual C++/MFC-era runtime characteristics.
 - Large appended overlay containing structured application data.
-- Runtime imports expose MIDI/WinMM, HID/SetupAPI, GDI/GDI+, common controls, and other generic facilities.
-- The exported program appears consistent with a SynthMaker/early FlowStone-style graphical-programming runtime.
+- The overlay contains one `OSSM` directory entry named `mod.sme`; the payload
+  occupies most of the executable and is the main target for graphical-project
+  recovery.
+- Runtime imports expose MIDI/WinMM, HID/SetupAPI, GDI/GDI+, common controls,
+  and other generic facilities.
+- The exported program appears consistent with a SynthMaker/early
+  FlowStone-style graphical-programming runtime.
 
 ## Confirmed from reference screenshots
 
-The editor exposes five pages: Front, Dual 1, Dual 2, Randomizer, and Rear. Visible systems include oscillators, pre-filter mixing, dual filters, post-filter mixing, output, effects, envelopes, LFOs, sample-and-hold, voice/unison/portamento, a 12-slot modulation matrix, tracking generator, randomizer, program controls, and MIDI I/O.
+The editor exposes five pages: Front, Dual 1, Dual 2, Randomizer, and Rear.
+Visible systems include oscillators, pre-filter mixing, dual filters,
+post-filter mixing, output, effects, envelopes, LFOs, sample-and-hold,
+voice/unison/portamento, a 12-slot modulation matrix, tracking generator,
+randomizer, program controls, and MIDI I/O.
 
-## Not yet verified
+## Candidate protocol knowledge implemented
 
-- Exact Ion manufacturer/model SysEx framing used by this editor.
-- NRPN numbers.
-- SysEx offsets/bit fields.
-- Value curves and display transforms.
-- Patch/bank checksum rules.
-- Edit-buffer request/update state machine.
-- Whether HID/SetupAPI are Ion-specific or generic runtime baggage.
+None of this section is promoted to hardware-verified yet.
 
-Unknown protocol fields remain `null` in JSON until verified.
+- Ion/Micron manufacturer/product framing and patch request messages.
+- 7-of-8 SysEx transport codec.
+- 378-byte decoded single-program image from a 434-byte wire message.
+- `Q01SYNTH` structural tag and 315-byte program-data size check.
+- Candidate 32-bit checksum-complement algorithm.
+- 263 candidate decoded SysEx fields.
+- Candidate single-patch request path in the GUI.
+- Live MIDI/SysEx inspector with raw JSON capture and optional candidate decode.
+- 234 candidate NRPN definitions.
+- Alesis candidate signed-14-bit NRPN semantics.
+- 151/178 initial semantic parameters mapped to candidate SysEx fields.
+- 160/178 initial semantic parameters mapped to candidate NRPN addresses.
+- Modulation source/destination and filter-type enum datasets.
+
+## Deliberate unresolved items
+
+- Hardware verification of all request/dump framing.
+- Bank-number discrepancy in surviving community material.
+- Several contradictory raw ranges between SysEx and NRPN sources.
+- Exact edit-buffer update transaction.
+- Program/bank **encoding** and byte-perfect round trips; decoding is further
+  ahead than encoding.
+- A few ambiguous UI concepts with no proven one-to-one raw field.
+- Exact parameter-display conversions where sources disagree or are absent.
+- Whether legacy HID/SetupAPI imports were application-specific or generic
+  runtime baggage.
+- Full recovery of the serialized `mod.sme` graphical project.
+
+The JSON research files keep confidence/evidence metadata and preserve
+contradictions rather than silently choosing convenient answers.

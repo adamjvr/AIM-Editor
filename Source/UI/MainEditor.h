@@ -4,6 +4,7 @@
 #include "Midi/IonMidiService.h"
 #include "UI/GlobalControlBar.h"
 #include "UI/Panels/EditorPage.h"
+#include "UI/SysExInspector.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -23,9 +24,12 @@ public:
 private:
     void showPage (int pageIndex);
     void updateViewedPageSize();
+    void showSysExInspector();
+    void hideSysExInspector();
 
     juce::Viewport viewport;
     GlobalControlBar controlBar;
+    SysExInspector sysExInspector;
     std::array<std::unique_ptr<EditorPage>, 5> pages;
     int currentPage = 0;
 };

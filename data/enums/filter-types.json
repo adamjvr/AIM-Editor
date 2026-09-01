@@ -1,0 +1,122 @@
+{
+  "format": "aim-editor.enum-table",
+  "schema_version": 1,
+  "id": "filter-types",
+  "research_status": "candidate",
+  "source": {
+    "kind": "community_reverse_engineering",
+    "status": "candidate",
+    "title": "ION/MICRON PATCH DUMP SYSEX FORMAT",
+    "author": "Bernard Escaillas (BEE)",
+    "year": 2008,
+    "url": "https://medias.audiofanzine.com/files/midi-sysex-472872.pdf",
+    "note": "Candidate until independently verified against Alesis Ion hardware/captures. The source contains at least one apparent oscillator-offset typo, so ambiguous fields are not silently guessed."
+  },
+  "values": [
+    {
+      "value": 0,
+      "id": "bypass",
+      "name": "Bypass"
+    },
+    {
+      "value": 1,
+      "id": "mg_4pole_lowpass",
+      "name": "Mg 4Pole Lowpass"
+    },
+    {
+      "value": 2,
+      "id": "ob_2pole_lowpass",
+      "name": "Ob 2Pole Lowpass"
+    },
+    {
+      "value": 3,
+      "id": "ob_2pole_bandpass",
+      "name": "Ob 2Pole Bandpass"
+    },
+    {
+      "value": 4,
+      "id": "ob_2pole_highpass",
+      "name": "Ob 2Pole Highpass"
+    },
+    {
+      "value": 5,
+      "id": "rp_4pole_lowpass",
+      "name": "Rp 4Pole Lowpass"
+    },
+    {
+      "value": 6,
+      "id": "tb_3pole_lowpass",
+      "name": "Tb 3Pole Lowpass"
+    },
+    {
+      "value": 7,
+      "id": "jp_4pole_lowpass",
+      "name": "Jp 4Pole Lowpass"
+    },
+    {
+      "value": 8,
+      "id": "8pole_lowpass",
+      "name": "8Pole Lowpass"
+    },
+    {
+      "value": 9,
+      "id": "op_4pole_highpass",
+      "name": "Op 4Pole Highpass"
+    },
+    {
+      "value": 10,
+      "id": "octave_dual_bandpass",
+      "name": "Octave Dual Bandpass"
+    },
+    {
+      "value": 11,
+      "id": "6pole_bandpass",
+      "name": "6Pole Bandpass"
+    },
+    {
+      "value": 12,
+      "id": "phase_warp",
+      "name": "Phase Warp"
+    },
+    {
+      "value": 13,
+      "id": "comb_1",
+      "name": "Comb 1"
+    },
+    {
+      "value": 14,
+      "id": "comb_2",
+      "name": "Comb 2"
+    },
+    {
+      "value": 15,
+      "id": "comb_3",
+      "name": "Comb 3"
+    },
+    {
+      "value": 16,
+      "id": "comb_4",
+      "name": "Comb 4"
+    },
+    {
+      "value": 17,
+      "id": "vocal_formant_1",
+      "name": "Vocal Formant 1"
+    },
+    {
+      "value": 18,
+      "id": "vocal_formant_2",
+      "name": "Vocal Formant 2"
+    },
+    {
+      "value": 19,
+      "id": "vocal_formant_3",
+      "name": "Vocal Formant 3"
+    },
+    {
+      "value": 20,
+      "id": "bandlimit",
+      "name": "Bandlimit"
+    }
+  ]
+}

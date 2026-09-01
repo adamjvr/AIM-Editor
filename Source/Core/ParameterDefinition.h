@@ -27,7 +27,11 @@ struct SysExMapping
 {
     std::optional<int> offset;
     std::optional<int> bits;
+    std::optional<int> widthBytes;
+    std::optional<int> mask;
+    std::optional<int> shift;
     juce::String encoding;
+    juce::String fieldId;
 };
 
 struct ParameterDefinition
@@ -46,6 +50,10 @@ struct ParameterDefinition
 
     MappingStatus mappingStatus = MappingStatus::unmapped;
     std::optional<int> nrpn;
+    std::optional<double> nrpnMin;
+    std::optional<double> nrpnMax;
+    juce::String nrpnValueEncoding;
+    juce::String nrpnSourceId;
     SysExMapping sysex;
 
     std::vector<juce::String> pages;

@@ -12,6 +12,7 @@
 - [x] preservation container for unknown raw bytes
 - [x] MIDI device service
 - [x] generic NRPN message builder
+- [x] candidate Alesis signed-14-bit NRPN value codec
 - [x] five-page responsive GUI shell
 - [x] bottom MIDI/program control strip
 - [ ] select project license
@@ -20,14 +21,17 @@
 
 - [ ] unpack original executable completely
 - [ ] recover/parse serialized SynthMaker/FlowStone project payload
-- [ ] find archived Ion MIDI/SysEx documentation and preserve provenance
-- [ ] identify manufacturer/model SysEx framing
-- [ ] map patch request and edit-buffer update messages
-- [ ] map program/bank dumps
-- [ ] derive checksum/packing rules
-- [ ] map NRPN IDs
-- [ ] add confidence + evidence records to JSON
-- [ ] build raw SysEx inspector and capture logger
+- [x] find archived Ion MIDI/SysEx documentation and preserve provenance (candidate/community sources; hardware verification pending)
+- [x] identify candidate manufacturer/model SysEx framing
+- [x] map candidate single-patch request message
+- [ ] map edit-buffer update message
+- [x] map candidate single-program dump framing
+- [ ] map/verify bank-dump streaming behavior
+- [x] implement candidate 7-of-8 + checksum rules
+- [x] import 234 candidate NRPN IDs
+- [ ] verify NRPN IDs and transport semantics on hardware
+- [x] add confidence + evidence records to JSON
+- [x] build raw MIDI/SysEx inspector and JSON capture logger
 
 ## Phase 2 — verified data model
 
