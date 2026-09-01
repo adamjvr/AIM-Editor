@@ -1,0 +1,5884 @@
+{
+  "$schema": "../schemas/parameter-database.schema.json",
+  "format": "aim-editor.parameter-database",
+  "schema_version": 1,
+  "device": {
+    "manufacturer": "Alesis",
+    "model": "Ion"
+  },
+  "research_state": {
+    "status": "incomplete",
+    "source": "Control inventory derived from reference editor screenshots; protocol addresses and value domains intentionally left unmapped until verified.",
+    "rule": "Unknown values remain null rather than guessed."
+  },
+  "parameters": [
+    {
+      "id": "osc1.shape",
+      "name": "Oscillator 1 Shape",
+      "section": "osc1",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "wave_knob"
+      }
+    },
+    {
+      "id": "osc1.octave",
+      "name": "Oscillator 1 Octave",
+      "section": "osc1",
+      "type": "discrete",
+      "domain": {
+        "kind": "discrete",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc1.semitone",
+      "name": "Oscillator 1 Semitone",
+      "section": "osc1",
+      "type": "discrete",
+      "domain": {
+        "kind": "discrete",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "st",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc1.fine",
+      "name": "Oscillator 1 Fine Tune",
+      "section": "osc1",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "cent",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc1.wheel",
+      "name": "Oscillator 1 Wheel Amount",
+      "section": "osc1",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc2.shape",
+      "name": "Oscillator 2 Shape",
+      "section": "osc2",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "wave_knob"
+      }
+    },
+    {
+      "id": "osc2.octave",
+      "name": "Oscillator 2 Octave",
+      "section": "osc2",
+      "type": "discrete",
+      "domain": {
+        "kind": "discrete",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc2.semitone",
+      "name": "Oscillator 2 Semitone",
+      "section": "osc2",
+      "type": "discrete",
+      "domain": {
+        "kind": "discrete",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "st",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc2.fine",
+      "name": "Oscillator 2 Fine Tune",
+      "section": "osc2",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "cent",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc2.wheel",
+      "name": "Oscillator 2 Wheel Amount",
+      "section": "osc2",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc3.shape",
+      "name": "Oscillator 3 Shape",
+      "section": "osc3",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "wave_knob"
+      }
+    },
+    {
+      "id": "osc3.octave",
+      "name": "Oscillator 3 Octave",
+      "section": "osc3",
+      "type": "discrete",
+      "domain": {
+        "kind": "discrete",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc3.semitone",
+      "name": "Oscillator 3 Semitone",
+      "section": "osc3",
+      "type": "discrete",
+      "domain": {
+        "kind": "discrete",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "st",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc3.fine",
+      "name": "Oscillator 3 Fine Tune",
+      "section": "osc3",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "cent",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc3.wheel",
+      "name": "Oscillator 3 Wheel Amount",
+      "section": "osc3",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc.sync",
+      "name": "Oscillator Sync",
+      "section": "oscillators",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "osc.fm_amount",
+      "name": "FM Amount",
+      "section": "oscillators",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "osc.fm_source",
+      "name": "FM Source",
+      "section": "oscillators",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "noise.color",
+      "name": "Noise Color",
+      "section": "oscillators",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "pre_filter_mix.osc3.level",
+      "name": "Oscillator 3 Level",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.osc3.balance",
+      "name": "Oscillator 3 Filter 1/2 Balance",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.osc2.level",
+      "name": "Oscillator 2 Level",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.osc2.balance",
+      "name": "Oscillator 2 Filter 1/2 Balance",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.osc1.level",
+      "name": "Oscillator 1 Level",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.osc1.balance",
+      "name": "Oscillator 1 Filter 1/2 Balance",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.ring.level",
+      "name": "Ring Mod Level",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.ring.balance",
+      "name": "Ring Mod Filter 1/2 Balance",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.external.level",
+      "name": "External Input Level",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.external.balance",
+      "name": "External Input Filter 1/2 Balance",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.noise.level",
+      "name": "Noise Level",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "pre_filter_mix.noise.balance",
+      "name": "Noise Filter 1/2 Balance",
+      "section": "pre_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filter1.frequency",
+      "name": "Filter 1 Frequency",
+      "section": "filter1",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "Hz",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filter1.resonance",
+      "name": "Filter 1 Resonance",
+      "section": "filter1",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filter1.keytrack",
+      "name": "Filter 1 Key Tracking",
+      "section": "filter1",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "%",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filter1.env_amount",
+      "name": "Filter 1 Envelope Amount",
+      "section": "filter1",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filter1.type",
+      "name": "Filter 1 Type",
+      "section": "filter1",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "filter2.frequency",
+      "name": "Filter 2 Frequency",
+      "section": "filter2",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "Hz",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filter2.resonance",
+      "name": "Filter 2 Resonance",
+      "section": "filter2",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filter2.keytrack",
+      "name": "Filter 2 Key Tracking",
+      "section": "filter2",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "%",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filter2.env_amount",
+      "name": "Filter 2 Envelope Amount",
+      "section": "filter2",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filter2.type",
+      "name": "Filter 2 Type",
+      "section": "filter2",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "filters.offset",
+      "name": "Filter Offset",
+      "section": "filters",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "filters.f1_to_f2",
+      "name": "Filter 1 to Filter 2 Routing",
+      "section": "filters",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "%",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "post_filter_mix.filter2.level",
+      "name": "Filter 2 Level",
+      "section": "post_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "post_filter_mix.filter2.pan",
+      "name": "Filter 2 Pan",
+      "section": "post_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "post_filter_mix.filter1.level",
+      "name": "Filter 1 Level",
+      "section": "post_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "post_filter_mix.filter1.pan",
+      "name": "Filter 1 Pan",
+      "section": "post_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "post_filter_mix.pre_filter.level",
+      "name": "Pre Filter Level",
+      "section": "post_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "post_filter_mix.pre_filter.pan",
+      "name": "Pre Filter Pan",
+      "section": "post_filter_mix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "output.bypass",
+      "name": "Output Bypass",
+      "section": "output",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "output.type",
+      "name": "Output Type",
+      "section": "output",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "output.drive",
+      "name": "Drive",
+      "section": "output",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "output.fx_mix",
+      "name": "FX Mix",
+      "section": "output",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "output.program_level",
+      "name": "Program Level",
+      "section": "output",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "output.prefilter_signal",
+      "name": "Prefilter Signal",
+      "section": "output",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "output.filter1_polarity",
+      "name": "Filter 1 Polarity",
+      "section": "output",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "effects.feedback",
+      "name": "Feedback",
+      "section": "effects",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "effects.notch",
+      "name": "Notch",
+      "section": "effects",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "effects.lfo_rate",
+      "name": "LFO Rate",
+      "section": "effects",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "Hz",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "effects.lfo_depth",
+      "name": "LFO Depth",
+      "section": "effects",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "effects.lfo_shape",
+      "name": "LFO Shape",
+      "section": "effects",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "effects.tempo_sync",
+      "name": "Tempo Sync",
+      "section": "effects",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "effects.bypass",
+      "name": "Effects Bypass",
+      "section": "effects",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "tempo_arp.tempo",
+      "name": "Arpeggiator Tempo",
+      "section": "tempo_arp",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "BPM",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "tempo_arp.sync",
+      "name": "Arpeggiator Sync",
+      "section": "tempo_arp",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "tempo_arp.mode",
+      "name": "Arpeggiator Mode",
+      "section": "tempo_arp",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "lfo1.rate",
+      "name": "LFO 1 Rate",
+      "section": "lfo1",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "Hz",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "lfo1.sync",
+      "name": "LFO 1 Sync",
+      "section": "lfo1",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "lfo1.m1",
+      "name": "LFO 1 M1",
+      "section": "lfo1",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "lfo1.reset_mode",
+      "name": "LFO 1 Reset Mode",
+      "section": "lfo1",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "lfo2.rate",
+      "name": "LFO 2 Rate",
+      "section": "lfo2",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "Hz",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "lfo2.sync",
+      "name": "LFO 2 Sync",
+      "section": "lfo2",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "lfo2.m1",
+      "name": "LFO 2 M1",
+      "section": "lfo2",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "lfo2.reset_mode",
+      "name": "LFO 2 Reset Mode",
+      "section": "lfo2",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "sample_hold.rate",
+      "name": "Sample & Hold Rate",
+      "section": "sample_hold",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "Hz",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "sample_hold.sync",
+      "name": "Sample & Hold Sync",
+      "section": "sample_hold",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "sample_hold.smooth",
+      "name": "Sample & Hold Smooth",
+      "section": "sample_hold",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "sample_hold.reset_mode",
+      "name": "Sample & Hold Reset Mode",
+      "section": "sample_hold",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "voice.unison",
+      "name": "Unison Voices",
+      "section": "voice",
+      "type": "discrete",
+      "domain": {
+        "kind": "discrete",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "voice.detune",
+      "name": "Unison Detune",
+      "section": "voice",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "cent",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "voice.drift",
+      "name": "Voice Drift",
+      "section": "voice",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "voice.portamento_time",
+      "name": "Portamento Time",
+      "section": "voice",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "voice.portamento_enable",
+      "name": "Portamento Enable",
+      "section": "voice",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "voice.poly_mode",
+      "name": "Poly/Mono Mode",
+      "section": "voice",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "voice.pitch_wheel_mode",
+      "name": "Pitch Wheel Mode",
+      "section": "voice",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "voice.portamento_type",
+      "name": "Portamento Type",
+      "section": "voice",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "voice.portamento_trigger",
+      "name": "Portamento Trigger",
+      "section": "voice",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "env.pitch.attack",
+      "name": "Pitch Envelope Attack",
+      "section": "env_pitch",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.pitch.decay",
+      "name": "Pitch Envelope Decay",
+      "section": "env_pitch",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.pitch.sustain",
+      "name": "Pitch Envelope Sustain",
+      "section": "env_pitch",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.pitch.time",
+      "name": "Pitch Envelope Time",
+      "section": "env_pitch",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.pitch.release",
+      "name": "Pitch Envelope Release",
+      "section": "env_pitch",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.pitch.keytrack",
+      "name": "Pitch Envelope Key Tracking",
+      "section": "env_pitch",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "%",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.pitch.release_enable",
+      "name": "Pitch Envelope Release Enable",
+      "section": "env_pitch",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.pitch.reset",
+      "name": "Pitch Envelope Reset",
+      "section": "env_pitch",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.pitch.freerun",
+      "name": "Pitch Envelope Free Run",
+      "section": "env_pitch",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.pitch.legato",
+      "name": "Pitch Envelope Legato",
+      "section": "env_pitch",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.pitch.loop_mode",
+      "name": "Pitch Envelope Loop Mode",
+      "section": "env_pitch",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "env.pitch.slope",
+      "name": "Pitch Envelope Slope",
+      "section": "env_pitch",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "env.pitch.pedal",
+      "name": "Pitch Envelope Pedal",
+      "section": "env_pitch",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.filter.attack",
+      "name": "Filter Envelope Attack",
+      "section": "env_filter",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.filter.decay",
+      "name": "Filter Envelope Decay",
+      "section": "env_filter",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.filter.sustain",
+      "name": "Filter Envelope Sustain",
+      "section": "env_filter",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.filter.time",
+      "name": "Filter Envelope Time",
+      "section": "env_filter",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.filter.release",
+      "name": "Filter Envelope Release",
+      "section": "env_filter",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.filter.keytrack",
+      "name": "Filter Envelope Key Tracking",
+      "section": "env_filter",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "%",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.filter.release_enable",
+      "name": "Filter Envelope Release Enable",
+      "section": "env_filter",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.filter.reset",
+      "name": "Filter Envelope Reset",
+      "section": "env_filter",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.filter.freerun",
+      "name": "Filter Envelope Free Run",
+      "section": "env_filter",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.filter.legato",
+      "name": "Filter Envelope Legato",
+      "section": "env_filter",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.filter.loop_mode",
+      "name": "Filter Envelope Loop Mode",
+      "section": "env_filter",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "env.filter.slope",
+      "name": "Filter Envelope Slope",
+      "section": "env_filter",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "env.filter.pedal",
+      "name": "Filter Envelope Pedal",
+      "section": "env_filter",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.amp.attack",
+      "name": "Amp Envelope Attack",
+      "section": "env_amp",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.amp.decay",
+      "name": "Amp Envelope Decay",
+      "section": "env_amp",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.amp.sustain",
+      "name": "Amp Envelope Sustain",
+      "section": "env_amp",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.amp.time",
+      "name": "Amp Envelope Time",
+      "section": "env_amp",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.amp.release",
+      "name": "Amp Envelope Release",
+      "section": "env_amp",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "ms",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.amp.keytrack",
+      "name": "Amp Envelope Key Tracking",
+      "section": "env_amp",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "%",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "env.amp.release_enable",
+      "name": "Amp Envelope Release Enable",
+      "section": "env_amp",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.amp.reset",
+      "name": "Amp Envelope Reset",
+      "section": "env_amp",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.amp.freerun",
+      "name": "Amp Envelope Free Run",
+      "section": "env_amp",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.amp.legato",
+      "name": "Amp Envelope Legato",
+      "section": "env_amp",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "env.amp.loop_mode",
+      "name": "Amp Envelope Loop Mode",
+      "section": "env_amp",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "env.amp.slope",
+      "name": "Amp Envelope Slope",
+      "section": "env_amp",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "env.amp.pedal",
+      "name": "Amp Envelope Pedal",
+      "section": "env_amp",
+      "type": "boolean",
+      "domain": {
+        "kind": "boolean",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "toggle"
+      }
+    },
+    {
+      "id": "mod_matrix.slot01.source",
+      "name": "Mod Matrix 1 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot01.level",
+      "name": "Mod Matrix 1 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot01.offset",
+      "name": "Mod Matrix 1 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot01.destination",
+      "name": "Mod Matrix 1 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot02.source",
+      "name": "Mod Matrix 2 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot02.level",
+      "name": "Mod Matrix 2 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot02.offset",
+      "name": "Mod Matrix 2 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot02.destination",
+      "name": "Mod Matrix 2 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot03.source",
+      "name": "Mod Matrix 3 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot03.level",
+      "name": "Mod Matrix 3 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot03.offset",
+      "name": "Mod Matrix 3 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot03.destination",
+      "name": "Mod Matrix 3 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot04.source",
+      "name": "Mod Matrix 4 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot04.level",
+      "name": "Mod Matrix 4 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot04.offset",
+      "name": "Mod Matrix 4 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot04.destination",
+      "name": "Mod Matrix 4 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot05.source",
+      "name": "Mod Matrix 5 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot05.level",
+      "name": "Mod Matrix 5 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot05.offset",
+      "name": "Mod Matrix 5 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot05.destination",
+      "name": "Mod Matrix 5 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot06.source",
+      "name": "Mod Matrix 6 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot06.level",
+      "name": "Mod Matrix 6 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot06.offset",
+      "name": "Mod Matrix 6 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot06.destination",
+      "name": "Mod Matrix 6 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot07.source",
+      "name": "Mod Matrix 7 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot07.level",
+      "name": "Mod Matrix 7 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot07.offset",
+      "name": "Mod Matrix 7 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot07.destination",
+      "name": "Mod Matrix 7 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot08.source",
+      "name": "Mod Matrix 8 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot08.level",
+      "name": "Mod Matrix 8 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot08.offset",
+      "name": "Mod Matrix 8 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot08.destination",
+      "name": "Mod Matrix 8 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot09.source",
+      "name": "Mod Matrix 9 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot09.level",
+      "name": "Mod Matrix 9 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot09.offset",
+      "name": "Mod Matrix 9 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot09.destination",
+      "name": "Mod Matrix 9 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot10.source",
+      "name": "Mod Matrix 10 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot10.level",
+      "name": "Mod Matrix 10 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot10.offset",
+      "name": "Mod Matrix 10 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot10.destination",
+      "name": "Mod Matrix 10 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot11.source",
+      "name": "Mod Matrix 11 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot11.level",
+      "name": "Mod Matrix 11 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot11.offset",
+      "name": "Mod Matrix 11 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot11.destination",
+      "name": "Mod Matrix 11 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot12.source",
+      "name": "Mod Matrix 12 Source",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "mod_matrix.slot12.level",
+      "name": "Mod Matrix 12 Level",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot12.offset",
+      "name": "Mod Matrix 12 Offset",
+      "section": "mod_matrix",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "compact_value"
+      }
+    },
+    {
+      "id": "mod_matrix.slot12.destination",
+      "name": "Mod Matrix 12 Destination",
+      "section": "mod_matrix",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual1",
+          "dual2",
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "tracking_generator.input",
+      "name": "Tracking Generator Input",
+      "section": "tracking_generator",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "tracking_generator.level",
+      "name": "Tracking Generator Level",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": "%",
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "knob"
+      }
+    },
+    {
+      "id": "tracking_generator.point_count",
+      "name": "Tracking Generator Point Count",
+      "section": "tracking_generator",
+      "type": "discrete",
+      "domain": {
+        "kind": "discrete",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "selector"
+      }
+    },
+    {
+      "id": "tracking_generator.selection",
+      "name": "Tracking Generator Selected Point",
+      "section": "tracking_generator",
+      "type": "discrete",
+      "domain": {
+        "kind": "discrete",
+        "raw_min": null,
+        "raw_max": null,
+        "default_raw": null
+      },
+      "display": {
+        "unit": null,
+        "transform": "unknown"
+      },
+      "protocol": {
+        "status": "unmapped",
+        "nrpn": null,
+        "sysex": {
+          "offset": null,
+          "bits": null,
+          "encoding": null
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "selector"
+      }
+    }
+  ],
+  "compound_structures": [
+    {
+      "id": "tracking_generator.points",
+      "name": "Tracking Generator Points",
+      "kind": "ordered_points",
+      "maximum_points": 16,
+      "value_domain": {
+        "raw_min": null,
+        "raw_max": null
+      },
+      "protocol": {
+        "status": "unmapped",
+        "sysex": null
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "curve_editor"
+      }
+    }
+  ]
+}

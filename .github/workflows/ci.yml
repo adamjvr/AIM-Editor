@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ninja-build \
+            libasound2-dev \
+            libjack-jackd2-dev \
+            libfreetype6-dev \
+            libx11-dev \
+            libxcomposite-dev \
+            libxcursor-dev \
+            libxext-dev \
+            libxinerama-dev \
+            libxrandr-dev \
+            libxrender-dev \
+            libglu1-mesa-dev \
+            mesa-common-dev
+
+      - name: Configure (Unix)
+        if: runner.os != 'Windows'
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Configure (Windows)
+        if: runner.os == 'Windows'
+        run: cmake -S . -B build -A x64
+
+      - name: Build (Unix)
+        if: runner.os != 'Windows'
+        run: cmake --build build
+
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        run: cmake --build build --config Debug
+
+      - name: Test (Unix)
+        if: runner.os != 'Windows'
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Test (Windows)
+        if: runner.os == 'Windows'
+        run: ctest --test-dir build -C Debug --output-on-failure
+
+  ipad-simulator:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure iPadOS simulator
+        run: >-
+          cmake -S . -B build-ios -G Xcode
+          -DCMAKE_SYSTEM_NAME=iOS
+          -DCMAKE_OSX_SYSROOT=iphonesimulator
+          -DCMAKE_OSX_DEPLOYMENT_TARGET=17.0
+          -DAIM_EDITOR_BUILD_TESTS=OFF
+      - name: Build iPadOS simulator
+        run: cmake --build build-ios --config Debug -- -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO
