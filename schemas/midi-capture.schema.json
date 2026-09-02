@@ -32,6 +32,34 @@
       "items": {
         "$ref": "#/$defs/nrpn_transaction"
       }
+    },
+    "verification_context": {
+      "type": "object",
+      "description": "Optional human-entered experiment tag. It does not change the raw capture and is used by offline verification tooling.",
+      "additionalProperties": false,
+      "required": [
+        "parameter_id",
+        "parameter_known",
+        "user_confirmed_control_isolation",
+        "note"
+      ],
+      "properties": {
+        "parameter_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parameter_known": {
+          "type": "boolean"
+        },
+        "user_confirmed_control_isolation": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
     }
   },
   "$defs": {

@@ -68,6 +68,7 @@ def build_diff(before_path: Path, after_path: Path, expected: str | None = None)
     ]
 
     field_changes: list[dict[str, Any]] = []
+    derived_field_changes: list[dict[str, Any]] = []
     covered_changed_offsets: set[int] = set()
     for field in spec["fields"]:
         field_id = field["id"]
@@ -78,22 +79,31 @@ def build_diff(before_path: Path, after_path: Path, expected: str | None = None)
 
         offsets = sorted(set(field_range(field)).intersection(changed_offsets))
         covered_changed_offsets.update(offsets)
-        field_changes.append(
-            {
-                "field_id": field_id,
-                "offset": field["offset"],
-                "width_bytes": field["width_bytes"],
-                "kind": field["kind"],
-                "mask": field.get("mask"),
-                "shift": field.get("shift"),
-                "before": before_item.get("raw"),
-                "after": after_item.get("raw"),
-                "before_enum": before_item.get("enum"),
-                "after_enum": after_item.get("enum"),
-                "changed_byte_offsets": offsets,
-                "status": field.get("status", "candidate"),
-            }
-        )
+        item = {
+            "field_id": field_id,
+            "offset": field["offset"],
+            "width_bytes": field["width_bytes"],
+            "kind": field["kind"],
+            "mask": field.get("mask"),
+            "shift": field.get("shift"),
+            "before": before_item.get("raw"),
+            "after": after_item.get("raw"),
+            "before_enum": before_item.get("enum"),
+            "after_enum": after_item.get("enum"),
+            "changed_byte_offsets": offsets,
+            "status": field.get("status", "candidate"),
+            "role": field.get("role"),
+        }
+
+        # The patch checksum is mechanically derived from the payload.  It is
+        # expected to change whenever any semantic field changes, so treating
+        # it as an independent candidate field made clean one-parameter A/B
+        # captures look like multi-field changes. Keep it visible as evidence,
+        # but exclude it from semantic confidence scoring.
+        if field.get("role") == "two_complement_checksum" or field_id == "header.checksum":
+            derived_field_changes.append(item)
+        else:
+            field_changes.append(item)
 
     unmapped_offsets = [offset for offset in changed_offsets if offset not in covered_changed_offsets]
 
@@ -131,11 +141,13 @@ def build_diff(before_path: Path, after_path: Path, expected: str | None = None)
         "summary": {
             "changed_decoded_byte_count": len(changed_offsets),
             "changed_candidate_field_count": len(field_changes),
+            "changed_derived_field_count": len(derived_field_changes),
             "unmapped_changed_byte_count": len(unmapped_offsets),
             "confidence_hint": confidence_hint,
         },
         "byte_changes": byte_changes,
         "candidate_field_changes": field_changes,
+        "derived_field_changes": derived_field_changes,
         "unmapped_changed_byte_offsets": unmapped_offsets,
     }
 
@@ -167,7 +179,9 @@ def self_test() -> None:
         after.write_bytes(make(101))
         report = build_diff(before, after, "filter1.frequency")
         assert report["expected_observed"] is True
+        assert report["summary"]["confidence_hint"] == "single_candidate_field_changed"
         assert any(item["field_id"] == "filter1.frequency" for item in report["candidate_field_changes"])
+        assert any(item["field_id"] == "header.checksum" for item in report["derived_field_changes"])
     print("PASS: Ion patch-diff self-test")
 
 

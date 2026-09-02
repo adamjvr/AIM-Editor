@@ -60,6 +60,8 @@ struct ParameterDefinition
     juce::String displayTransform { "unknown" };
 
     MappingStatus mappingStatus = MappingStatus::unmapped;
+    MappingStatus nrpnMappingStatus = MappingStatus::unmapped;
+    MappingStatus sysexMappingStatus = MappingStatus::unmapped;
     std::optional<int> nrpn;
     std::optional<double> nrpnMin;
     std::optional<double> nrpnMax;

@@ -39,6 +39,7 @@ juce_add_binary_data(AIMEditorData
         schemas/program.schema.json
         schemas/bank.schema.json
         schemas/midi-capture.schema.json
+        schemas/protocol-verification.schema.json
         schemas/ion-sysex.schema.json
         schemas/ion-nrpn.schema.json
 )

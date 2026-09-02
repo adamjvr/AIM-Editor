@@ -39,6 +39,7 @@ private:
     void copyJsonToClipboard();
     void saveJson();
     void loadLatestCandidateProgram();
+    void updateVerificationContextStatus();
     [[nodiscard]] juce::String makeCaptureJson() const;
     [[nodiscard]] juce::String makeLogLine (const MidiCaptureEvent& event) const;
 
@@ -72,6 +73,11 @@ private:
     juce::Label title;
     juce::Label summary;
     juce::Label candidateSummary;
+    juce::Label verificationTagLabel;
+    juce::TextEditor verificationParameter;
+    juce::ToggleButton verificationIsolation { "Only this control moved" };
+    juce::Label verificationStatus;
+    juce::TextEditor verificationNote;
     juce::TextEditor log;
     juce::ToggleButton sysexOnly { "SysEx only" };
     juce::TextButton clearButton { "Clear" };

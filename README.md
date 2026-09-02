@@ -248,3 +248,18 @@ AIM Editor never synthesizes a hardware patch from only the parameters it curren
 AIM Editor remembers non-destructive session context (page, MIDI channel, bank/program context, and selected MIDI endpoints), but **never** restores Live NRPN or full-patch write arming. Reopening remembered MIDI devices therefore cannot transmit anything by itself.
 
 The MIDI/SysEx Inspector also exports reconstructed `nrpn_transactions` alongside the authoritative raw MIDI events. These records attach candidate semantic IDs/status to complete CC99/CC98/CC6/CC38 sequences without automatically promoting any protocol mapping to verified. See [`docs/SESSION_AND_VERIFICATION.md`](docs/SESSION_AND_VERIFICATION.md).
+
+## Auditable protocol promotion
+
+Hardware testing can now promote candidate NRPN/SysEx mappings without hand-editing canonical JSON. The SysEx Inspector can tag a controlled capture with a semantic parameter ID, an isolation confirmation, and a test note. Offline verification reconstructs raw transport evidence, seals the result with SHA-256, and only promotes mappings whose evidence passes strict checks.
+
+```bash
+./tools/protocol/ion_protocol_verification.py nrpn capture.json \
+  --parameter filter1.frequency --direction input --confirm-isolation \
+  -o research/verification/filter1-frequency-nrpn-001.json
+
+./tools/protocol/ion_protocol_verification.py apply \
+  research/verification/filter1-frequency-nrpn-001.json
+```
+
+`verified` mappings must reference committed evidence under `research/verification/`; repository validation rejects evidence-free verification claims. See `docs/PROTOCOL_VERIFICATION.md`.

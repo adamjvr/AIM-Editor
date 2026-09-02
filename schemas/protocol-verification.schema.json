@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aim-editor.org/schema/protocol-verification.schema.json",
+  "title": "AIM Editor Protocol Verification Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "schema_version",
+    "generated_at_utc_ms",
+    "protocol",
+    "evidence_scope",
+    "parameter_id",
+    "result",
+    "promotable",
+    "user_confirmed_control_isolation",
+    "candidate",
+    "sources",
+    "checks",
+    "observations",
+    "evidence_id"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "format": { "const": "aim-editor.protocol-verification" },
+    "schema_version": { "const": 1 },
+    "generated_at_utc_ms": { "type": "integer", "minimum": 0 },
+    "protocol": { "enum": ["nrpn", "sysex"] },
+    "evidence_scope": { "type": "string", "minLength": 1 },
+    "parameter_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+(?:\\.[a-z0-9_]+)*$"
+    },
+    "result": { "enum": ["inconclusive", "supported", "contradicted", "verified"] },
+    "promotable": { "type": "boolean" },
+    "user_confirmed_control_isolation": { "type": "boolean" },
+    "candidate": { "type": "object", "additionalProperties": true },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256", "format"],
+        "properties": {
+          "path": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "format": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "checks": { "type": "object", "additionalProperties": true },
+    "observations": { "type": "array", "items": { "type": "object" } },
+    "evidence_id": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+  }
+}

@@ -151,6 +151,7 @@ juce::Result ParameterRegistry::loadFromJson (const juce::String& jsonText)
         {
             definition.mappingStatus = mappingStatusFromString (protocol->getProperty ("status").toString());
             definition.nrpn = optionalInt (protocol->getProperty ("nrpn"));
+            definition.nrpnMappingStatus = definition.nrpn ? definition.mappingStatus : MappingStatus::unmapped;
 
             if (const auto* nrpnEvidence = objectOf (protocol->getProperty ("nrpn_evidence")))
             {
@@ -158,6 +159,9 @@ juce::Result ParameterRegistry::loadFromJson (const juce::String& jsonText)
                 definition.nrpnMax = optionalDouble (nrpnEvidence->getProperty ("max"));
                 definition.nrpnValueEncoding = nrpnEvidence->getProperty ("value_encoding").toString();
                 definition.nrpnSourceId = nrpnEvidence->getProperty ("source_id").toString();
+                const auto status = nrpnEvidence->getProperty ("status").toString();
+                if (status.isNotEmpty())
+                    definition.nrpnMappingStatus = mappingStatusFromString (status);
             }
 
             if (const auto* sysex = objectOf (protocol->getProperty ("sysex")))
@@ -169,6 +173,14 @@ juce::Result ParameterRegistry::loadFromJson (const juce::String& jsonText)
                 definition.sysex.shift = optionalInt (sysex->getProperty ("shift"));
                 definition.sysex.encoding = sysex->getProperty ("encoding").toString();
                 definition.sysex.fieldId = sysex->getProperty ("field_id").toString();
+                definition.sysexMappingStatus = definition.sysex.offset ? definition.mappingStatus : MappingStatus::unmapped;
+            }
+
+            if (const auto* sysexEvidence = objectOf (protocol->getProperty ("evidence")))
+            {
+                const auto status = sysexEvidence->getProperty ("status").toString();
+                if (status.isNotEmpty() && definition.sysex.offset)
+                    definition.sysexMappingStatus = mappingStatusFromString (status);
             }
         }
 

@@ -59,6 +59,9 @@ int main()
     if (! filter1FrequencyDefinition->nrpn.has_value() || *filter1FrequencyDefinition->nrpn != 44
         || filter1FrequencyDefinition->nrpnValueEncoding != "unsigned_14")
         return fail ("filter1.frequency candidate NRPN metadata missing from registry");
+    if (filter1FrequencyDefinition->nrpnMappingStatus != aim::MappingStatus::candidate
+        || filter1FrequencyDefinition->sysexMappingStatus != aim::MappingStatus::candidate)
+        return fail ("filter1.frequency transport-specific mapping status did not load independently");
 
     const auto formattedFilter = aim::ParameterFormatter::format (*filter1FrequencyDefinition, 0);
     if (formattedFilter != "20 Hz")

@@ -33,10 +33,11 @@
 - [ ] map/verify bank-dump streaming behavior
 - [x] implement candidate 7-of-8 + checksum rules
 - [x] import 234 candidate NRPN IDs
-- [ ] verify NRPN IDs and transport semantics on hardware
+- [ ] verify NRPN IDs and transport semantics on hardware (promotion pipeline is implemented; real Ion evidence still required)
 - [x] add confidence + evidence records to JSON
 - [x] build raw MIDI/SysEx inspector and JSON capture logger
 - [x] reconstruct candidate NRPN transactions inside capture JSON for repeatable hardware verification
+- [x] add sealed, auditable NRPN/SysEx evidence records and mechanical candidate -> verified promotion
 
 ## Phase 2 — verified data model
 
@@ -96,7 +97,7 @@
 - Shared `ProgramState` now keeps duplicate controls synchronized across all five views.
 - Candidate patch dumps can be loaded into semantic state without echoing back to hardware.
 - Template-preserving candidate patch re-encoding keeps unknown bytes intact.
-- A/B patch-diff tooling emits machine-readable JSON for hardware verification.
+- A/B patch-diff tooling emits machine-readable JSON for hardware verification and now separates derived checksum changes from semantic field changes.
 - Opt-in live NRPN transmission is implemented for mapped `unsigned_14` and `signed_14_wrap` parameters.
 - Native librarian now supports 128 sparse slots, editable bank name/hardware-bank metadata, program name/category editing, `.aimprogram.json`, `.aimbank.json`, single-program `.syx`, and concatenated source-backed bank `.syx`.
 - Programs imported from hardware retain the complete 378-byte decoded source patch inside native JSON so unknown bytes/bits survive future edits and bank storage.
@@ -113,4 +114,5 @@
 - The SysEx inspector now surfaces the latest checksum-valid candidate patch metadata before loading it into semantic state.
 - Session restore now remembers non-destructive editor/MIDI context while explicitly forcing Live NRPN and full-write arming off on every launch.
 - MIDI capture JSON now includes statefully reconstructed candidate NRPN transactions with semantic IDs/status while preserving raw events as the authoritative evidence.
+- Controlled captures can be tagged in-app with a semantic parameter ID and isolation confirmation; sealed verification JSON can then promote canonical NRPN/SysEx mappings while retaining a committed evidence trail.
 - Next: compile/test on Rosie and macOS/iPadOS, capture real Ion request/write behavior, promote verified protocol fields, and tune the purpose-built geometry from device screenshots.

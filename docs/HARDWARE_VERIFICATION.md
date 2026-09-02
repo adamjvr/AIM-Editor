@@ -55,3 +55,9 @@ rather than being discarded.
 Pass 7 adds a dedicated hardware-transfer overlay. Full writes remain candidate and are blocked unless the current semantic program carries a complete 378-byte source patch. The user must explicitly arm the write, select Edit 1–4, and trigger the send; the arm resets immediately afterward.
 
 For the first hardware test, prefer an Edit buffer slot rather than a stored Red/Green/Blue/Yellow program. Capture the outbound SysEx and the Ion's subsequent response, then compare the returned patch to the source-backed intended state before promoting any write behavior to verified.
+
+## Evidence promotion pipeline
+
+Pass 10 formalizes the final step from experiment to canonical protocol data. See [`PROTOCOL_VERIFICATION.md`](PROTOCOL_VERIFICATION.md). The key rule is that `verified` is now mechanically auditable: repository validation rejects verified mappings that do not point at sealed evidence under `research/verification/`.
+
+Also note that patch-diff confidence now excludes the mechanically changing patch checksum from semantic field counts. The checksum remains preserved in `derived_field_changes`, while `candidate_field_changes` contains only the fields relevant to one-control A/B inference.

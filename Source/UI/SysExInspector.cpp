@@ -38,6 +38,28 @@ SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegi
     candidateSummary.setColour (juce::Label::textColourId, juce::Colour::fromRGB (220, 160, 70));
     candidateSummary.setFont (juce::FontOptions (11.0f));
 
+    verificationTagLabel.setText ("VERIFY", juce::dontSendNotification);
+    verificationTagLabel.setColour (juce::Label::textColourId, juce::Colours::white.withAlpha (0.65f));
+    verificationTagLabel.setFont (juce::FontOptions (10.0f));
+
+    verificationParameter.setMultiLine (false);
+    verificationParameter.setTextToShowWhenEmpty ("parameter id, e.g. filter1.frequency",
+                                                   juce::Colours::white.withAlpha (0.35f));
+    verificationParameter.setTooltip ("Tag this capture with the one semantic parameter intentionally moved during a controlled hardware experiment.");
+    verificationParameter.onTextChange = [this] { updateVerificationContextStatus(); };
+
+    verificationIsolation.setTooltip ("Explicitly confirm that no other Ion control was deliberately moved during this capture. Required before offline tooling can mark evidence promotable.");
+
+    verificationStatus.setText ("optional experiment tag", juce::dontSendNotification);
+    verificationStatus.setJustificationType (juce::Justification::centredRight);
+    verificationStatus.setColour (juce::Label::textColourId, juce::Colours::white.withAlpha (0.5f));
+    verificationStatus.setFont (juce::FontOptions (10.0f));
+
+    verificationNote.setMultiLine (false);
+    verificationNote.setTextToShowWhenEmpty ("verification note (value sweep, control position, test number…)",
+                                              juce::Colours::white.withAlpha (0.35f));
+    verificationNote.setTooltip ("Free-form human context stored with the raw capture. It never changes the captured MIDI bytes.");
+
     log.setMultiLine (true);
     log.setReadOnly (true);
     log.setScrollbarsShown (true);
@@ -49,7 +71,9 @@ SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegi
     sysexOnly.setToggleState (true, juce::dontSendNotification);
     sysexOnly.setTooltip ("Show only SysEx in the text view. JSON export still preserves the complete capture.");
 
-    for (auto* component : { static_cast<juce::Component*> (&title), &summary, &candidateSummary, &log, &sysexOnly,
+    for (auto* component : { static_cast<juce::Component*> (&title), &summary, &candidateSummary,
+                             &verificationTagLabel, &verificationParameter, &verificationIsolation,
+                             &verificationStatus, &verificationNote, &log, &sysexOnly,
                              &clearButton, &copyButton, &saveButton, &loadPatchButton, &closeButton })
         addAndMakeVisible (component);
 
@@ -107,6 +131,19 @@ void SysExInspector::resized()
     area.removeFromTop (4);
     candidateSummary.setBounds (area.removeFromTop (22));
     area.removeFromTop (4);
+
+    auto verificationRow = area.removeFromTop (28);
+    verificationTagLabel.setBounds (verificationRow.removeFromLeft (52));
+    verificationRow.removeFromLeft (4);
+    verificationParameter.setBounds (verificationRow.removeFromLeft (juce::jlimit (180, 300, getWidth() / 4)));
+    verificationRow.removeFromLeft (6);
+    verificationIsolation.setBounds (verificationRow.removeFromLeft (160));
+    verificationRow.removeFromLeft (6);
+    verificationStatus.setBounds (verificationRow);
+
+    area.removeFromTop (4);
+    verificationNote.setBounds (area.removeFromTop (26));
+    area.removeFromTop (5);
     auto controls = area.removeFromBottom (32);
     const int gap = 6;
 
@@ -207,7 +244,7 @@ void SysExInspector::inspectCandidateNrpn (const MidiCaptureEvent& event)
     {
         transaction.parameterId = juce::String (definition->id);
         transaction.parameterName = definition->name;
-        transaction.mappingStatus = mappingStatusToString (definition->mappingStatus);
+        transaction.mappingStatus = mappingStatusToString (definition->nrpnMappingStatus);
         transaction.valueEncoding = definition->nrpnValueEncoding;
 
         if (definition->nrpnValueEncoding == "signed_14_wrap")
@@ -220,6 +257,33 @@ void SysExInspector::inspectCandidateNrpn (const MidiCaptureEvent& event)
         nrpnTransactions.erase (nrpnTransactions.begin(), nrpnTransactions.begin() + static_cast<std::ptrdiff_t> (maxEvents / 8));
 
     nrpnTransactions.push_back (std::move (transaction));
+}
+
+void SysExInspector::updateVerificationContextStatus()
+{
+    const auto parameterId = verificationParameter.getText().trim();
+    if (parameterId.isEmpty())
+    {
+        verificationStatus.setText ("optional experiment tag", juce::dontSendNotification);
+        verificationStatus.setColour (juce::Label::textColourId, juce::Colours::white.withAlpha (0.5f));
+        return;
+    }
+
+    const auto* definition = registry.find (parameterId.toStdString());
+    if (definition == nullptr)
+    {
+        verificationStatus.setText ("unknown parameter id", juce::dontSendNotification);
+        verificationStatus.setColour (juce::Label::textColourId, juce::Colour::fromRGB (235, 95, 95));
+        return;
+    }
+
+    auto text = definition->name;
+    if (definition->nrpn)
+        text << "  • NRPN " << *definition->nrpn << " " << mappingStatusToString (definition->nrpnMappingStatus);
+    if (definition->sysex.offset)
+        text << "  • SysEx @" << *definition->sysex.offset << " " << mappingStatusToString (definition->sysexMappingStatus);
+    verificationStatus.setText (text, juce::dontSendNotification);
+    verificationStatus.setColour (juce::Label::textColourId, juce::Colour::fromRGB (115, 205, 130));
 }
 
 void SysExInspector::loadLatestCandidateProgram()
@@ -300,6 +364,17 @@ juce::String SysExInspector::makeCaptureJson() const
     root->setProperty ("format", "aim-editor.midi-capture");
     root->setProperty ("schema_version", 1);
     root->setProperty ("exported_at_utc_ms", static_cast<juce::int64> (juce::Time::currentTimeMillis()));
+
+    auto* verificationContext = new juce::DynamicObject();
+    const auto verificationParameterId = verificationParameter.getText().trim();
+    const auto parameterKnown = verificationParameterId.isNotEmpty()
+                             && registry.find (verificationParameterId.toStdString()) != nullptr;
+    verificationContext->setProperty ("parameter_id", verificationParameterId.isNotEmpty()
+                                                        ? juce::var (verificationParameterId) : juce::var());
+    verificationContext->setProperty ("parameter_known", parameterKnown);
+    verificationContext->setProperty ("user_confirmed_control_isolation", verificationIsolation.getToggleState());
+    verificationContext->setProperty ("note", verificationNote.getText());
+    root->setProperty ("verification_context", juce::var (verificationContext));
 
     juce::Array<juce::var> jsonEvents;
     jsonEvents.ensureStorageAllocated (static_cast<int> (events.size()));

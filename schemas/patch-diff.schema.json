@@ -5,25 +5,78 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "format", "schema_version", "research_status", "inputs", "patch_identity",
-    "expected_parameter_or_field", "expected_observed", "summary", "byte_changes",
-    "candidate_field_changes", "unmapped_changed_byte_offsets"
+    "format",
+    "schema_version",
+    "research_status",
+    "inputs",
+    "patch_identity",
+    "expected_parameter_or_field",
+    "expected_observed",
+    "summary",
+    "byte_changes",
+    "candidate_field_changes",
+    "unmapped_changed_byte_offsets"
   ],
   "properties": {
-    "$schema": { "type": "string" },
-    "format": { "const": "aim-editor.ion-patch-diff" },
-    "schema_version": { "const": 1 },
-    "research_status": { "const": "candidate" },
-    "inputs": { "type": "object" },
-    "patch_identity": { "type": "object" },
-    "expected_parameter_or_field": { "type": ["string", "null"] },
-    "expected_observed": { "type": ["boolean", "null"] },
-    "summary": { "type": "object" },
-    "byte_changes": { "type": "array", "items": { "type": "object" } },
-    "candidate_field_changes": { "type": "array", "items": { "type": "object" } },
+    "$schema": {
+      "type": "string"
+    },
+    "format": {
+      "const": "aim-editor.ion-patch-diff"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "research_status": {
+      "const": "candidate"
+    },
+    "inputs": {
+      "type": "object"
+    },
+    "patch_identity": {
+      "type": "object"
+    },
+    "expected_parameter_or_field": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "expected_observed": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "summary": {
+      "type": "object"
+    },
+    "byte_changes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "candidate_field_changes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
     "unmapped_changed_byte_offsets": {
       "type": "array",
-      "items": { "type": "integer", "minimum": 0, "maximum": 377 }
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 377
+      }
+    },
+    "derived_field_changes": {
+      "type": "array",
+      "description": "Fields mechanically derived from semantic data, such as the patch checksum. Preserved as evidence but excluded from semantic confidence scoring.",
+      "items": {
+        "type": "object"
+      }
     }
   }
 }
