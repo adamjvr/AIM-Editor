@@ -117,7 +117,7 @@ void OscillatorPanel::layoutLane (Lane& lane, juce::Rectangle<int> bounds)
     if (lane.controls.empty())
         return;
 
-    const auto cellWidth = juce::jmax (56, bounds.getWidth() / static_cast<int> (lane.controls.size()));
+    const auto cellWidth = juce::jmax (1, bounds.getWidth() / static_cast<int> (lane.controls.size()));
     for (auto& control : lane.controls)
         control->setBounds (bounds.removeFromLeft (cellWidth));
 }

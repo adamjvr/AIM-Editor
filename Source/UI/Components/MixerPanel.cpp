@@ -121,7 +121,7 @@ void MixerPanel::layoutChannel (Channel& channel, juce::Rectangle<int> bounds)
 {
     if (channel.controls.empty())
         return;
-    const auto cellWidth = juce::jmax (54, bounds.getWidth() / static_cast<int> (channel.controls.size()));
+    const auto cellWidth = juce::jmax (1, bounds.getWidth() / static_cast<int> (channel.controls.size()));
     for (auto& control : channel.controls)
         control->setBounds (bounds.removeFromLeft (cellWidth));
 }

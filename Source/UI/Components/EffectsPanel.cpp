@@ -67,7 +67,7 @@ void EffectsPanel::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::black.withAlpha (0.48f));
     g.setFont (juce::FontOptions (8.6f));
-    g.drawText ("FX parameter meanings may depend on the selected hardware algorithm",
+    g.drawText ("FX labels depend on the selected hardware algorithm",
                 note, juce::Justification::centred, true);
 }
 
@@ -101,7 +101,7 @@ void EffectsPanel::layoutControls (std::vector<std::unique_ptr<ParameterControl>
 {
     if (controls.empty())
         return;
-    const auto cellWidth = juce::jmax (58, bounds.getWidth() / static_cast<int> (controls.size()));
+    const auto cellWidth = juce::jmax (1, bounds.getWidth() / static_cast<int> (controls.size()));
     for (auto& control : controls)
         control->setBounds (bounds.removeFromLeft (cellWidth));
 }

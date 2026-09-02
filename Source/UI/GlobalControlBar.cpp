@@ -49,7 +49,7 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
             onPageChanged (index);
     };
 
-    const juce::StringArray pageNames { "Front", "D1", "D2", "Rnd", "Rear" };
+    const juce::StringArray pageNames { "F", "D1", "D2", "Rnd", "R" };
     for (std::size_t i = 0; i < pageButtons.size(); ++i)
     {
         pageButtons[i] = std::make_unique<juce::TextButton> (pageNames[static_cast<int> (i)]);
@@ -209,14 +209,21 @@ void GlobalControlBar::paint (juce::Graphics& g)
     g.drawLine (0.0f, 0.5f, static_cast<float> (getWidth()), 0.5f, 1.0f);
 
     g.setColour (juce::Colours::white.withAlpha (0.65f));
-    g.setFont (juce::FontOptions (10.0f));
-    g.drawText ("MIDI IN", midiInput.getBounds().translated (0, -15), juce::Justification::centredLeft);
-    g.drawText ("BANK", midiBank.getBounds().translated (0, -15), juce::Justification::centredLeft);
-    g.drawText ("PROGRAM", programSelector.getBounds().translated (0, -15), juce::Justification::centredLeft);
-    g.drawText ("MIDI OUT", midiOutput.getBounds().translated (0, -15), juce::Justification::centredLeft);
-    g.drawText ("CH", midiChannel.getBounds().translated (0, -15), juce::Justification::centredLeft);
-    g.drawText ("PANEL", (pageTabsBounds.isEmpty() ? pageSelector.getBounds() : pageTabsBounds).translated (0, -15),
-                juce::Justification::centredLeft);
+    g.setFont (juce::FontOptions (9.5f));
+
+    const auto drawSelectorHeader = [&g] (const juce::String& text, juce::Rectangle<int> controlBounds)
+    {
+        const auto header = juce::Rectangle<int> (controlBounds.getX(), controlBounds.getY() - 14,
+                                                   controlBounds.getWidth(), 12);
+        g.drawText (text, header, juce::Justification::centredLeft, false);
+    };
+
+    drawSelectorHeader ("MIDI IN", midiInput.getBounds());
+    drawSelectorHeader ("BANK", midiBank.getBounds());
+    drawSelectorHeader ("PROGRAM", programSelector.getBounds());
+    drawSelectorHeader ("MIDI OUT", midiOutput.getBounds());
+    drawSelectorHeader ("CH", midiChannel.getBounds());
+    drawSelectorHeader ("PANEL", pageTabsBounds.isEmpty() ? pageSelector.getBounds() : pageTabsBounds);
 }
 
 void GlobalControlBar::resized()

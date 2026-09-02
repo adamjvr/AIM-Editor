@@ -5,6 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOG_DIR="${AIM_EDITOR_APPLE_LOG_DIR:-$ROOT/build-logs}"
 MAC_LOG="$LOG_DIR/macos.log"
 IPAD_LOG="$LOG_DIR/ipados-device.log"
+MAC_BUILD_DIR="${AIM_EDITOR_MAC_BUILD_DIR:-$ROOT/build-macos}"
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
   echo "ERROR: the Apple application gate requires macOS/Xcode and a connected physical iPad." >&2
@@ -53,7 +54,7 @@ run_prefixed() {
 # same time. The function itself is backgrounded so wait receives the real child
 # script status rather than tee's status.
 run_prefixed macOS "$MAC_LOG" \
-  env AIM_EDITOR_BUILD_DIR="${AIM_EDITOR_MAC_BUILD_DIR:-$ROOT/build-macos}" \
+  env AIM_EDITOR_BUILD_DIR="$MAC_BUILD_DIR" \
   "$ROOT/tools/build_and_test.sh" &
 MAC_PID=$!
 
@@ -64,6 +65,23 @@ IPAD_PID=$!
 set +e
 wait "$MAC_PID"
 MAC_RC=$?
+
+if [[ "$MAC_RC" -eq 0 ]]; then
+  MAC_APP="$(find "$MAC_BUILD_DIR" -type d -name 'AIM Editor.app' -print -quit)"
+  if [[ -n "$MAC_APP" && -d "$MAC_APP" ]]; then
+    printf '[macOS] Launching %s\n' "$MAC_APP"
+    open "$MAC_APP"
+    MAC_LAUNCH_RC=$?
+    if [[ "$MAC_LAUNCH_RC" -ne 0 ]]; then
+      printf '[macOS] ERROR: built application could not be launched.\n' >&2
+      MAC_RC="$MAC_LAUNCH_RC"
+    fi
+  else
+    printf '[macOS] ERROR: AIM Editor.app was not found after a successful macOS build.\n' >&2
+    MAC_RC=1
+  fi
+fi
+
 wait "$IPAD_PID"
 IPAD_RC=$?
 set -e

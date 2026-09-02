@@ -15,16 +15,70 @@ juce::String humanizeId (juce::String text)
         text = text.substring (0, 1).toUpperCase() + text.substring (1);
     return text;
 }
+
+juce::String compactParameterName (const ParameterDefinition& definition)
+{
+    const auto id = juce::String::fromUTF8 (definition.id.c_str());
+    auto name = definition.name;
+
+    const auto stripPrefix = [&name] (const juce::String& prefix)
+    {
+        if (name.startsWithIgnoreCase (prefix))
+            name = name.substring (prefix.length()).trimStart();
+    };
+
+    if (id.startsWith ("osc1.")) stripPrefix ("Oscillator 1 ");
+    else if (id.startsWith ("osc2.")) stripPrefix ("Oscillator 2 ");
+    else if (id.startsWith ("osc3.")) stripPrefix ("Oscillator 3 ");
+    else if (id.startsWith ("filter1.")) stripPrefix ("Filter 1 ");
+    else if (id.startsWith ("filter2.")) stripPrefix ("Filter 2 ");
+    else if (id.startsWith ("env.pitch.")) stripPrefix ("Pitch Envelope ");
+    else if (id.startsWith ("env.filter.")) stripPrefix ("Filter Envelope ");
+    else if (id.startsWith ("env.amp.")) stripPrefix ("Amp Envelope ");
+    else if (id.startsWith ("lfo1.")) stripPrefix ("LFO 1 ");
+    else if (id.startsWith ("lfo2.")) stripPrefix ("LFO 2 ");
+    else if (id.startsWith ("sample_hold.")) stripPrefix ("Sample & Hold ");
+    else if (id.startsWith ("tempo_arp.")) stripPrefix ("Arpeggiator ");
+    else if (id.startsWith ("voice.portamento_")) stripPrefix ("Portamento ");
+    else if (id == "voice.unison") name = "Voices";
+    else if (id == "voice.detune") name = "Detune";
+    else if (id == "voice.drift") name = "Drift";
+    else if (id == "voice.poly_mode") name = "Poly / Mono";
+    else if (id == "voice.pitch_wheel_mode") name = "Pitch Wheel";
+    else if (id.startsWith ("output.")) stripPrefix ("Output ");
+    else if (id.startsWith ("effects.")) stripPrefix ("Effects ");
+
+    if (id.startsWith ("pre_filter_mix."))
+    {
+        if (id.endsWith (".level")) return "Level";
+        if (id.endsWith (".balance")) return "Filter 1/2 Balance";
+    }
+
+    if (id.startsWith ("post_filter_mix."))
+    {
+        if (id.endsWith (".level")) return "Level";
+        if (id.endsWith (".pan")) return "Pan";
+    }
+
+    if (id == "filters.offset") return "Offset";
+    if (id == "filters.f1_to_f2") return "F1 to F2 Routing";
+    if (id == "output.program_level") return "Program Level";
+    if (id == "output.prefilter_signal") return "Prefilter Signal";
+    if (id == "output.filter1_polarity") return "F1 Polarity";
+
+    return name;
+}
 }
 
 ParameterControl::ParameterControl (const ParameterDefinition& definitionToUse,
                                     ProgramState& stateToUse)
     : definition (definitionToUse), state (stateToUse), widgetKind (chooseWidgetKind())
 {
-    label.setText (definition.name, juce::dontSendNotification);
+    label.setText (compactParameterName (definition), juce::dontSendNotification);
     label.setJustificationType (juce::Justification::centredTop);
-    label.setFont (juce::FontOptions (9.5f));
-    label.setMinimumHorizontalScale (0.6f);
+    label.setFont (juce::FontOptions (9.25f));
+    label.setMinimumHorizontalScale (0.72f);
+    label.setTooltip (definition.name);
     addAndMakeVisible (label);
 
     valueLabel.setJustificationType (juce::Justification::centred);
@@ -129,13 +183,13 @@ ParameterControl::~ParameterControl()
 void ParameterControl::resized()
 {
     auto area = getLocalBounds().reduced (3);
-    label.setBounds (area.removeFromBottom (22));
+    label.setBounds (area.removeFromBottom (28));
     valueLabel.setBounds (area.removeFromBottom (16));
 
     if (widgetKind == WidgetKind::slider)
         slider.setBounds (area.reduced (5, 0));
     else if (widgetKind == WidgetKind::selector)
-        selector.setBounds (area.withSizeKeepingCentre (juce::jmax (60, area.getWidth() - 6), 24));
+        selector.setBounds (area.withSizeKeepingCentre (juce::jmax (24, area.getWidth() - 6), 24));
     else
         toggle.setBounds (area.withSizeKeepingCentre (24, 24));
 }

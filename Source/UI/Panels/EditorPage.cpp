@@ -80,13 +80,16 @@ void EditorPage::paint (juce::Graphics& g)
     g.fillAll (juce::Colour::fromRGB (162, 162, 159));
 
     auto top = getLocalBounds().removeFromTop (30).reduced (14, 3);
+    auto titleArea = top.removeFromLeft (juce::jmax (280, top.getWidth() / 2));
+    auto metaArea = top;
+
     g.setColour (juce::Colours::black.withAlpha (0.72f));
     g.setFont (juce::FontOptions (14.0f).withStyle ("Bold"));
-    g.drawText (title, top, juce::Justification::centredLeft, false);
+    g.drawText (title, titleArea, juce::Justification::centredLeft, false);
 
     g.setColour (juce::Colours::black.withAlpha (0.46f));
     g.setFont (juce::FontOptions (9.5f));
-    g.drawText ("shared JSON state • desktop / iPad touch surface", top,
+    g.drawText ("shared JSON state / desktop + iPad touch surface", metaArea,
                 juce::Justification::centredRight, false);
 
     // A faint signal-flow rail visually ties the purpose-built desktop layout

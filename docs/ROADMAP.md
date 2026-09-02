@@ -130,7 +130,7 @@
 - Destructive three-button dialogs now use JUCE 9 `NativeMessageBox::showAsync` for a stable zero-based callback contract; the ambiguous legacy AlertWindow result mapping is statically rejected.
 - Rosie now passes the complete real JUCE 9.0.1 Linux standalone-application compile/link + CTest gate through Pass 19.
 - The Apple application gate is now explicit: macOS standalone app + CTest followed by a signed build/install/launch on a connected physical iPad. Simulator validation has been retired.
-- Next: close the physical-iPad gate, then resume real-Ion request/write verification and evidence promotion.
+- Physical iPad build/sign/install/launch is now operational; next is cross-platform UI polish followed by real-Ion request/write verification and evidence promotion.
 
 ## Pass 19 build-gate update
 
@@ -171,3 +171,13 @@
 - Remove target-wide Objective-C ARC forcing from AIMEditor so JUCE Apple module sources compile under their expected memory-management mode.
 - Guard the build workflow against reintroducing a global ARC override.
 - Re-run the physical arm64 iPadOS build/sign/install/launch gate.
+
+## Pass 29 — first cross-platform UI cleanup
+
+- Shorten redundant parameter captions inside already-labelled sections (for example `Oscillator 1 Fine Tune` becomes `Fine Tune` inside the OSC 1 lane) while preserving full names in tooltips.
+- Give parameter captions more vertical room and stop over-compressing text at desktop/iPad widths.
+- Compact the segmented page tabs so `Front`/`Rear` no longer ellipsize in the fixed bottom bar.
+- Make the iPad target full-screen with the system status bar hidden, matching the editor's landscape-only hardware-workstation layout.
+- Make the aggregate Apple gate launch the successful macOS app as well as installing/launching the physical iPad build.
+
+- Pass 30: first Apple chrome cleanup — product title, ASCII-safe page banner, non-overlapping global selector headings, and hard physical-iPad status-bar suppression.

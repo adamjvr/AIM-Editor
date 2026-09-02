@@ -16,7 +16,7 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
       programLibrarian (registryToUse, programState, documentTracker),
       hardwareTools (midiService, registryToUse, programState)
 {
-    pages[0] = std::make_unique<EditorPage> ("front", "Front", registryToUse, programState);
+    pages[0] = std::make_unique<EditorPage> ("front", "Alesis ION/Micron Editor", registryToUse, programState);
     pages[1] = std::make_unique<EditorPage> ("dual1", "Dual 1", registryToUse, programState);
     pages[2] = std::make_unique<EditorPage> ("dual2", "Dual 2", registryToUse, programState);
     pages[3] = std::make_unique<EditorPage> ("randomizer", "Randomizer", registryToUse, programState);

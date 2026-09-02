@@ -164,7 +164,7 @@ void ModulatorPanel::layoutControls (std::vector<std::unique_ptr<ParameterContro
 {
     if (controls.empty())
         return;
-    const auto cellWidth = juce::jmax (58, bounds.getWidth() / static_cast<int> (controls.size()));
+    const auto cellWidth = juce::jmax (1, bounds.getWidth() / static_cast<int> (controls.size()));
     for (auto& control : controls)
         control->setBounds (bounds.removeFromLeft (cellWidth));
 }

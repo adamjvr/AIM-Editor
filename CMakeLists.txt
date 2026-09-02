@@ -120,6 +120,14 @@ juce_add_gui_app(AIMEditor
     DOCUMENT_EXTENSIONS syx
     FILE_SHARING_ENABLED TRUE
     DOCUMENT_BROWSER_ENABLED TRUE
+    STATUS_BAR_HIDDEN TRUE
+    REQUIRES_FULL_SCREEN TRUE
+    PLIST_TO_MERGE [[<plist>
+<dict>
+<key>UIViewControllerBasedStatusBarAppearance</key>
+<false/>
+</dict>
+</plist>]]
     TARGETED_DEVICE_FAMILY 2
     IPAD_SCREEN_ORIENTATIONS
         UIInterfaceOrientationLandscapeLeft

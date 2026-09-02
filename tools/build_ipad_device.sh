@@ -177,6 +177,19 @@ if [[ -z "$TARGET_BUILD_DIR" || -z "$FULL_PRODUCT_NAME" || ! -d "$APP_BUNDLE" ]]
 fi
 printf 'Application : %s\n' "$APP_BUNDLE"
 
+printf '\n== Verify packaged iPad full-screen/status-bar policy ==\n'
+INFO_PLIST="$APP_BUNDLE/Info.plist"
+STATUS_BAR_HIDDEN="$(/usr/libexec/PlistBuddy -c 'Print :UIStatusBarHidden' "$INFO_PLIST" 2>/dev/null || true)"
+REQUIRES_FULL_SCREEN="$(/usr/libexec/PlistBuddy -c 'Print :UIRequiresFullScreen' "$INFO_PLIST" 2>/dev/null || true)"
+VC_STATUS_POLICY="$(/usr/libexec/PlistBuddy -c 'Print :UIViewControllerBasedStatusBarAppearance' "$INFO_PLIST" 2>/dev/null || true)"
+printf 'UIStatusBarHidden                    : %s\n' "${STATUS_BAR_HIDDEN:-<missing>}"
+printf 'UIRequiresFullScreen                 : %s\n' "${REQUIRES_FULL_SCREEN:-<missing>}"
+printf 'UIViewControllerBasedStatusBarAppearance: %s\n' "${VC_STATUS_POLICY:-<missing>}"
+if [[ "$STATUS_BAR_HIDDEN" != "true" || "$REQUIRES_FULL_SCREEN" != "true" || "$VC_STATUS_POLICY" != "false" ]]; then
+  echo "ERROR: packaged iPad application does not contain the required full-screen/status-bar policy." >&2
+  exit 2
+fi
+
 printf '\n== Verify physical-device code signature ==\n'
 codesign --verify --deep --strict "$APP_BUNDLE"
 printf 'PASS: code signature verifies\n'

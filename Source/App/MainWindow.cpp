@@ -21,6 +21,13 @@ MainWindow::MainWindow (const ParameterRegistry& registry, IonMidiService& midiS
    #endif
 
     setVisible (true);
+
+   #if JUCE_IOS
+    // iPadOS can ignore UIStatusBarHidden while view-controller-based status
+    // appearance is active. Kiosk mode makes JUCE's iOS peer explicitly report
+    // that the status bar should stay hidden for this full-screen editor.
+    juce::Desktop::getInstance().setKioskModeComponent (this, false);
+   #endif
 }
 
 void MainWindow::closeButtonPressed()

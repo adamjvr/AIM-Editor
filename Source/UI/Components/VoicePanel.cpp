@@ -86,7 +86,7 @@ void VoicePanel::layoutGroup (Group& group, juce::Rectangle<int> bounds)
 {
     if (group.controls.empty())
         return;
-    const auto cellWidth = juce::jmax (58, bounds.getWidth() / static_cast<int> (group.controls.size()));
+    const auto cellWidth = juce::jmax (1, bounds.getWidth() / static_cast<int> (group.controls.size()));
     for (auto& control : group.controls)
         control->setBounds (bounds.removeFromLeft (cellWidth));
 }
