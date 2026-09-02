@@ -49,7 +49,14 @@ private:
     std::vector<int> selectorRawValues;
 };
 
-class SectionPanel final : public juce::Component
+class EditorSection : public juce::Component
+{
+public:
+    ~EditorSection() override = default;
+    [[nodiscard]] virtual int preferredHeightForWidth (int width) const = 0;
+};
+
+class SectionPanel final : public EditorSection
 {
 public:
     SectionPanel (juce::String title,
@@ -59,7 +66,7 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    [[nodiscard]] int preferredHeightForWidth (int width) const;
+    [[nodiscard]] int preferredHeightForWidth (int width) const override;
 
 private:
     [[nodiscard]] int columnsForWidth (int width) const;

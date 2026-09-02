@@ -25,7 +25,12 @@ EditorPage::EditorPage (juce::String pageKey,
     {
         if (const auto found = groups.find (group); found != groups.end())
         {
-            auto section = std::make_unique<SectionPanel> (titleForGroup (group), found->second, state);
+            std::unique_ptr<EditorSection> section;
+            if (group == "mod_matrix")
+                section = std::make_unique<ModMatrixPanel> (registry, state);
+            else
+                section = std::make_unique<SectionPanel> (titleForGroup (group), found->second, state);
+
             addAndMakeVisible (*section);
             sections.push_back (std::move (section));
             groups.erase (found);

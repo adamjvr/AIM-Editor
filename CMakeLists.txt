@@ -24,6 +24,7 @@ juce_add_binary_data(AIMEditorData
         data/enums/filter-types.json
         schemas/parameter-database.schema.json
         schemas/program.schema.json
+        schemas/bank.schema.json
         schemas/midi-capture.schema.json
         schemas/ion-sysex.schema.json
         schemas/ion-nrpn.schema.json
@@ -40,6 +41,10 @@ add_library(AIMEditorCore STATIC
     Source/Core/ProgramJson.h
     Source/Core/ProgramState.cpp
     Source/Core/ProgramState.h
+    Source/Core/ProgramBank.cpp
+    Source/Core/ProgramBank.h
+    Source/Core/BankJson.cpp
+    Source/Core/BankJson.h
 )
 
 target_include_directories(AIMEditorCore PUBLIC Source)
@@ -68,6 +73,8 @@ add_library(AIMEditorMidi STATIC
     Source/Midi/IonProgramDecoder.h
     Source/Midi/IonProgramEncoder.cpp
     Source/Midi/IonProgramEncoder.h
+    Source/Midi/IonSyxFileCodec.cpp
+    Source/Midi/IonSyxFileCodec.h
 )
 
 target_include_directories(AIMEditorMidi PUBLIC Source)
@@ -96,8 +103,12 @@ target_sources(AIMEditor PRIVATE
     Source/UI/GlobalControlBar.h
     Source/UI/SysExInspector.cpp
     Source/UI/SysExInspector.h
+    Source/UI/ProgramLibrarian.cpp
+    Source/UI/ProgramLibrarian.h
     Source/UI/Components/SectionPanel.cpp
     Source/UI/Components/SectionPanel.h
+    Source/UI/Components/ModMatrixPanel.cpp
+    Source/UI/Components/ModMatrixPanel.h
     Source/UI/Panels/EditorPage.cpp
     Source/UI/Panels/EditorPage.h
 )

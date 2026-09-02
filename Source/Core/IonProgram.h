@@ -6,6 +6,7 @@
 #include <map>
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace aim
 {
@@ -14,6 +15,7 @@ class IonProgram
 public:
     using ParameterMap = std::map<std::string, juce::var, std::less<>>;
     using UnknownByteMap = std::map<int, std::uint8_t>;
+    using RawPatchBytes = std::vector<std::uint8_t>;
 
     void setName (juce::String newName) { name = std::move (newName); }
     void setCategory (juce::String newCategory) { category = std::move (newCategory); }
@@ -28,6 +30,10 @@ public:
     void preserveUnknownByte (int offset, std::uint8_t value);
     [[nodiscard]] const UnknownByteMap& getUnknownBytes() const noexcept { return unknownBytes; }
 
+    void setSourcePatchBytes (RawPatchBytes bytes) { sourcePatchBytes = std::move (bytes); }
+    [[nodiscard]] const RawPatchBytes& getSourcePatchBytes() const noexcept { return sourcePatchBytes; }
+    [[nodiscard]] bool hasSourcePatchBytes() const noexcept { return ! sourcePatchBytes.empty(); }
+
     void clear();
 
 private:
@@ -35,5 +41,6 @@ private:
     juce::String category;
     ParameterMap parameters;
     UnknownByteMap unknownBytes;
+    RawPatchBytes sourcePatchBytes;
 };
 }

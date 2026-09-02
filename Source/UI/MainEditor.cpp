@@ -9,7 +9,8 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
       programState (registryToUse),
       parameterTransmitter (programState, registryToUse, midiService),
       controlBar (midiService),
-      sysExInspector (midiService, registryToUse)
+      sysExInspector (midiService, registryToUse),
+      programLibrarian (registryToUse, programState)
 {
     pages[0] = std::make_unique<EditorPage> ("front", "Front", registryToUse, programState);
     pages[1] = std::make_unique<EditorPage> ("dual1", "Dual 1", registryToUse, programState);
@@ -24,6 +25,7 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
 
     controlBar.onPageChanged = [this] (int pageIndex) { showPage (pageIndex); };
     controlBar.onSysExToolsRequested = [this] { showSysExInspector(); };
+    controlBar.onLibrarianRequested = [this] { showProgramLibrarian(); };
     controlBar.onLiveEditingChanged = [this] (bool enabled)
     {
         parameterTransmitter.setEnabled (enabled);
@@ -35,11 +37,14 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
     addAndMakeVisible (controlBar);
 
     sysExInspector.onClose = [this] { hideSysExInspector(); };
-    sysExInspector.onLoadCandidateProgram = [this] (const IonProgram& program)
+    sysExInspector.onLoadCandidateProgram = [this] (const IonProgram& program, const IonPatchDump&)
     {
         programState.replaceProgram (program, ProgramChangeOrigin::protocolInput);
     };
     addChildComponent (sysExInspector);
+
+    programLibrarian.onClose = [this] { hideProgramLibrarian(); };
+    addChildComponent (programLibrarian);
 
     midi.setMessageHandler ([safe = juce::Component::SafePointer<MainEditor> (this)] (const juce::MidiMessage& message) mutable
     {
@@ -78,7 +83,9 @@ void MainEditor::resized()
     updateViewedPageSize();
 
     const auto margin = juce::jlimit (10, 32, juce::jmin (getWidth(), getHeight()) / 24);
-    sysExInspector.setBounds (getLocalBounds().reduced (margin));
+    const auto overlayBounds = getLocalBounds().reduced (margin);
+    sysExInspector.setBounds (overlayBounds);
+    programLibrarian.setBounds (overlayBounds);
 }
 
 void MainEditor::showPage (int pageIndex)
@@ -105,6 +112,7 @@ void MainEditor::updateViewedPageSize()
 
 void MainEditor::showSysExInspector()
 {
+    programLibrarian.setVisible (false);
     sysExInspector.setVisible (true);
     sysExInspector.toFront (true);
 }
@@ -112,6 +120,18 @@ void MainEditor::showSysExInspector()
 void MainEditor::hideSysExInspector()
 {
     sysExInspector.setVisible (false);
+}
+
+void MainEditor::showProgramLibrarian()
+{
+    sysExInspector.setVisible (false);
+    programLibrarian.setVisible (true);
+    programLibrarian.toFront (true);
+}
+
+void MainEditor::hideProgramLibrarian()
+{
+    programLibrarian.setVisible (false);
 }
 
 void MainEditor::applyIncomingNrpn (const DecodedNrpn& decoded)

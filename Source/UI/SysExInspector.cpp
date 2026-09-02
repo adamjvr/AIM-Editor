@@ -146,6 +146,7 @@ void SysExInspector::inspectCandidatePatch (const MidiCaptureEvent& event)
         return;
 
     latestCandidateName = patch.name;
+    latestCandidatePatch = patch;
     latestCandidateProgram = std::move (program);
     loadPatchButton.setEnabled (true);
     loadPatchButton.setButtonText (latestCandidateName.isNotEmpty() ? "Load " + latestCandidateName : "Load Patch");
@@ -153,10 +154,10 @@ void SysExInspector::inspectCandidatePatch (const MidiCaptureEvent& event)
 
 void SysExInspector::loadLatestCandidateProgram()
 {
-    if (! latestCandidateProgram || ! onLoadCandidateProgram)
+    if (! latestCandidateProgram || ! latestCandidatePatch || ! onLoadCandidateProgram)
         return;
 
-    onLoadCandidateProgram (*latestCandidateProgram);
+    onLoadCandidateProgram (*latestCandidateProgram, *latestCandidatePatch);
 }
 
 void SysExInspector::rebuildLog()
@@ -176,6 +177,7 @@ void SysExInspector::clearCapture()
 {
     events.clear();
     latestCandidateProgram.reset();
+    latestCandidatePatch.reset();
     latestCandidateName.clear();
     loadPatchButton.setEnabled (false);
     loadPatchButton.setButtonText ("Load Patch");

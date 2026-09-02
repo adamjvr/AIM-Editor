@@ -27,5 +27,6 @@ void IonProgram::clear()
     category.clear();
     parameters.clear();
     unknownBytes.clear();
+    sourcePatchBytes.clear();
 }
 }

@@ -27,6 +27,7 @@ juce::Result IonProgramDecoder::decode (const IonPatchDump& patch,
         return juce::Result::fail ("Ion patch image must contain 378 decoded bytes");
 
     program.clear();
+    program.setSourcePatchBytes (patch.decodedBytes);
     program.setName (patch.name);
 
     static constexpr const char* categories[] = {

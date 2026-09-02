@@ -34,15 +34,19 @@ This is the initial implementation scaffold. It currently contains:
 - a buildable JUCE application shell;
 - five editor pages matching the reference application's Front, Dual 1, Dual 2, Randomizer, and Rear organization;
 - a global MIDI/program control strip;
-- a typed parameter registry loaded from JSON, including explicit enum domains;
+- a typed parameter registry loaded from JSON, including reusable external enum tables;
 - an observable semantic `ProgramState` shared across all editor views;
 - JSON-driven knob/selector/toggle control construction rather than hard-coded per-widget protocol logic;
 - an initial screenshot-derived inventory of 178 visible/semantic parameters;
-- JSON program import/export infrastructure;
+- native `.aimprogram.json` and sparse `.aimbank.json` import/export;
+- a 128-slot program librarian with editable bank metadata plus program name/category editing;
+- standard single/multi-message `.syx` import plus template-preserving program/bank `.syx` export;
+- complete 378-byte source patch preservation inside native JSON when a program comes from hardware;
 - a MIDI service boundary for device enumeration/input/output;
 - opt-in candidate live NRPN editing with explicit MIDI channel selection;
 - incoming NRPN decoding that updates shared state without MIDI feedback loops;
 - synchronized semantic parameter state shared by every editor page;
+- a purpose-built responsive 12-slot Mod Matrix editor using JSON-backed modulation source/destination tables;
 - a live MIDI/SysEx capture inspector with JSON export;
 - a candidate Ion/Micron 7-of-8 patch codec, checksum verifier, and single-patch request path;
 - machine-readable candidate SysEx and NRPN specifications with explicit evidence status;
@@ -99,7 +103,7 @@ cmake -S . -B build -DAIM_EDITOR_JUCE_PATH=/path/to/JUCE
 
 `data/parameters.json` is the canonical semantic parameter inventory. Unknown mappings remain `null`; research-backed but unverified mappings are stored as `candidate` with explicit evidence metadata rather than being mistaken for verified facts.
 
-Transport-specific source material lives separately in `data/protocol/ion-sysex.json` and `data/protocol/ion-nrpn.json`. This is important because the same semantic parameter may use different raw domains over SysEx and NRPN.
+Transport-specific source material lives separately in `data/protocol/ion-sysex.json` and `data/protocol/ion-nrpn.json`. Reusable enumerations live in `data/enums/*.json`, so large domains such as modulation sources/destinations remain human-readable and can be consumed by tools without reading C++. This is important because the same semantic parameter may use different raw domains over SysEx and NRPN.
 
 Program exports use a nested JSON representation such as:
 
@@ -118,9 +122,12 @@ Program exports use a nested JSON representation such as:
       "unison": 2
     }
   },
-  "unmapped_bytes": []
+  "unmapped_bytes": [],
+  "source_patch": null
 }
 ```
+
+Native banks use `format: "aim-editor.bank"` and store only occupied slots. Programs that originate from real hardware carry a complete decoded `source_patch` byte array so unknown data is never discarded; JSON-only programs deliberately leave it `null`. See [`docs/DATA_FORMATS.md`](docs/DATA_FORMATS.md) and [`docs/LIBRARIAN.md`](docs/LIBRARIAN.md).
 
 ## Data tooling
 

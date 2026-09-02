@@ -153,6 +153,11 @@ void ParameterControl::parameterValueChanged (std::string_view id,
             if (found != selectorRawValues.end())
                 selector.setSelectedItemIndex (static_cast<int> (std::distance (selectorRawValues.begin(), found)),
                                                juce::dontSendNotification);
+            else
+            {
+                selector.setSelectedId (0, juce::dontSendNotification);
+                selector.setText ("Unknown " + juce::String (raw), juce::dontSendNotification);
+            }
         }
         else if (definition.enumValues.size() == 2)
             toggle.setToggleState (static_cast<int> (value) == definition.enumValues[1].raw,
@@ -198,6 +203,11 @@ void ParameterControl::refreshFromState()
         if (found != selectorRawValues.end())
             selector.setSelectedItemIndex (static_cast<int> (std::distance (selectorRawValues.begin(), found)),
                                            juce::dontSendNotification);
+        else
+        {
+            selector.setSelectedId (0, juce::dontSendNotification);
+            selector.setText ("Unknown " + juce::String (raw), juce::dontSendNotification);
+        }
     }
     else if (definition.enumValues.size() == 2)
         toggle.setToggleState (static_cast<int> (*value) == definition.enumValues[1].raw,

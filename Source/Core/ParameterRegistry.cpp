@@ -1,6 +1,7 @@
 #include "ParameterRegistry.h"
 
 #include <algorithm>
+#include <cmath>
 #include <set>
 
 namespace aim
@@ -37,6 +38,29 @@ std::optional<double> optionalDouble (const juce::var& value)
 juce::String stringProperty (const juce::DynamicObject& object, const juce::Identifier& name)
 {
     return object.getProperty (name).toString();
+}
+
+bool enumCoversIntegerDomain (const std::vector<ParameterEnumValue>& values,
+                              const std::optional<double>& rawMin,
+                              const std::optional<double>& rawMax)
+{
+    if (! rawMin || ! rawMax || values.empty())
+        return false;
+
+    const auto minimum = static_cast<int> (std::ceil (*rawMin));
+    const auto maximum = static_cast<int> (std::floor (*rawMax));
+    if (maximum < minimum || static_cast<int> (values.size()) != maximum - minimum + 1)
+        return false;
+
+    std::set<int> rawValues;
+    for (const auto& item : values)
+        rawValues.insert (item.raw);
+
+    for (int raw = minimum; raw <= maximum; ++raw)
+        if (! rawValues.contains (raw))
+            return false;
+
+    return true;
 }
 }
 
@@ -87,6 +111,7 @@ juce::Result ParameterRegistry::loadFromJson (const juce::String& jsonText)
             definition.rawMin = optionalDouble (domain->getProperty ("raw_min"));
             definition.rawMax = optionalDouble (domain->getProperty ("raw_max"));
             definition.defaultRaw = optionalDouble (domain->getProperty ("default_raw"));
+            definition.enumTableId = domain->getProperty ("enum_table").toString();
 
             if (const auto* values = domain->getProperty ("values").getArray())
             {
@@ -109,6 +134,11 @@ juce::Result ParameterRegistry::loadFromJson (const juce::String& jsonText)
                     definition.enumValues.push_back (std::move (enumValue));
                 }
             }
+
+            if (! definition.enumValues.empty())
+                definition.enumValuesComplete = enumCoversIntegerDomain (definition.enumValues,
+                                                                          definition.rawMin,
+                                                                          definition.rawMax);
         }
 
         if (const auto* display = objectOf (parameterObject->getProperty ("display")))
@@ -151,9 +181,76 @@ juce::Result ParameterRegistry::loadFromJson (const juce::String& jsonText)
                     definition.pages.push_back (page.toString());
         }
 
+        if (definition.enumValues.empty() && definition.enumTableId.isNotEmpty())
+            if (const auto table = enumTables.find (definition.enumTableId); table != enumTables.end())
+            {
+                definition.enumValues = table->second;
+                definition.enumValuesComplete = enumCoversIntegerDomain (definition.enumValues,
+                                                                          definition.rawMin,
+                                                                          definition.rawMax);
+            }
+
         indexById.emplace (definition.id, definitions.size());
         definitions.push_back (std::move (definition));
     }
+
+    return juce::Result::ok();
+}
+
+juce::Result ParameterRegistry::loadEnumTableFromJson (const juce::String& jsonText)
+{
+    juce::var root;
+    if (const auto result = juce::JSON::parse (jsonText, root); result.failed())
+        return result;
+
+    const auto* object = objectOf (root);
+    if (object == nullptr || object->getProperty ("format").toString() != "aim-editor.enum-table")
+        return juce::Result::fail ("Unexpected enum table format");
+
+    const auto tableId = object->getProperty ("id").toString();
+    if (tableId.isEmpty())
+        return juce::Result::fail ("Enum table requires an id");
+
+    const auto* values = object->getProperty ("values").getArray();
+    if (values == nullptr)
+        return juce::Result::fail ("Enum table requires a values array");
+
+    std::vector<ParameterEnumValue> parsed;
+    std::set<int> seenRaw;
+    for (const auto& item : *values)
+    {
+        const auto* valueObject = objectOf (item);
+        if (valueObject == nullptr)
+            return juce::Result::fail ("Enum table values must be objects");
+
+        const auto raw = optionalInt (valueObject->getProperty ("value"));
+        if (! raw)
+            return juce::Result::fail ("Enum table value requires an integer value");
+        if (! seenRaw.insert (*raw).second)
+            return juce::Result::fail ("Enum table contains duplicate raw value " + juce::String (*raw));
+
+        ParameterEnumValue value;
+        value.raw = *raw;
+        value.id = valueObject->getProperty ("id").toString();
+        value.name = valueObject->getProperty ("name").toString();
+        if (value.name.isEmpty())
+            value.name = value.id.replaceCharacter ('_', ' ');
+        parsed.push_back (std::move (value));
+    }
+
+    enumTables[tableId] = parsed;
+
+    // Tables may be loaded after the main parameter database. Apply them to
+    // unresolved definitions immediately without overwriting explicitly inline
+    // enum values.
+    for (auto& definition : definitions)
+        if (definition.enumValues.empty() && definition.enumTableId == tableId)
+        {
+            definition.enumValues = parsed;
+            definition.enumValuesComplete = enumCoversIntegerDomain (definition.enumValues,
+                                                                      definition.rawMin,
+                                                                      definition.rawMax);
+        }
 
     return juce::Result::ok();
 }

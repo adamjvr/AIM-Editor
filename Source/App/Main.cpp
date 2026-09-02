@@ -36,6 +36,19 @@ public:
                                                          "Could not load parameter database:\n" + loadResult.getErrorMessage());
         }
 
+        const auto loadEnumTable = [this] (const char* data, int size)
+        {
+            const auto text = juce::String::fromUTF8 (data, size);
+            if (const auto result = registry.loadEnumTableFromJson (text); result.failed())
+                juce::NativeMessageBox::showMessageBoxAsync (juce::MessageBoxIconType::WarningIcon,
+                                                             "AIM Editor",
+                                                             "Could not load enum table:\n" + result.getErrorMessage());
+        };
+
+        loadEnumTable (AIMBinaryData::modulation_sources_json, AIMBinaryData::modulation_sources_jsonSize);
+        loadEnumTable (AIMBinaryData::modulation_destinations_json, AIMBinaryData::modulation_destinations_jsonSize);
+        loadEnumTable (AIMBinaryData::filter_types_json, AIMBinaryData::filter_types_jsonSize);
+
         mainWindow = std::make_unique<MainWindow> (registry, midiService);
     }
 

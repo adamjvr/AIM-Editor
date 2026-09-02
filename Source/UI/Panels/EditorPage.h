@@ -3,6 +3,7 @@
 #include "Core/ParameterRegistry.h"
 #include "Core/ProgramState.h"
 #include "UI/Components/SectionPanel.h"
+#include "UI/Components/ModMatrixPanel.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -32,6 +33,6 @@ private:
 
     juce::String key;
     juce::String title;
-    std::vector<std::unique_ptr<SectionPanel>> sections;
+    std::vector<std::unique_ptr<EditorSection>> sections;
 };
 }

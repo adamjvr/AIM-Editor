@@ -18,6 +18,7 @@ def run(*args: str) -> None:
 def main() -> int:
     run(sys.executable, "tools/validate_parameter_database.py")
     run(sys.executable, "tools/validate_protocol_data.py")
+    run(sys.executable, "tools/validate_native_formats.py")
     run(sys.executable, "tools/protocol/ion_sysex.py", "self-test")
     run(sys.executable, "tools/protocol/ion_nrpn.py", "self-test")
     run(sys.executable, "tools/protocol/ion_patch_diff.py", "self-test")

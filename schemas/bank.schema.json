@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aim-editor.org/schemas/bank.schema.json",
+  "title": "AIM Editor Program Bank",
+  "type": "object",
+  "required": ["format", "schema_version", "name", "hardware_bank", "programs"],
+  "properties": {
+    "format": { "const": "aim-editor.bank" },
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "name": { "type": "string" },
+    "hardware_bank": {
+      "oneOf": [
+        { "type": "string", "enum": ["red", "green", "blue", "yellow", "edit"] },
+        { "type": "null" }
+      ]
+    },
+    "programs": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "required": ["slot", "program"],
+        "properties": {
+          "slot": { "type": "integer", "minimum": 0, "maximum": 127 },
+          "program": { "$ref": "program.schema.json" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

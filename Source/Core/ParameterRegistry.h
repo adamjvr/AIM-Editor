@@ -12,6 +12,7 @@ class ParameterRegistry
 {
 public:
     juce::Result loadFromJson (const juce::String& jsonText);
+    juce::Result loadEnumTableFromJson (const juce::String& jsonText);
 
     [[nodiscard]] const ParameterDefinition* find (std::string_view id) const;
     [[nodiscard]] const ParameterDefinition* findByNrpn (int nrpn) const;
@@ -23,5 +24,6 @@ public:
 private:
     std::vector<ParameterDefinition> definitions;
     std::map<std::string, std::size_t, std::less<>> indexById;
+    std::map<juce::String, std::vector<ParameterEnumValue>> enumTables;
 };
 }

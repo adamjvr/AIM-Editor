@@ -53,6 +53,8 @@ struct ParameterDefinition
     std::optional<double> defaultRaw;
 
     std::vector<ParameterEnumValue> enumValues;
+    juce::String enumTableId;
+    bool enumValuesComplete = false;
 
     juce::String unit;
     juce::String displayTransform { "unknown" };

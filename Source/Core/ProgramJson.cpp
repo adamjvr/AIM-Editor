@@ -4,6 +4,11 @@ namespace aim
 {
 juce::String ProgramJson::encode (const IonProgram& program)
 {
+    return juce::JSON::toString (toVar (program), false);
+}
+
+juce::var ProgramJson::toVar (const IonProgram& program)
+{
     auto rootObject = std::make_unique<juce::DynamicObject>();
     rootObject->setProperty ("format", "aim-editor.program");
     rootObject->setProperty ("schema_version", 1);
@@ -26,7 +31,24 @@ juce::String ProgramJson::encode (const IonProgram& program)
     }
 
     rootObject->setProperty ("unmapped_bytes", juce::var (unknownBytes));
-    return juce::JSON::toString (juce::var (rootObject.release()), false);
+
+    if (program.hasSourcePatchBytes())
+    {
+        auto sourcePatch = std::make_unique<juce::DynamicObject>();
+        sourcePatch->setProperty ("format", "ion-decoded-patch-v1");
+        juce::Array<juce::var> bytes;
+        bytes.ensureStorageAllocated (static_cast<int> (program.getSourcePatchBytes().size()));
+        for (const auto byte : program.getSourcePatchBytes())
+            bytes.add (static_cast<int> (byte));
+        sourcePatch->setProperty ("bytes", juce::var (bytes));
+        rootObject->setProperty ("source_patch", juce::var (sourcePatch.release()));
+    }
+    else
+    {
+        rootObject->setProperty ("source_patch", juce::var());
+    }
+
+    return juce::var (rootObject.release());
 }
 
 juce::Result ProgramJson::decode (const juce::String& jsonText, IonProgram& destination)
@@ -36,12 +58,21 @@ juce::Result ProgramJson::decode (const juce::String& jsonText, IonProgram& dest
     if (parseResult.failed())
         return parseResult;
 
-    const auto* object = root.getDynamicObject();
+    return fromVar (root, destination);
+}
+
+juce::Result ProgramJson::fromVar (const juce::var& value, IonProgram& destination)
+{
+    const auto* object = value.getDynamicObject();
     if (object == nullptr)
         return juce::Result::fail ("Program JSON root must be an object");
 
     if (object->getProperty ("format").toString() != "aim-editor.program")
         return juce::Result::fail ("Unexpected program JSON format");
+
+    const auto schemaVersion = static_cast<int> (object->getProperty ("schema_version"));
+    if (schemaVersion < 1)
+        return juce::Result::fail ("Program JSON schema_version must be >= 1");
 
     IonProgram decoded;
     decoded.setName (object->getProperty ("name").toString());
@@ -62,10 +93,37 @@ juce::Result ProgramJson::decode (const juce::String& jsonText, IonProgram& dest
                 continue;
 
             const auto offset = static_cast<int> (byteObject->getProperty ("offset"));
-            const auto value = static_cast<int> (byteObject->getProperty ("value"));
-            if (offset >= 0 && value >= 0 && value <= 255)
-                decoded.preserveUnknownByte (offset, static_cast<std::uint8_t> (value));
+            const auto rawValue = static_cast<int> (byteObject->getProperty ("value"));
+            if (offset >= 0 && rawValue >= 0 && rawValue <= 255)
+                decoded.preserveUnknownByte (offset, static_cast<std::uint8_t> (rawValue));
         }
+    }
+
+    const auto sourcePatchValue = object->getProperty ("source_patch");
+    if (! sourcePatchValue.isVoid())
+    {
+        const auto* sourcePatch = sourcePatchValue.getDynamicObject();
+        if (sourcePatch == nullptr
+            || sourcePatch->getProperty ("format").toString() != "ion-decoded-patch-v1")
+            return juce::Result::fail ("Program source_patch has an unsupported format");
+
+        const auto* rawBytes = sourcePatch->getProperty ("bytes").getArray();
+        if (rawBytes == nullptr)
+            return juce::Result::fail ("Program source_patch requires a bytes array");
+
+        if (rawBytes->size() != 378)
+            return juce::Result::fail ("Program source_patch must contain exactly 378 decoded Ion patch bytes");
+
+        IonProgram::RawPatchBytes patchBytes;
+        patchBytes.reserve (static_cast<std::size_t> (rawBytes->size()));
+        for (const auto& rawByte : *rawBytes)
+        {
+            const auto byte = static_cast<int> (rawByte);
+            if (byte < 0 || byte > 255)
+                return juce::Result::fail ("Program source_patch contains a byte outside 0..255");
+            patchBytes.push_back (static_cast<std::uint8_t> (byte));
+        }
+        decoded.setSourcePatchBytes (std::move (patchBytes));
     }
 
     destination = std::move (decoded);

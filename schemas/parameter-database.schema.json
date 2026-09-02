@@ -3,74 +3,191 @@
   "$id": "https://aim-editor.org/schemas/parameter-database.schema.json",
   "title": "AIM Editor Parameter Database",
   "type": "object",
-  "required": ["format", "schema_version", "device", "parameters"],
+  "required": [
+    "format",
+    "schema_version",
+    "device",
+    "parameters"
+  ],
   "properties": {
-    "format": { "const": "aim-editor.parameter-database" },
-    "schema_version": { "type": "integer", "minimum": 1 },
+    "format": {
+      "const": "aim-editor.parameter-database"
+    },
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
     "device": {
       "type": "object",
-      "required": ["manufacturer", "model"],
+      "required": [
+        "manufacturer",
+        "model"
+      ],
       "properties": {
-        "manufacturer": { "type": "string" },
-        "model": { "type": "string" }
+        "manufacturer": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        }
       },
       "additionalProperties": true
     },
-    "research_state": { "type": "object" },
+    "research_state": {
+      "type": "object"
+    },
     "parameters": {
       "type": "array",
-      "items": { "$ref": "#/$defs/parameter" }
+      "items": {
+        "$ref": "#/$defs/parameter"
+      }
     },
     "compound_structures": {
       "type": "array",
-      "items": { "type": "object" }
+      "items": {
+        "type": "object"
+      }
     }
   },
   "$defs": {
-    "nullableInteger": { "type": ["integer", "null"] },
-    "nullableNumber": { "type": ["number", "null"] },
+    "nullableInteger": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "nullableNumber": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
     "parameter": {
       "type": "object",
-      "required": ["id", "name", "section", "type", "domain", "display", "protocol", "ui"],
+      "required": [
+        "id",
+        "name",
+        "section",
+        "type",
+        "domain",
+        "display",
+        "protocol",
+        "ui"
+      ],
       "properties": {
-        "id": { "type": "string", "pattern": "^[a-z0-9_]+(?:\\.[a-z0-9_]+)*$" },
-        "name": { "type": "string", "minLength": 1 },
-        "section": { "type": "string", "minLength": 1 },
-        "type": { "enum": ["continuous", "discrete", "enum", "boolean"] },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+(?:\\.[a-z0-9_]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "continuous",
+            "discrete",
+            "enum",
+            "boolean"
+          ]
+        },
         "domain": {
           "type": "object",
-          "required": ["kind", "raw_min", "raw_max", "default_raw"],
+          "required": [
+            "kind",
+            "raw_min",
+            "raw_max",
+            "default_raw"
+          ],
           "properties": {
-            "kind": { "enum": ["continuous", "discrete", "enum", "boolean"] },
-            "raw_min": { "$ref": "#/$defs/nullableNumber" },
-            "raw_max": { "$ref": "#/$defs/nullableNumber" },
-            "default_raw": { "$ref": "#/$defs/nullableNumber" },
-            "values": { "type": "array" }
+            "kind": {
+              "enum": [
+                "continuous",
+                "discrete",
+                "enum",
+                "boolean"
+              ]
+            },
+            "raw_min": {
+              "$ref": "#/$defs/nullableNumber"
+            },
+            "raw_max": {
+              "$ref": "#/$defs/nullableNumber"
+            },
+            "default_raw": {
+              "$ref": "#/$defs/nullableNumber"
+            },
+            "values": {
+              "type": "array"
+            },
+            "enum_table": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           "additionalProperties": true
         },
         "display": {
           "type": "object",
-          "required": ["unit", "transform"],
+          "required": [
+            "unit",
+            "transform"
+          ],
           "properties": {
-            "unit": { "type": ["string", "null"] },
-            "transform": { "type": "string" }
+            "unit": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "transform": {
+              "type": "string"
+            }
           },
           "additionalProperties": true
         },
         "protocol": {
           "type": "object",
-          "required": ["status", "nrpn", "sysex"],
+          "required": [
+            "status",
+            "nrpn",
+            "sysex"
+          ],
           "properties": {
-            "status": { "enum": ["unmapped", "candidate", "verified"] },
-            "nrpn": { "$ref": "#/$defs/nullableInteger" },
+            "status": {
+              "enum": [
+                "unmapped",
+                "candidate",
+                "verified"
+              ]
+            },
+            "nrpn": {
+              "$ref": "#/$defs/nullableInteger"
+            },
             "sysex": {
               "type": "object",
-              "required": ["offset", "bits", "encoding"],
+              "required": [
+                "offset",
+                "bits",
+                "encoding"
+              ],
               "properties": {
-                "offset": { "$ref": "#/$defs/nullableInteger" },
-                "bits": { "$ref": "#/$defs/nullableInteger" },
-                "encoding": { "type": ["string", "null"] }
+                "offset": {
+                  "$ref": "#/$defs/nullableInteger"
+                },
+                "bits": {
+                  "$ref": "#/$defs/nullableInteger"
+                },
+                "encoding": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
               },
               "additionalProperties": true
             }
@@ -79,19 +196,34 @@
         },
         "ui": {
           "type": "object",
-          "required": ["pages", "control"],
+          "required": [
+            "pages",
+            "control"
+          ],
           "properties": {
             "pages": {
               "type": "array",
-              "items": { "enum": ["front", "dual1", "dual2", "randomizer", "rear"] },
+              "items": {
+                "enum": [
+                  "front",
+                  "dual1",
+                  "dual2",
+                  "randomizer",
+                  "rear"
+                ]
+              },
               "minItems": 1,
               "uniqueItems": true
             },
-            "control": { "type": "string" }
+            "control": {
+              "type": "string"
+            }
           },
           "additionalProperties": true
         },
-        "notes": { "type": "string" }
+        "notes": {
+          "type": "string"
+        }
       },
       "additionalProperties": true
     }

@@ -16,6 +16,28 @@ const juce::var* ProgramState::valueFor (std::string_view id) const
     return currentProgram.getParameter (id);
 }
 
+void ProgramState::setName (juce::String name, ProgramChangeOrigin origin)
+{
+    if (currentProgram.getName() == name)
+        return;
+
+    currentProgram.setName (std::move (name));
+    for (auto* listener : listeners)
+        if (listener != nullptr)
+            listener->programMetadataChanged (origin);
+}
+
+void ProgramState::setCategory (juce::String category, ProgramChangeOrigin origin)
+{
+    if (currentProgram.getCategory() == category)
+        return;
+
+    currentProgram.setCategory (std::move (category));
+    for (auto* listener : listeners)
+        if (listener != nullptr)
+            listener->programMetadataChanged (origin);
+}
+
 juce::Result ProgramState::setValue (std::string_view id,
                                     juce::var value,
                                     ProgramChangeOrigin origin)
@@ -50,6 +72,8 @@ void ProgramState::replaceProgram (const IonProgram& replacement, ProgramChangeO
 
     for (const auto& [offset, value] : replacement.getUnknownBytes())
         normalized.preserveUnknownByte (offset, value);
+
+    normalized.setSourcePatchBytes (replacement.getSourcePatchBytes());
 
     currentProgram = std::move (normalized);
 
@@ -103,7 +127,7 @@ juce::var ProgramState::normalizedValue (const ParameterDefinition& definition,
         if (definition.rawMax)
             numeric = std::min (numeric, *definition.rawMax);
 
-        if (! definition.enumValues.empty())
+        if (! definition.enumValues.empty() && definition.enumValuesComplete)
         {
             const auto exact = std::find_if (definition.enumValues.begin(), definition.enumValues.end(),
                                              [numeric] (const ParameterEnumValue& item)

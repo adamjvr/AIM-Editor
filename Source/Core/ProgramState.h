@@ -35,6 +35,7 @@ public:
                                             const juce::var& value,
                                             ProgramChangeOrigin origin) = 0;
         virtual void programReplaced (ProgramChangeOrigin) {}
+        virtual void programMetadataChanged (ProgramChangeOrigin) {}
     };
 
     explicit ProgramState (const ParameterRegistry& registryToUse);
@@ -43,6 +44,9 @@ public:
     [[nodiscard]] IonProgram snapshot() const { return currentProgram; }
 
     [[nodiscard]] const juce::var* valueFor (std::string_view id) const;
+
+    void setName (juce::String name, ProgramChangeOrigin origin = ProgramChangeOrigin::interactive);
+    void setCategory (juce::String category, ProgramChangeOrigin origin = ProgramChangeOrigin::interactive);
 
     /** Set one semantic parameter. Unknown IDs are rejected. Numeric values are
         clamped to the known JSON domain when the domain is available.

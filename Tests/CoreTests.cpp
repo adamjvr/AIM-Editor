@@ -1,6 +1,8 @@
 #include "Core/IonProgram.h"
 #include "Core/ParameterRegistry.h"
 #include "Core/ProgramJson.h"
+#include "Core/ProgramBank.h"
+#include "Core/BankJson.h"
 #include "Core/ProgramState.h"
 #include "Midi/IonProtocol.h"
 #include "Midi/IonSysExCodec.h"
@@ -9,6 +11,7 @@
 #include "Midi/IonParameterTransmitter.h"
 #include "Midi/IonNrpnDecoder.h"
 #include "Midi/MidiCaptureEvent.h"
+#include "Midi/IonSyxFileCodec.h"
 
 #include <BinaryData.h>
 #include <juce_core/juce_core.h>
@@ -35,6 +38,15 @@ int main()
     if (const auto result = registry.loadFromJson (parameterJson); result.failed())
         return fail (result.getErrorMessage());
 
+    const struct EnumBlob { const char* data; int size; } enumBlobs[] {
+        { AIMBinaryData::modulation_sources_json, AIMBinaryData::modulation_sources_jsonSize },
+        { AIMBinaryData::modulation_destinations_json, AIMBinaryData::modulation_destinations_jsonSize },
+        { AIMBinaryData::filter_types_json, AIMBinaryData::filter_types_jsonSize },
+    };
+    for (const auto& blob : enumBlobs)
+        if (const auto result = registry.loadEnumTableFromJson (juce::String::fromUTF8 (blob.data, blob.size)); result.failed())
+            return fail ("Enum table load failed: " + result.getErrorMessage());
+
     if (registry.size() != 178)
         return fail ("Expected 178 initial parameter definitions, got " + juce::String (registry.size()));
 
@@ -50,14 +62,31 @@ int main()
 
     const auto* filterTypeDefinition = registry.find ("filter1.type");
     if (filterTypeDefinition == nullptr || filterTypeDefinition->enumValues.size() != 21
+        || ! filterTypeDefinition->enumValuesComplete
         || filterTypeDefinition->enumValues.front().id != "bypass"
         || filterTypeDefinition->enumValues.back().raw != 20)
         return fail ("filter1.type enum domain was not loaded from JSON");
+
+    const auto* modSourceDefinition = registry.find ("mod_matrix.slot01.source");
+    const auto* modDestinationDefinition = registry.find ("mod_matrix.slot01.destination");
+    if (modSourceDefinition == nullptr || modSourceDefinition->enumValues.size() != 115
+        || modSourceDefinition->enumValuesComplete
+        || modSourceDefinition->enumValues.front().id != "note_on_velocity"
+        || modDestinationDefinition == nullptr || modDestinationDefinition->enumValues.size() != 79
+        || ! modDestinationDefinition->enumValuesComplete
+        || modDestinationDefinition->enumValues.back().raw != 78)
+        return fail ("External modulation enum tables were not attached to parameter definitions");
 
     aim::ProgramState state (registry);
     if (const auto* initialFilterType = state.valueFor ("filter1.type");
         initialFilterType == nullptr || static_cast<int> (*initialFilterType) != 0)
         return fail ("ProgramState did not choose a deterministic enum fallback");
+
+    if (const auto result = state.setValue ("mod_matrix.slot01.source", 115); result.failed())
+        return fail ("ProgramState rejected in-range value missing from an explicitly incomplete enum table");
+    if (const auto* incompleteEnum = state.valueFor ("mod_matrix.slot01.source");
+        incompleteEnum == nullptr || static_cast<int> (*incompleteEnum) != 115)
+        return fail ("ProgramState destroyed unknown in-range value from incomplete enum evidence");
 
     if (const auto result = state.setValue ("filter1.type", 999); result.failed())
         return fail ("ProgramState unexpectedly rejected known parameter");
@@ -98,6 +127,33 @@ int main()
     const auto unknown = decoded.getUnknownBytes().find (206);
     if (unknown == decoded.getUnknownBytes().end() || unknown->second != 37)
         return fail ("Unknown byte preservation failed");
+
+    state.setName ("Metadata Test", aim::ProgramChangeOrigin::import);
+    state.setCategory ("Lead", aim::ProgramChangeOrigin::import);
+    if (state.program().getName() != "Metadata Test" || state.program().getCategory() != "Lead")
+        return fail ("ProgramState metadata setters failed");
+
+    aim::ProgramBank nativeBank;
+    nativeBank.setName ("Test Bank");
+    nativeBank.setHardwareBank ("yellow");
+    if (const auto result = nativeBank.setProgram (0, source); result.failed())
+        return fail ("Could not store program in native bank");
+    if (const auto result = nativeBank.setProgram (127, decoded); result.failed())
+        return fail ("Could not store last program in native bank");
+    if (nativeBank.occupiedCount() != 2 || nativeBank.programAt (0) == nullptr || nativeBank.programAt (127) == nullptr)
+        return fail ("Native bank slot bookkeeping failed");
+    if (nativeBank.setProgram (128, source).wasOk())
+        return fail ("Native bank accepted out-of-range slot");
+
+    const auto bankJson = aim::BankJson::encode (nativeBank);
+    aim::ProgramBank decodedBank;
+    if (const auto result = aim::BankJson::decode (bankJson, decodedBank); result.failed())
+        return fail ("Native bank JSON round trip failed: " + result.getErrorMessage());
+    if (decodedBank.getName() != "Test Bank" || decodedBank.getHardwareBank() != "yellow" || decodedBank.occupiedCount() != 2)
+        return fail ("Native bank JSON metadata/slot round trip failed");
+    const auto* bankProgram = decodedBank.programAt (127);
+    if (bankProgram == nullptr || bankProgram->getName() != "Round Trip")
+        return fail ("Native bank JSON lost program content");
 
     const auto nrpn = aim::IonProtocol::makeNrpnSequence (2, 0x0123, 0x0234);
     if (! nrpn[0].isController() || nrpn[0].getChannel() != 2
@@ -248,6 +304,15 @@ int main()
     if (decodedFilter == nullptr || static_cast<int> (*decodedFilter) != 512
         || decodedOscLevel == nullptr || static_cast<int> (*decodedOscLevel) != 73)
         return fail ("Ion candidate program decoder did not map raw patch fields");
+    if (decodedSyntheticProgram.getSourcePatchBytes() != parsedPatch.decodedBytes)
+        return fail ("Ion candidate decoder did not preserve complete source patch bytes");
+
+    const auto sourceBackedJson = aim::ProgramJson::encode (decodedSyntheticProgram);
+    aim::IonProgram sourceBackedRoundTrip;
+    if (const auto result = aim::ProgramJson::decode (sourceBackedJson, sourceBackedRoundTrip); result.failed())
+        return fail ("Source-backed program JSON failed to decode: " + result.getErrorMessage());
+    if (sourceBackedRoundTrip.getSourcePatchBytes() != parsedPatch.decodedBytes)
+        return fail ("Program JSON did not preserve the 378-byte source patch template");
 
     // Candidate re-encoding overlays semantic values onto the original image
     // instead of constructing a blank patch. This must preserve bytes AIM
@@ -272,6 +337,31 @@ int main()
     const auto* redecodedFilter = redecodedProgram.getParameter ("filter1.frequency");
     if (redecodedFilter == nullptr || static_cast<int> (*redecodedFilter) != 777)
         return fail ("Ion encode/decode semantic round trip changed filter1.frequency");
+
+    const auto syxFileBytes = aim::IonSyxFileCodec::encodeFileBytes (reencodedMessage);
+    if (syxFileBytes.getSize() != static_cast<std::size_t> (reencodedMessage.getSysExDataSize()) + 2u
+        || static_cast<const std::uint8_t*> (syxFileBytes.getData())[0] != 0xf0
+        || static_cast<const std::uint8_t*> (syxFileBytes.getData())[syxFileBytes.getSize() - 1] != 0xf7)
+        return fail ("Standard .syx F0/F7 framing failed");
+
+    juce::MidiMessage decodedSyxFile;
+    if (const auto result = aim::IonSyxFileCodec::decodeFileBytes (syxFileBytes.getData(), syxFileBytes.getSize(), decodedSyxFile); result.failed())
+        return fail ("Standard .syx decode failed: " + result.getErrorMessage());
+    if (! decodedSyxFile.isSysEx()
+        || decodedSyxFile.getSysExDataSize() != reencodedMessage.getSysExDataSize()
+        || ! std::equal (reencodedMessage.getSysExData(),
+                         reencodedMessage.getSysExData() + reencodedMessage.getSysExDataSize(),
+                         decodedSyxFile.getSysExData()))
+        return fail ("Standard .syx file round trip changed payload bytes");
+
+    const std::vector<juce::MidiMessage> twoMessages { reencodedMessage, syntheticMessage };
+    const auto multiSyxBytes = aim::IonSyxFileCodec::encodeFileBytes (twoMessages);
+    std::vector<juce::MidiMessage> decodedMultiSyx;
+    if (const auto result = aim::IonSyxFileCodec::decodeFileMessages (multiSyxBytes.getData(),
+                                                                      multiSyxBytes.getSize(),
+                                                                      decodedMultiSyx);
+        result.failed() || decodedMultiSyx.size() != 2u)
+        return fail ("Concatenated multi-message .syx round trip failed");
 
     const std::vector<std::uint8_t> testPayload { 0x00, 0x01, 0x7f };
     const auto testSysEx = aim::IonProtocol::makeSysExFromPayload (testPayload);

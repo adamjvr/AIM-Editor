@@ -7,6 +7,7 @@
 #include "Midi/IonNrpnDecoder.h"
 #include "UI/GlobalControlBar.h"
 #include "UI/Panels/EditorPage.h"
+#include "UI/ProgramLibrarian.h"
 #include "UI/SysExInspector.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -30,6 +31,8 @@ private:
     void updateViewedPageSize();
     void showSysExInspector();
     void hideSysExInspector();
+    void showProgramLibrarian();
+    void hideProgramLibrarian();
     void applyIncomingNrpn (const DecodedNrpn& decoded);
 
     const ParameterRegistry& registry;
@@ -40,6 +43,7 @@ private:
     juce::Viewport viewport;
     GlobalControlBar controlBar;
     SysExInspector sysExInspector;
+    ProgramLibrarian programLibrarian;
     std::array<std::unique_ptr<EditorPage>, 5> pages;
     int currentPage = 0;
 };

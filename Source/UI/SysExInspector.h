@@ -26,7 +26,7 @@ public:
     void resized() override;
 
     std::function<void()> onClose;
-    std::function<void (const IonProgram&)> onLoadCandidateProgram;
+    std::function<void (const IonProgram&, const IonPatchDump&)> onLoadCandidateProgram;
 
 private:
     void addEventOnMessageThread (MidiCaptureEvent event);
@@ -45,6 +45,7 @@ private:
     const ParameterRegistry& registry;
     std::vector<MidiCaptureEvent> events;
     std::optional<IonProgram> latestCandidateProgram;
+    std::optional<IonPatchDump> latestCandidatePatch;
     juce::String latestCandidateName;
 
     juce::Label title;

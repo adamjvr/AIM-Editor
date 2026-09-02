@@ -6331,7 +6331,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -6481,7 +6482,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -6531,7 +6533,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -6681,7 +6684,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -6731,7 +6735,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -6881,7 +6886,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -6931,7 +6937,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -7081,7 +7088,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -7131,7 +7139,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -7281,7 +7290,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -7331,7 +7341,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -7481,7 +7492,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -7531,7 +7543,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -7681,7 +7694,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -7731,7 +7745,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -7881,7 +7896,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -7931,7 +7947,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -8081,7 +8098,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -8131,7 +8149,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -8281,7 +8300,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -8331,7 +8351,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -8481,7 +8502,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,
@@ -8531,7 +8553,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 115,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-sources"
       },
       "display": {
         "unit": null,
@@ -8681,7 +8704,8 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 78,
-        "default_raw": null
+        "default_raw": null,
+        "enum_table": "modulation-destinations"
       },
       "display": {
         "unit": null,

@@ -7,7 +7,7 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
 {
     for (auto* component : { static_cast<juce::Component*> (&midiInput), &midiBank, &programSelector, &midiOutput,
                              &midiChannel, &pageSelector, &requestPatch, &sysexTools, &updateEditBuffer,
-                             &allNotesOff, &liveEdit, &settings, &status })
+                             &allNotesOff, &librarian, &liveEdit, &settings, &status })
         addAndMakeVisible (component);
 
     midiBank.addItemList ({ "Red", "Green", "Blue", "Yellow/User", "Edit" }, 1);
@@ -53,12 +53,18 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
         if (onSysExToolsRequested)
             onSysExToolsRequested();
     };
+    librarian.onClick = [this]
+    {
+        if (onLibrarianRequested)
+            onLibrarianRequested();
+    };
 
     requestPatch.setEnabled (true);
     requestPatch.setTooltip ("Send candidate Ion patch-request SysEx; capture and verify the response before treating the mapping as authoritative");
     updateEditBuffer.setEnabled (false);
     updateEditBuffer.setTooltip ("Enabled after the Ion edit-buffer protocol is verified");
     sysexTools.setTooltip ("Open the live MIDI/SysEx capture inspector");
+    librarian.setTooltip ("Open native JSON program/bank librarian and template-preserving .syx file tools");
     liveEdit.setToggleState (false, juce::dontSendNotification);
     liveEdit.setTooltip ("Opt-in candidate live editing: interactive controls send mapped Ion NRPN messages to the selected MIDI output. Patch loads/imports never echo.");
     settings.setEnabled (false);
@@ -120,10 +126,12 @@ void GlobalControlBar::resized()
     status.setBounds (buttonRow.removeFromRight (statusWidth));
     buttonRow.removeFromRight (gap);
 
-    const int buttonWidth = juce::jmax (68, (buttonRow.getWidth() - gap * 5) / 6);
+    const int buttonWidth = juce::jmax (62, (buttonRow.getWidth() - gap * 6) / 7);
     requestPatch.setBounds (buttonRow.removeFromLeft (buttonWidth));
     buttonRow.removeFromLeft (gap);
     sysexTools.setBounds (buttonRow.removeFromLeft (buttonWidth));
+    buttonRow.removeFromLeft (gap);
+    librarian.setBounds (buttonRow.removeFromLeft (buttonWidth));
     buttonRow.removeFromLeft (gap);
     updateEditBuffer.setBounds (buttonRow.removeFromLeft (buttonWidth));
     buttonRow.removeFromLeft (gap);

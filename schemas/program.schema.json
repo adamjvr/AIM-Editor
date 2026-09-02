@@ -3,24 +3,81 @@
   "$id": "https://aim-editor.org/schemas/program.schema.json",
   "title": "AIM Editor Program",
   "type": "object",
-  "required": ["format", "schema_version", "name", "parameters", "unmapped_bytes"],
+  "required": [
+    "format",
+    "schema_version",
+    "name",
+    "parameters",
+    "unmapped_bytes"
+  ],
   "properties": {
-    "format": { "const": "aim-editor.program" },
-    "schema_version": { "type": "integer", "minimum": 1 },
-    "name": { "type": "string" },
-    "category": { "type": "string" },
-    "parameters": { "type": "object" },
+    "format": {
+      "const": "aim-editor.program"
+    },
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "parameters": {
+      "type": "object"
+    },
     "unmapped_bytes": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["offset", "value"],
+        "required": [
+          "offset",
+          "value"
+        ],
         "properties": {
-          "offset": { "type": "integer", "minimum": 0 },
-          "value": { "type": "integer", "minimum": 0, "maximum": 255 }
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "value": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
         },
         "additionalProperties": false
       }
+    },
+    "source_patch": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "format",
+            "bytes"
+          ],
+          "properties": {
+            "format": {
+              "const": "ion-decoded-patch-v1"
+            },
+            "bytes": {
+              "type": "array",
+              "minItems": 378,
+              "maxItems": 378,
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
     }
   },
   "additionalProperties": true

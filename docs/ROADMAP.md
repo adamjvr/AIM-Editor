@@ -11,6 +11,8 @@
 - [x] observable ProgramState shared by duplicate editor views
 - [x] JSON enum-domain loading and control factory
 - [x] nested human-readable program JSON export/import
+- [x] sparse human-readable bank JSON export/import
+- [x] complete 378-byte source patch preservation inside JSON when available
 - [x] preservation container for unknown raw bytes
 - [x] MIDI device service
 - [x] generic NRPN message builder
@@ -38,10 +40,10 @@
 ## Phase 2 — verified data model
 
 - [ ] complete parameter value domains
-- [ ] complete enum tables (19 explicit domains loaded; 8 enum domains still incomplete)
+- [ ] complete enum tables (3 reusable tables + inline domains are loaded; incomplete candidate domains remain explicit)
 - [ ] complete display transforms (Hz, ms, %, semitones, etc.)
 - [ ] map every SysEx field/bit
-- [ ] map all modulation source/destination IDs
+- [ ] verify all modulation source/destination IDs on hardware (115 source candidates / 79 destination candidates loaded)
 - [ ] decode tracking-generator points
 - [x] template-preserving candidate program decode -> encode tests
 - [ ] byte-perfect hardware program decode -> encode tests
@@ -53,12 +55,13 @@
 - [x] incoming candidate NRPN decoding with no-echo ProgramState origin tracking
 - [x] candidate request patch UI (hardware verification pending)
 - [ ] update edit buffer
-- [ ] program naming/category support
-- [ ] load/save `.syx`
-- [ ] native `.aimprogram.json`
-- [ ] native `.aimbank.json`
-- [ ] program librarian
-- [ ] Mod Matrix editor
+- [x] program naming/category support
+- [x] load/save single-program `.syx` with source-template preservation
+- [x] import/export concatenated source-backed bank `.syx` without assuming bank-stream protocol
+- [x] native `.aimprogram.json`
+- [x] native `.aimbank.json`
+- [x] program librarian
+- [x] Mod Matrix editor
 - [ ] Tracking Generator touch/mouse editor
 - [ ] envelope editors
 
@@ -93,4 +96,7 @@
 - Template-preserving candidate patch re-encoding keeps unknown bytes intact.
 - A/B patch-diff tooling emits machine-readable JSON for hardware verification.
 - Opt-in live NRPN transmission is implemented for mapped `unsigned_14` and `signed_14_wrap` parameters.
-- Next: compile/test on macOS + iPadOS, then use hardware captures to promote candidate mappings to verified.
+- Native librarian now supports 128 sparse slots, editable bank name/hardware-bank metadata, program name/category editing, `.aimprogram.json`, `.aimbank.json`, single-program `.syx`, and concatenated source-backed bank `.syx`.
+- Programs imported from hardware retain the complete 378-byte decoded source patch inside native JSON so unknown bytes/bits survive future edits and bank storage.
+- The 12-slot Mod Matrix now has a purpose-built responsive editor backed by reusable JSON source/destination enum tables; currently unknown source raw values are preserved rather than coerced.
+- Next: compile/test on macOS + iPadOS, then use hardware captures to promote candidate mappings to verified and implement verified edit-buffer writes.
