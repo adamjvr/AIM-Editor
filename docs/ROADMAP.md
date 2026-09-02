@@ -36,6 +36,7 @@
 - [ ] verify NRPN IDs and transport semantics on hardware
 - [x] add confidence + evidence records to JSON
 - [x] build raw MIDI/SysEx inspector and JSON capture logger
+- [x] reconstruct candidate NRPN transactions inside capture JSON for repeatable hardware verification
 
 ## Phase 2 — verified data model
 
@@ -76,11 +77,12 @@
 - [ ] accessibility
 - [x] high-DPI procedural control/navigation foundation (device-by-device polish ongoing)
 - [x] iPad landscape-first responsive composition and touch envelope/tracking surfaces (device tuning ongoing)
-- [ ] keyboard shortcuts and MIDI learn where appropriate
+- [x] core keyboard shortcuts + semantic undo/redo (MIDI learn remains optional/future)
+- [x] safe session restore for page/MIDI context; live editing and hardware-write arming intentionally never persist
 
 ## Phase 5 — release engineering
 
-- [ ] CI for macOS, Windows, Linux
+- [ ] CI for macOS, Windows, Linux (workflow exists; hosted jobs currently fail before steps start)
 - [ ] signed/notarized macOS builds
 - [ ] iPadOS signing/distribution plan
 - [ ] Windows installer
@@ -105,5 +107,10 @@
 - Large landscape surfaces now use segmented five-page navigation; smaller layouts retain the compact selector.
 - A small manual-derived label set improves LFO/S&H reset, portamento, and pitch-wheel selectors while protocol raw mappings remain candidate.
 - Guarded hardware-transfer tools now expose patch/bank requests and source-template-preserving full sends to Edit 1–4. Full writes require explicit arming and automatically disarm after each transmission.
+- Semantic undo/redo is now shared across all editor views, bounded/coalesced, and deliberately non-echoing to MIDI; imported/captured hardware state becomes a fresh history baseline.
+- Librarian slot copy/paste preserves the complete `IonProgram`, including source-patch bytes, and MIDI refresh now stays synchronized with the actually-open JUCE endpoints.
+- A one-command local build/test script and optional desktop ASan+UBSan configuration are available for Rosie/macOS build hardening.
 - The SysEx inspector now surfaces the latest checksum-valid candidate patch metadata before loading it into semantic state.
+- Session restore now remembers non-destructive editor/MIDI context while explicitly forcing Live NRPN and full-write arming off on every launch.
+- MIDI capture JSON now includes statefully reconstructed candidate NRPN transactions with semantic IDs/status while preserving raw events as the authoritative evidence.
 - Next: compile/test on Rosie and macOS/iPadOS, capture real Ion request/write behavior, promote verified protocol fields, and tune the purpose-built geometry from device screenshots.

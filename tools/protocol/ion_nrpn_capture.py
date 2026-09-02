@@ -90,13 +90,66 @@ def analyze_capture(capture: dict[str, Any], direction: str = "all") -> dict[str
                 )
             decoded.append(item)
 
-    return {
+    result = {
         "format": "aim-editor.nrpn-capture-analysis",
         "schema_version": 1,
         "source_format": capture.get("format"),
         "direction_filter": direction,
         "transaction_count": len(decoded),
         "transactions": decoded,
+    }
+    result["embedded_cross_check"] = cross_check_embedded(capture, result)
+    return result
+
+
+
+def cross_check_embedded(capture: dict[str, Any], analysis: dict[str, Any]) -> dict[str, Any]:
+    embedded = capture.get("nrpn_transactions")
+    if not isinstance(embedded, list):
+        return {
+            "present": False,
+            "match": None,
+            "embedded_count": 0,
+            "reconstructed_count": int(analysis.get("transaction_count", 0)),
+            "discrepancies": [],
+        }
+
+    reconstructed = analysis.get("transactions", [])
+    discrepancies: list[dict[str, Any]] = []
+    if len(embedded) != len(reconstructed):
+        discrepancies.append({
+            "kind": "count_mismatch",
+            "embedded": len(embedded),
+            "reconstructed": len(reconstructed),
+        })
+
+    for index, (app_item, offline_item) in enumerate(zip(embedded, reconstructed)):
+        expected = {
+            "direction": offline_item.get("direction"),
+            "utc_ms": offline_item.get("utc_ms"),
+            "device_identifier": offline_item.get("device_identifier", ""),
+            "midi_channel": offline_item.get("channel"),
+            "nrpn": offline_item.get("nrpn"),
+            "value14": offline_item.get("encoded_value14"),
+            "semantic_value": offline_item.get("semantic_value"),
+            "parameter_id": (offline_item.get("parameter") or {}).get("id"),
+        }
+        for field, value in expected.items():
+            if app_item.get(field) != value:
+                discrepancies.append({
+                    "kind": "field_mismatch",
+                    "transaction_index": index,
+                    "field": field,
+                    "embedded": app_item.get(field),
+                    "reconstructed": value,
+                })
+
+    return {
+        "present": True,
+        "match": not discrepancies,
+        "embedded_count": len(embedded),
+        "reconstructed_count": len(reconstructed),
+        "discrepancies": discrepancies,
     }
 
 
@@ -124,6 +177,19 @@ def command_self_test(_: argparse.Namespace) -> int:
                 [0xB0, 99, 0], [0xB0, 98, 47], [0xB0, 6, 127], [0xB0, 38, 28]
             ])
         ],
+        "nrpn_transactions": [{
+            "direction": "input",
+            "utc_ms": 3,
+            "device_identifier": "test",
+            "midi_channel": 1,
+            "nrpn": 47,
+            "value14": 16284,
+            "semantic_value": -100,
+            "parameter_id": "filter1.env_amount",
+            "parameter_name": "Filter 1 Env Amount",
+            "mapping_status": "candidate",
+            "value_encoding": "signed_14_wrap",
+        }],
     }
     result = analyze_capture(capture, "input")
     assert result["transaction_count"] == 1
@@ -132,6 +198,8 @@ def command_self_test(_: argparse.Namespace) -> int:
     assert item["encoded_value14"] == 16284
     assert item["semantic_value"] == -100
     assert item["parameter"]["id"] == "filter1.env_amount"
+    assert result["embedded_cross_check"]["present"] is True
+    assert result["embedded_cross_check"]["match"] is True
     print("PASS: Ion NRPN capture analyzer self-test")
     return 0
 

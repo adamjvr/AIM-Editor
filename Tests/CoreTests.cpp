@@ -5,6 +5,7 @@
 #include "Core/ProgramBank.h"
 #include "Core/BankJson.h"
 #include "Core/ProgramState.h"
+#include "Core/ProgramHistory.h"
 #include "Core/RandomizerEngine.h"
 #include "Midi/IonProtocol.h"
 #include "Midi/IonSysExCodec.h"
@@ -121,6 +122,64 @@ int main()
 
     if (state.setValue ("does.not.exist", 1).wasOk())
         return fail ("ProgramState accepted an unknown parameter ID");
+
+    // Semantic undo/redo must be bounded, coalesce rapid changes to one
+    // parameter, reject no-op history spam, and never preserve redo after a
+    // divergent edit. Imports become a fresh history baseline.
+    aim::ProgramState historyState (registry);
+    aim::ProgramHistory history (historyState, 8);
+    const auto* historyInitialFrequency = historyState.valueFor ("filter1.frequency");
+    const auto initialFrequency = historyInitialFrequency != nullptr ? static_cast<int> (*historyInitialFrequency) : 0;
+
+    if (const auto result = historyState.setValue ("filter1.frequency", initialFrequency, aim::ProgramChangeOrigin::interactive); result.failed())
+        return fail ("ProgramHistory no-op setup failed");
+    if (history.size() != 1 || history.canUndo())
+        return fail ("ProgramState no-op assignment created an undo record");
+
+    if (historyState.setValue ("filter1.frequency", 100, aim::ProgramChangeOrigin::interactive).failed()
+        || historyState.setValue ("filter1.frequency", 101, aim::ProgramChangeOrigin::interactive).failed())
+        return fail ("ProgramHistory could not record parameter edits");
+    if (! history.canUndo() || history.size() != 2)
+        return fail ("Rapid same-parameter edits were not coalesced into one history step");
+
+    if (historyState.setValue ("filter1.resonance", 22, aim::ProgramChangeOrigin::interactive).failed())
+        return fail ("ProgramHistory could not record second parameter edit");
+    if (history.size() != 3 || ! history.undo())
+        return fail ("ProgramHistory did not create/undo second parameter step");
+    if (const auto* resonance = historyState.valueFor ("filter1.resonance"); resonance == nullptr || static_cast<int> (*resonance) == 22)
+        return fail ("ProgramHistory undo did not restore the prior semantic snapshot");
+
+    if (! history.undo())
+        return fail ("ProgramHistory could not undo coalesced parameter edit");
+    if (const auto* frequencyAfterUndo = historyState.valueFor ("filter1.frequency");
+        frequencyAfterUndo == nullptr || static_cast<int> (*frequencyAfterUndo) != initialFrequency)
+        return fail ("ProgramHistory undo did not return to baseline");
+    if (! history.redo())
+        return fail ("ProgramHistory redo failed");
+    if (const auto* frequencyAfterRedo = historyState.valueFor ("filter1.frequency");
+        frequencyAfterRedo == nullptr || static_cast<int> (*frequencyAfterRedo) != 101)
+        return fail ("ProgramHistory redo did not restore semantic edit");
+
+    if (historyState.setValue ("filter1.resonance", 33, aim::ProgramChangeOrigin::interactive).failed())
+        return fail ("ProgramHistory divergent edit failed");
+    if (history.canRedo())
+        return fail ("ProgramHistory retained stale redo after divergent edit");
+
+    auto importedHistoryProgram = historyState.snapshot();
+    importedHistoryProgram.setName ("Imported Baseline");
+    historyState.replaceProgram (importedHistoryProgram, aim::ProgramChangeOrigin::import);
+    if (history.canUndo() || history.canRedo() || history.size() != 1)
+        return fail ("Imported program did not become a fresh undo/redo baseline");
+
+    const auto randomizerBaseline = historyState.snapshot();
+    auto randomizerVariant = randomizerBaseline;
+    randomizerVariant.setName ("Randomized Variant");
+    historyState.replaceProgram (randomizerVariant, aim::ProgramChangeOrigin::interactive);
+    if (! history.canUndo() || history.size() != 2)
+        return fail ("Whole-program interactive edit did not create one history step");
+    historyState.replaceProgram (randomizerBaseline, aim::ProgramChangeOrigin::interactive);
+    if (history.canUndo() || ! history.canRedo() || history.size() != 2)
+        return fail ("Local whole-program restore did not reconcile with global history navigation");
 
     aim::RandomizerSettings randomSettings;
     randomSettings.seed = 0x12345678u;

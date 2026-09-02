@@ -47,6 +47,13 @@ juce::Result ProgramState::setValue (std::string_view id,
         return juce::Result::fail ("Unknown parameter ID: " + juce::String::fromUTF8 (id.data(), static_cast<int> (id.size())));
 
     auto normalized = normalizedValue (*definition, value);
+
+    // Avoid redundant notifications and live-MIDI traffic when a control is
+    // assigned the value it already holds. This is especially important for
+    // synchronized duplicate views and incoming controller feedback.
+    if (const auto* previous = currentProgram.getParameter (id); previous != nullptr && *previous == normalized)
+        return juce::Result::ok();
+
     currentProgram.setParameter (std::string (id), normalized);
 
     for (auto* listener : listeners)

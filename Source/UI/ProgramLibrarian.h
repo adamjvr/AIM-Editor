@@ -55,6 +55,8 @@ private:
     void storeCurrentInSelectedSlot();
     void loadSelectedSlot();
     void clearSelectedSlot();
+    void copySelectedSlot();
+    void pasteIntoSelectedSlot();
     void newBank();
 
     void importProgramJson();
@@ -95,6 +97,8 @@ private:
     juce::TextButton storeButton { "Store Current" };
     juce::TextButton loadButton { "Load Slot" };
     juce::TextButton clearSlotButton { "Clear Slot" };
+    juce::TextButton copySlotButton { "Copy Slot" };
+    juce::TextButton pasteSlotButton { "Paste Slot" };
     juce::TextButton newBankButton { "New Bank" };
 
     juce::TextButton importProgramButton { "Import Program JSON" };
@@ -106,6 +110,7 @@ private:
     juce::TextButton exportBankSyxButton { "Export Bank .syx" };
     juce::TextButton closeButton { "Close" };
 
+    std::optional<IonProgram> slotClipboard;
     std::unique_ptr<juce::FileChooser> fileChooser;
 };
 }

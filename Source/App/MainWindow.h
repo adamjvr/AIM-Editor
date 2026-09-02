@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/AppSettings.h"
 #include "Core/ParameterRegistry.h"
 #include "Midi/IonMidiService.h"
 #include "UI/MainEditor.h"
@@ -11,7 +12,7 @@ namespace aim
 class MainWindow final : public juce::DocumentWindow
 {
 public:
-    MainWindow (const ParameterRegistry& registry, IonMidiService& midiService);
+    MainWindow (const ParameterRegistry& registry, IonMidiService& midiService, AppSettings& appSettings);
     void closeButtonPressed() override;
 };
 }

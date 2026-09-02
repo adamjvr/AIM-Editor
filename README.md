@@ -159,6 +159,29 @@ Export it to a spreadsheet-friendly CSV without changing JSON as the source of t
 ./tools/export_parameter_database.py --format csv --output exports/parameter-database.csv
 ```
 
+Run repository checks, configure, compile, and CTest in one command on Linux/macOS:
+
+```bash
+./tools/build_and_test.sh
+```
+
+If `~/GitHub/JUCE` exists it is used automatically. Otherwise the normal CMake
+FetchContent path is used. To enable AddressSanitizer + UndefinedBehaviorSanitizer
+on supported Clang/GCC desktop builds:
+
+```bash
+AIM_EDITOR_SANITIZE=1 ./tools/build_and_test.sh
+```
+
+Undo/redo is semantic and shared across every editor view. It never echoes back
+to live MIDI. See [`docs/UNDO_AND_WORKFLOW.md`](docs/UNDO_AND_WORKFLOW.md).
+
+On macOS, configure and compile the unsigned iPad Simulator target with:
+
+```bash
+./tools/build_ipad_simulator.sh
+```
+
 Research the candidate Ion SysEx format without building JUCE:
 
 ```bash
@@ -219,3 +242,9 @@ The SysEx codec can also perform a template-preserving repack test:
 ```
 
 AIM Editor never synthesizes a hardware patch from only the parameters it currently understands; encoding starts from a complete source patch image so unmapped bytes/bits are preserved.
+
+## Safe session restore and verification capture
+
+AIM Editor remembers non-destructive session context (page, MIDI channel, bank/program context, and selected MIDI endpoints), but **never** restores Live NRPN or full-patch write arming. Reopening remembered MIDI devices therefore cannot transmit anything by itself.
+
+The MIDI/SysEx Inspector also exports reconstructed `nrpn_transactions` alongside the authoritative raw MIDI events. These records attach candidate semantic IDs/status to complete CC99/CC98/CC6/CC38 sequences without automatically promoting any protocol mapping to verified. See [`docs/SESSION_AND_VERIFICATION.md`](docs/SESSION_AND_VERIFICATION.md).

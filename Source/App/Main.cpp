@@ -1,4 +1,5 @@
 #include "App/MainWindow.h"
+#include "Core/AppSettings.h"
 #include "Core/ParameterRegistry.h"
 #include "Midi/IonMidiService.h"
 #include "UI/IonLookAndFeel.h"
@@ -49,7 +50,7 @@ public:
         loadEnumTable (AIMBinaryData::modulation_destinations_json, AIMBinaryData::modulation_destinations_jsonSize);
         loadEnumTable (AIMBinaryData::filter_types_json, AIMBinaryData::filter_types_jsonSize);
 
-        mainWindow = std::make_unique<MainWindow> (registry, midiService);
+        mainWindow = std::make_unique<MainWindow> (registry, midiService, appSettings);
     }
 
     void shutdown() override
@@ -63,6 +64,7 @@ public:
 
 private:
     IonLookAndFeel lookAndFeel;
+    AppSettings appSettings;
     ParameterRegistry registry;
     IonMidiService midiService;
     std::unique_ptr<MainWindow> mainWindow;

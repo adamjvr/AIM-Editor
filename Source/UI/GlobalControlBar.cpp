@@ -7,14 +7,23 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
 {
     for (auto* component : { static_cast<juce::Component*> (&midiInput), &midiBank, &programSelector, &midiOutput,
                              &midiChannel, &pageSelector, &requestPatch, &sysexTools, &updateEditBuffer,
-                             &allNotesOff, &librarian, &liveEdit, &settings, &status })
+                             &allNotesOff, &librarian, &undo, &redo, &liveEdit, &settings, &status })
         addAndMakeVisible (component);
 
     midiBank.addItemList ({ "Red", "Green", "Blue", "Yellow/User", "Edit" }, 1);
     midiBank.setSelectedId (1, juce::dontSendNotification);
-    midiBank.onChange = [this] { refreshProgramSelector(); };
+    midiBank.onChange = [this]
+    {
+        refreshProgramSelector();
+        if (onPersistentContextChanged)
+            onPersistentContextChanged();
+    };
     refreshProgramSelector();
-
+    programSelector.onChange = [this]
+    {
+        if (onPersistentContextChanged)
+            onPersistentContextChanged();
+    };
 
     for (int channel = 1; channel <= 16; ++channel)
         midiChannel.addItem (juce::String (channel), channel);
@@ -23,6 +32,8 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
     {
         if (onMidiChannelChanged)
             onMidiChannelChanged (juce::jmax (1, midiChannel.getSelectedId()));
+        if (onPersistentContextChanged)
+            onPersistentContextChanged();
     };
 
     pageSelector.addItemList ({ "Front", "Dual 1", "Dual 2", "Randomizer", "Rear" }, 1);
@@ -78,6 +89,16 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
         if (onLibrarianRequested)
             onLibrarianRequested();
     };
+    undo.onClick = [this]
+    {
+        if (onUndoRequested)
+            onUndoRequested();
+    };
+    redo.onClick = [this]
+    {
+        if (onRedoRequested)
+            onRedoRequested();
+    };
     updateEditBuffer.onClick = [this]
     {
         if (onHardwareToolsRequested)
@@ -97,7 +118,10 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
     librarian.setTooltip ("Open native JSON program/bank librarian and template-preserving .syx file tools");
     liveEdit.setToggleState (false, juce::dontSendNotification);
     liveEdit.setTooltip ("Opt-in candidate live editing: interactive controls send mapped Ion NRPN messages to the selected MIDI output. Patch loads/imports never echo.");
-    settings.setTooltip ("Re-scan JUCE MIDI input/output devices");
+    settings.setTooltip ("Re-scan JUCE MIDI input/output devices without dropping still-available selections");
+    undo.setTooltip ("Undo the last semantic editor change. Undo never echoes MIDI back to hardware.");
+    redo.setTooltip ("Redo the last semantic editor change. Redo never echoes MIDI back to hardware.");
+    setHistoryAvailability (false, false);
 
     status.setText ("protocol: candidate", juce::dontSendNotification);
     status.setJustificationType (juce::Justification::centredRight);
@@ -105,6 +129,75 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
     status.setFont (juce::FontOptions (10.0f));
 
     refreshMidiDevices();
+}
+
+void GlobalControlBar::setHistoryAvailability (bool canUndo, bool canRedo)
+{
+    undo.setEnabled (canUndo);
+    redo.setEnabled (canRedo);
+}
+
+void GlobalControlBar::setSelectedPage (int pageIndex)
+{
+    if (! juce::isPositiveAndBelow (pageIndex, static_cast<int> (pageButtons.size())))
+        return;
+
+    pageSelector.setSelectedItemIndex (pageIndex, juce::dontSendNotification);
+    for (std::size_t i = 0; i < pageButtons.size(); ++i)
+        if (pageButtons[i] != nullptr)
+            pageButtons[i]->setToggleState (static_cast<int> (i) == pageIndex, juce::dontSendNotification);
+}
+
+void GlobalControlBar::restoreSession (const SessionSnapshot& snapshot)
+{
+    // Restoring editor context is deliberately transport-safe. It may reopen
+    // previously selected MIDI endpoints, but it never enables live NRPN and
+    // never sends a patch request/write.
+    liveEdit.setToggleState (false, juce::dontSendNotification);
+
+    midiBank.setSelectedItemIndex (juce::jlimit (0, 4, snapshot.bankIndex), juce::dontSendNotification);
+    refreshProgramSelector();
+    const auto maxProgramIndex = juce::jmax (0, programSelector.getNumItems() - 1);
+    programSelector.setSelectedItemIndex (juce::jlimit (0, maxProgramIndex, snapshot.programIndex), juce::dontSendNotification);
+
+    midiChannel.setSelectedId (juce::jlimit (1, 16, snapshot.midiChannel), juce::dontSendNotification);
+    if (onMidiChannelChanged)
+        onMidiChannelChanged (juce::jlimit (1, 16, snapshot.midiChannel));
+
+    const auto restoreDevice = [] (juce::ComboBox& selector,
+                                   const juce::StringArray& identifiers,
+                                   const juce::String& wanted)
+    {
+        if (wanted.isEmpty())
+        {
+            selector.setSelectedId (1, juce::dontSendNotification);
+            return false;
+        }
+
+        const auto index = identifiers.indexOf (wanted);
+        if (index < 0)
+        {
+            selector.setSelectedId (1, juce::dontSendNotification);
+            return false;
+        }
+
+        selector.setSelectedId (index + 2, juce::dontSendNotification);
+        return true;
+    };
+
+    if (restoreDevice (midiInput, inputIdentifiers, snapshot.midiInputIdentifier))
+        selectMidiInput();
+    if (restoreDevice (midiOutput, outputIdentifiers, snapshot.midiOutputIdentifier))
+        selectMidiOutput();
+}
+
+void GlobalControlBar::captureSession (SessionSnapshot& snapshot) const
+{
+    snapshot.midiChannel = juce::jlimit (1, 16, midiChannel.getSelectedId());
+    snapshot.bankIndex = juce::jmax (0, midiBank.getSelectedItemIndex());
+    snapshot.programIndex = juce::jmax (0, programSelector.getSelectedItemIndex());
+    snapshot.midiInputIdentifier = midi.currentInputIdentifier();
+    snapshot.midiOutputIdentifier = midi.currentOutputIdentifier();
 }
 
 void GlobalControlBar::paint (juce::Graphics& g)
@@ -132,6 +225,15 @@ void GlobalControlBar::resized()
 
     constexpr int gap = 6;
     const int rowHeight = 28;
+
+    const auto compactActions = getWidth() < 1180;
+    requestPatch.setButtonText (compactActions ? "Request" : "request patch");
+    sysexTools.setButtonText (compactActions ? "SysEx" : "sysex tools");
+    librarian.setButtonText (compactActions ? "Library" : "librarian");
+    updateEditBuffer.setButtonText (compactActions ? "Hardware" : "update edit buffer");
+    allNotesOff.setButtonText (compactActions ? "Panic" : "all notes off");
+    liveEdit.setButtonText (compactActions ? "Live" : "live NRPN");
+    settings.setButtonText (compactActions ? "Refresh" : "refresh MIDI");
 
     // Hardware/program context stays visible across every page. MIDI channel
     // is explicit because live NRPN editing is channel-sensitive.
@@ -178,12 +280,16 @@ void GlobalControlBar::resized()
     status.setBounds (buttonRow.removeFromRight (statusWidth));
     buttonRow.removeFromRight (gap);
 
-    const int buttonWidth = juce::jmax (62, (buttonRow.getWidth() - gap * 6) / 7);
+    const int buttonWidth = juce::jmax (54, (buttonRow.getWidth() - gap * 8) / 9);
     requestPatch.setBounds (buttonRow.removeFromLeft (buttonWidth));
     buttonRow.removeFromLeft (gap);
     sysexTools.setBounds (buttonRow.removeFromLeft (buttonWidth));
     buttonRow.removeFromLeft (gap);
     librarian.setBounds (buttonRow.removeFromLeft (buttonWidth));
+    buttonRow.removeFromLeft (gap);
+    undo.setBounds (buttonRow.removeFromLeft (buttonWidth));
+    buttonRow.removeFromLeft (gap);
+    redo.setBounds (buttonRow.removeFromLeft (buttonWidth));
     buttonRow.removeFromLeft (gap);
     updateEditBuffer.setBounds (buttonRow.removeFromLeft (buttonWidth));
     buttonRow.removeFromLeft (gap);
@@ -196,6 +302,12 @@ void GlobalControlBar::resized()
 
 void GlobalControlBar::refreshMidiDevices()
 {
+    // Preserve the actually-open JUCE device identifiers. Earlier versions
+    // repopulated the ComboBoxes with "None" while leaving the MIDI service
+    // connected, which made the UI lie about its transport state.
+    const auto openInput = midi.currentInputIdentifier();
+    const auto openOutput = midi.currentOutputIdentifier();
+
     midiInput.clear (juce::dontSendNotification);
     midiOutput.clear (juce::dontSendNotification);
     inputIdentifiers.clear();
@@ -204,23 +316,39 @@ void GlobalControlBar::refreshMidiDevices()
     midiInput.addItem ("None", 1);
     midiOutput.addItem ("None", 1);
 
+    int selectedInputId = 1;
     int id = 2;
     for (const auto& device : midi.availableInputs())
     {
-        midiInput.addItem (device.name, id++);
+        midiInput.addItem (device.name, id);
         inputIdentifiers.add (device.identifier);
+        if (device.identifier == openInput)
+            selectedInputId = id;
+        ++id;
     }
 
+    int selectedOutputId = 1;
     id = 2;
     for (const auto& device : midi.availableOutputs())
     {
-        midiOutput.addItem (device.name, id++);
+        midiOutput.addItem (device.name, id);
         outputIdentifiers.add (device.identifier);
+        if (device.identifier == openOutput)
+            selectedOutputId = id;
+        ++id;
     }
 
-    midiInput.setSelectedId (1, juce::dontSendNotification);
-    midiOutput.setSelectedId (1, juce::dontSendNotification);
+    midiInput.setSelectedId (selectedInputId, juce::dontSendNotification);
+    midiOutput.setSelectedId (selectedOutputId, juce::dontSendNotification);
+
+    // If a device disappeared, close the stale endpoint rather than retaining
+    // a connection that the selectors can no longer represent.
+    if (openInput.isNotEmpty() && selectedInputId == 1)
+        midi.closeInput();
+    if (openOutput.isNotEmpty() && selectedOutputId == 1)
+        midi.closeOutput();
 }
+
 
 void GlobalControlBar::selectMidiInput()
 {
@@ -228,6 +356,8 @@ void GlobalControlBar::selectMidiInput()
     if (index < 0)
     {
         midi.closeInput();
+        if (onPersistentContextChanged)
+            onPersistentContextChanged();
         return;
     }
 
@@ -235,6 +365,8 @@ void GlobalControlBar::selectMidiInput()
     {
         const auto result = midi.openInput (inputIdentifiers[index]);
         status.setText (result.wasOk() ? "MIDI input open" : result.getErrorMessage(), juce::dontSendNotification);
+        if (onPersistentContextChanged)
+            onPersistentContextChanged();
     }
 }
 
@@ -244,6 +376,8 @@ void GlobalControlBar::selectMidiOutput()
     if (index < 0)
     {
         midi.closeOutput();
+        if (onPersistentContextChanged)
+            onPersistentContextChanged();
         return;
     }
 
@@ -251,6 +385,8 @@ void GlobalControlBar::selectMidiOutput()
     {
         const auto result = midi.openOutput (outputIdentifiers[index]);
         status.setText (result.wasOk() ? "MIDI output open" : result.getErrorMessage(), juce::dontSendNotification);
+        if (onPersistentContextChanged)
+            onPersistentContextChanged();
     }
 }
 

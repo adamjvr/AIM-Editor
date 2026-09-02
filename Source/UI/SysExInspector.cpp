@@ -1,9 +1,27 @@
 #include "SysExInspector.h"
+#include "Midi/IonProtocol.h"
 
 #include <juce_data_structures/juce_data_structures.h>
 
 namespace aim
 {
+juce::var SysExInspector::CandidateNrpnTransaction::toJson() const
+{
+    auto* object = new juce::DynamicObject();
+    object->setProperty ("direction", direction == MidiDirection::input ? "input" : "output");
+    object->setProperty ("utc_ms", static_cast<juce::int64> (utcMilliseconds));
+    object->setProperty ("device_identifier", deviceIdentifier);
+    object->setProperty ("midi_channel", decoded.midiChannel);
+    object->setProperty ("nrpn", decoded.parameter);
+    object->setProperty ("value14", decoded.value14Bit);
+    object->setProperty ("mapping_status", mappingStatus);
+    object->setProperty ("value_encoding", valueEncoding);
+    object->setProperty ("parameter_id", parameterId.isNotEmpty() ? juce::var (parameterId) : juce::var());
+    object->setProperty ("parameter_name", parameterName.isNotEmpty() ? juce::var (parameterName) : juce::var());
+    object->setProperty ("semantic_value", semanticValue.has_value() ? juce::var (*semanticValue) : juce::var());
+    return juce::var (object);
+}
+
 SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegistry& parameterRegistry)
     : midi (midiService),
       registry (parameterRegistry)
@@ -118,6 +136,7 @@ void SysExInspector::addEventOnMessageThread (MidiCaptureEvent event)
     const auto shouldShow = ! sysexOnly.getToggleState() || event.isSysEx();
     events.push_back (std::move (event));
     inspectCandidatePatch (events.back());
+    inspectCandidateNrpn (events.back());
 
     if (shouldShow)
     {
@@ -130,7 +149,9 @@ void SysExInspector::addEventOnMessageThread (MidiCaptureEvent event)
         if (captured.isSysEx())
             ++sysexCount;
 
-    summary.setText (juce::String (static_cast<juce::int64> (events.size())) + " captured / " + juce::String (static_cast<juce::int64> (sysexCount)) + " SysEx",
+    summary.setText (juce::String (static_cast<juce::int64> (events.size())) + " captured / "
+                         + juce::String (static_cast<juce::int64> (sysexCount)) + " SysEx / "
+                         + juce::String (static_cast<juce::int64> (nrpnTransactions.size())) + " NRPN",
                      juce::dontSendNotification);
 }
 
@@ -166,6 +187,41 @@ void SysExInspector::inspectCandidatePatch (const MidiCaptureEvent& event)
     loadPatchButton.setButtonText (latestCandidateName.isNotEmpty() ? "Load " + latestCandidateName : "Load Patch");
 }
 
+void SysExInspector::inspectCandidateNrpn (const MidiCaptureEvent& event)
+{
+    if (! event.message.isController())
+        return;
+
+    auto& decoder = event.direction == MidiDirection::input ? inputNrpnDecoder : outputNrpnDecoder;
+    const auto decoded = decoder.push (event.message);
+    if (! decoded)
+        return;
+
+    CandidateNrpnTransaction transaction;
+    transaction.direction = event.direction;
+    transaction.utcMilliseconds = event.utcMilliseconds;
+    transaction.deviceIdentifier = event.deviceIdentifier;
+    transaction.decoded = *decoded;
+
+    if (const auto* definition = registry.findByNrpn (decoded->parameter))
+    {
+        transaction.parameterId = juce::String (definition->id);
+        transaction.parameterName = definition->name;
+        transaction.mappingStatus = mappingStatusToString (definition->mappingStatus);
+        transaction.valueEncoding = definition->nrpnValueEncoding;
+
+        if (definition->nrpnValueEncoding == "signed_14_wrap")
+            transaction.semanticValue = IonProtocol::decodeIonSigned14 (decoded->value14Bit);
+        else if (definition->nrpnValueEncoding == "unsigned_14")
+            transaction.semanticValue = decoded->value14Bit;
+    }
+
+    if (nrpnTransactions.size() >= maxEvents)
+        nrpnTransactions.erase (nrpnTransactions.begin(), nrpnTransactions.begin() + static_cast<std::ptrdiff_t> (maxEvents / 8));
+
+    nrpnTransactions.push_back (std::move (transaction));
+}
+
 void SysExInspector::loadLatestCandidateProgram()
 {
     if (! latestCandidateProgram || ! latestCandidatePatch || ! onLoadCandidateProgram)
@@ -190,6 +246,9 @@ void SysExInspector::rebuildLog()
 void SysExInspector::clearCapture()
 {
     events.clear();
+    nrpnTransactions.clear();
+    inputNrpnDecoder.reset();
+    outputNrpnDecoder.reset();
     latestCandidateProgram.reset();
     latestCandidatePatch.reset();
     latestCandidateName.clear();
@@ -274,7 +333,13 @@ juce::String SysExInspector::makeCaptureJson() const
         jsonEvents.add (std::move (eventJson));
     }
 
+    juce::Array<juce::var> jsonNrpnTransactions;
+    jsonNrpnTransactions.ensureStorageAllocated (static_cast<int> (nrpnTransactions.size()));
+    for (const auto& transaction : nrpnTransactions)
+        jsonNrpnTransactions.add (transaction.toJson());
+
     root->setProperty ("events", juce::var (jsonEvents));
+    root->setProperty ("nrpn_transactions", juce::var (jsonNrpnTransactions));
     return juce::JSON::toString (juce::var (root), false);
 }
 

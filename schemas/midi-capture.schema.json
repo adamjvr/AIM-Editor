@@ -25,6 +25,13 @@
       "items": {
         "$ref": "#/$defs/event"
       }
+    },
+    "nrpn_transactions": {
+      "type": "array",
+      "description": "Optional stateful candidate interpretation of complete CC99/CC98/CC6/CC38 NRPN transactions. Raw events remain authoritative.",
+      "items": {
+        "$ref": "#/$defs/nrpn_transaction"
+      }
     }
   },
   "$defs": {
@@ -86,6 +93,80 @@
         "ion_candidate_program": {
           "type": "object",
           "description": "Optional human-readable AIM program decoded through candidate Ion field mappings. Raw MIDI/SysEx bytes remain authoritative."
+        }
+      }
+    },
+    "nrpn_transaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direction",
+        "utc_ms",
+        "device_identifier",
+        "midi_channel",
+        "nrpn",
+        "value14",
+        "mapping_status",
+        "value_encoding",
+        "parameter_id",
+        "parameter_name",
+        "semantic_value"
+      ],
+      "properties": {
+        "direction": {
+          "enum": [
+            "input",
+            "output"
+          ]
+        },
+        "utc_ms": {
+          "type": "integer"
+        },
+        "device_identifier": {
+          "type": "string"
+        },
+        "midi_channel": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "nrpn": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16383
+        },
+        "value14": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16383
+        },
+        "mapping_status": {
+          "enum": [
+            "unmapped",
+            "candidate",
+            "verified"
+          ]
+        },
+        "value_encoding": {
+          "type": "string"
+        },
+        "parameter_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parameter_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "semantic_value": {
+          "type": [
+            "integer",
+            "null"
+          ]
         }
       }
     }

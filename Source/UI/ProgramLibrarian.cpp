@@ -96,7 +96,7 @@ ProgramLibrarian::ProgramLibrarian (const ParameterRegistry& registryToUse,
     for (auto* component : { static_cast<juce::Component*> (&title), &bankSummary, &status,
                              &bankNameLabel, &hardwareBankLabel, &bankName, &hardwareBank,
                              &nameLabel, &categoryLabel, &programName, &category, &slotList,
-                             &storeButton, &loadButton, &clearSlotButton, &newBankButton,
+                             &storeButton, &loadButton, &copySlotButton, &pasteSlotButton, &clearSlotButton, &newBankButton,
                              &importProgramButton, &exportProgramButton, &importBankButton,
                              &exportBankButton, &importSyxButton, &exportSyxButton, &exportBankSyxButton, &closeButton })
         addAndMakeVisible (component);
@@ -104,6 +104,11 @@ ProgramLibrarian::ProgramLibrarian (const ParameterRegistry& registryToUse,
     storeButton.onClick = [this] { storeCurrentInSelectedSlot(); };
     loadButton.onClick = [this] { loadSelectedSlot(); };
     clearSlotButton.onClick = [this] { clearSelectedSlot(); };
+    copySlotButton.onClick = [this] { copySelectedSlot(); };
+    pasteSlotButton.onClick = [this] { pasteIntoSelectedSlot(); };
+    pasteSlotButton.setEnabled (false);
+    copySlotButton.setTooltip ("Copy the selected native bank slot, including preserved source-patch bytes.");
+    pasteSlotButton.setTooltip ("Paste the copied native program into the selected slot without altering its source template.");
     newBankButton.onClick = [this] { newBank(); };
     importProgramButton.onClick = [this] { importProgramJson(); };
     exportProgramButton.onClick = [this] { exportProgramJson(); };
@@ -193,7 +198,7 @@ void ProgramLibrarian::resized()
         }
     };
 
-    layoutButtons (row1, { &storeButton, &loadButton, &clearSlotButton, &newBankButton });
+    layoutButtons (row1, { &storeButton, &loadButton, &copySlotButton, &pasteSlotButton, &clearSlotButton, &newBankButton });
     layoutButtons (row2, { &importProgramButton, &exportProgramButton, &importBankButton, &exportBankButton });
 
     status.setBounds (row3.removeFromLeft (juce::jmax (150, row3.getWidth() / 4)));
@@ -251,6 +256,8 @@ void ProgramLibrarian::selectedRowsChanged (int)
     const auto occupied = bank.isOccupied (slotList.getSelectedRow());
     loadButton.setEnabled (occupied);
     clearSlotButton.setEnabled (occupied);
+    copySlotButton.setEnabled (occupied);
+    pasteSlotButton.setEnabled (slotClipboard.has_value() && ProgramBank::isValidSlot (slotList.getSelectedRow()));
 }
 
 void ProgramLibrarian::listBoxItemDoubleClicked (int row, const juce::MouseEvent&)
@@ -348,6 +355,34 @@ void ProgramLibrarian::clearSelectedSlot()
         return;
     }
     updateStatus();
+}
+
+void ProgramLibrarian::copySelectedSlot()
+{
+    const auto* program = bank.programAt (slotList.getSelectedRow());
+    if (program == nullptr)
+        return;
+
+    slotClipboard = *program;
+    pasteSlotButton.setEnabled (true);
+    status.setText ("slot copied", juce::dontSendNotification);
+    status.setColour (juce::Label::textColourId, juce::Colour::fromRGB (105, 190, 220));
+}
+
+void ProgramLibrarian::pasteIntoSelectedSlot()
+{
+    const auto slot = slotList.getSelectedRow();
+    if (! slotClipboard || ! ProgramBank::isValidSlot (slot))
+        return;
+
+    if (const auto result = bank.setProgram (slot, *slotClipboard); result.failed())
+    {
+        showError (result.getErrorMessage());
+        return;
+    }
+
+    updateStatus();
+    slotList.scrollToEnsureRowIsOnscreen (slot);
 }
 
 void ProgramLibrarian::newBank()

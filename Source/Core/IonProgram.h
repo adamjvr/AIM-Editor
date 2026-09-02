@@ -34,6 +34,16 @@ public:
     [[nodiscard]] const RawPatchBytes& getSourcePatchBytes() const noexcept { return sourcePatchBytes; }
     [[nodiscard]] bool hasSourcePatchBytes() const noexcept { return ! sourcePatchBytes.empty(); }
 
+    [[nodiscard]] bool operator== (const IonProgram& other) const
+    {
+        return name == other.name
+            && category == other.category
+            && parameters == other.parameters
+            && unknownBytes == other.unknownBytes
+            && sourcePatchBytes == other.sourcePatchBytes;
+    }
+    [[nodiscard]] bool operator!= (const IonProgram& other) const { return ! (*this == other); }
+
     void clear();
 
 private:

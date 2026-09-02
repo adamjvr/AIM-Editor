@@ -7,10 +7,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(AIM_EDITOR_BUILD_TESTS "Build AIM Editor tests" ON)
+option(AIM_EDITOR_ENABLE_SANITIZERS "Enable AddressSanitizer and UndefinedBehaviorSanitizer on supported desktop compilers" OFF)
 set(AIM_EDITOR_JUCE_PATH "" CACHE PATH "Path to a local JUCE checkout. If empty, JUCE is fetched.")
 set(AIM_EDITOR_JUCE_TAG "9.0.1" CACHE STRING "JUCE git tag used when fetching JUCE")
 
 include(cmake/JUCE.cmake)
+
+add_library(AIMEditorBuildOptions INTERFACE)
+if(AIM_EDITOR_ENABLE_SANITIZERS)
+    if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+        message(WARNING "AIM_EDITOR_ENABLE_SANITIZERS is ignored for iOS targets; use Xcode's scheme diagnostics on-device/simulator instead.")
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+        target_compile_options(AIMEditorBuildOptions INTERFACE -fsanitize=address,undefined -fno-omit-frame-pointer)
+        target_link_options(AIMEditorBuildOptions INTERFACE -fsanitize=address,undefined -fno-omit-frame-pointer)
+    else()
+        message(WARNING "AIM_EDITOR_ENABLE_SANITIZERS is not configured for this compiler.")
+    endif()
+endif()
 
 juce_add_binary_data(AIMEditorData
     HEADER_NAME BinaryData.h
@@ -31,6 +44,8 @@ juce_add_binary_data(AIMEditorData
 )
 
 add_library(AIMEditorCore STATIC
+    Source/Core/AppSettings.cpp
+    Source/Core/AppSettings.h
     Source/Core/ParameterDefinition.cpp
     Source/Core/ParameterDefinition.h
     Source/Core/ParameterFormatter.cpp
@@ -43,6 +58,8 @@ add_library(AIMEditorCore STATIC
     Source/Core/ProgramJson.h
     Source/Core/ProgramState.cpp
     Source/Core/ProgramState.h
+    Source/Core/ProgramHistory.cpp
+    Source/Core/ProgramHistory.h
     Source/Core/RandomizerEngine.cpp
     Source/Core/RandomizerEngine.h
     Source/Core/ProgramBank.cpp
@@ -56,6 +73,7 @@ target_link_libraries(AIMEditorCore
     PUBLIC
         juce::juce_core
         juce::juce_data_structures
+        AIMEditorBuildOptions
 )
 
 target_compile_definitions(AIMEditorCore PUBLIC JUCE_USE_CURL=0 JUCE_WEB_BROWSER=0)
@@ -87,6 +105,7 @@ target_link_libraries(AIMEditorMidi
         AIMEditorCore
         juce::juce_audio_basics
         juce::juce_audio_devices
+        AIMEditorBuildOptions
 )
 
 juce_add_gui_app(AIMEditor
@@ -145,6 +164,7 @@ target_link_libraries(AIMEditor
         AIMEditorCore
         AIMEditorMidi
         AIMEditorData
+        AIMEditorBuildOptions
         juce::juce_gui_basics
         juce::juce_gui_extra
     PUBLIC
@@ -180,6 +200,6 @@ if(AIM_EDITOR_BUILD_TESTS)
     juce_add_console_app(AIMEditorTests PRODUCT_NAME "AIM Editor Tests")
     target_sources(AIMEditorTests PRIVATE Tests/CoreTests.cpp)
     target_include_directories(AIMEditorTests PRIVATE Source)
-    target_link_libraries(AIMEditorTests PRIVATE AIMEditorCore AIMEditorMidi AIMEditorData juce::juce_core juce::juce_data_structures)
+    target_link_libraries(AIMEditorTests PRIVATE AIMEditorCore AIMEditorMidi AIMEditorData AIMEditorBuildOptions juce::juce_core juce::juce_data_structures)
     add_test(NAME AIMEditorCoreTests COMMAND AIMEditorTests)
 endif()

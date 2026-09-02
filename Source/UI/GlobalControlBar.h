@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/AppSettings.h"
 #include "Midi/IonMidiService.h"
 #include "Midi/IonSysExCodec.h"
 
@@ -19,12 +20,20 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    void setHistoryAvailability (bool canUndo, bool canRedo);
+    void setSelectedPage (int pageIndex);
+    void restoreSession (const SessionSnapshot& snapshot);
+    void captureSession (SessionSnapshot& snapshot) const;
+
     std::function<void (int)> onPageChanged;
     std::function<void()> onSysExToolsRequested;
     std::function<void()> onLibrarianRequested;
     std::function<void()> onHardwareToolsRequested;
     std::function<void (bool)> onLiveEditingChanged;
     std::function<void (int)> onMidiChannelChanged;
+    std::function<void()> onUndoRequested;
+    std::function<void()> onRedoRequested;
+    std::function<void()> onPersistentContextChanged;
 
 private:
     void refreshMidiDevices();
@@ -50,6 +59,8 @@ private:
     juce::TextButton updateEditBuffer { "update edit buffer" };
     juce::TextButton allNotesOff { "all notes off" };
     juce::TextButton librarian { "librarian" };
+    juce::TextButton undo { "undo" };
+    juce::TextButton redo { "redo" };
     juce::ToggleButton liveEdit { "live NRPN" };
     juce::TextButton settings { "refresh MIDI" };
 

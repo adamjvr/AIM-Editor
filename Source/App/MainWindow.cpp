@@ -4,13 +4,13 @@
 
 namespace aim
 {
-MainWindow::MainWindow (const ParameterRegistry& registry, IonMidiService& midiService)
+MainWindow::MainWindow (const ParameterRegistry& registry, IonMidiService& midiService, AppSettings& appSettings)
     : DocumentWindow ("AIM Editor",
                       juce::Colour::fromRGB (28, 28, 28),
                       juce::DocumentWindow::allButtons)
 {
     setUsingNativeTitleBar (true);
-    setContentOwned (new MainEditor (registry, midiService), true);
+    setContentOwned (new MainEditor (registry, midiService, appSettings), true);
     setResizable (true, true);
     setResizeLimits (760, 520, 2400, 1600);
 

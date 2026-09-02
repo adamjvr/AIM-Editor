@@ -1,7 +1,9 @@
 #pragma once
 
+#include "Core/AppSettings.h"
 #include "Core/ParameterRegistry.h"
 #include "Core/ProgramState.h"
+#include "Core/ProgramHistory.h"
 #include "Midi/IonMidiService.h"
 #include "Midi/IonParameterTransmitter.h"
 #include "Midi/IonNrpnDecoder.h"
@@ -21,11 +23,12 @@ namespace aim
 class MainEditor final : public juce::Component
 {
 public:
-    MainEditor (const ParameterRegistry& registry, IonMidiService& midiService);
+    MainEditor (const ParameterRegistry& registry, IonMidiService& midiService, AppSettings& appSettings);
     ~MainEditor() override;
 
     void paint (juce::Graphics&) override;
     void resized() override;
+    bool keyPressed (const juce::KeyPress& key) override;
 
 private:
     void showPage (int pageIndex);
@@ -37,10 +40,13 @@ private:
     void showHardwareTools();
     void hideHardwareTools();
     void applyIncomingNrpn (const DecodedNrpn& decoded);
+    void persistSession();
 
     const ParameterRegistry& registry;
     IonMidiService& midi;
+    AppSettings& appSettings;
     ProgramState programState;
+    ProgramHistory programHistory;
     IonNrpnDecoder nrpnDecoder;
     IonParameterTransmitter parameterTransmitter;
     juce::Viewport viewport;

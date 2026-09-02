@@ -3,10 +3,12 @@
 
 namespace aim
 {
-MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& midiService)
+MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& midiService, AppSettings& settings)
     : registry (registryToUse),
       midi (midiService),
+      appSettings (settings),
       programState (registryToUse),
+      programHistory (programState),
       parameterTransmitter (programState, registryToUse, midiService),
       controlBar (midiService),
       sysExInspector (midiService, registryToUse),
@@ -28,6 +30,14 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
     controlBar.onSysExToolsRequested = [this] { showSysExInspector(); };
     controlBar.onLibrarianRequested = [this] { showProgramLibrarian(); };
     controlBar.onHardwareToolsRequested = [this] { showHardwareTools(); };
+    controlBar.onUndoRequested = [this] { (void) programHistory.undo(); };
+    controlBar.onRedoRequested = [this] { (void) programHistory.redo(); };
+    programHistory.onAvailabilityChanged = [safe = juce::Component::SafePointer<MainEditor> (this)] (bool canUndo, bool canRedo) mutable
+    {
+        if (safe != nullptr)
+            safe->controlBar.setHistoryAvailability (canUndo, canRedo);
+    };
+    controlBar.setHistoryAvailability (programHistory.canUndo(), programHistory.canRedo());
     controlBar.onLiveEditingChanged = [this] (bool enabled)
     {
         parameterTransmitter.setEnabled (enabled);
@@ -36,7 +46,14 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
     {
         parameterTransmitter.setMidiChannel (channel);
     };
+    controlBar.onPersistentContextChanged = [this] { persistSession(); };
+
+    const auto restoredSession = appSettings.loadSession();
+    controlBar.restoreSession (restoredSession);
     addAndMakeVisible (controlBar);
+    showPage (restoredSession.pageIndex);
+
+    setWantsKeyboardFocus (true);
 
     sysExInspector.onClose = [this] { hideSysExInspector(); };
     sysExInspector.onLoadCandidateProgram = [this] (const IonProgram& program, const IonPatchDump&)
@@ -70,6 +87,8 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
 
 MainEditor::~MainEditor()
 {
+    persistSession();
+    appSettings.flush();
     midi.setMessageHandler ({});
 }
 
@@ -94,15 +113,70 @@ void MainEditor::resized()
     hardwareTools.setBounds (overlayBounds);
 }
 
+bool MainEditor::keyPressed (const juce::KeyPress& key)
+{
+    const auto modifiers = key.getModifiers();
+    const auto command = modifiers.isCommandDown();
+    const auto code = key.getKeyCode();
+
+    if (command && (code == 'z' || code == 'Z'))
+    {
+        if (modifiers.isShiftDown())
+            (void) programHistory.redo();
+        else
+            (void) programHistory.undo();
+        return true;
+    }
+
+    if (command && (code == 'y' || code == 'Y'))
+    {
+        (void) programHistory.redo();
+        return true;
+    }
+
+    if (command && (code == 'l' || code == 'L'))
+    {
+        showProgramLibrarian();
+        return true;
+    }
+
+    if (command && (code == 'i' || code == 'I'))
+    {
+        showSysExInspector();
+        return true;
+    }
+
+    if (command && code >= '1' && code <= '5')
+    {
+        showPage (code - '1');
+        return true;
+    }
+
+    if (code == juce::KeyPress::escapeKey)
+    {
+        if (sysExInspector.isVisible() || programLibrarian.isVisible() || hardwareTools.isVisible())
+        {
+            hideSysExInspector();
+            hideProgramLibrarian();
+            hideHardwareTools();
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void MainEditor::showPage (int pageIndex)
 {
     if (! juce::isPositiveAndBelow (pageIndex, static_cast<int> (pages.size())))
         return;
 
     currentPage = pageIndex;
+    controlBar.setSelectedPage (pageIndex);
     viewport.setViewedComponent (pages[static_cast<std::size_t> (currentPage)].get(), false);
     viewport.setViewPosition (0, 0);
     updateViewedPageSize();
+    persistSession();
 }
 
 void MainEditor::updateViewedPageSize()
@@ -153,6 +227,14 @@ void MainEditor::showHardwareTools()
 void MainEditor::hideHardwareTools()
 {
     hardwareTools.setVisible (false);
+}
+
+void MainEditor::persistSession()
+{
+    SessionSnapshot snapshot;
+    snapshot.pageIndex = currentPage;
+    controlBar.captureSession (snapshot);
+    appSettings.saveSession (snapshot);
 }
 
 void MainEditor::applyIncomingNrpn (const DecodedNrpn& decoded)
