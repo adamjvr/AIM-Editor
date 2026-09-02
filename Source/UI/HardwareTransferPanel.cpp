@@ -1,4 +1,5 @@
 #include "HardwareTransferPanel.h"
+#include <initializer_list>
 
 namespace aim
 {
@@ -47,7 +48,7 @@ HardwareTransferPanel::HardwareTransferPanel (IonMidiService& midiService,
     transferStatus.setColour (juce::Label::textColourId, juce::Colours::white.withAlpha (0.8f));
     transferStatus.setJustificationType (juce::Justification::centredRight);
 
-    for (auto* component : { static_cast<juce::Component*> (&title), &warning, &sourceStatus, &transferStatus,
+    for (auto* component : std::initializer_list<juce::Component*> { static_cast<juce::Component*> (&title), &warning, &sourceStatus, &transferStatus,
                              &bankLabel, &programLabel, &editSlotLabel, &bank, &program, &editSlot,
                              &requestPatch, &requestBank, &armWrites, &sendEditBuffer, &closeButton })
         addAndMakeVisible (component);

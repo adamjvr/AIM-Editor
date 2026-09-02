@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.22)
 
 project(AIMEditor VERSION 0.1.0 LANGUAGES C CXX)
 
@@ -118,6 +118,12 @@ juce_add_gui_app(AIMEditor
     COMPANY_NAME "AIM Editor"
     BUNDLE_ID "org.aim-editor.app"
     DOCUMENT_EXTENSIONS syx
+    FILE_SHARING_ENABLED TRUE
+    DOCUMENT_BROWSER_ENABLED TRUE
+    ICLOUD_PERMISSIONS_ENABLED TRUE
+    IPAD_SCREEN_ORIENTATIONS
+        UIInterfaceOrientationLandscapeLeft
+        UIInterfaceOrientationLandscapeRight
 )
 
 target_sources(AIMEditor PRIVATE

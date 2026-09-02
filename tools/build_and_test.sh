@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Validation tools must never litter the source tree with interpreter bytecode.
+export PYTHONDONTWRITEBYTECODE=1
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${AIM_EDITOR_BUILD_DIR:-$ROOT/build-local}"
 BUILD_TYPE="${AIM_EDITOR_BUILD_TYPE:-Debug}"
@@ -37,6 +40,19 @@ fi
 
 export AIM_EDITOR_JUCE_PATH="$LOCAL_JUCE"
 
+SYSTEM_PYTHON="${AIM_EDITOR_PYTHON:-python3}"
+if ! command -v "$SYSTEM_PYTHON" >/dev/null 2>&1; then
+  printf 'ERROR: Python 3.10+ is required for AIM Editor repository validation.\n' >&2
+  exit 2
+fi
+
+"$SYSTEM_PYTHON" "$ROOT/tools/bootstrap_python_tools.py"
+TOOLS_PYTHON="$ROOT/.deps/python-tools/bin/python"
+if [[ ! -x "$TOOLS_PYTHON" ]]; then
+  printf 'ERROR: project-local Python validation interpreter was not created.\n' >&2
+  exit 2
+fi
+
 cmake_args=(
   -S "$ROOT"
   -B "$BUILD_DIR"
@@ -53,11 +69,14 @@ if command -v ninja >/dev/null 2>&1; then
   cmake_args+=(-G Ninja)
 fi
 
+printf '== Clean generated Python artifacts ==\n'
+"$TOOLS_PYTHON" "$ROOT/tools/clean_python_artifacts.py"
+
 printf '== AIM Editor build doctor ==\n'
-python3 "$ROOT/tools/build_doctor.py" --require-local-juce --strict-platform
+"$TOOLS_PYTHON" "$ROOT/tools/build_doctor.py" --require-local-juce --strict-platform
 
 printf '\n== AIM Editor repository checks ==\n'
-python3 "$ROOT/tools/check_repository.py"
+"$TOOLS_PYTHON" "$ROOT/tools/check_repository.py"
 
 printf '\n== Configure ==\n'
 printf '+ cmake'

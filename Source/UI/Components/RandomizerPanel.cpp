@@ -1,4 +1,5 @@
 #include "RandomizerPanel.h"
+#include <initializer_list>
 
 #include <cstdint>
 
@@ -7,7 +8,7 @@ namespace aim
 RandomizerPanel::RandomizerPanel (const ParameterRegistry& registryToUse, ProgramState& stateToUse)
     : registry (registryToUse), state (stateToUse)
 {
-    for (auto* component : { static_cast<juce::Component*> (&oscillators), &filters, &envelopes, &modulation,
+    for (auto* component : std::initializer_list<juce::Component*> { static_cast<juce::Component*> (&oscillators), &filters, &envelopes, &modulation,
                              &effects, &voiceOutput, &continuousValues, &enumerations, &switches,
                              &strength, &strengthLabel, &seedLabel, &seedEditor, &newSeed,
                              &randomize, &undo, &status })

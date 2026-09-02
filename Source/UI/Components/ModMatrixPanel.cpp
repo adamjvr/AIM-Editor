@@ -1,4 +1,5 @@
 #include "ModMatrixPanel.h"
+#include <initializer_list>
 
 #include <algorithm>
 #include <iomanip>
@@ -73,7 +74,7 @@ public:
         slotLabel.setJustificationType (juce::Justification::centred);
         slotLabel.setFont (juce::FontOptions (11.0f));
 
-        for (auto* component : { static_cast<juce::Component*> (&slotLabel), &source, &level, &offset, &destination })
+        for (auto* component : std::initializer_list<juce::Component*> { static_cast<juce::Component*> (&slotLabel), &source, &level, &offset, &destination })
             addAndMakeVisible (component);
 
         if (sourceDefinition != nullptr)

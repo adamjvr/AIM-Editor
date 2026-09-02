@@ -1,11 +1,12 @@
 #include "GlobalControlBar.h"
+#include <initializer_list>
 
 namespace aim
 {
 GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
     : midi (midiService)
 {
-    for (auto* component : { static_cast<juce::Component*> (&midiInput), &midiBank, &programSelector, &midiOutput,
+    for (auto* component : std::initializer_list<juce::Component*> { static_cast<juce::Component*> (&midiInput), &midiBank, &programSelector, &midiOutput,
                              &midiChannel, &pageSelector, &requestPatch, &sysexTools, &updateEditBuffer,
                              &allNotesOff, &librarian, &undo, &redo, &liveEdit, &settings, &status })
         addAndMakeVisible (component);

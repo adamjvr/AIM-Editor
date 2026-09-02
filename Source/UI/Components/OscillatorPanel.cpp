@@ -65,7 +65,7 @@ void OscillatorPanel::paint (juce::Graphics& g)
     g.setFont (juce::FontOptions (10.5f).withStyle ("Bold"));
     for (std::size_t i = 0; i < lanes.size(); ++i)
     {
-        const auto lane = juce::Rectangle<int> (area.getX(), area.getY() + static_cast<int> (i) * laneHeight,
+        auto lane = juce::Rectangle<int> (area.getX(), area.getY() + static_cast<int> (i) * laneHeight,
                                                 area.getWidth(), laneHeight);
         g.setColour ((i & 1u) == 0u ? juce::Colours::white.withAlpha (0.11f)
                                     : juce::Colours::black.withAlpha (0.025f));

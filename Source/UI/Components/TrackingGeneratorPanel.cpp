@@ -1,4 +1,5 @@
 #include "TrackingGeneratorPanel.h"
+#include <initializer_list>
 
 #include <algorithm>
 #include <cmath>
@@ -8,7 +9,7 @@ namespace aim
 TrackingGeneratorPanel::TrackingGeneratorPanel (const ParameterRegistry& registryToUse, ProgramState& stateToUse)
     : registry (registryToUse), state (stateToUse)
 {
-    for (auto* component : { static_cast<juce::Component*> (&inputRaw), &inputLabel, &gridSelector, &gridLabel,
+    for (auto* component : std::initializer_list<juce::Component*> { static_cast<juce::Component*> (&inputRaw), &inputLabel, &gridSelector, &gridLabel,
                              &presetSelector, &presetLabel, &linear, &invert, &zero, &status })
         addAndMakeVisible (component);
 

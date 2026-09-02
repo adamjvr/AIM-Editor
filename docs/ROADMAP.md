@@ -128,4 +128,19 @@
 - Program/bank/SysEx opening now converges on one guarded dispatcher with Save All and desktop document shortcuts; command-line/second-instance launches use the same path and CMake declares `.syx` association metadata.
 - Hardware testing can be pulled from a deterministic priority queue with `ion_verification_plan.py`; the planner remains read-only and has no promotion authority.
 - Destructive three-button dialogs now use JUCE 9 `NativeMessageBox::showAsync` for a stable zero-based callback contract; the ambiguous legacy AlertWindow result mapping is statically rejected.
-- Next: pass the strict real JUCE compile/CTest gate on Rosie and macOS/iPadOS before adding more features, then capture real Ion request/write behavior, promote verified protocol fields, and tune purpose-built geometry from device screenshots.
+- Rosie now passes the complete real JUCE 9.0.1 Linux standalone-application compile/link + CTest gate through Pass 19.
+- The Apple application gate is now explicit: macOS standalone app + CTest followed by the iPadOS Simulator standalone app from the same pinned dependency state.
+- Next: run `./tools/build_apple_targets.sh` on macOS, fix any platform-specific compiler/API issues, then resume real-Ion request/write verification and evidence promotion.
+
+## Pass 19 build-gate update
+
+- Real JUCE 9.0.1 Linux configure, compile, link, and CTest are green on Rosie.
+- Strict complete-enum normalization semantics are covered by CoreTests.
+- Linux is therefore the first real platform build gate closed.
+
+## Pass 20 Apple application-gate preparation
+
+- Added a single aggregate `build_apple_targets.sh` entry point for the macOS standalone app/tests plus iPadOS Simulator standalone app.
+- The iPad helper now bootstraps/locks JUCE, uses the pinned Python validation environment, runs the strict doctor/repository checks, and requires a visible iPhoneSimulator SDK before CMake/Xcode.
+- The JUCE GUI-app target explicitly declares iPad document-browser/file-sharing/iCloud permissions and landscape orientations.
+- Apple targets remain unverified until the aggregate gate is executed on a Mac with Xcode.

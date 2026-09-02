@@ -75,7 +75,7 @@ The project is now in its first functional-editor passes. It currently contains:
 
 ## Build
 
-AIM Editor is pinned to **JUCE 9.0.1** and the exact upstream commit `e18f7f506c0b96f2c738a0bcd7fe6467a5005ad8`. The preferred build is one command; when no local JUCE tree is available the helper bootstraps the SHA-256-verified official release archive into `.deps/JUCE`, runs the strict platform doctor, validates the repository, configures CMake, compiles, and runs CTest:
+AIM Editor is pinned to **JUCE 9.0.1** and the exact upstream commit `e18f7f506c0b96f2c738a0bcd7fe6467a5005ad8`. Repository validation is also isolated from distro Python packages: the build helper creates `.deps/python-tools` and installs the fully pinned JSON-schema toolchain from `tools/requirements-tools.txt`. The preferred build is one command; when no local JUCE tree is available the helper bootstraps the SHA-256-verified official release archive into `.deps/JUCE`, prepares the local Python validation environment, runs the strict platform doctor, validates the repository, configures CMake, compiles, and runs CTest:
 
 ```bash
 ./tools/build_and_test.sh
@@ -89,11 +89,19 @@ On Windows PowerShell:
 
 To use an already-verified JUCE checkout, set `AIM_EDITOR_JUCE_PATH` or pass `-DAIM_EDITOR_JUCE_PATH=/path/to/JUCE`. CMake rejects a local JUCE tree whose declared version is not exactly 9.0.1; the network FetchContent fallback is pinned to the exact commit rather than a movable tag. The bootstrap aborts on an archive checksum mismatch. See [`docs/BUILD_AND_DOCUMENT_WORKFLOW.md`](docs/BUILD_AND_DOCUMENT_WORKFLOW.md).
 
-For macOS desktop, the normal helper configures/builds/tests through CMake. For the iPad Simulator on a Mac with Xcode installed:
+For Apple targets, the preferred gate builds the **standalone macOS app + core tests** and then the **standalone iPadOS Simulator app** from the same pinned source/dependency state:
+
+```bash
+./tools/build_apple_targets.sh
+```
+
+To run only the iPadOS Simulator application gate:
 
 ```bash
 ./tools/build_ipad_simulator.sh
 ```
+
+The iPad target is explicitly iPad-only, landscape-oriented, and declares JUCE's native document-browser/file-sharing/iCloud permissions needed by the app's import/export workflow. The simulator build intentionally disables code signing; real device distribution still requires a valid Apple signing/iCloud-capability setup.
 
 AddressSanitizer + UndefinedBehaviorSanitizer remain opt-in on supported Clang/GCC desktop builds:
 
@@ -101,7 +109,7 @@ AddressSanitizer + UndefinedBehaviorSanitizer remain opt-in on supported Clang/G
 AIM_EDITOR_SANITIZE=1 ./tools/build_and_test.sh
 ```
 
-The repository checks and CMake project graph are green, but a complete build against the real JUCE tree is not considered verified until one of these commands reaches compilation/tests on the target machine.
+The real JUCE 9.0.1 Linux application build and core tests are green through Pass 19. macOS and iPadOS remain unverified until `./tools/build_apple_targets.sh` reaches both PASS markers on a Mac with Xcode.
 
 ## Data
 
@@ -135,11 +143,14 @@ Native banks use `format: "aim-editor.bank"` and store only occupied slots. Prog
 
 ## Data tooling
 
-Run all repository-level JSON/protocol/research checks:
+Run all repository-level JSON/protocol/research checks using the same pinned Python environment as the build:
 
 ```bash
-./tools/check_repository.py
+./tools/bootstrap_python_tools.py
+.deps/python-tools/bin/python tools/check_repository.py
 ```
+
+On Windows, the interpreter is `.deps\python-tools\Scripts\python.exe`. Do not `pip install` validation packages into the system Python just to satisfy AIM Editor.
 
 Validate the canonical database:
 
@@ -153,7 +164,7 @@ Export it to a spreadsheet-friendly CSV without changing JSON as the source of t
 ./tools/export_parameter_database.py --format csv --output exports/parameter-database.csv
 ```
 
-Run `./tools/build_doctor.py --strict-platform` for a non-mutating strict platform preflight, or use `./tools/build_and_test.sh` (or `.ps1` on Windows) for the complete verified-JUCE bootstrap/repository-check/configure/build/CTest pipeline.
+After bootstrapping the local Python tools, run `.deps/python-tools/bin/python tools/build_doctor.py --strict-platform` for a non-mutating strict platform preflight, or use `./tools/build_and_test.sh` (or `.ps1` on Windows) for the complete pinned-Python + verified-JUCE bootstrap/repository-check/configure/build/CTest pipeline.
 
 Undo/redo is semantic and shared across every editor view. It never echoes back to live MIDI. See [`docs/UNDO_AND_WORKFLOW.md`](docs/UNDO_AND_WORKFLOW.md).
 
@@ -248,3 +259,15 @@ Hardware testing can now promote candidate NRPN/SysEx mappings without hand-edit
 ```
 
 `verified` mappings must reference committed evidence under `research/verification/`; repository validation rejects evidence-free verification claims. See `docs/PROTOCOL_VERIFICATION.md`.
+
+
+### Python validation cache hygiene
+
+The one-command build uses the repository-local Python validation environment,
+sets `PYTHONDONTWRITEBYTECODE=1`, and removes stale untracked `__pycache__`/`.pyc`
+artifacts before repository validation. Tracked Python cache files remain a hard
+error.
+
+## Current build gate
+
+Rosie now passes the pinned JUCE 9.0.1 prerequisite, repository, and CMake configure gates and has entered the **real JUCE 9.0.1/GCC compiler loop**. Pass 18 repairs the complete first compiler-error wave (BinaryData symbol spelling, `StringArray` API usage, heterogeneous component-pointer lists, mutable paint geometry, and explicit `juce::File` resets). The project is not yet declared build-green until a subsequent Ninja build and CTest complete successfully.

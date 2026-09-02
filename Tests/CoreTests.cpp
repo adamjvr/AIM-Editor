@@ -43,9 +43,9 @@ int main()
         return fail (result.getErrorMessage());
 
     const struct EnumBlob { const char* data; int size; } enumBlobs[] {
-        { AIMBinaryData::modulation_sources_json, AIMBinaryData::modulation_sources_jsonSize },
-        { AIMBinaryData::modulation_destinations_json, AIMBinaryData::modulation_destinations_jsonSize },
-        { AIMBinaryData::filter_types_json, AIMBinaryData::filter_types_jsonSize },
+        { AIMBinaryData::modulationsources_json, AIMBinaryData::modulationsources_jsonSize },
+        { AIMBinaryData::modulationdestinations_json, AIMBinaryData::modulationdestinations_jsonSize },
+        { AIMBinaryData::filtertypes_json, AIMBinaryData::filtertypes_jsonSize },
     };
     for (const auto& blob : enumBlobs)
         if (const auto result = registry.loadEnumTableFromJson (juce::String::fromUTF8 (blob.data, blob.size)); result.failed())
@@ -117,6 +117,18 @@ int main()
     if (const auto* clampedFilterType = state.valueFor ("filter1.type");
         clampedFilterType == nullptr || static_cast<int> (*clampedFilterType) != 0)
         return fail ("ProgramState did not reject an invalid enum raw value to a stable fallback");
+
+    if (const auto result = state.setValue ("filter1.type", -999); result.failed())
+        return fail ("ProgramState unexpectedly rejected known complete enum parameter below its domain");
+    if (const auto* lowInvalidFilterType = state.valueFor ("filter1.type");
+        lowInvalidFilterType == nullptr || static_cast<int> (*lowInvalidFilterType) != 0)
+        return fail ("ProgramState clamped an invalid complete-enum value into the domain instead of using the stable fallback");
+
+    if (const auto result = state.setValue ("filter1.type", 20); result.failed())
+        return fail ("ProgramState rejected a valid complete-enum endpoint");
+    if (const auto* validFilterType = state.valueFor ("filter1.type");
+        validFilterType == nullptr || static_cast<int> (*validFilterType) != 20)
+        return fail ("ProgramState failed to preserve a valid complete-enum endpoint");
 
     if (const auto result = state.setValue ("mod_matrix.slot01.level", 5000); result.failed())
         return fail ("ProgramState rejected numeric parameter");

@@ -5,8 +5,15 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from jsonschema import Draft202012Validator
-from referencing import Registry, Resource
+try:
+    from jsonschema import Draft202012Validator
+    from referencing import Registry, Resource
+except ImportError as exc:
+    raise SystemExit(
+        "ERROR: Draft 2020-12 validation support is unavailable in this Python. "
+        "Run tools/bootstrap_python_tools.py and execute repository checks with "
+        ".deps/python-tools/bin/python (Windows: .deps\\python-tools\\Scripts\\python.exe)."
+    ) from exc
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS = ROOT / "schemas"

@@ -158,7 +158,7 @@ void ProgramJson::insertNestedParameter (juce::DynamicObject& root,
         current = child;
     }
 
-    current->setProperty (juce::Identifier (parts.getLast()), value);
+    current->setProperty (juce::Identifier (parts[parts.size() - 1]), value);
 }
 
 void ProgramJson::flattenParameterObject (const juce::var& value,

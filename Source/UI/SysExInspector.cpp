@@ -1,4 +1,5 @@
 #include "SysExInspector.h"
+#include <initializer_list>
 #include "Midi/IonProtocol.h"
 
 #include <juce_data_structures/juce_data_structures.h>
@@ -86,7 +87,7 @@ SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegi
     sysexOnly.setToggleState (true, juce::dontSendNotification);
     sysexOnly.setTooltip ("Show only SysEx in the text view. JSON export still preserves the complete capture.");
 
-    for (auto* component : { static_cast<juce::Component*> (&title), &summary, &candidateSummary,
+    for (auto* component : std::initializer_list<juce::Component*> { static_cast<juce::Component*> (&title), &summary, &candidateSummary,
                              &verificationTagLabel, &verificationParameter, &verificationIsolation,
                              &verificationStatus, &verificationNote, &startVerificationButton,
                              &stopVerificationButton, &experimentAssessment, &log, &sysexOnly,
@@ -514,11 +515,11 @@ void SysExInspector::saveJson()
                                                        true);
 
     const auto json = makeCaptureJson();
-    const auto flags = juce::FileBrowserComponent::saveMode
+    const auto chooserFlags = juce::FileBrowserComponent::saveMode
                      | juce::FileBrowserComponent::canSelectFiles
                      | juce::FileBrowserComponent::warnAboutOverwriting;
 
-    fileChooser->launchAsync (flags,
+    fileChooser->launchAsync (chooserFlags,
                               [safe = juce::Component::SafePointer<SysExInspector> (this), json] (const juce::FileChooser& chooser)
                               {
                                   const auto destination = chooser.getResult();

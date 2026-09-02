@@ -46,9 +46,9 @@ public:
                                                              "Could not load enum table:\n" + result.getErrorMessage());
         };
 
-        loadEnumTable (AIMBinaryData::modulation_sources_json, AIMBinaryData::modulation_sources_jsonSize);
-        loadEnumTable (AIMBinaryData::modulation_destinations_json, AIMBinaryData::modulation_destinations_jsonSize);
-        loadEnumTable (AIMBinaryData::filter_types_json, AIMBinaryData::filter_types_jsonSize);
+        loadEnumTable (AIMBinaryData::modulationsources_json, AIMBinaryData::modulationsources_jsonSize);
+        loadEnumTable (AIMBinaryData::modulationdestinations_json, AIMBinaryData::modulationdestinations_jsonSize);
+        loadEnumTable (AIMBinaryData::filtertypes_json, AIMBinaryData::filtertypes_jsonSize);
 
         mainWindow = std::make_unique<MainWindow> (registry, midiService, appSettings);
         openFirstDocumentFromCommandLine (commandLine);

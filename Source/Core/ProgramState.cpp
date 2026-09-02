@@ -129,11 +129,13 @@ juce::var ProgramState::normalizedValue (const ParameterDefinition& definition,
             || definition.kind == ParameterKind::boolean)
             numeric = std::round (numeric);
 
-        if (definition.rawMin)
-            numeric = std::max (numeric, *definition.rawMin);
-        if (definition.rawMax)
-            numeric = std::min (numeric, *definition.rawMax);
-
+        // A complete enum is an exact semantic domain, not merely a numeric
+        // range. Validate the submitted raw value before applying min/max
+        // clamping so that an invalid value cannot be transformed into a
+        // different, valid enum member (for example 999 -> raw_max 20).
+        // Incomplete enum tables intentionally skip this membership gate: an
+        // unknown but in-range raw value may be real hardware evidence and
+        // must be preserved.
         if (! definition.enumValues.empty() && definition.enumValuesComplete)
         {
             const auto exact = std::find_if (definition.enumValues.begin(), definition.enumValues.end(),
@@ -142,8 +144,13 @@ juce::var ProgramState::normalizedValue (const ParameterDefinition& definition,
                                                  return item.raw == static_cast<int> (numeric);
                                              });
             if (exact == definition.enumValues.end())
-                numeric = definition.enumValues.front().raw;
+                return fallbackValue (definition);
         }
+
+        if (definition.rawMin)
+            numeric = std::max (numeric, *definition.rawMin);
+        if (definition.rawMax)
+            numeric = std::min (numeric, *definition.rawMax);
 
         if (definition.kind == ParameterKind::continuous)
             return juce::var (numeric);
@@ -156,8 +163,47 @@ juce::var ProgramState::normalizedValue (const ParameterDefinition& definition,
 
 juce::var ProgramState::fallbackValue (const ParameterDefinition& definition) const
 {
+    // Complete enum tables have a finite, known domain. Prefer a declared
+    // default only when it is itself a member of that domain; otherwise use
+    // the first declared member as the stable fallback. This avoids recursive
+    // normalization if future metadata accidentally contains an invalid
+    // default_raw.
+    if (! definition.enumValues.empty() && definition.enumValuesComplete)
+    {
+        if (definition.defaultRaw)
+        {
+            const auto roundedDefault = static_cast<int> (std::round (*definition.defaultRaw));
+            const auto exact = std::find_if (definition.enumValues.begin(), definition.enumValues.end(),
+                                             [roundedDefault] (const ParameterEnumValue& item)
+                                             {
+                                                 return item.raw == roundedDefault;
+                                             });
+            if (exact != definition.enumValues.end())
+                return juce::var (exact->raw);
+        }
+
+        return juce::var (definition.enumValues.front().raw);
+    }
+
     if (definition.defaultRaw)
-        return normalizedValue (definition, juce::var (*definition.defaultRaw));
+    {
+        double numeric = *definition.defaultRaw;
+
+        if (definition.kind == ParameterKind::discrete
+            || definition.kind == ParameterKind::enumeration
+            || definition.kind == ParameterKind::boolean)
+            numeric = std::round (numeric);
+
+        if (definition.rawMin)
+            numeric = std::max (numeric, *definition.rawMin);
+        if (definition.rawMax)
+            numeric = std::min (numeric, *definition.rawMax);
+
+        if (definition.kind == ParameterKind::continuous)
+            return juce::var (numeric);
+
+        return juce::var (static_cast<int> (numeric));
+    }
 
     if (! definition.enumValues.empty())
         return juce::var (definition.enumValues.front().raw);

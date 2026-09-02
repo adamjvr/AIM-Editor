@@ -6,6 +6,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$env:PYTHONDONTWRITEBYTECODE = "1"
 $Root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 if ([string]::IsNullOrWhiteSpace($BuildDir)) {
     $BuildDir = Join-Path $Root "build-local"
@@ -43,12 +44,22 @@ if ([string]::IsNullOrWhiteSpace($LocalJuce)) {
 }
 $env:AIM_EDITOR_JUCE_PATH = $LocalJuce
 
+$SystemPython = if ([string]::IsNullOrWhiteSpace($env:AIM_EDITOR_PYTHON)) { "python" } else { $env:AIM_EDITOR_PYTHON }
+& $SystemPython (Join-Path $Root "tools\bootstrap_python_tools.py")
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+$ToolsPython = Join-Path $Root ".deps\python-tools\Scripts\python.exe"
+if (-not (Test-Path $ToolsPython)) { throw "Project-local Python validation interpreter was not created." }
+
+Write-Host "== Clean generated Python artifacts =="
+& $ToolsPython (Join-Path $Root "tools\clean_python_artifacts.py")
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 Write-Host "== AIM Editor build doctor =="
-python (Join-Path $Root "tools\build_doctor.py") --require-local-juce --strict-platform
+& $ToolsPython (Join-Path $Root "tools\build_doctor.py") --require-local-juce --strict-platform
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host "`n== AIM Editor repository checks =="
-python (Join-Path $Root "tools\check_repository.py")
+& $ToolsPython (Join-Path $Root "tools\check_repository.py")
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 $CMakeArgs = @(

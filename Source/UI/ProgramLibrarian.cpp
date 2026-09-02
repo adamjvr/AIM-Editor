@@ -1,4 +1,5 @@
 #include "ProgramLibrarian.h"
+#include <initializer_list>
 
 namespace aim
 {
@@ -94,7 +95,7 @@ ProgramLibrarian::ProgramLibrarian (const ParameterRegistry& registryToUse,
     slotList.setColour (juce::ListBox::backgroundColourId, juce::Colour::fromRGB (24, 24, 24));
     slotList.setColour (juce::ListBox::outlineColourId, juce::Colours::black);
 
-    for (auto* component : { static_cast<juce::Component*> (&title), &bankSummary, &status,
+    for (auto* component : std::initializer_list<juce::Component*> { static_cast<juce::Component*> (&title), &bankSummary, &status,
                              &bankNameLabel, &hardwareBankLabel, &bankName, &hardwareBank,
                              &nameLabel, &categoryLabel, &programName, &category, &slotList,
                              &newProgramButton, &storeButton, &loadButton, &copySlotButton, &pasteSlotButton, &clearSlotButton, &newBankButton,
@@ -486,7 +487,7 @@ void ProgramLibrarian::newProgram()
         if (safe == nullptr)
             return;
 
-        safe->programFile = {};
+        safe->programFile = juce::File{};
         // Treat a new Init as a fresh authoritative document so both the
         // history stack and dirty tracker reset to this program. The default
         // ProgramState constructor still uses the internal origin.
@@ -527,7 +528,7 @@ void ProgramLibrarian::loadSelectedSlot()
             return;
         if (const auto* program = safe->bank.programAt (slot))
         {
-            safe->programFile = {};
+            safe->programFile = juce::File{};
             safe->state.replaceProgram (*program, ProgramChangeOrigin::import);
             safe->updateStatus();
         }
@@ -580,7 +581,7 @@ void ProgramLibrarian::newBank()
             return;
         safe->bank.clear();
         safe->cleanBankBaseline = safe->bank;
-        safe->bankFile = {};
+        safe->bankFile = juce::File{};
         safe->updateStatus();
     });
 }
@@ -657,10 +658,10 @@ void ProgramLibrarian::saveUnsavedProgram (std::function<void (bool)> completion
                                .getChildFile (safeFilenameStem (state.program().getName()) + ".aimprogram.json");
 
     fileChooser = std::make_unique<juce::FileChooser> ("Save AIM Editor program JSON", suggested, "*.json", true);
-    const auto flags = juce::FileBrowserComponent::saveMode
+    const auto chooserFlags = juce::FileBrowserComponent::saveMode
                      | juce::FileBrowserComponent::canSelectFiles
                      | juce::FileBrowserComponent::warnAboutOverwriting;
-    fileChooser->launchAsync (flags,
+    fileChooser->launchAsync (chooserFlags,
                               [safe = juce::Component::SafePointer<ProgramLibrarian> (this), completion = std::move (completion)] (const juce::FileChooser& chooser) mutable
                               {
                                   if (safe == nullptr)
@@ -747,10 +748,10 @@ void ProgramLibrarian::saveUnsavedBank (std::function<void (bool)> completion)
                                .getChildFile (safeFilenameStem (bank.getName()) + ".aimbank.json");
 
     fileChooser = std::make_unique<juce::FileChooser> ("Save AIM Editor bank JSON", suggested, "*.json", true);
-    const auto flags = juce::FileBrowserComponent::saveMode
+    const auto chooserFlags = juce::FileBrowserComponent::saveMode
                      | juce::FileBrowserComponent::canSelectFiles
                      | juce::FileBrowserComponent::warnAboutOverwriting;
-    fileChooser->launchAsync (flags,
+    fileChooser->launchAsync (chooserFlags,
                               [safe = juce::Component::SafePointer<ProgramLibrarian> (this), completion = std::move (completion)] (const juce::FileChooser& chooser) mutable
                               {
                                   if (safe == nullptr)
@@ -860,7 +861,7 @@ void ProgramLibrarian::loadSyxFile (const juce::File& file)
         const auto* program = importedBank.programAt (firstSlot);
         if (program != nullptr)
         {
-            programFile = {};
+            programFile = juce::File{};
             state.replaceProgram (*program, ProgramChangeOrigin::import);
             updateStatus();
         }
@@ -869,11 +870,11 @@ void ProgramLibrarian::loadSyxFile (const juce::File& file)
 
     bank = std::move (importedBank);
     cleanBankBaseline = bank;
-    bankFile = {};
+    bankFile = juce::File{};
     slotList.selectRow (juce::jmax (0, firstSlot));
     if (const auto* program = bank.programAt (firstSlot))
     {
-        programFile = {};
+        programFile = juce::File{};
         state.replaceProgram (*program, ProgramChangeOrigin::import);
     }
     updateStatus();
@@ -994,8 +995,8 @@ void ProgramLibrarian::chooseFileToOpen (juce::String titleText,
                                                        std::move (wildcard),
                                                        true);
 
-    const auto flags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
-    fileChooser->launchAsync (flags,
+    const auto chooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
+    fileChooser->launchAsync (chooserFlags,
                               [safe = juce::Component::SafePointer<ProgramLibrarian> (this), completion = std::move (completion)] (const juce::FileChooser& chooser)
                               {
                                   if (safe == nullptr)
@@ -1014,10 +1015,10 @@ void ProgramLibrarian::chooseFileToSave (juce::String titleText,
 {
     fileChooser = std::make_unique<juce::FileChooser> (std::move (titleText), suggested, std::move (wildcard), true);
 
-    const auto flags = juce::FileBrowserComponent::saveMode
+    const auto chooserFlags = juce::FileBrowserComponent::saveMode
                      | juce::FileBrowserComponent::canSelectFiles
                      | juce::FileBrowserComponent::warnAboutOverwriting;
-    fileChooser->launchAsync (flags,
+    fileChooser->launchAsync (chooserFlags,
                               [safe = juce::Component::SafePointer<ProgramLibrarian> (this), completion = std::move (completion)] (const juce::FileChooser& chooser)
                               {
                                   if (safe == nullptr)

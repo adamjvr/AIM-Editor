@@ -9,7 +9,42 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+IGNORED_RUNTIME_ROOTS = {".git", ".deps", ".idea", ".vscode"}
 
+
+def is_runtime_generated(path: Path) -> bool:
+    try:
+        relative = path.relative_to(ROOT)
+    except ValueError:
+        return True
+    if not relative.parts:
+        return False
+    first = relative.parts[0]
+    return first in IGNORED_RUNTIME_ROOTS or first == "build" or first.startswith("build-") or first.startswith("cmake-build-")
+
+
+
+
+def tracked_python_cache_artifacts() -> list[Path]:
+    try:
+        result = subprocess.run(
+            ["git", "ls-files", "-z"],
+            cwd=ROOT,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return []
+
+    artifacts: list[Path] = []
+    for raw in result.stdout.split(b"\0"):
+        if not raw:
+            continue
+        relative = Path(raw.decode("utf-8", errors="surrogateescape"))
+        if relative.suffix.lower() in {".pyc", ".pyo"} or "__pycache__" in relative.parts:
+            artifacts.append(relative)
+    return sorted(artifacts)
 
 def run(*args: str) -> None:
     print("+", " ".join(args), flush=True)
@@ -64,7 +99,20 @@ def main() -> int:
         return 1
     print("PASS: every Source .cpp/.h file is listed in CMakeLists.txt")
 
-    cache_artifacts = [p for p in ROOT.rglob("*") if p.is_file() and (p.suffix in {".pyc", ".pyo"} or "__pycache__" in p.parts)]
+    tracked_cache = tracked_python_cache_artifacts()
+    if tracked_cache:
+        print("FAIL: Python cache artifacts are tracked by git:", file=sys.stderr)
+        for relative in tracked_cache:
+            print(f"  {relative}", file=sys.stderr)
+        return 1
+
+    cache_artifacts = [
+        p
+        for p in ROOT.rglob("*")
+        if p.is_file()
+        and not is_runtime_generated(p)
+        and (p.suffix in {".pyc", ".pyo"} or "__pycache__" in p.parts)
+    ]
     if cache_artifacts:
         print("FAIL: Python cache artifacts must not be packaged/committed:", file=sys.stderr)
         for path in cache_artifacts:
@@ -74,7 +122,7 @@ def main() -> int:
     conflict_markers = []
     text_suffixes = {".cpp", ".h", ".py", ".md", ".json", ".cmake", ".txt", ".sh", ".ps1", ".yml", ".yaml"}
     for path in ROOT.rglob("*"):
-        if not path.is_file() or path.suffix.lower() not in text_suffixes:
+        if not path.is_file() or is_runtime_generated(path) or path.suffix.lower() not in text_suffixes:
             continue
         text = path.read_text(encoding="utf-8", errors="replace")
         if any(marker in text for marker in (("<" * 7) + " ", (">" * 7) + " ")):
