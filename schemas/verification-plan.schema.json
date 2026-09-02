@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aim-editor.org/schemas/verification-plan.schema.json",
+  "title": "AIM Editor hardware verification plan",
+  "type": "object",
+  "required": ["format", "schema_version", "transport", "filters", "counts", "items"],
+  "properties": {
+    "format": { "const": "aim-editor.verification-plan" },
+    "schema_version": { "const": 1 },
+    "transport": { "enum": ["nrpn", "sysex"] },
+    "filters": { "type": "object" },
+    "counts": { "type": "object" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ordinal", "parameter_id", "name", "section", "transport", "current_status", "mapping", "procedure"],
+        "properties": {
+          "ordinal": { "type": "integer", "minimum": 1 },
+          "parameter_id": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "section": { "type": ["string", "null"] },
+          "pages": { "type": "array", "items": { "type": "string" } },
+          "transport": { "enum": ["nrpn", "sysex"] },
+          "current_status": { "type": "string" },
+          "mapping": { "type": "object" },
+          "raw_domain": { "type": "object" },
+          "suggested_distinct_raw_values": { "type": "array", "items": { "type": "integer" } },
+          "procedure": { "type": "array", "minItems": 4, "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,5 +1,6 @@
 /build/
 /build-*/
+/.deps/
 /cmake-build-*/
 /.idea/
 /.vscode/
@@ -15,3 +16,7 @@
 /research/legacy-editor/*.dll
 /research/legacy-editor/*.sme
 /research/legacy-editor/*.osm
+# Python tooling caches
+__pycache__/
+*.py[cod]
+

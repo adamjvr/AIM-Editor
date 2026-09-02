@@ -66,51 +66,46 @@ The project is now in its first functional-editor passes. It currently contains:
 - JSON Schemas and protocol/core round-trip tests;
 - semantic unsaved-program and librarian-bank tracking with save/discard/cancel protection;
 - save-aware application quit plus an explicit semantic New Program workflow that never invents SysEx bytes;
+- unified guarded document Open/Save All handling with desktop Ctrl/Cmd+O, Ctrl/Cmd+S, and Ctrl/Cmd+Shift+S shortcuts;
+- single-instance command-line/second-launch document forwarding through the same librarian safety path, with `.syx` association metadata declared in CMake;
+- SHA-256-pinned JUCE 9.0.1 bootstrap/build-doctor tooling for repeatable local builds;
+- a deterministic read-only NRPN/SysEx hardware-verification work queue;
 - a controlled NRPN Start/Stop verification mode that freezes evidence captures and cross-checks the inspector assessment offline against raw MIDI.
 
 ## Build
 
-### Linux
+AIM Editor is pinned to JUCE 9.0.1. The preferred first build uses the SHA-256-verified official release archive instead of relying on an implicit network fetch:
 
 ```bash
-cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
-cmake --build build
-ctest --test-dir build --output-on-failure
+./tools/build_doctor.py
+./tools/bootstrap_juce.sh
+AIM_EDITOR_JUCE_PATH="$PWD/.deps/JUCE" ./tools/build_and_test.sh
 ```
 
-### macOS
-
-```bash
-cmake -S . -B build-mac -G Xcode
-cmake --build build-mac --config Debug
-```
-
-### iPadOS
-
-Use an Xcode generator and the iOS toolchain supplied by Xcode:
-
-```bash
-cmake -S . -B build-ios -G Xcode -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_DEPLOYMENT_TARGET=17.0
-cmake --build build-ios --config Debug
-```
-
-The generated Xcode project can then be signed and run on an iPad.
-
-### Windows
+On Windows PowerShell:
 
 ```powershell
-cmake -S . -B build-win -G "Visual Studio 17 2022" -A x64
-cmake --build build-win --config Debug
-ctest --test-dir build-win -C Debug --output-on-failure
+python .\tools\build_doctor.py
+.\tools\bootstrap_juce.ps1
+$env:AIM_EDITOR_JUCE_PATH="$PWD\.deps\JUCE"
+.\tools\build_and_test.ps1
 ```
 
-## JUCE
+The bootstrap aborts on a JUCE archive checksum mismatch. CMake can also use any already-verified checkout with `-DAIM_EDITOR_JUCE_PATH=/path/to/JUCE`; if no local tree is supplied, the pinned FetchContent path remains available. See [`docs/BUILD_AND_DOCUMENT_WORKFLOW.md`](docs/BUILD_AND_DOCUMENT_WORKFLOW.md).
 
-By default CMake fetches the pinned JUCE release. To use a local checkout:
+For macOS desktop, the normal helper configures/builds/tests through CMake. For the iPad Simulator on a Mac with Xcode installed:
 
 ```bash
-cmake -S . -B build -DAIM_EDITOR_JUCE_PATH=/path/to/JUCE
+./tools/build_ipad_simulator.sh
 ```
+
+AddressSanitizer + UndefinedBehaviorSanitizer remain opt-in on supported Clang/GCC desktop builds:
+
+```bash
+AIM_EDITOR_SANITIZE=1 ./tools/build_and_test.sh
+```
+
+The repository checks and CMake project graph are green, but a complete build against the real JUCE tree is not considered verified until one of these commands reaches compilation/tests on the target machine.
 
 ## Data
 
@@ -162,28 +157,9 @@ Export it to a spreadsheet-friendly CSV without changing JSON as the source of t
 ./tools/export_parameter_database.py --format csv --output exports/parameter-database.csv
 ```
 
-Run repository checks, configure, compile, and CTest in one command on Linux/macOS:
+Run `./tools/build_doctor.py` for a non-mutating build preflight and `./tools/build_and_test.sh` (or `.ps1` on Windows) for the complete repository-check/configure/build/CTest pipeline.
 
-```bash
-./tools/build_and_test.sh
-```
-
-If `~/GitHub/JUCE` exists it is used automatically. Otherwise the normal CMake
-FetchContent path is used. To enable AddressSanitizer + UndefinedBehaviorSanitizer
-on supported Clang/GCC desktop builds:
-
-```bash
-AIM_EDITOR_SANITIZE=1 ./tools/build_and_test.sh
-```
-
-Undo/redo is semantic and shared across every editor view. It never echoes back
-to live MIDI. See [`docs/UNDO_AND_WORKFLOW.md`](docs/UNDO_AND_WORKFLOW.md).
-
-On macOS, configure and compile the unsigned iPad Simulator target with:
-
-```bash
-./tools/build_ipad_simulator.sh
-```
+Undo/redo is semantic and shared across every editor view. It never echoes back to live MIDI. See [`docs/UNDO_AND_WORKFLOW.md`](docs/UNDO_AND_WORKFLOW.md).
 
 Research the candidate Ion SysEx format without building JUCE:
 
@@ -199,6 +175,7 @@ Research the candidate Ion SysEx format without building JUCE:
 ./tools/validate_protocol_data.py
 ./tools/validate_tracking_generator.py
 ./tools/protocol/ion_verification_report.py report
+./tools/protocol/ion_verification_plan.py next --transport nrpn
 ```
 
 ## Live editing
@@ -216,6 +193,10 @@ The offline codec mirrors destination retargeting:
 ```bash
 ./tools/protocol/ion_sysex.py retarget source.syx edit1.syx --bank edit --slot 0
 ```
+
+## Unified document workflow
+
+The librarian has one guarded dispatcher for `.aimprogram.json`, `.aimbank.json`, and `.syx`. `Ctrl/Cmd+O` opens through that path, `Ctrl/Cmd+S` saves all dirty native JSON documents, and `Ctrl/Cmd+Shift+S` performs Save Program As. A supported file passed through AIM Editor's command-line/second-instance entry point is forwarded through the same unsaved-work protection; CMake also declares `.syx` association metadata. See [`docs/BUILD_AND_DOCUMENT_WORKFLOW.md`](docs/BUILD_AND_DOCUMENT_WORKFLOW.md).
 
 ## Document safety and controlled verification
 

@@ -115,6 +115,7 @@ juce_add_gui_app(AIMEditor
     PRODUCT_NAME "AIM Editor"
     COMPANY_NAME "AIM Editor"
     BUNDLE_ID "org.aim-editor.app"
+    DOCUMENT_EXTENSIONS syx
 )
 
 target_sources(AIMEditor PRIVATE

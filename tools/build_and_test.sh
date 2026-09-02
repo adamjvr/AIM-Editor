@@ -14,6 +14,8 @@ cmake_args=(
 
 if [[ -n "${AIM_EDITOR_JUCE_PATH:-}" ]]; then
   cmake_args+=("-DAIM_EDITOR_JUCE_PATH=$AIM_EDITOR_JUCE_PATH")
+elif [[ -d "$ROOT/.deps/JUCE" ]]; then
+  cmake_args+=("-DAIM_EDITOR_JUCE_PATH=$ROOT/.deps/JUCE")
 elif [[ -d "$HOME/GitHub/JUCE" ]]; then
   cmake_args+=("-DAIM_EDITOR_JUCE_PATH=$HOME/GitHub/JUCE")
 fi
@@ -26,7 +28,10 @@ if command -v ninja >/dev/null 2>&1; then
   cmake_args+=(-G Ninja)
 fi
 
-printf '== AIM Editor repository checks ==\n'
+printf '== AIM Editor build doctor ==\n'
+python3 "$ROOT/tools/build_doctor.py"
+
+printf '\n== AIM Editor repository checks ==\n'
 python3 "$ROOT/tools/check_repository.py"
 
 printf '\n== Configure ==\n'

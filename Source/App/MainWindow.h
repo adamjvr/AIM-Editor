@@ -15,5 +15,6 @@ public:
     MainWindow (const ParameterRegistry& registry, IonMidiService& midiService, AppSettings& appSettings);
     void closeButtonPressed() override;
     void requestQuit();
+    void openDocument (const juce::File& file);
 };
 }

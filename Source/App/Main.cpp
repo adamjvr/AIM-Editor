@@ -16,9 +16,9 @@ public:
 
     const juce::String getApplicationName() override { return "AIM Editor"; }
     const juce::String getApplicationVersion() override { return JUCE_APPLICATION_VERSION_STRING; }
-    bool moreThanOneInstanceAllowed() override { return true; }
+    bool moreThanOneInstanceAllowed() override { return false; }
 
-    void initialise (const juce::String&) override
+    void initialise (const juce::String& commandLine) override
     {
         juce::LookAndFeel::setDefaultLookAndFeel (&lookAndFeel);
 
@@ -51,6 +51,7 @@ public:
         loadEnumTable (AIMBinaryData::filter_types_json, AIMBinaryData::filter_types_jsonSize);
 
         mainWindow = std::make_unique<MainWindow> (registry, midiService, appSettings);
+        openFirstDocumentFromCommandLine (commandLine);
     }
 
     void shutdown() override
@@ -66,9 +67,29 @@ public:
         else
             quit();
     }
-    void anotherInstanceStarted (const juce::String&) override {}
+    void anotherInstanceStarted (const juce::String& commandLine) override
+    {
+        openFirstDocumentFromCommandLine (commandLine);
+    }
 
 private:
+    void openFirstDocumentFromCommandLine (const juce::String& commandLine)
+    {
+        if (mainWindow == nullptr || commandLine.trim().isEmpty())
+            return;
+
+        juce::ArgumentList arguments ({}, commandLine);
+        for (const auto& argument : arguments.arguments)
+        {
+            const auto file = argument.resolveAsFile();
+            if (file.existsAsFile())
+            {
+                mainWindow->openDocument (file);
+                return;
+            }
+        }
+    }
+
     IonLookAndFeel lookAndFeel;
     AppSettings appSettings;
     ParameterRegistry registry;

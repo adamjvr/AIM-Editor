@@ -135,6 +135,22 @@ bool MainEditor::keyPressed (const juce::KeyPress& key)
         return true;
     }
 
+    if (command && (code == 'o' || code == 'O'))
+    {
+        showProgramLibrarian();
+        programLibrarian.openDocument();
+        return true;
+    }
+
+    if (command && (code == 's' || code == 'S'))
+    {
+        if (modifiers.isShiftDown())
+            programLibrarian.saveProgramAs();
+        else
+            programLibrarian.saveDocuments();
+        return true;
+    }
+
     if (command && (code == 'l' || code == 'L'))
     {
         showProgramLibrarian();
@@ -253,6 +269,12 @@ juce::String MainEditor::unsavedChangesDescription() const
 void MainEditor::saveUnsavedChanges (std::function<void (bool)> completion)
 {
     programLibrarian.saveUnsavedChanges (std::move (completion));
+}
+
+void MainEditor::openDocumentFile (const juce::File& file)
+{
+    showProgramLibrarian();
+    programLibrarian.openDocumentFile (file);
 }
 
 void MainEditor::applyIncomingNrpn (const DecodedNrpn& decoded)

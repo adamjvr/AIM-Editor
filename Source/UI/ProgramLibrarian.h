@@ -49,6 +49,15 @@ public:
     */
     void saveUnsavedChanges (std::function<void (bool)> completion);
 
+    /** Unified native document workflow used by keyboard shortcuts and future OS file-open hooks. */
+    void openDocument();
+    void openDocumentFile (const juce::File& file);
+    void saveDocuments (std::function<void (bool)> completion = {});
+    void saveProgram();
+    void saveProgramAs();
+    void saveBank();
+    void saveBankAs();
+
     std::function<void()> onClose;
 
 private:
@@ -73,15 +82,18 @@ private:
 
     void importProgramJson();
     void exportProgramJson();
+    void loadProgramJsonFile (const juce::File& file);
     void saveProgramJsonTo (const juce::File& file);
     bool writeProgramJsonTo (const juce::File& file);
     void saveUnsavedProgram (std::function<void (bool)> completion);
     void importBankJson();
     void exportBankJson();
+    void loadBankJsonFile (const juce::File& file);
     void saveBankJsonTo (const juce::File& file);
     bool writeBankJsonTo (const juce::File& file);
     void saveUnsavedBank (std::function<void (bool)> completion);
     void importSyx();
+    void loadSyxFile (const juce::File& file);
     void exportSyx();
     void exportBankSyx();
 
@@ -127,10 +139,12 @@ private:
     juce::TextButton pasteSlotButton { "Paste Slot" };
     juce::TextButton newBankButton { "New Bank" };
 
-    juce::TextButton importProgramButton { "Import Program JSON" };
-    juce::TextButton exportProgramButton { "Save Program JSON" };
-    juce::TextButton importBankButton { "Import Bank JSON" };
-    juce::TextButton exportBankButton { "Save Bank JSON" };
+    juce::TextButton openDocumentButton { "Open..." };
+    juce::TextButton saveAllButton { "Save All" };
+    juce::TextButton importProgramButton { "Import Program" };
+    juce::TextButton exportProgramButton { "Save Program" };
+    juce::TextButton importBankButton { "Import Bank" };
+    juce::TextButton exportBankButton { "Save Bank" };
     juce::TextButton importSyxButton { "Import .syx" };
     juce::TextButton exportSyxButton { "Export .syx" };
     juce::TextButton exportBankSyxButton { "Export Bank .syx" };

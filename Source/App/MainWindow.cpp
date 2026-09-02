@@ -28,6 +28,15 @@ void MainWindow::closeButtonPressed()
     requestQuit();
 }
 
+void MainWindow::openDocument (const juce::File& file)
+{
+    if (auto* editor = dynamic_cast<MainEditor*> (getContentComponent()))
+    {
+        editor->openDocumentFile (file);
+        toFront (true);
+    }
+}
+
 void MainWindow::requestQuit()
 {
     const auto* editor = dynamic_cast<MainEditor*> (getContentComponent());

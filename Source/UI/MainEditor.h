@@ -35,6 +35,7 @@ public:
     [[nodiscard]] bool hasUnsavedChanges() const noexcept;
     [[nodiscard]] juce::String unsavedChangesDescription() const;
     void saveUnsavedChanges (std::function<void (bool)> completion);
+    void openDocumentFile (const juce::File& file);
 
 private:
     void showPage (int pageIndex);

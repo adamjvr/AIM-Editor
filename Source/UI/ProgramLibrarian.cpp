@@ -98,7 +98,7 @@ ProgramLibrarian::ProgramLibrarian (const ParameterRegistry& registryToUse,
                              &bankNameLabel, &hardwareBankLabel, &bankName, &hardwareBank,
                              &nameLabel, &categoryLabel, &programName, &category, &slotList,
                              &newProgramButton, &storeButton, &loadButton, &copySlotButton, &pasteSlotButton, &clearSlotButton, &newBankButton,
-                             &importProgramButton, &exportProgramButton, &importBankButton,
+                             &openDocumentButton, &saveAllButton, &importProgramButton, &exportProgramButton, &importBankButton,
                              &exportBankButton, &importSyxButton, &exportSyxButton, &exportBankSyxButton, &closeButton })
         addAndMakeVisible (component);
 
@@ -113,6 +113,8 @@ ProgramLibrarian::ProgramLibrarian (const ParameterRegistry& registryToUse,
     copySlotButton.setTooltip ("Copy the selected native bank slot, including preserved source-patch bytes.");
     pasteSlotButton.setTooltip ("Paste the copied native program into the selected slot without altering its source template.");
     newBankButton.onClick = [this] { newBank(); };
+    openDocumentButton.onClick = [this] { openDocument(); };
+    saveAllButton.onClick = [this] { saveDocuments(); };
     importProgramButton.onClick = [this] { importProgramJson(); };
     exportProgramButton.onClick = [this] { exportProgramJson(); };
     importBankButton.onClick = [this] { importBankJson(); };
@@ -129,6 +131,10 @@ ProgramLibrarian::ProgramLibrarian (const ParameterRegistry& registryToUse,
     exportSyxButton.setEnabled (false);
     exportSyxButton.setTooltip ("A .syx export requires a captured/imported patch template so unknown bytes are preserved safely.");
     exportBankSyxButton.setTooltip ("Export stored source-backed programs as concatenated standard SysEx messages. Every occupied slot must retain a patch template.");
+    openDocumentButton.setTooltip ("Open .aimprogram.json, .aimbank.json, or .syx. Ctrl/Cmd+O.");
+    saveAllButton.setTooltip ("Save every dirty native JSON document. Ctrl/Cmd+S.");
+    exportProgramButton.setTooltip ("Save the current program to its native JSON path, asking for a path the first time. Ctrl/Cmd+Shift+S always uses Save As.");
+    exportBankButton.setTooltip ("Save the native librarian bank to its current JSON path, asking for a path the first time.");
 
     state.addListener (this);
     syncMetadataFromState();
@@ -202,7 +208,7 @@ void ProgramLibrarian::resized()
     };
 
     layoutButtons (row1, { &newProgramButton, &storeButton, &loadButton, &copySlotButton, &pasteSlotButton, &clearSlotButton, &newBankButton });
-    layoutButtons (row2, { &importProgramButton, &exportProgramButton, &importBankButton, &exportBankButton });
+    layoutButtons (row2, { &openDocumentButton, &saveAllButton, &importProgramButton, &exportProgramButton, &importBankButton, &exportBankButton });
 
     status.setBounds (row3.removeFromLeft (juce::jmax (150, row3.getWidth() / 4)));
     row3.removeFromLeft (gap);
@@ -352,6 +358,127 @@ juce::String ProgramLibrarian::unsavedSummary() const
     return items.joinIntoString (" and ");
 }
 
+void ProgramLibrarian::openDocument()
+{
+    chooseFileToOpen ("Open AIM Editor document or Ion SysEx",
+                      "*.aimprogram.json;*.aimbank.json;*.syx;*.json",
+                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
+                      {
+                          if (safe != nullptr)
+                              safe->openDocumentFile (file);
+                      });
+}
+
+void ProgramLibrarian::openDocumentFile (const juce::File& file)
+{
+    if (file == juce::File{} || ! file.existsAsFile())
+    {
+        showError ("The selected document does not exist or is not a regular file.");
+        return;
+    }
+
+    if (file.hasFileExtension ("syx"))
+    {
+        confirmDiscardAllChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this), file]
+        {
+            if (safe != nullptr)
+                safe->loadSyxFile (file);
+        });
+        return;
+    }
+
+    if (! file.hasFileExtension ("json"))
+    {
+        showError ("Unsupported document type. AIM Editor opens .aimprogram.json, .aimbank.json, and .syx files.");
+        return;
+    }
+
+    const auto text = file.loadFileAsString();
+    const auto root = juce::JSON::parse (text);
+    const auto* object = root.getDynamicObject();
+    const auto format = object != nullptr ? object->getProperty ("format").toString() : juce::String{};
+
+    if (format == "aim-editor.program")
+    {
+        confirmDiscardProgramChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this), file]
+        {
+            if (safe != nullptr)
+                safe->loadProgramJsonFile (file);
+        });
+        return;
+    }
+
+    if (format == "aim-editor.bank")
+    {
+        confirmDiscardBankChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this), file]
+        {
+            if (safe != nullptr)
+                safe->loadBankJsonFile (file);
+        });
+        return;
+    }
+
+    showError ("JSON document is not an AIM Editor program or bank (missing/unknown format field).");
+}
+
+void ProgramLibrarian::saveDocuments (std::function<void (bool)> completion)
+{
+    if (! hasUnsavedProgramChanges() && ! hasUnsavedBankChanges())
+    {
+        status.setText ("nothing to save", juce::dontSendNotification);
+        status.setColour (juce::Label::textColourId, juce::Colours::white.withAlpha (0.6f));
+        if (completion)
+            completion (true);
+        return;
+    }
+
+    saveUnsavedChanges ([completion = std::move (completion)] (bool saved) mutable
+    {
+        if (completion)
+            completion (saved);
+    });
+}
+
+void ProgramLibrarian::saveProgram()
+{
+    exportProgramJson();
+}
+
+void ProgramLibrarian::saveProgramAs()
+{
+    const auto stem = safeFilenameStem (state.program().getName());
+    const auto suggested = programFile != juce::File{} ? programFile
+                         : juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
+                               .getChildFile (stem + ".aimprogram.json");
+
+    chooseFileToSave ("Save AIM Editor program JSON as", suggested, "*.json",
+                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
+                      {
+                          if (safe != nullptr)
+                              safe->saveProgramJsonTo (file);
+                      });
+}
+
+void ProgramLibrarian::saveBank()
+{
+    exportBankJson();
+}
+
+void ProgramLibrarian::saveBankAs()
+{
+    const auto stem = safeFilenameStem (bank.getName());
+    const auto suggested = bankFile != juce::File{} ? bankFile
+                         : juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
+                               .getChildFile (stem + ".aimbank.json");
+
+    chooseFileToSave ("Save AIM Editor bank JSON as", suggested, "*.json",
+                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
+                      {
+                          if (safe != nullptr)
+                              safe->saveBankJsonTo (file);
+                      });
+}
+
 void ProgramLibrarian::newProgram()
 {
     confirmDiscardProgramChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this)]
@@ -460,44 +587,37 @@ void ProgramLibrarian::newBank()
 
 void ProgramLibrarian::importProgramJson()
 {
-    confirmDiscardProgramChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this)]
-    {
-        if (safe == nullptr)
-            return;
-
-        safe->chooseFileToOpen ("Import AIM Editor program JSON", "*.json",
-                                [safe] (const juce::File& file)
-                                {
-                                    if (safe == nullptr)
-                                        return;
-
-                                    IonProgram program;
-                                    if (const auto result = ProgramJson::decode (file.loadFileAsString(), program); result.failed())
-                                    {
-                                        safe->showError (result.getErrorMessage());
-                                        return;
-                                    }
-
-                                    safe->programFile = file;
-                                    safe->state.replaceProgram (program, ProgramChangeOrigin::import);
-                                    safe->updateStatus();
-                                });
-    });
+    chooseFileToOpen ("Import AIM Editor program JSON", "*.aimprogram.json;*.json",
+                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
+                      {
+                          if (safe != nullptr)
+                              safe->openDocumentFile (file);
+                      });
 }
 
 void ProgramLibrarian::exportProgramJson()
 {
-    const auto stem = safeFilenameStem (state.program().getName());
-    const auto suggested = programFile != juce::File{} ? programFile
-                         : juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
-                               .getChildFile (stem + ".aimprogram.json");
+    if (programFile != juce::File{})
+    {
+        (void) writeProgramJsonTo (programFile);
+        return;
+    }
 
-    chooseFileToSave ("Save AIM Editor program JSON", suggested, "*.json",
-                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
-                      {
-                          if (safe != nullptr)
-                              safe->saveProgramJsonTo (file);
-                      });
+    saveProgramAs();
+}
+
+void ProgramLibrarian::loadProgramJsonFile (const juce::File& file)
+{
+    IonProgram program;
+    if (const auto result = ProgramJson::decode (file.loadFileAsString(), program); result.failed())
+    {
+        showError (result.getErrorMessage());
+        return;
+    }
+
+    programFile = file;
+    state.replaceProgram (program, ProgramChangeOrigin::import);
+    updateStatus();
 }
 
 void ProgramLibrarian::saveProgramJsonTo (const juce::File& file)
@@ -556,45 +676,38 @@ void ProgramLibrarian::saveUnsavedProgram (std::function<void (bool)> completion
 
 void ProgramLibrarian::importBankJson()
 {
-    confirmDiscardBankChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this)]
-    {
-        if (safe == nullptr)
-            return;
-
-        safe->chooseFileToOpen ("Import AIM Editor bank JSON", "*.json",
-                                [safe] (const juce::File& file)
-                                {
-                                    if (safe == nullptr)
-                                        return;
-
-                                    ProgramBank decoded;
-                                    if (const auto result = BankJson::decode (file.loadFileAsString(), decoded); result.failed())
-                                    {
-                                        safe->showError (result.getErrorMessage());
-                                        return;
-                                    }
-
-                                    safe->bank = std::move (decoded);
-                                    safe->cleanBankBaseline = safe->bank;
-                                    safe->bankFile = file;
-                                    safe->updateStatus();
-                                });
-    });
+    chooseFileToOpen ("Import AIM Editor bank JSON", "*.aimbank.json;*.json",
+                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
+                      {
+                          if (safe != nullptr)
+                              safe->openDocumentFile (file);
+                      });
 }
 
 void ProgramLibrarian::exportBankJson()
 {
-    const auto stem = safeFilenameStem (bank.getName());
-    const auto suggested = bankFile != juce::File{} ? bankFile
-                         : juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
-                               .getChildFile (stem + ".aimbank.json");
+    if (bankFile != juce::File{})
+    {
+        (void) writeBankJsonTo (bankFile);
+        return;
+    }
 
-    chooseFileToSave ("Save AIM Editor bank JSON", suggested, "*.json",
-                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
-                      {
-                          if (safe != nullptr)
-                              safe->saveBankJsonTo (file);
-                      });
+    saveBankAs();
+}
+
+void ProgramLibrarian::loadBankJsonFile (const juce::File& file)
+{
+    ProgramBank decoded;
+    if (const auto result = BankJson::decode (file.loadFileAsString(), decoded); result.failed())
+    {
+        showError (result.getErrorMessage());
+        return;
+    }
+
+    bank = std::move (decoded);
+    cleanBankBaseline = bank;
+    bankFile = file;
+    updateStatus();
 }
 
 void ProgramLibrarian::saveBankJsonTo (const juce::File& file)
@@ -676,106 +789,102 @@ void ProgramLibrarian::saveUnsavedChanges (std::function<void (bool)> completion
 
 void ProgramLibrarian::importSyx()
 {
-    confirmDiscardAllChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this)]
+    chooseFileToOpen ("Import Ion SysEx patch or bank", "*.syx",
+                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
+                      {
+                          if (safe != nullptr)
+                              safe->openDocumentFile (file);
+                      });
+}
+
+void ProgramLibrarian::loadSyxFile (const juce::File& file)
+{
+    std::vector<juce::MidiMessage> messages;
+    if (const auto result = IonSyxFileCodec::loadMessagesFromFile (file, messages); result.failed())
     {
-        if (safe == nullptr)
-            return;
+        showError (result.getErrorMessage());
+        return;
+    }
 
-        safe->chooseFileToOpen ("Import Ion SysEx patch or bank", "*.syx",
-                                [safe] (const juce::File& file)
-                              {
-                                  if (safe == nullptr)
-                                      return;
+    ProgramBank importedBank;
+    importedBank.setName (file.getFileNameWithoutExtension());
+    int accepted = 0;
+    int ignored = 0;
+    int firstSlot = -1;
+    int firstBank = -1;
+    bool mixedBanks = false;
 
-                                  std::vector<juce::MidiMessage> messages;
-                                  if (const auto result = IonSyxFileCodec::loadMessagesFromFile (file, messages); result.failed())
-                                  {
-                                      safe->showError (result.getErrorMessage());
-                                      return;
-                                  }
+    for (const auto& message : messages)
+    {
+        IonPatchDump patch;
+        if (IonSysExCodec::decodeSinglePatchDump (message, patch).failed() || ! patch.checksumValid)
+        {
+            ++ignored;
+            continue;
+        }
 
-                                  ProgramBank importedBank;
-                                  importedBank.setName (file.getFileNameWithoutExtension());
-                                  int accepted = 0;
-                                  int ignored = 0;
-                                  int firstSlot = -1;
-                                  int firstBank = -1;
-                                  bool mixedBanks = false;
+        IonProgram program;
+        if (IonProgramDecoder::decode (patch, registry, program).failed()
+            || ! ProgramBank::isValidSlot (patch.slot))
+        {
+            ++ignored;
+            continue;
+        }
 
-                                  for (const auto& message : messages)
-                                  {
-                                      IonPatchDump patch;
-                                      if (IonSysExCodec::decodeSinglePatchDump (message, patch).failed() || ! patch.checksumValid)
-                                      {
-                                          ++ignored;
-                                          continue;
-                                      }
+        if (firstBank < 0)
+            firstBank = patch.bank;
+        else if (patch.bank != firstBank)
+            mixedBanks = true;
 
-                                      IonProgram program;
-                                      if (IonProgramDecoder::decode (patch, safe->registry, program).failed()
-                                          || ! ProgramBank::isValidSlot (patch.slot))
-                                      {
-                                          ++ignored;
-                                          continue;
-                                      }
+        if (firstSlot < 0)
+            firstSlot = patch.slot;
 
-                                      if (firstBank < 0)
-                                          firstBank = patch.bank;
-                                      else if (patch.bank != firstBank)
-                                          mixedBanks = true;
+        (void) importedBank.setProgram (patch.slot, program);
+        ++accepted;
+    }
 
-                                      if (firstSlot < 0)
-                                          firstSlot = patch.slot;
+    if (accepted == 0)
+    {
+        showError ("No checksum-valid candidate Ion single-program dumps were found in this .syx file.");
+        return;
+    }
 
-                                      (void) importedBank.setProgram (patch.slot, program);
-                                      ++accepted;
-                                  }
+    if (! mixedBanks)
+        importedBank.setHardwareBank (hardwareBankId (firstBank));
 
-                                  if (accepted == 0)
-                                  {
-                                      safe->showError ("No checksum-valid candidate Ion single-program dumps were found in this .syx file.");
-                                      return;
-                                  }
+    // One program behaves like a normal patch import. A concatenated .syx
+    // populates the native librarian by hardware slot without assuming the
+    // unresolved bank-stream framing.
+    if (accepted == 1 && messages.size() == 1u)
+    {
+        const auto* program = importedBank.programAt (firstSlot);
+        if (program != nullptr)
+        {
+            programFile = {};
+            state.replaceProgram (*program, ProgramChangeOrigin::import);
+            updateStatus();
+        }
+        return;
+    }
 
-                                  if (! mixedBanks)
-                                      importedBank.setHardwareBank (hardwareBankId (firstBank));
+    bank = std::move (importedBank);
+    cleanBankBaseline = bank;
+    bankFile = {};
+    slotList.selectRow (juce::jmax (0, firstSlot));
+    if (const auto* program = bank.programAt (firstSlot))
+    {
+        programFile = {};
+        state.replaceProgram (*program, ProgramChangeOrigin::import);
+    }
+    updateStatus();
 
-                                  // One program behaves like a normal patch import. A
-                                  // concatenated .syx populates the native librarian by
-                                  // hardware slot without assuming bank-stream framing.
-                                  if (accepted == 1 && messages.size() == 1u)
-                                  {
-                                      const auto* program = importedBank.programAt (firstSlot);
-                                      if (program != nullptr)
-                                      {
-                                          safe->programFile = {};
-                                          safe->state.replaceProgram (*program, ProgramChangeOrigin::import);
-                                          safe->updateStatus();
-                                      }
-                                  }
-                                  else
-                                  {
-                                      safe->bank = std::move (importedBank);
-                                      safe->cleanBankBaseline = safe->bank;
-                                      safe->bankFile = {};
-                                      safe->slotList.selectRow (juce::jmax (0, firstSlot));
-                                      if (const auto* program = safe->bank.programAt (firstSlot))
-                                      {
-                                          safe->programFile = {};
-                                          safe->state.replaceProgram (*program, ProgramChangeOrigin::import);
-                                      }
-                                      safe->updateStatus();
-
-                                      if (ignored > 0)
-                                          juce::AlertWindow::showMessageBoxAsync (juce::MessageBoxIconType::InfoIcon,
-                                                                                  "AIM Editor",
-                                                                                  "Imported " + juce::String (accepted)
-                                                                                    + " candidate Ion patches; ignored "
-                                                                                    + juce::String (ignored)
-                                                                                    + " non-patch or invalid SysEx messages.");
-                                  }
-                              });
-    });
+    if (ignored > 0)
+        juce::AlertWindow::showMessageBoxAsync (juce::MessageBoxIconType::InfoIcon,
+                                                "AIM Editor",
+                                                "Imported " + juce::String (accepted)
+                                                  + " candidate Ion patches; ignored "
+                                                  + juce::String (ignored)
+                                                  + " non-patch or invalid SysEx messages.");
 }
 
 void ProgramLibrarian::exportSyx()
