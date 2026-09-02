@@ -33,6 +33,8 @@ juce_add_binary_data(AIMEditorData
 add_library(AIMEditorCore STATIC
     Source/Core/ParameterDefinition.cpp
     Source/Core/ParameterDefinition.h
+    Source/Core/ParameterFormatter.cpp
+    Source/Core/ParameterFormatter.h
     Source/Core/ParameterRegistry.cpp
     Source/Core/ParameterRegistry.h
     Source/Core/IonProgram.cpp
@@ -109,6 +111,12 @@ target_sources(AIMEditor PRIVATE
     Source/UI/ProgramLibrarian.h
     Source/UI/Components/SectionPanel.cpp
     Source/UI/Components/SectionPanel.h
+    Source/UI/Components/OscillatorPanel.cpp
+    Source/UI/Components/OscillatorPanel.h
+    Source/UI/Components/FilterPanel.cpp
+    Source/UI/Components/FilterPanel.h
+    Source/UI/Components/EnvelopePanel.cpp
+    Source/UI/Components/EnvelopePanel.h
     Source/UI/Components/ModMatrixPanel.cpp
     Source/UI/Components/ModMatrixPanel.h
     Source/UI/Components/RandomizerPanel.cpp

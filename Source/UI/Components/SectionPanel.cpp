@@ -1,4 +1,5 @@
 #include "SectionPanel.h"
+#include "Core/ParameterFormatter.h"
 
 #include <algorithm>
 #include <cmath>
@@ -35,6 +36,10 @@ ParameterControl::ParameterControl (const ParameterDefinition& definitionToUse,
     {
         slider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
         slider.setTextBoxStyle (juce::Slider::NoTextBox, false, 0, 0);
+        slider.setRotaryParameters (juce::MathConstants<float>::pi * 1.25f,
+                                    juce::MathConstants<float>::pi * 2.75f, true);
+        slider.setMouseDragSensitivity (220);
+        slider.setScrollWheelEnabled (true);
 
         auto minimum = definition.rawMin.value_or (definition.nrpnMin.value_or (0.0));
         auto maximum = definition.rawMax.value_or (definition.nrpnMax.value_or (1.0));
@@ -225,22 +230,7 @@ void ParameterControl::refreshValueText (const juce::var& value)
 
 juce::String ParameterControl::displayTextFor (const juce::var& value) const
 {
-    if (! definition.enumValues.empty())
-    {
-        const auto raw = static_cast<int> (value);
-        const auto found = std::find_if (definition.enumValues.begin(), definition.enumValues.end(),
-                                         [raw] (const ParameterEnumValue& item) { return item.raw == raw; });
-        if (found != definition.enumValues.end())
-            return found->name.isNotEmpty() ? found->name : humanizeId (found->id);
-    }
-
-    if (definition.kind == ParameterKind::boolean)
-        return static_cast<bool> (value) ? "On" : "Off";
-
-    auto text = value.toString();
-    if (definition.unit.isNotEmpty())
-        text << " " << definition.unit;
-    return text;
+    return ParameterFormatter::format (definition, value);
 }
 
 ParameterControl::WidgetKind ParameterControl::chooseWidgetKind() const

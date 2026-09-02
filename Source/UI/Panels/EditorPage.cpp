@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <map>
+#include <set>
 
 namespace aim
 {
@@ -15,12 +16,11 @@ EditorPage::EditorPage (juce::String pageKey,
     {
         auto section = std::make_unique<RandomizerPanel> (registry, state);
         addAndMakeVisible (*section);
-        sections.push_back (std::move (section));
+        sections.push_back ({ "randomizer", std::move (section) });
         return;
     }
 
     std::map<juce::String, std::vector<const ParameterDefinition*>> groups;
-
     for (const auto* parameter : registry.parametersForPage (key))
         groups[groupKeyForSection (parameter->section)].push_back (parameter);
 
@@ -29,31 +29,38 @@ EditorPage::EditorPage (juce::String pageKey,
         "effects", "envelopes", "modulators", "voice", "mod_matrix", "tracking_generator"
     };
 
+    auto addGroup = [&] (const juce::String& group,
+                         const std::vector<const ParameterDefinition*>& definitions)
+    {
+        std::unique_ptr<EditorSection> section;
+        if (group == "oscillators")
+            section = std::make_unique<OscillatorPanel> (registry, state);
+        else if (group == "filters")
+            section = std::make_unique<FilterPanel> (registry, state);
+        else if (group == "envelopes")
+            section = std::make_unique<EnvelopePanel> (registry, state);
+        else if (group == "mod_matrix")
+            section = std::make_unique<ModMatrixPanel> (registry, state);
+        else if (group == "tracking_generator")
+            section = std::make_unique<TrackingGeneratorPanel> (registry, state);
+        else
+            section = std::make_unique<SectionPanel> (titleForGroup (group), definitions, state);
+
+        addAndMakeVisible (*section);
+        sections.push_back ({ group, std::move (section) });
+    };
+
     for (const auto& group : preferredOrder)
     {
         if (const auto found = groups.find (group); found != groups.end())
         {
-            std::unique_ptr<EditorSection> section;
-            if (group == "mod_matrix")
-                section = std::make_unique<ModMatrixPanel> (registry, state);
-            else if (group == "tracking_generator")
-                section = std::make_unique<TrackingGeneratorPanel> (registry, state);
-            else
-                section = std::make_unique<SectionPanel> (titleForGroup (group), found->second, state);
-
-            addAndMakeVisible (*section);
-            sections.push_back (std::move (section));
+            addGroup (group, found->second);
             groups.erase (found);
         }
     }
 
     for (const auto& [group, parameters] : groups)
-    {
-        auto section = std::make_unique<SectionPanel> (titleForGroup (group), parameters, state);
-        addAndMakeVisible (*section);
-        sections.push_back (std::move (section));
-    }
-
+        addGroup (group, parameters);
 }
 
 void EditorPage::paint (juce::Graphics& g)
@@ -62,13 +69,21 @@ void EditorPage::paint (juce::Graphics& g)
 
     auto top = getLocalBounds().removeFromTop (42).reduced (14, 6);
     g.setColour (juce::Colours::black.withAlpha (0.72f));
-    g.setFont (juce::FontOptions (18.0f));
+    g.setFont (juce::FontOptions (18.0f).withStyle ("Bold"));
     g.drawText (title, top, juce::Justification::centredLeft, false);
 
     g.setColour (juce::Colours::black.withAlpha (0.46f));
     g.setFont (juce::FontOptions (11.0f));
-    g.drawText ("AIM Editor — live semantic state driven from JSON", top,
+    g.drawText ("AIM Editor — shared JSON state / touch-ready controls", top,
                 juce::Justification::centredRight, false);
+
+    // A faint signal-flow rail visually ties the purpose-built desktop layout
+    // together without hard-coding protocol or parameter behavior into paint().
+    if ((key == "front" || key == "dual1" || key == "dual2") && getWidth() >= 1000)
+    {
+        g.setColour (juce::Colours::black.withAlpha (0.12f));
+        g.drawHorizontalLine (51, 18.0f, static_cast<float> (getWidth() - 18));
+    }
 }
 
 void EditorPage::resized()
@@ -76,23 +91,232 @@ void EditorPage::resized()
     auto area = getLocalBounds().reduced (12);
     area.removeFromTop (42);
 
+    if (key == "randomizer")
+    {
+        if (auto* randomizer = sectionFor ("randomizer"))
+            randomizer->setBounds (area.getX(), area.getY(), area.getWidth(),
+                                   randomizer->preferredHeightForWidth (area.getWidth()));
+        return;
+    }
+
+    if (key == "rear" && area.getWidth() >= 760)
+    {
+        constexpr int gap = 10;
+        const auto leftWidth = static_cast<int> ((area.getWidth() - gap) * 0.57f);
+        const auto rightWidth = area.getWidth() - gap - leftWidth;
+        auto* matrix = sectionFor ("mod_matrix");
+        auto* tracking = sectionFor ("tracking_generator");
+        const auto matrixHeight = matrix != nullptr ? matrix->preferredHeightForWidth (leftWidth) : 0;
+        const auto trackingHeight = tracking != nullptr ? tracking->preferredHeightForWidth (rightWidth) : 0;
+        const auto height = juce::jmax (matrixHeight, trackingHeight);
+        if (matrix != nullptr)
+            matrix->setBounds (area.getX(), area.getY(), leftWidth, height);
+        if (tracking != nullptr)
+            tracking->setBounds (area.getX() + leftWidth + gap, area.getY(), rightWidth, height);
+        return;
+    }
+
+    if (area.getWidth() >= 1000 && (key == "front" || key == "dual1" || key == "dual2"))
+    {
+        constexpr int gap = 10;
+        int y = area.getY();
+
+        if (key == "front")
+        {
+            y = layoutRow (area, y, { { "oscillators", 0.36f }, { "pre_filter_mix", 0.24f }, { "filters", 0.40f } });
+            y += gap;
+            y = layoutRow (area, y, { { "modulators", 0.22f }, { "voice", 0.18f }, { "post_filter_mix", 0.22f },
+                                      { "output", 0.18f }, { "effects", 0.20f } });
+            y += gap;
+            if (auto* envelopes = sectionFor ("envelopes"))
+            {
+                const auto h = envelopes->preferredHeightForWidth (area.getWidth());
+                envelopes->setBounds (area.getX(), y, area.getWidth(), h);
+                y += h + gap;
+            }
+            if (auto* matrix = sectionFor ("mod_matrix"))
+                matrix->setBounds (area.getX(), y, area.getWidth(), matrix->preferredHeightForWidth (area.getWidth()));
+            return;
+        }
+
+        if (key == "dual1")
+        {
+            y = layoutRow (area, y, { { "oscillators", 0.36f }, { "pre_filter_mix", 0.24f }, { "filters", 0.40f } });
+            y += gap;
+            y = layoutRow (area, y, { { "modulators", 0.25f }, { "voice", 0.20f }, { "post_filter_mix", 0.25f },
+                                      { "output", 0.30f } });
+            y += gap;
+            if (auto* matrix = sectionFor ("mod_matrix"))
+                matrix->setBounds (area.getX(), y, area.getWidth(), matrix->preferredHeightForWidth (area.getWidth()));
+            return;
+        }
+
+        y = layoutRow (area, y, { { "pre_filter_mix", 0.24f }, { "filters", 0.38f },
+                                  { "post_filter_mix", 0.22f }, { "output", 0.16f } });
+        y += gap;
+        y = layoutRow (area, y, { { "modulators", 0.30f }, { "voice", 0.25f }, { "effects", 0.45f } });
+        y += gap;
+        if (auto* envelopes = sectionFor ("envelopes"))
+        {
+            const auto h = envelopes->preferredHeightForWidth (area.getWidth());
+            envelopes->setBounds (area.getX(), y, area.getWidth(), h);
+            y += h + gap;
+        }
+        if (auto* matrix = sectionFor ("mod_matrix"))
+            matrix->setBounds (area.getX(), y, area.getWidth(), matrix->preferredHeightForWidth (area.getWidth()));
+        return;
+    }
+
+    layoutMasonry (area);
+}
+
+int EditorPage::preferredHeightForWidth (int width) const
+{
+    const auto usableWidth = juce::jmax (1, width - 24);
+    constexpr int gap = 10;
+
+    if (key == "randomizer")
+    {
+        if (auto* randomizer = sectionFor ("randomizer"))
+            return 54 + randomizer->preferredHeightForWidth (usableWidth) + 12;
+    }
+
+    if (key == "rear" && usableWidth >= 760)
+    {
+        const auto leftWidth = static_cast<int> ((usableWidth - gap) * 0.57f);
+        const auto rightWidth = usableWidth - gap - leftWidth;
+        const auto* matrix = sectionFor ("mod_matrix");
+        const auto* tracking = sectionFor ("tracking_generator");
+        const auto matrixHeight = matrix != nullptr ? matrix->preferredHeightForWidth (leftWidth) : 0;
+        const auto trackingHeight = tracking != nullptr ? tracking->preferredHeightForWidth (rightWidth) : 0;
+        return 54 + juce::jmax (matrixHeight, trackingHeight) + 12;
+    }
+
+    if (usableWidth >= 1000 && key == "front")
+    {
+        auto total = rowPreferredHeight (usableWidth, { { "oscillators", 0.36f }, { "pre_filter_mix", 0.24f }, { "filters", 0.40f } });
+        total += gap + rowPreferredHeight (usableWidth, { { "modulators", 0.22f }, { "voice", 0.18f },
+                                                           { "post_filter_mix", 0.22f }, { "output", 0.18f }, { "effects", 0.20f } });
+        if (auto* envelopes = sectionFor ("envelopes")) total += gap + envelopes->preferredHeightForWidth (usableWidth);
+        if (auto* matrix = sectionFor ("mod_matrix")) total += gap + matrix->preferredHeightForWidth (usableWidth);
+        return 54 + total + 12;
+    }
+
+    if (usableWidth >= 1000 && key == "dual1")
+    {
+        auto total = rowPreferredHeight (usableWidth, { { "oscillators", 0.36f }, { "pre_filter_mix", 0.24f }, { "filters", 0.40f } });
+        total += gap + rowPreferredHeight (usableWidth, { { "modulators", 0.25f }, { "voice", 0.20f },
+                                                           { "post_filter_mix", 0.25f }, { "output", 0.30f } });
+        if (auto* matrix = sectionFor ("mod_matrix")) total += gap + matrix->preferredHeightForWidth (usableWidth);
+        return 54 + total + 12;
+    }
+
+    if (usableWidth >= 1000 && key == "dual2")
+    {
+        auto total = rowPreferredHeight (usableWidth, { { "pre_filter_mix", 0.24f }, { "filters", 0.38f },
+                                                         { "post_filter_mix", 0.22f }, { "output", 0.16f } });
+        total += gap + rowPreferredHeight (usableWidth, { { "modulators", 0.30f }, { "voice", 0.25f }, { "effects", 0.45f } });
+        if (auto* envelopes = sectionFor ("envelopes")) total += gap + envelopes->preferredHeightForWidth (usableWidth);
+        if (auto* matrix = sectionFor ("mod_matrix")) total += gap + matrix->preferredHeightForWidth (usableWidth);
+        return 54 + total + 12;
+    }
+
+    return masonryPreferredHeight (width);
+}
+
+EditorSection* EditorPage::sectionFor (const juce::String& group) const
+{
+    const auto found = std::find_if (sections.begin(), sections.end(), [&] (const SectionEntry& entry)
+    {
+        return entry.group == group;
+    });
+    return found != sections.end() ? found->section.get() : nullptr;
+}
+
+int EditorPage::rowPreferredHeight (int width,
+                                    std::initializer_list<std::pair<const char*, float>> groups) const
+{
+    constexpr int gap = 10;
+    int count = 0;
+    float totalWeight = 0.0f;
+    for (const auto& [group, weight] : groups)
+        if (sectionFor (group) != nullptr)
+        {
+            ++count;
+            totalWeight += weight;
+        }
+
+    if (count == 0 || totalWeight <= 0.0f)
+        return 0;
+
+    const auto usable = juce::jmax (1, width - gap * (count - 1));
+    int maximum = 0;
+    for (const auto& [group, weight] : groups)
+        if (auto* section = sectionFor (group))
+        {
+            const auto sectionWidth = juce::jmax (1, static_cast<int> (usable * weight / totalWeight));
+            maximum = juce::jmax (maximum, section->preferredHeightForWidth (sectionWidth));
+        }
+    return maximum;
+}
+
+int EditorPage::layoutRow (juce::Rectangle<int> area,
+                           int y,
+                           std::initializer_list<std::pair<const char*, float>> groups)
+{
+    constexpr int gap = 10;
+    int count = 0;
+    float totalWeight = 0.0f;
+    for (const auto& [group, weight] : groups)
+        if (sectionFor (group) != nullptr)
+        {
+            ++count;
+            totalWeight += weight;
+        }
+
+    if (count == 0 || totalWeight <= 0.0f)
+        return y;
+
+    const auto usableWidth = juce::jmax (1, area.getWidth() - gap * (count - 1));
+    const auto rowHeight = rowPreferredHeight (area.getWidth(), groups);
+    int x = area.getX();
+    int remaining = usableWidth;
+    int placed = 0;
+
+    for (const auto& [group, weight] : groups)
+    {
+        auto* section = sectionFor (group);
+        if (section == nullptr)
+            continue;
+
+        ++placed;
+        const auto width = placed == count ? remaining
+                                           : juce::jmax (1, static_cast<int> (usableWidth * weight / totalWeight));
+        section->setBounds (x, y, width, rowHeight);
+        x += width + gap;
+        remaining -= width;
+    }
+    return y + rowHeight;
+}
+
+void EditorPage::layoutMasonry (juce::Rectangle<int> area)
+{
     constexpr int gap = 10;
     const auto columns = columnCountForWidth (area.getWidth());
     const auto cellWidth = (area.getWidth() - gap * (columns - 1)) / columns;
-
     std::vector<int> columnY (static_cast<std::size_t> (columns), area.getY());
 
-    for (const auto& section : sections)
+    for (const auto& entry : sections)
     {
         const auto shortest = std::min_element (columnY.begin(), columnY.end());
         const auto column = static_cast<int> (std::distance (columnY.begin(), shortest));
-        const auto height = section->preferredHeightForWidth (cellWidth);
-        section->setBounds (area.getX() + column * (cellWidth + gap), *shortest, cellWidth, height);
+        const auto height = entry.section->preferredHeightForWidth (cellWidth);
+        entry.section->setBounds (area.getX() + column * (cellWidth + gap), *shortest, cellWidth, height);
         *shortest += height + gap;
     }
 }
 
-int EditorPage::preferredHeightForWidth (int width) const
+int EditorPage::masonryPreferredHeight (int width) const
 {
     const auto usableWidth = juce::jmax (1, width - 24);
     constexpr int gap = 10;
@@ -100,10 +324,10 @@ int EditorPage::preferredHeightForWidth (int width) const
     const auto cellWidth = juce::jmax (1, (usableWidth - gap * (columns - 1)) / columns);
 
     std::vector<int> columnHeights (static_cast<std::size_t> (columns), 0);
-    for (const auto& section : sections)
+    for (const auto& entry : sections)
     {
         const auto shortest = std::min_element (columnHeights.begin(), columnHeights.end());
-        *shortest += section->preferredHeightForWidth (cellWidth) + gap;
+        *shortest += entry.section->preferredHeightForWidth (cellWidth) + gap;
     }
 
     const auto contentHeight = columnHeights.empty() ? 0 : *std::max_element (columnHeights.begin(), columnHeights.end());

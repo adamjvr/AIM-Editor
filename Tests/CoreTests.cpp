@@ -1,5 +1,6 @@
 #include "Core/IonProgram.h"
 #include "Core/ParameterRegistry.h"
+#include "Core/ParameterFormatter.h"
 #include "Core/ProgramJson.h"
 #include "Core/ProgramBank.h"
 #include "Core/BankJson.h"
@@ -57,6 +58,14 @@ int main()
     if (! filter1FrequencyDefinition->nrpn.has_value() || *filter1FrequencyDefinition->nrpn != 44
         || filter1FrequencyDefinition->nrpnValueEncoding != "unsigned_14")
         return fail ("filter1.frequency candidate NRPN metadata missing from registry");
+
+    const auto formattedFilter = aim::ParameterFormatter::format (*filter1FrequencyDefinition, 0);
+    if (formattedFilter != "20 Hz")
+        return fail ("JSON display-transform formatter did not render filter frequency deterministically: " + formattedFilter);
+
+    const auto* ampAttackDefinition = registry.find ("env.amp.attack");
+    if (ampAttackDefinition == nullptr || aim::ParameterFormatter::format (*ampAttackDefinition, 0) != "0.5 ms")
+        return fail ("Envelope display-transform formatter failed");
 
     if (registry.find ("mod_matrix.slot12.destination") == nullptr)
         return fail ("mod_matrix.slot12.destination missing from registry");

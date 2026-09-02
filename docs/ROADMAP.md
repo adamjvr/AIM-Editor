@@ -41,7 +41,7 @@
 
 - [ ] complete parameter value domains
 - [ ] complete enum tables (3 reusable tables + inline domains are loaded; incomplete candidate domains remain explicit)
-- [ ] complete display transforms (Hz, ms, %, semitones, etc.)
+- [ ] complete display transforms (85/212 currently executable from JSON; unknowns remain raw)
 - [ ] map every SysEx field/bit
 - [ ] verify all modulation source/destination IDs on hardware (115 source candidates / 79 destination candidates loaded)
 - [x] decode candidate tracking-generator points into first-class JSON parameters (hardware verification pending)
@@ -63,19 +63,19 @@
 - [x] program librarian
 - [x] Mod Matrix editor
 - [x] Tracking Generator touch/mouse editor
-- [ ] envelope editors
+- [x] envelope editors (touch/mouse ADSR surface backed by shared ProgramState)
 
 ## Phase 4 — UI parity and improvement
 
-- [ ] full Front panel
-- [ ] Dual 1
-- [ ] Dual 2
-- [ ] Rear
+- [x] structured Front panel composition (visual tuning ongoing)
+- [x] structured Dual 1 composition (visual tuning ongoing)
+- [x] structured Dual 2 composition (visual tuning ongoing)
+- [x] structured Rear composition (visual tuning ongoing)
 - [x] Randomizer
-- [ ] scalable vector/procedural Ion-style look
+- [x] scalable vector/procedural Ion-style control foundation
 - [ ] accessibility
 - [ ] high-DPI desktop polish
-- [ ] iPad landscape touch optimization
+- [x] iPad landscape-first responsive composition and touch envelope/tracking surfaces (device tuning ongoing)
 - [ ] keyboard shortcuts and MIDI learn where appropriate
 
 ## Phase 5 — release engineering
@@ -101,4 +101,5 @@
 - The 12-slot Mod Matrix now has a purpose-built responsive editor backed by reusable JSON source/destination enum tables; currently unknown source raw values are preserved rather than coerced.
 - The Randomizer is now semantic/data-driven, deterministic when seeded, scoped by synth section and parameter kind, and intentionally avoids automatic bulk MIDI writes.
 - The Tracking Generator now exposes all 33 candidate curve bytes (-16..+16) as canonical JSON parameters with candidate NRPN 121..153 and SysEx offsets 304..336, plus a touch/mouse graph editor.
-- Next: compile/test on macOS + iPadOS, then use hardware captures to promote candidate mappings to verified and implement verified edit-buffer writes.
+- Purpose-built oscillator, filter, and envelope panels now replace the largest generic control buckets, with large-landscape Front/Dual/Rear composition and conservative JSON-driven engineering-value formatting.
+- Next: compile/test on Rosie and macOS/iPadOS, tune geometry from screenshots, then use hardware captures to promote candidate mappings to verified and implement verified edit-buffer writes.
