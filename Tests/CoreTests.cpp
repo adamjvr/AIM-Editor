@@ -4,6 +4,7 @@
 #include "Core/ProgramBank.h"
 #include "Core/BankJson.h"
 #include "Core/ProgramState.h"
+#include "Core/RandomizerEngine.h"
 #include "Midi/IonProtocol.h"
 #include "Midi/IonSysExCodec.h"
 #include "Midi/IonProgramDecoder.h"
@@ -47,8 +48,8 @@ int main()
         if (const auto result = registry.loadEnumTableFromJson (juce::String::fromUTF8 (blob.data, blob.size)); result.failed())
             return fail ("Enum table load failed: " + result.getErrorMessage());
 
-    if (registry.size() != 178)
-        return fail ("Expected 178 initial parameter definitions, got " + juce::String (registry.size()));
+    if (registry.size() != 212)
+        return fail ("Expected 212 parameter definitions including tracking-curve points, got " + juce::String (registry.size()));
 
     const auto* filter1FrequencyDefinition = registry.find ("filter1.frequency");
     if (filter1FrequencyDefinition == nullptr)
@@ -59,6 +60,15 @@ int main()
 
     if (registry.find ("mod_matrix.slot12.destination") == nullptr)
         return fail ("mod_matrix.slot12.destination missing from registry");
+
+    const auto* trackingMinus16 = registry.find ("tracking_generator.point_minus_16");
+    const auto* trackingPlus16 = registry.find ("tracking_generator.point_plus_16");
+    if (trackingMinus16 == nullptr || trackingPlus16 == nullptr
+        || ! trackingMinus16->nrpn || *trackingMinus16->nrpn != 121
+        || ! trackingMinus16->sysex.offset || *trackingMinus16->sysex.offset != 304
+        || ! trackingPlus16->nrpn || *trackingPlus16->nrpn != 153
+        || ! trackingPlus16->sysex.offset || *trackingPlus16->sysex.offset != 336)
+        return fail ("Tracking Generator curve mappings are incomplete");
 
     const auto* filterTypeDefinition = registry.find ("filter1.type");
     if (filterTypeDefinition == nullptr || filterTypeDefinition->enumValues.size() != 21
@@ -102,6 +112,18 @@ int main()
 
     if (state.setValue ("does.not.exist", 1).wasOk())
         return fail ("ProgramState accepted an unknown parameter ID");
+
+    aim::RandomizerSettings randomSettings;
+    randomSettings.seed = 0x12345678u;
+    randomSettings.strength = 0.5;
+    randomSettings.switches = false;
+    const auto randomA = aim::RandomizerEngine::randomize (state.snapshot(), registry, randomSettings);
+    const auto randomB = aim::RandomizerEngine::randomize (state.snapshot(), registry, randomSettings);
+    if (randomA.seedUsed != randomSettings.seed || randomA.changedParameterIds.empty()
+        || randomA.program.getParameters() != randomB.program.getParameters())
+        return fail ("Randomizer is not deterministic for a fixed JSON-defined seed/domain");
+    if (randomA.program.getSourcePatchBytes() != state.program().getSourcePatchBytes())
+        return fail ("Randomizer changed source-patch evidence");
 
     aim::IonProgram source;
     source.setName ("Round Trip");

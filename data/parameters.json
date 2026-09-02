@@ -1,7 +1,7 @@
 {
   "$schema": "../schemas/parameter-database.schema.json",
   "format": "aim-editor.parameter-database",
-  "schema_version": 1,
+  "schema_version": 2,
   "device": {
     "manufacturer": "Alesis",
     "model": "Ion"
@@ -8831,17 +8831,19 @@
       "type": "discrete",
       "domain": {
         "kind": "discrete",
-        "raw_min": null,
-        "raw_max": null,
-        "default_raw": null,
+        "raw_min": 0,
+        "raw_max": 1,
+        "default_raw": 0,
         "values": [
           {
             "raw": 0,
-            "id": "12"
+            "id": "12",
+            "name": "12 divisions"
           },
           {
             "raw": 1,
-            "id": "16"
+            "id": "16",
+            "name": "16 divisions"
           }
         ]
       },
@@ -8888,9 +8890,9 @@
       "type": "discrete",
       "domain": {
         "kind": "discrete",
-        "raw_min": null,
-        "raw_max": null,
-        "default_raw": null
+        "raw_min": -16,
+        "raw_max": 16,
+        "default_raw": 0
       },
       "display": {
         "unit": null,
@@ -8912,6 +8914,1690 @@
         "control": "selector"
       },
       "notes": "Intentionally left unmapped: the visible UI concept does not correspond one-to-one with the candidate raw field."
+    },
+    {
+      "id": "tracking_generator.preset",
+      "name": "Tracking Generator Preset",
+      "section": "tracking_generator",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": 0,
+        "raw_max": 9,
+        "default_raw": 0,
+        "values": [
+          {
+            "raw": 0,
+            "id": "custom",
+            "name": "Custom"
+          },
+          {
+            "raw": 1,
+            "id": "bypass",
+            "name": "Bypass / Linear"
+          },
+          {
+            "raw": 2,
+            "id": "negate",
+            "name": "Negate"
+          },
+          {
+            "raw": 3,
+            "id": "absolute",
+            "name": "Absolute"
+          },
+          {
+            "raw": 4,
+            "id": "negative_absolute",
+            "name": "Negative Absolute"
+          },
+          {
+            "raw": 5,
+            "id": "exp_plus",
+            "name": "Exponential +"
+          },
+          {
+            "raw": 6,
+            "id": "exp_minus",
+            "name": "Exponential -"
+          },
+          {
+            "raw": 7,
+            "id": "zero",
+            "name": "Zero"
+          },
+          {
+            "raw": 8,
+            "id": "maximum",
+            "name": "Maximum"
+          },
+          {
+            "raw": 9,
+            "id": "minimum",
+            "name": "Minimum"
+          }
+        ]
+      },
+      "display": {
+        "unit": null,
+        "transform": "enum"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 119,
+        "sysex": {
+          "offset": 337,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.preset"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "unsigned_14",
+          "source_id": "tracking_generator.preset",
+          "min": 0,
+          "max": 9
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "selector"
+      },
+      "notes": "Candidate tracking-generator preset selector. Hardware behavior must be verified."
+    },
+    {
+      "id": "tracking_generator.point_minus_16",
+      "name": "Tracking Point -16",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -100
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 121,
+        "sysex": {
+          "offset": 304,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-16"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_16",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_15",
+      "name": "Tracking Point -15",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -93
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 122,
+        "sysex": {
+          "offset": 305,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-15"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_15",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_14",
+      "name": "Tracking Point -14",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -87
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 123,
+        "sysex": {
+          "offset": 306,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-14"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_14",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_13",
+      "name": "Tracking Point -13",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -81
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 124,
+        "sysex": {
+          "offset": 307,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-13"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_13",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_12",
+      "name": "Tracking Point -12",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -75
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 125,
+        "sysex": {
+          "offset": 308,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-12"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_12",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_11",
+      "name": "Tracking Point -11",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -68
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 126,
+        "sysex": {
+          "offset": 309,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-11"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_11",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_10",
+      "name": "Tracking Point -10",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -62
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 127,
+        "sysex": {
+          "offset": 310,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-10"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_10",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_9",
+      "name": "Tracking Point -9",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -56
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 128,
+        "sysex": {
+          "offset": 311,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-9"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_9",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_8",
+      "name": "Tracking Point -8",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -50
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 129,
+        "sysex": {
+          "offset": 312,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-8"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_8",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_7",
+      "name": "Tracking Point -7",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -43
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 130,
+        "sysex": {
+          "offset": 313,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-7"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_7",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_6",
+      "name": "Tracking Point -6",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -37
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 131,
+        "sysex": {
+          "offset": 314,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-6"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_6",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_5",
+      "name": "Tracking Point -5",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -31
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 132,
+        "sysex": {
+          "offset": 315,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-5"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_5",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_4",
+      "name": "Tracking Point -4",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -25
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 133,
+        "sysex": {
+          "offset": 316,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-4"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_4",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_3",
+      "name": "Tracking Point -3",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -18
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 134,
+        "sysex": {
+          "offset": 317,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-3"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_3",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_2",
+      "name": "Tracking Point -2",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -12
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 135,
+        "sysex": {
+          "offset": 318,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-2"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_2",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_minus_1",
+      "name": "Tracking Point -1",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": -6
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 136,
+        "sysex": {
+          "offset": 319,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.-1"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_minus_1",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_0",
+      "name": "Tracking Point +0",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 0
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 137,
+        "sysex": {
+          "offset": 320,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+0"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_0",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_1",
+      "name": "Tracking Point +1",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 6
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 138,
+        "sysex": {
+          "offset": 321,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+1"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_1",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_2",
+      "name": "Tracking Point +2",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 12
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 139,
+        "sysex": {
+          "offset": 322,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+2"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_2",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_3",
+      "name": "Tracking Point +3",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 18
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 140,
+        "sysex": {
+          "offset": 323,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+3"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_3",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_4",
+      "name": "Tracking Point +4",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 25
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 141,
+        "sysex": {
+          "offset": 324,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+4"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_4",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_5",
+      "name": "Tracking Point +5",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 31
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 142,
+        "sysex": {
+          "offset": 325,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+5"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_5",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_6",
+      "name": "Tracking Point +6",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 37
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 143,
+        "sysex": {
+          "offset": 326,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+6"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_6",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_7",
+      "name": "Tracking Point +7",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 43
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 144,
+        "sysex": {
+          "offset": 327,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+7"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_7",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_8",
+      "name": "Tracking Point +8",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 50
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 145,
+        "sysex": {
+          "offset": 328,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+8"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_8",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_9",
+      "name": "Tracking Point +9",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 56
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 146,
+        "sysex": {
+          "offset": 329,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+9"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_9",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_10",
+      "name": "Tracking Point +10",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 62
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 147,
+        "sysex": {
+          "offset": 330,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+10"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_10",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_11",
+      "name": "Tracking Point +11",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 68
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 148,
+        "sysex": {
+          "offset": 331,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+11"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_11",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_12",
+      "name": "Tracking Point +12",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 75
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 149,
+        "sysex": {
+          "offset": 332,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+12"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_12",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_13",
+      "name": "Tracking Point +13",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 81
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 150,
+        "sysex": {
+          "offset": 333,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+13"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_13",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_14",
+      "name": "Tracking Point +14",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 87
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 151,
+        "sysex": {
+          "offset": 334,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+14"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_14",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_15",
+      "name": "Tracking Point +15",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 93
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 152,
+        "sysex": {
+          "offset": 335,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+15"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_15",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "tracking_generator.point_plus_16",
+      "name": "Tracking Point +16",
+      "section": "tracking_generator",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -100,
+        "raw_max": 100,
+        "default_raw": 100
+      },
+      "display": {
+        "unit": "percent",
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 153,
+        "sysex": {
+          "offset": 336,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "tracking_generator.point.+16"
+        },
+        "evidence": {
+          "source": "data/protocol/ion-sysex.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "tracking_generator.point_plus_16",
+          "min": -100,
+          "max": 100
+        }
+      },
+      "ui": {
+        "pages": [
+          "rear"
+        ],
+        "control": "compact_value"
+      },
+      "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
     }
   ],
   "compound_structures": [

@@ -75,8 +75,10 @@ including:
 - effects;
 - arpeggiator.
 
-160 of the 178 initial semantic/UI parameters have a candidate one-to-one NRPN
-link in `data/parameters.json`.
+194 of 212 current semantic parameters have a candidate one-to-one NRPN link in
+`data/parameters.json`. The increase includes 33 candidate Tracking Generator curve
+points plus its preset field, which were intentionally absent from the initial
+screenshot-only inventory.
 
 ## Known conflicts are data, not hidden assumptions
 

@@ -11,6 +11,14 @@ EditorPage::EditorPage (juce::String pageKey,
                         ProgramState& state)
     : key (std::move (pageKey)), title (std::move (pageTitle))
 {
+    if (key == "randomizer")
+    {
+        auto section = std::make_unique<RandomizerPanel> (registry, state);
+        addAndMakeVisible (*section);
+        sections.push_back (std::move (section));
+        return;
+    }
+
     std::map<juce::String, std::vector<const ParameterDefinition*>> groups;
 
     for (const auto* parameter : registry.parametersForPage (key))
@@ -28,6 +36,8 @@ EditorPage::EditorPage (juce::String pageKey,
             std::unique_ptr<EditorSection> section;
             if (group == "mod_matrix")
                 section = std::make_unique<ModMatrixPanel> (registry, state);
+            else if (group == "tracking_generator")
+                section = std::make_unique<TrackingGeneratorPanel> (registry, state);
             else
                 section = std::make_unique<SectionPanel> (titleForGroup (group), found->second, state);
 
@@ -44,13 +54,6 @@ EditorPage::EditorPage (juce::String pageKey,
         sections.push_back (std::move (section));
     }
 
-    if (key == "randomizer" && sections.empty())
-    {
-        std::vector<const ParameterDefinition*> none;
-        auto section = std::make_unique<SectionPanel> ("Randomizer — editor feature", none, state);
-        addAndMakeVisible (*section);
-        sections.push_back (std::move (section));
-    }
 }
 
 void EditorPage::paint (juce::Graphics& g)
@@ -109,6 +112,8 @@ int EditorPage::preferredHeightForWidth (int width) const
 
 int EditorPage::columnCountForWidth (int width) const
 {
+    if (key == "randomizer")
+        return 1;
     return width >= 1100 ? 3 : (width >= 700 ? 2 : 1);
 }
 

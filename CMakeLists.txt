@@ -41,6 +41,8 @@ add_library(AIMEditorCore STATIC
     Source/Core/ProgramJson.h
     Source/Core/ProgramState.cpp
     Source/Core/ProgramState.h
+    Source/Core/RandomizerEngine.cpp
+    Source/Core/RandomizerEngine.h
     Source/Core/ProgramBank.cpp
     Source/Core/ProgramBank.h
     Source/Core/BankJson.cpp
@@ -109,6 +111,10 @@ target_sources(AIMEditor PRIVATE
     Source/UI/Components/SectionPanel.h
     Source/UI/Components/ModMatrixPanel.cpp
     Source/UI/Components/ModMatrixPanel.h
+    Source/UI/Components/RandomizerPanel.cpp
+    Source/UI/Components/RandomizerPanel.h
+    Source/UI/Components/TrackingGeneratorPanel.cpp
+    Source/UI/Components/TrackingGeneratorPanel.h
     Source/UI/Panels/EditorPage.cpp
     Source/UI/Panels/EditorPage.h
 )

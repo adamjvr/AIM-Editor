@@ -4,6 +4,8 @@
 #include "Core/ProgramState.h"
 #include "UI/Components/SectionPanel.h"
 #include "UI/Components/ModMatrixPanel.h"
+#include "UI/Components/RandomizerPanel.h"
+#include "UI/Components/TrackingGeneratorPanel.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
 

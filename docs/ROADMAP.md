@@ -44,7 +44,7 @@
 - [ ] complete display transforms (Hz, ms, %, semitones, etc.)
 - [ ] map every SysEx field/bit
 - [ ] verify all modulation source/destination IDs on hardware (115 source candidates / 79 destination candidates loaded)
-- [ ] decode tracking-generator points
+- [x] decode candidate tracking-generator points into first-class JSON parameters (hardware verification pending)
 - [x] template-preserving candidate program decode -> encode tests
 - [ ] byte-perfect hardware program decode -> encode tests
 - [ ] bank round-trip tests
@@ -62,7 +62,7 @@
 - [x] native `.aimbank.json`
 - [x] program librarian
 - [x] Mod Matrix editor
-- [ ] Tracking Generator touch/mouse editor
+- [x] Tracking Generator touch/mouse editor
 - [ ] envelope editors
 
 ## Phase 4 — UI parity and improvement
@@ -71,7 +71,7 @@
 - [ ] Dual 1
 - [ ] Dual 2
 - [ ] Rear
-- [ ] Randomizer
+- [x] Randomizer
 - [ ] scalable vector/procedural Ion-style look
 - [ ] accessibility
 - [ ] high-DPI desktop polish
@@ -99,4 +99,6 @@
 - Native librarian now supports 128 sparse slots, editable bank name/hardware-bank metadata, program name/category editing, `.aimprogram.json`, `.aimbank.json`, single-program `.syx`, and concatenated source-backed bank `.syx`.
 - Programs imported from hardware retain the complete 378-byte decoded source patch inside native JSON so unknown bytes/bits survive future edits and bank storage.
 - The 12-slot Mod Matrix now has a purpose-built responsive editor backed by reusable JSON source/destination enum tables; currently unknown source raw values are preserved rather than coerced.
+- The Randomizer is now semantic/data-driven, deterministic when seeded, scoped by synth section and parameter kind, and intentionally avoids automatic bulk MIDI writes.
+- The Tracking Generator now exposes all 33 candidate curve bytes (-16..+16) as canonical JSON parameters with candidate NRPN 121..153 and SysEx offsets 304..336, plus a touch/mouse graph editor.
 - Next: compile/test on macOS + iPadOS, then use hardware captures to promote candidate mappings to verified and implement verified edit-buffer writes.
