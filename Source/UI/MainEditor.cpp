@@ -250,6 +250,11 @@ juce::String MainEditor::unsavedChangesDescription() const
     return summary.isNotEmpty() ? summary : juce::String ("unsaved editor changes");
 }
 
+void MainEditor::saveUnsavedChanges (std::function<void (bool)> completion)
+{
+    programLibrarian.saveUnsavedChanges (std::move (completion));
+}
+
 void MainEditor::applyIncomingNrpn (const DecodedNrpn& decoded)
 {
     // The selected channel is the editor's hardware context. Ignore other

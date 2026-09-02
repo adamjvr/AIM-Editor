@@ -39,22 +39,41 @@ void MainWindow::requestQuit()
 
     const auto message = "AIM Editor has unsaved changes in the "
                        + editor->unsavedChangesDescription()
-                       + ".\n\nQuit without saving them?";
+                       + ".\n\nSave the native JSON document(s) before quitting?";
 
     const auto options = juce::MessageBoxOptions()
                            .withIconType (juce::MessageBoxIconType::WarningIcon)
                            .withTitle ("Unsaved AIM Editor changes")
                            .withMessage (message)
+                           .withButton ("Save & Quit")
                            .withButton ("Quit Without Saving")
                            .withButton ("Cancel")
                            .withAssociatedComponent (this);
 
     juce::AlertWindow::showAsync (options,
-                                  [] (int buttonIndex)
+                                  [safe = juce::Component::SafePointer<MainWindow> (this)] (int buttonIndex)
                                   {
+                                      if (safe == nullptr)
+                                          return;
+
                                       if (buttonIndex == 0)
+                                      {
+                                          if (auto* currentEditor = dynamic_cast<MainEditor*> (safe->getContentComponent()))
+                                              currentEditor->saveUnsavedChanges ([] (bool saved)
+                                              {
+                                                  if (saved)
+                                                      juce::MessageManager::callAsync ([]
+                                                      {
+                                                          if (auto* app = juce::JUCEApplication::getInstance())
+                                                              app->quit();
+                                                      });
+                                              });
+                                      }
+                                      else if (buttonIndex == 1)
+                                      {
                                           if (auto* app = juce::JUCEApplication::getInstance())
                                               app->quit();
+                                      }
                                   });
 }
 }

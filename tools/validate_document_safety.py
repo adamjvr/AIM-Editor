@@ -17,6 +17,7 @@ def require(text: str, needle: str, label: str) -> None:
 def main() -> int:
     tracker = (ROOT / "Source/Core/ProgramDocumentTracker.cpp").read_text()
     librarian = (ROOT / "Source/UI/ProgramLibrarian.cpp").read_text()
+    librarian_header = (ROOT / "Source/UI/ProgramLibrarian.h").read_text()
     window = (ROOT / "Source/App/MainWindow.cpp").read_text()
     inspector = (ROOT / "Source/UI/SysExInspector.cpp").read_text()
     schema = json.loads((ROOT / "schemas/midi-capture.schema.json").read_text())
@@ -29,8 +30,16 @@ def main() -> int:
     require(librarian, "confirmDiscardAllChanges", "librarian")
     require(librarian, "documentTracker.markClean()", "program JSON save")
     require(librarian, "cleanBankBaseline = bank", "bank JSON save")
+    require(librarian, "saveUnsavedProgram", "save-aware destructive actions")
+    require(librarian, "saveUnsavedBank", "save-aware destructive actions")
+    require(librarian, "saveUnsavedChanges", "save-aware destructive actions")
+    require(librarian, "Save & Continue", "save-aware destructive actions")
+    require(librarian, "newProgram()", "explicit new-program workflow")
+    require(librarian_header, 'newProgramButton { "New Program" }', "explicit new-program workflow")
     require(window, "hasUnsavedChanges()", "quit protection")
+    require(window, "Save & Quit", "quit protection")
     require(window, "Quit Without Saving", "quit protection")
+    require(window, "saveUnsavedChanges", "quit save chain")
 
     require(inspector, "verificationCaptureFrozen", "verification experiment")
     require(inspector, "startVerificationExperiment", "verification experiment")
@@ -49,7 +58,7 @@ def main() -> int:
         if key not in props:
             raise AssertionError(f"midi-capture schema missing verification field: {key}")
 
-    print("PASS: unsaved-document safeguards and frozen verification experiments are wired")
+    print("PASS: save-aware document safeguards and frozen verification experiments are wired")
     return 0
 
 

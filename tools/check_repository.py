@@ -27,6 +27,7 @@ def main() -> int:
     run(sys.executable, "tools/protocol/ion_patch_diff.py", "self-test")
     run(sys.executable, "tools/protocol/ion_nrpn_capture.py", "self-test")
     run(sys.executable, "tools/protocol/ion_protocol_verification.py", "self-test")
+    run(sys.executable, "tools/protocol/ion_verification_report.py", "self-test")
 
     schemas = sorted((ROOT / "schemas").glob("*.json"))
     for schema in schemas:

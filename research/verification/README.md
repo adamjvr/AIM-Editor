@@ -15,3 +15,14 @@ osc1-octave-nrpn-001.json
 ```
 
 Raw captures may be stored outside the public repository when they contain complete user patches. Their SHA-256 remains in the evidence record so a local archive can still be proven to be the exact source used for verification.
+
+Summarize current canonical coverage and all committed evidence without changing
+any mapping:
+
+```bash
+./tools/protocol/ion_verification_report.py report
+./tools/protocol/ion_verification_report.py report --format json --output /tmp/aim-verification.json
+```
+
+The report flags invalid seals and contradictions for review. It is deliberately
+read-only; only `ion_protocol_verification.py apply` can promote a mapping.

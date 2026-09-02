@@ -64,7 +64,8 @@ The project is now in its first functional-editor passes. It currently contains:
 - 194 of 212 semantic parameters linked to candidate NRPN addresses;
 - candidate Alesis signed-14-bit NRPN conversion kept separate from generic MIDI NRPN framing;
 - JSON Schemas and protocol/core round-trip tests;
-- semantic unsaved-program and librarian-bank tracking with discard/quit protection;
+- semantic unsaved-program and librarian-bank tracking with save/discard/cancel protection;
+- save-aware application quit plus an explicit semantic New Program workflow that never invents SysEx bytes;
 - a controlled NRPN Start/Stop verification mode that freezes evidence captures and cross-checks the inspector assessment offline against raw MIDI.
 
 ## Build
@@ -197,6 +198,7 @@ Research the candidate Ion SysEx format without building JUCE:
 
 ./tools/validate_protocol_data.py
 ./tools/validate_tracking_generator.py
+./tools/protocol/ion_verification_report.py report
 ```
 
 ## Live editing
@@ -217,7 +219,7 @@ The offline codec mirrors destination retargeting:
 
 ## Document safety and controlled verification
 
-AIM Editor now tracks the current semantic program and the native librarian bank against independent clean baselines. Destructive loads/imports and application quit explicitly warn before unsaved state is discarded. The MIDI/SysEx Inspector also provides a bounded **Start Test / Stop Test** workflow that freezes a controlled NRPN experiment before export; offline verification independently rebuilds the transaction stream from raw MIDI before promotion. See [`docs/DOCUMENT_SAFETY_AND_VERIFICATION_MODE.md`](docs/DOCUMENT_SAFETY_AND_VERIFICATION_MODE.md).
+AIM Editor now tracks the current semantic program and the native librarian bank against independent clean baselines. Destructive loads/imports and application quit now offer Save, Discard, or Cancel paths before unsaved state is replaced. The MIDI/SysEx Inspector also provides a bounded **Start Test / Stop Test** workflow that freezes a controlled NRPN experiment before export; offline verification independently rebuilds the transaction stream from raw MIDI before promotion. See [`docs/DOCUMENT_SAFETY_AND_VERIFICATION_MODE.md`](docs/DOCUMENT_SAFETY_AND_VERIFICATION_MODE.md) and [`docs/SAVE_AND_EVIDENCE_WORKFLOW.md`](docs/SAVE_AND_EVIDENCE_WORKFLOW.md).
 
 ## Reverse engineering
 

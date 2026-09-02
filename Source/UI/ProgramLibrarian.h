@@ -43,6 +43,12 @@ public:
     [[nodiscard]] bool hasUnsavedBankChanges() const noexcept;
     [[nodiscard]] juce::String unsavedSummary() const;
 
+    /** Save every dirty native JSON document, asking for a path when needed.
+        completion(true) means all requested saves succeeded; false also covers
+        a cancelled chooser so callers never continue a destructive action.
+    */
+    void saveUnsavedChanges (std::function<void (bool)> completion);
+
     std::function<void()> onClose;
 
 private:
@@ -57,6 +63,7 @@ private:
 
     void syncMetadataFromState();
     void updateStatus();
+    void newProgram();
     void storeCurrentInSelectedSlot();
     void loadSelectedSlot();
     void clearSelectedSlot();
@@ -67,9 +74,13 @@ private:
     void importProgramJson();
     void exportProgramJson();
     void saveProgramJsonTo (const juce::File& file);
+    bool writeProgramJsonTo (const juce::File& file);
+    void saveUnsavedProgram (std::function<void (bool)> completion);
     void importBankJson();
     void exportBankJson();
     void saveBankJsonTo (const juce::File& file);
+    bool writeBankJsonTo (const juce::File& file);
+    void saveUnsavedBank (std::function<void (bool)> completion);
     void importSyx();
     void exportSyx();
     void exportBankSyx();
@@ -108,6 +119,7 @@ private:
     juce::TextEditor category;
     juce::ListBox slotList { "Programs", this };
 
+    juce::TextButton newProgramButton { "New Program" };
     juce::TextButton storeButton { "Store Current" };
     juce::TextButton loadButton { "Load Slot" };
     juce::TextButton clearSlotButton { "Clear Slot" };

@@ -89,7 +89,7 @@ void ProgramState::replaceProgram (const IonProgram& replacement, ProgramChangeO
             listener->programReplaced (origin);
 }
 
-void ProgramState::resetToRegistryDefaults()
+void ProgramState::resetToRegistryDefaults (ProgramChangeOrigin origin)
 {
     IonProgram initial;
     initial.setName ("Init");
@@ -97,7 +97,7 @@ void ProgramState::resetToRegistryDefaults()
     for (const auto& definition : registry.all())
         initial.setParameter (definition.id, fallbackValue (definition));
 
-    replaceProgram (initial, ProgramChangeOrigin::internal);
+    replaceProgram (initial, origin);
 }
 
 void ProgramState::addListener (Listener* listener)

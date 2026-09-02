@@ -69,7 +69,7 @@ public:
         neutral fallback derived from its domain. This gives the UI deterministic
         values before a hardware dump has been received.
     */
-    void resetToRegistryDefaults();
+    void resetToRegistryDefaults (ProgramChangeOrigin origin = ProgramChangeOrigin::internal);
 
     void addListener (Listener* listener);
     void removeListener (Listener* listener);

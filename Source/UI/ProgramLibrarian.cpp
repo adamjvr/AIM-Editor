@@ -97,11 +97,13 @@ ProgramLibrarian::ProgramLibrarian (const ParameterRegistry& registryToUse,
     for (auto* component : { static_cast<juce::Component*> (&title), &bankSummary, &status,
                              &bankNameLabel, &hardwareBankLabel, &bankName, &hardwareBank,
                              &nameLabel, &categoryLabel, &programName, &category, &slotList,
-                             &storeButton, &loadButton, &copySlotButton, &pasteSlotButton, &clearSlotButton, &newBankButton,
+                             &newProgramButton, &storeButton, &loadButton, &copySlotButton, &pasteSlotButton, &clearSlotButton, &newBankButton,
                              &importProgramButton, &exportProgramButton, &importBankButton,
                              &exportBankButton, &importSyxButton, &exportSyxButton, &exportBankSyxButton, &closeButton })
         addAndMakeVisible (component);
 
+    newProgramButton.onClick = [this] { newProgram(); };
+    newProgramButton.setTooltip ("Start a fresh semantic Init program. No source SysEx template is invented.");
     storeButton.onClick = [this] { storeCurrentInSelectedSlot(); };
     loadButton.onClick = [this] { loadSelectedSlot(); };
     clearSlotButton.onClick = [this] { clearSelectedSlot(); };
@@ -199,7 +201,7 @@ void ProgramLibrarian::resized()
         }
     };
 
-    layoutButtons (row1, { &storeButton, &loadButton, &copySlotButton, &pasteSlotButton, &clearSlotButton, &newBankButton });
+    layoutButtons (row1, { &newProgramButton, &storeButton, &loadButton, &copySlotButton, &pasteSlotButton, &clearSlotButton, &newBankButton });
     layoutButtons (row2, { &importProgramButton, &exportProgramButton, &importBankButton, &exportBankButton });
 
     status.setBounds (row3.removeFromLeft (juce::jmax (150, row3.getWidth() / 4)));
@@ -350,6 +352,22 @@ juce::String ProgramLibrarian::unsavedSummary() const
     return items.joinIntoString (" and ");
 }
 
+void ProgramLibrarian::newProgram()
+{
+    confirmDiscardProgramChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this)]
+    {
+        if (safe == nullptr)
+            return;
+
+        safe->programFile = {};
+        // Treat a new Init as a fresh authoritative document so both the
+        // history stack and dirty tracker reset to this program. The default
+        // ProgramState constructor still uses the internal origin.
+        safe->state.resetToRegistryDefaults (ProgramChangeOrigin::import);
+        safe->updateStatus();
+    });
+}
+
 void ProgramLibrarian::storeCurrentInSelectedSlot()
 {
     const auto slot = slotList.getSelectedRow();
@@ -484,15 +502,56 @@ void ProgramLibrarian::exportProgramJson()
 
 void ProgramLibrarian::saveProgramJsonTo (const juce::File& file)
 {
-    if (! file.replaceWithText (ProgramJson::encode (state.program())))
+    (void) writeProgramJsonTo (file);
+}
+
+bool ProgramLibrarian::writeProgramJsonTo (const juce::File& file)
+{
+    if (file == juce::File{} || ! file.replaceWithText (ProgramJson::encode (state.program())))
     {
         showError ("Could not write program JSON.");
-        return;
+        return false;
     }
 
     programFile = file;
     documentTracker.markClean();
     updateStatus();
+    return true;
+}
+
+void ProgramLibrarian::saveUnsavedProgram (std::function<void (bool)> completion)
+{
+    if (! hasUnsavedProgramChanges())
+    {
+        completion (true);
+        return;
+    }
+
+    if (programFile != juce::File{})
+    {
+        completion (writeProgramJsonTo (programFile));
+        return;
+    }
+
+    const auto suggested = juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
+                               .getChildFile (safeFilenameStem (state.program().getName()) + ".aimprogram.json");
+
+    fileChooser = std::make_unique<juce::FileChooser> ("Save AIM Editor program JSON", suggested, "*.json", true);
+    const auto flags = juce::FileBrowserComponent::saveMode
+                     | juce::FileBrowserComponent::canSelectFiles
+                     | juce::FileBrowserComponent::warnAboutOverwriting;
+    fileChooser->launchAsync (flags,
+                              [safe = juce::Component::SafePointer<ProgramLibrarian> (this), completion = std::move (completion)] (const juce::FileChooser& chooser) mutable
+                              {
+                                  if (safe == nullptr)
+                                  {
+                                      completion (false);
+                                      return;
+                                  }
+
+                                  const auto file = chooser.getResult();
+                                  completion (file != juce::File{} && safe->writeProgramJsonTo (file));
+                              });
 }
 
 void ProgramLibrarian::importBankJson()
@@ -540,15 +599,79 @@ void ProgramLibrarian::exportBankJson()
 
 void ProgramLibrarian::saveBankJsonTo (const juce::File& file)
 {
-    if (! file.replaceWithText (BankJson::encode (bank)))
+    (void) writeBankJsonTo (file);
+}
+
+bool ProgramLibrarian::writeBankJsonTo (const juce::File& file)
+{
+    if (file == juce::File{} || ! file.replaceWithText (BankJson::encode (bank)))
     {
         showError ("Could not write bank JSON.");
-        return;
+        return false;
     }
 
     bankFile = file;
     cleanBankBaseline = bank;
     updateStatus();
+    return true;
+}
+
+void ProgramLibrarian::saveUnsavedBank (std::function<void (bool)> completion)
+{
+    if (! hasUnsavedBankChanges())
+    {
+        completion (true);
+        return;
+    }
+
+    if (bankFile != juce::File{})
+    {
+        completion (writeBankJsonTo (bankFile));
+        return;
+    }
+
+    const auto suggested = juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
+                               .getChildFile (safeFilenameStem (bank.getName()) + ".aimbank.json");
+
+    fileChooser = std::make_unique<juce::FileChooser> ("Save AIM Editor bank JSON", suggested, "*.json", true);
+    const auto flags = juce::FileBrowserComponent::saveMode
+                     | juce::FileBrowserComponent::canSelectFiles
+                     | juce::FileBrowserComponent::warnAboutOverwriting;
+    fileChooser->launchAsync (flags,
+                              [safe = juce::Component::SafePointer<ProgramLibrarian> (this), completion = std::move (completion)] (const juce::FileChooser& chooser) mutable
+                              {
+                                  if (safe == nullptr)
+                                  {
+                                      completion (false);
+                                      return;
+                                  }
+
+                                  const auto file = chooser.getResult();
+                                  completion (file != juce::File{} && safe->writeBankJsonTo (file));
+                              });
+}
+
+void ProgramLibrarian::saveUnsavedChanges (std::function<void (bool)> completion)
+{
+    saveUnsavedProgram ([safe = juce::Component::SafePointer<ProgramLibrarian> (this), completion = std::move (completion)] (bool programSaved) mutable
+    {
+        if (! programSaved || safe == nullptr)
+        {
+            completion (false);
+            return;
+        }
+
+        // Continue on the next message-loop turn. If the program save just
+        // completed a FileChooser callback, this avoids replacing/deleting
+        // that chooser while its callback stack is still unwinding.
+        juce::MessageManager::callAsync ([safe, completion = std::move (completion)] () mutable
+        {
+            if (safe != nullptr)
+                safe->saveUnsavedBank (std::move (completion));
+            else
+                completion (false);
+        });
+    });
 }
 
 void ProgramLibrarian::importSyx()
@@ -821,15 +944,29 @@ void ProgramLibrarian::confirmDiscardProgramChanges (std::function<void()> actio
     const auto options = juce::MessageBoxOptions()
                            .withIconType (juce::MessageBoxIconType::WarningIcon)
                            .withTitle ("Unsaved program changes")
-                           .withMessage ("The current program has unsaved semantic edits. Continue and discard those edits?")
+                           .withMessage ("The current program has unsaved semantic edits. Save them before continuing?")
+                           .withButton ("Save & Continue")
                            .withButton ("Discard & Continue")
                            .withButton ("Cancel")
                            .withAssociatedComponent (this);
     juce::AlertWindow::showAsync (options,
-                                  [action = std::move (action)] (int buttonIndex) mutable
+                                  [safe = juce::Component::SafePointer<ProgramLibrarian> (this), action = std::move (action)] (int buttonIndex) mutable
                                   {
+                                      if (safe == nullptr)
+                                          return;
+
                                       if (buttonIndex == 0)
+                                      {
+                                          safe->saveUnsavedProgram ([action = std::move (action)] (bool saved) mutable
+                                          {
+                                              if (saved)
+                                                  juce::MessageManager::callAsync ([action = std::move (action)] () mutable { action(); });
+                                          });
+                                      }
+                                      else if (buttonIndex == 1)
+                                      {
                                           action();
+                                      }
                                   });
 }
 
@@ -844,15 +981,29 @@ void ProgramLibrarian::confirmDiscardBankChanges (std::function<void()> action)
     const auto options = juce::MessageBoxOptions()
                            .withIconType (juce::MessageBoxIconType::WarningIcon)
                            .withTitle ("Unsaved bank changes")
-                           .withMessage ("The librarian bank has unsaved changes. Continue and discard those changes?")
+                           .withMessage ("The librarian bank has unsaved changes. Save them before continuing?")
+                           .withButton ("Save & Continue")
                            .withButton ("Discard & Continue")
                            .withButton ("Cancel")
                            .withAssociatedComponent (this);
     juce::AlertWindow::showAsync (options,
-                                  [action = std::move (action)] (int buttonIndex) mutable
+                                  [safe = juce::Component::SafePointer<ProgramLibrarian> (this), action = std::move (action)] (int buttonIndex) mutable
                                   {
+                                      if (safe == nullptr)
+                                          return;
+
                                       if (buttonIndex == 0)
+                                      {
+                                          safe->saveUnsavedBank ([action = std::move (action)] (bool saved) mutable
+                                          {
+                                              if (saved)
+                                                  juce::MessageManager::callAsync ([action = std::move (action)] () mutable { action(); });
+                                          });
+                                      }
+                                      else if (buttonIndex == 1)
+                                      {
                                           action();
+                                      }
                                   });
 }
 
@@ -868,15 +1019,29 @@ void ProgramLibrarian::confirmDiscardAllChanges (std::function<void()> action)
                            .withIconType (juce::MessageBoxIconType::WarningIcon)
                            .withTitle ("Unsaved AIM Editor changes")
                            .withMessage ("Importing SysEx may replace the " + unsavedSummary()
-                                         + ". Continue and discard those unsaved changes?")
+                                         + ". Save those native JSON documents before continuing?")
+                           .withButton ("Save & Continue")
                            .withButton ("Discard & Continue")
                            .withButton ("Cancel")
                            .withAssociatedComponent (this);
     juce::AlertWindow::showAsync (options,
-                                  [action = std::move (action)] (int buttonIndex) mutable
+                                  [safe = juce::Component::SafePointer<ProgramLibrarian> (this), action = std::move (action)] (int buttonIndex) mutable
                                   {
+                                      if (safe == nullptr)
+                                          return;
+
                                       if (buttonIndex == 0)
+                                      {
+                                          safe->saveUnsavedChanges ([action = std::move (action)] (bool saved) mutable
+                                          {
+                                              if (saved)
+                                                  juce::MessageManager::callAsync ([action = std::move (action)] () mutable { action(); });
+                                          });
+                                      }
+                                      else if (buttonIndex == 1)
+                                      {
                                           action();
+                                      }
                                   });
 }
 

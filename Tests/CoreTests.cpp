@@ -207,6 +207,15 @@ int main()
     if (documentTracker.isDirty())
         return fail ("Protocol input did not establish a clean document baseline");
 
+    if (documentState.setValue ("filter1.frequency", documentInitial + 2, aim::ProgramChangeOrigin::interactive).failed()
+        || ! documentTracker.isDirty() || ! documentHistory.canUndo())
+        return fail ("Pre-New-Program edit did not create dirty/history state");
+    documentState.resetToRegistryDefaults (aim::ProgramChangeOrigin::import);
+    if (documentTracker.isDirty() || documentHistory.canUndo() || documentHistory.canRedo() || documentHistory.size() != 1)
+        return fail ("New semantic Init did not establish a clean history/document baseline");
+    if (documentState.program().hasSourcePatchBytes())
+        return fail ("New semantic Init invented source patch bytes");
+
     const auto randomizerBaseline = historyState.snapshot();
     auto randomizerVariant = randomizerBaseline;
     randomizerVariant.setName ("Randomized Variant");

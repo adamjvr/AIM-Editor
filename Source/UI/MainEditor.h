@@ -17,6 +17,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 
 #include <array>
+#include <functional>
 #include <memory>
 
 namespace aim
@@ -33,6 +34,7 @@ public:
 
     [[nodiscard]] bool hasUnsavedChanges() const noexcept;
     [[nodiscard]] juce::String unsavedChangesDescription() const;
+    void saveUnsavedChanges (std::function<void (bool)> completion);
 
 private:
     void showPage (int pageIndex);

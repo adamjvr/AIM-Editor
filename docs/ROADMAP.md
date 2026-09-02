@@ -38,6 +38,7 @@
 - [x] build raw MIDI/SysEx inspector and JSON capture logger
 - [x] reconstruct candidate NRPN transactions inside capture JSON for repeatable hardware verification
 - [x] add sealed, auditable NRPN/SysEx evidence records and mechanical candidate -> verified promotion
+- [x] generate read-only Markdown/JSON verification coverage reports from canonical mappings + sealed evidence
 
 ## Phase 2 — verified data model
 
@@ -80,7 +81,8 @@
 - [x] iPad landscape-first responsive composition and touch envelope/tracking surfaces (device tuning ongoing)
 - [x] core keyboard shortcuts + semantic undo/redo (MIDI learn remains optional/future)
 - [x] safe session restore for page/MIDI context; live editing and hardware-write arming intentionally never persist
-- [x] semantic unsaved-program/bank tracking and destructive-action/quit confirmation
+- [x] semantic unsaved-program/bank tracking and save/discard/cancel destructive-action/quit resolution
+- [x] explicit semantic New Program workflow with no invented hardware template
 - [x] guided controlled-NRPN capture mode with freeze + offline raw-event cross-check
 
 ## Phase 5 — release engineering
@@ -117,5 +119,6 @@
 - Session restore now remembers non-destructive editor/MIDI context while explicitly forcing Live NRPN and full-write arming off on every launch.
 - MIDI capture JSON now includes statefully reconstructed candidate NRPN transactions with semantic IDs/status while preserving raw events as the authoritative evidence.
 - Controlled captures can be tagged in-app with a semantic parameter ID and isolation confirmation; Start/Stop Test now freezes a bounded experiment and reports expected/distinct/competing NRPN observations before offline sealing.
-- Program and bank dirty state are now independent, undo-aware semantic baselines; loading/replacing/quit paths explicitly confirm before discarding unsaved edits.
+- Program and bank dirty state are independent, undo-aware semantic baselines; destructive loads and quit now support Save & Continue/Save & Quit as well as explicit discard/cancel paths.
+- A fresh semantic Init can be created explicitly without fabricating any source-patch bytes, and verification coverage can be summarized from the canonical JSON/evidence tree with `ion_verification_report.py`.
 - Next: compile/test on Rosie and macOS/iPadOS, capture real Ion request/write behavior, promote verified protocol fields, and tune the purpose-built geometry from device screenshots.
