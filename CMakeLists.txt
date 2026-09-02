@@ -18,7 +18,7 @@ include(cmake/JUCE.cmake)
 add_library(AIMEditorBuildOptions INTERFACE)
 if(AIM_EDITOR_ENABLE_SANITIZERS)
     if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
-        message(WARNING "AIM_EDITOR_ENABLE_SANITIZERS is ignored for iOS targets; use Xcode's scheme diagnostics on-device/simulator instead.")
+        message(WARNING "AIM_EDITOR_ENABLE_SANITIZERS is ignored for iOS targets; use Xcode's scheme diagnostics on physical hardware instead.")
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
         target_compile_options(AIMEditorBuildOptions INTERFACE -fsanitize=address,undefined -fno-omit-frame-pointer)
         target_link_options(AIMEditorBuildOptions INTERFACE -fsanitize=address,undefined -fno-omit-frame-pointer)
@@ -116,15 +116,16 @@ target_link_libraries(AIMEditorMidi
 juce_add_gui_app(AIMEditor
     PRODUCT_NAME "AIM Editor"
     COMPANY_NAME "AIM Editor"
-    BUNDLE_ID "org.aim-editor.app"
+    BUNDLE_ID "com.rothamplification.aimeditor"
     DOCUMENT_EXTENSIONS syx
     FILE_SHARING_ENABLED TRUE
     DOCUMENT_BROWSER_ENABLED TRUE
-    ICLOUD_PERMISSIONS_ENABLED TRUE
+    TARGETED_DEVICE_FAMILY 2
     IPAD_SCREEN_ORIENTATIONS
         UIInterfaceOrientationLandscapeLeft
         UIInterfaceOrientationLandscapeRight
 )
+
 
 target_sources(AIMEditor PRIVATE
     Source/App/Main.cpp
@@ -193,16 +194,14 @@ target_compile_definitions(AIMEditor PRIVATE
     JUCE_WEB_BROWSER=0
 )
 
-if(APPLE)
-    set_target_properties(AIMEditor PROPERTIES
-        XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC YES
-    )
-endif()
-
 if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
     set_target_properties(AIMEditor PROPERTIES
         XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "2"
         XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET "17.0"
+        # JUCE Apple module translation units use manual retain/release semantics.
+        # Xcode's iOS application-target default enables ARC unless we explicitly
+        # turn it off, which makes JUCE's .mm sources fail to compile.
+        XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC NO
         XCODE_ATTRIBUTE_SUPPORTS_MACCATALYST NO
     )
 endif()

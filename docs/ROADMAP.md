@@ -129,8 +129,8 @@
 - Hardware testing can be pulled from a deterministic priority queue with `ion_verification_plan.py`; the planner remains read-only and has no promotion authority.
 - Destructive three-button dialogs now use JUCE 9 `NativeMessageBox::showAsync` for a stable zero-based callback contract; the ambiguous legacy AlertWindow result mapping is statically rejected.
 - Rosie now passes the complete real JUCE 9.0.1 Linux standalone-application compile/link + CTest gate through Pass 19.
-- The Apple application gate is now explicit: macOS standalone app + CTest followed by the iPadOS Simulator standalone app from the same pinned dependency state.
-- Next: run `./tools/build_apple_targets.sh` on macOS, fix any platform-specific compiler/API issues, then resume real-Ion request/write verification and evidence promotion.
+- The Apple application gate is now explicit: macOS standalone app + CTest followed by a signed build/install/launch on a connected physical iPad. Simulator validation has been retired.
+- Next: close the physical-iPad gate, then resume real-Ion request/write verification and evidence promotion.
 
 ## Pass 19 build-gate update
 
@@ -144,3 +144,30 @@
 - The iPad helper now bootstraps/locks JUCE, uses the pinned Python validation environment, runs the strict doctor/repository checks, and requires a visible iPhoneSimulator SDK before CMake/Xcode.
 - The JUCE GUI-app target explicitly declares iPad document-browser/file-sharing/iCloud permissions and landscape orientations.
 - Apple targets remain unverified until the aggregate gate is executed on a Mac with Xcode.
+## Pass 23 physical-iPad policy
+
+- Retired `build_ipad_simulator.sh` and removed the iPad Simulator CI job.
+- Added `build_ipad_device.sh`: `iphoneos`, arm64, automatic development signing, connected-iPad selection, install, and launch through `devicectl`.
+- The active build doctor now checks the physical iPhoneOS SDK and CoreDevice tooling instead of the simulator SDK.
+- The mobile target is explicitly iPad-only (`TARGETED_DEVICE_FAMILY=2`) and uses bundle ID `com.rothamplification.aimeditor`.
+- iCloud entitlement provisioning is not part of the initial device gate; document browser and file sharing remain enabled.
+- Historical Pass 20/21 simulator notes remain only as build-history evidence and no longer define the supported verification path.
+
+
+## Pass 24 — deterministic physical-device signing
+
+- Removed unreliable Team-ID inference from certificate names.
+- Added ignored `.aim-editor-local.env` support for explicit team/device selection.
+- Added provisioning-device registration to the physical iPad build gate.
+
+## Pass 25 — explicit physical-iPad selector hardening
+
+- Forward machine-local iPad UDIDs explicitly instead of relying on exported shell state.
+- Propagate CoreDevice selector failures without falling through to unset variables.
+- Preserve and report known-device availability state for deterministic physical-hardware diagnostics.
+
+## Pass 26 — physical iPad JUCE ARC boundary
+
+- Remove target-wide Objective-C ARC forcing from AIMEditor so JUCE Apple module sources compile under their expected memory-management mode.
+- Guard the build workflow against reintroducing a global ARC override.
+- Re-run the physical arm64 iPadOS build/sign/install/launch gate.

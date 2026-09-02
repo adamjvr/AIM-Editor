@@ -1,5 +1,8 @@
 # Pass 20 checkpoint — Apple standalone-application gate
 
+> Historical note: the simulator path described below was retired in Pass 23. Current iPadOS verification is physical-device-only.
+
+
 Pass 20 begins only after the real Linux JUCE 9.0.1 application build and CTest gate is green. It does not add a plug-in target and does not expand protocol behavior. Its purpose is to make macOS/iPadOS verification repeatable before feature work resumes.
 
 ## Standalone application contract

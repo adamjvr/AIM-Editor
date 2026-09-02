@@ -78,7 +78,7 @@ def main() -> int:
     parser.add_argument("--json", action="store_true", help="emit machine-readable JSON")
     parser.add_argument("--require-local-juce", action="store_true", help="fail if no local pinned JUCE tree exists")
     parser.add_argument("--strict-platform", action="store_true", help="treat missing platform SDK/development libraries as hard failures")
-    parser.add_argument("--require-ios-simulator-sdk", action="store_true", help="require macOS/Xcode plus a visible iPhoneSimulator SDK")
+    parser.add_argument("--require-ios-device-sdk", action="store_true", help="require macOS/Xcode plus a visible physical iPhoneOS SDK and devicectl")
     args = parser.parse_args()
 
     checks: list[dict[str, object]] = []
@@ -186,14 +186,18 @@ def main() -> int:
             macos_sdk = run_text([xcrun, "--sdk", "macosx", "--show-sdk-path"])
             add("macos-sdk", "pass" if macos_sdk else ("fail" if args.strict_platform else "warn"), macos_sdk or "macOS SDK not visible through xcrun")
 
-            ios_sim_sdk = run_text([xcrun, "--sdk", "iphonesimulator", "--show-sdk-path"])
-            ios_status = "pass" if ios_sim_sdk else ("fail" if args.require_ios_simulator_sdk else "warn")
-            add("ios-simulator-sdk", ios_status, ios_sim_sdk or "iPhoneSimulator SDK not visible through xcrun")
-        else:
-            add("xcrun", "fail" if (args.strict_platform or args.require_ios_simulator_sdk) else "warn", "xcrun not found")
+            ios_device_sdk = run_text([xcrun, "--sdk", "iphoneos", "--show-sdk-path"])
+            ios_status = "pass" if ios_device_sdk else ("fail" if args.require_ios_device_sdk else "warn")
+            add("ios-device-sdk", ios_status, ios_device_sdk or "iPhoneOS SDK not visible through xcrun")
 
-    if args.require_ios_simulator_sdk and platform.system() != "Darwin":
-        add("ios-simulator-sdk", "fail", "iPadOS simulator builds require macOS/Xcode")
+            devicectl = run_text([xcrun, "--find", "devicectl"])
+            device_tool_status = "pass" if devicectl else ("fail" if args.require_ios_device_sdk else "warn")
+            add("devicectl", device_tool_status, devicectl or "devicectl not visible through xcrun")
+        else:
+            add("xcrun", "fail" if (args.strict_platform or args.require_ios_device_sdk) else "warn", "xcrun not found")
+
+    if args.require_ios_device_sdk and platform.system() != "Darwin":
+        add("ios-device-sdk", "fail", "physical iPadOS builds require macOS/Xcode")
 
     result = {
         "format": "aim-editor.build-doctor",

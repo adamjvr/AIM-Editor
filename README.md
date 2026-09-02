@@ -89,19 +89,19 @@ On Windows PowerShell:
 
 To use an already-verified JUCE checkout, set `AIM_EDITOR_JUCE_PATH` or pass `-DAIM_EDITOR_JUCE_PATH=/path/to/JUCE`. CMake rejects a local JUCE tree whose declared version is not exactly 9.0.1; the network FetchContent fallback is pinned to the exact commit rather than a movable tag. The bootstrap aborts on an archive checksum mismatch. See [`docs/BUILD_AND_DOCUMENT_WORKFLOW.md`](docs/BUILD_AND_DOCUMENT_WORKFLOW.md).
 
-For Apple targets, the preferred gate builds the **standalone macOS app + core tests** and then the **standalone iPadOS Simulator app** from the same pinned source/dependency state:
+For Apple targets, the preferred gate builds the **standalone macOS app + core tests** and the **standalone iPadOS app on a connected physical iPad concurrently**. The iPad branch then verifies the signed product, installs it, and launches it on hardware:
 
 ```bash
 ./tools/build_apple_targets.sh
 ```
 
-To run only the iPadOS Simulator application gate:
+To run only the physical-iPad application gate:
 
 ```bash
-./tools/build_ipad_simulator.sh
+./tools/build_ipad_device.sh
 ```
 
-The iPad target is explicitly iPad-only, landscape-oriented, and declares JUCE's native document-browser/file-sharing/iCloud permissions needed by the app's import/export workflow. The simulator build intentionally disables code signing; real device distribution still requires a valid Apple signing/iCloud-capability setup.
+AIM Editor has no simulator verification path. The mobile target is explicitly iPad-only, arm64, landscape-oriented, and uses JUCE's native document-browser/file-sharing support. The physical-device helper selects a connected paired iPad through `devicectl`, requires Developer Mode, uses Xcode automatic development signing/provisioning, resolves the product path from Xcode's generated `TARGET_BUILD_DIR` + `FULL_PRODUCT_NAME`, verifies the signature, installs the resulting app, and launches `com.rothamplification.aimeditor` on the hardware. The aggregate Apple gate runs macOS and iPadOS in parallel using separate build trees and keeps prefixed logs under `build-logs/`. Copy `.aim-editor-local.env.example` to `.aim-editor-local.env` and set the real `AIM_EDITOR_DEVELOPMENT_TEAM`; optionally pin `AIM_EDITOR_IPAD_DEVICE` to a physical-device UDID. Pinned device IDs are forwarded explicitly to CoreDevice selection, and selection failures stop the hardware gate immediately. Team IDs are never guessed from certificate display names.
 
 AddressSanitizer + UndefinedBehaviorSanitizer remain opt-in on supported Clang/GCC desktop builds:
 
@@ -109,7 +109,7 @@ AddressSanitizer + UndefinedBehaviorSanitizer remain opt-in on supported Clang/G
 AIM_EDITOR_SANITIZE=1 ./tools/build_and_test.sh
 ```
 
-The real JUCE 9.0.1 Linux application build and core tests are green through Pass 19. macOS and iPadOS remain unverified until `./tools/build_apple_targets.sh` reaches both PASS markers on a Mac with Xcode.
+The real JUCE 9.0.1 Linux application build/core tests are green through Pass 19, and the real macOS standalone application build plus core CTest gate is green from the first Pass 20 Apple run. Pass 23 retires the temporary simulator build path entirely: iPadOS is considered verified only after the signed app builds for `iphoneos`/arm64, installs on a connected physical iPad, and launches successfully.
 
 ## Data
 

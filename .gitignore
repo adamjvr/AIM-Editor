@@ -20,3 +20,6 @@
 __pycache__/
 *.py[cod]
 
+
+# Machine-local Apple signing/device configuration
+.aim-editor-local.env

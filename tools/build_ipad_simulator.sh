@@ -8,6 +8,16 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${AIM_EDITOR_IOS_BUILD_DIR:-$ROOT/build-ios}"
 CONFIG="${AIM_EDITOR_BUILD_TYPE:-Debug}"
 BOOTSTRAP_JUCE="${AIM_EDITOR_BOOTSTRAP_JUCE:-1}"
+SIM_ARCH="${AIM_EDITOR_IOS_SIM_ARCH:-$(uname -m)}"
+
+case "$SIM_ARCH" in
+  arm64|x86_64) ;;
+  *)
+    echo "ERROR: unsupported iOS Simulator host architecture: $SIM_ARCH" >&2
+    echo "Set AIM_EDITOR_IOS_SIM_ARCH to arm64 or x86_64 if you are intentionally cross-building." >&2
+    exit 2
+    ;;
+esac
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
   echo "ERROR: iPadOS simulator builds require macOS/Xcode." >&2
@@ -69,18 +79,28 @@ printf '\n== AIM Editor Apple/iPadOS build doctor ==\n'
 printf '\n== AIM Editor repository checks ==\n'
 "$TOOLS_PYTHON" "$ROOT/tools/check_repository.py"
 
+# iOS cross-configuration creates JUCE host-tool caches inside the build tree.
+# Always start this verification gate clean so a failed prior configure cannot
+# retain platform/deployment settings and contaminate the next result.
+printf '\n== Reset iPadOS simulator build tree ==\n'
+cmake -E remove_directory "$BUILD_DIR"
+
 cmake_args=(
   -S "$ROOT"
   -B "$BUILD_DIR"
   -G Xcode
   -DCMAKE_SYSTEM_NAME=iOS
   -DCMAKE_OSX_SYSROOT=iphonesimulator
-  -DCMAKE_OSX_DEPLOYMENT_TARGET=17.0
+  "-DCMAKE_OSX_ARCHITECTURES=$SIM_ARCH"
+  # Keep the iPadOS minimum target out of CMAKE_OSX_DEPLOYMENT_TARGET.
+  # JUCE 9 forwards that generic variable into its host-side juceaide bootstrap,
+  # where an iOS-only version such as 17.0 is misinterpreted as a macOS target.
+  -DCMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET=17.0
   -DAIM_EDITOR_BUILD_TESTS=OFF
   "-DAIM_EDITOR_JUCE_PATH=$LOCAL_JUCE"
 )
 
-printf '\n== Configure iPadOS simulator ==\n'
+printf '\n== Configure iPadOS simulator (%s) ==\n' "$SIM_ARCH"
 printf '+ cmake'
 printf ' %q' "${cmake_args[@]}"
 printf '\n'
@@ -88,6 +108,6 @@ cmake "${cmake_args[@]}"
 
 printf '\n== Build AIMEditor (%s) ==\n' "$CONFIG"
 cmake --build "$BUILD_DIR" --config "$CONFIG" --target AIMEditor -- \
-  -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO
+  -destination "generic/platform=iOS Simulator" CODE_SIGNING_ALLOWED=NO
 
 printf '\nPASS: AIM Editor iPadOS simulator application build\n'

@@ -61,11 +61,21 @@ On macOS, run the aggregate Apple application gate:
 ./tools/build_apple_targets.sh
 ```
 
-It first runs the normal macOS standalone application + CTest pipeline, then performs an Xcode iPadOS Simulator build with tests disabled for the cross-compiled target. The iPad helper uses the same pinned JUCE/Python validation environment, requires a visible `iphonesimulator` SDK through `xcrun`, runs repository checks before configure, and builds the `AIMEditor` GUI-app target with simulator code signing disabled.
+It runs the normal macOS standalone application + CTest pipeline and the **physical iPadOS device** build concurrently in independent build trees. There is no simulator gate. The iPad helper uses the same pinned JUCE/Python validation environment, requires a visible `iphoneos` SDK plus `devicectl`, discovers one connected paired physical iPad, requires Developer Mode, and configures an arm64 Xcode build for iPadOS 17+.
 
-The iPad app target declares JUCE's `FILE_SHARING_ENABLED`, `DOCUMENT_BROWSER_ENABLED`, and `ICLOUD_PERMISSIONS_ENABLED` properties and is restricted to landscape orientations. Those are application/document-workflow settings, not plug-in settings. A real device build still requires normal Apple signing plus the matching iCloud capability/provisioning configuration.
+The iPadOS minimum is expressed with `CMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET=17.0` rather than the generic `CMAKE_OSX_DEPLOYMENT_TARGET`. JUCE 9.0.1 reinvokes CMake to build the host-side `juceaide` tool, so keeping the iOS-only deployment value in the Xcode platform setting prevents the host helper from inheriting it as a macOS deployment target.
 
-Do not record macOS/iPadOS as build-verified until the corresponding real build command reaches completion. Missing SDKs, signing/provisioning failures, unavailable dependency downloads, and GitHub jobs that never acquire a runner are environment failures, not compiler evidence.
+Physical-device signing uses Xcode automatic signing with `-allowProvisioningUpdates` and `-allowProvisioningDeviceRegistration`. Team IDs are never inferred from certificate display names. Copy `.aim-editor-local.env.example` to `.aim-editor-local.env` and set `AIM_EDITOR_DEVELOPMENT_TEAM` plus, when desired, `AIM_EDITOR_IPAD_DEVICE` to the exact physical-device UDID. The helper forwards an explicit UDID directly to CoreDevice selection rather than depending on shell-export state, and a selector error aborts before any build variables are consumed. The local file is ignored by Git. After a successful build, the helper resolves the real `.app` path from Xcode's generated `TARGET_BUILD_DIR` and `FULL_PRODUCT_NAME` settings, verifies the code signature, installs the `.app` with `devicectl`, and launches bundle ID `com.rothamplification.aimeditor` on the selected iPad. The aggregate Apple gate prefixes both concurrent streams and persists them under `build-logs/`.
+
+The iPad app target keeps JUCE's `FILE_SHARING_ENABLED` and `DOCUMENT_BROWSER_ENABLED` properties, is restricted to device family 2 (iPad), and supports landscape orientations. The initial hardware gate intentionally does not require an iCloud entitlement; Files/document-picker workflows do not need an iCloud container merely to build and launch the editor.
+
+Do not record iPadOS as verified until the physical-hardware command reaches:
+
+```text
+PASS: AIM Editor physical iPadOS application build/install/launch
+```
+
+Missing SDKs, an unpaired/locked iPad, disabled Developer Mode, signing/provisioning failures, or unavailable dependency downloads are environment/signing failures rather than evidence about AIM Editor's protocol behavior.
 
 ## Unified document open/save
 

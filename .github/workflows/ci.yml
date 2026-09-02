@@ -86,19 +86,3 @@ jobs:
       - name: Test (Windows)
         if: runner.os == 'Windows'
         run: ctest --test-dir build -C Debug --output-on-failure
-
-  ipad-simulator:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Bootstrap verified JUCE
-        run: ./tools/bootstrap_juce.sh
-      - name: Configure iPadOS simulator
-        run: >-
-          cmake -S . -B build-ios -G Xcode
-          -DCMAKE_SYSTEM_NAME=iOS
-          -DCMAKE_OSX_SYSROOT=iphonesimulator
-          -DCMAKE_OSX_DEPLOYMENT_TARGET=17.0
-          -DAIM_EDITOR_BUILD_TESTS=OFF
-      - name: Build iPadOS simulator
-        run: cmake --build build-ios --config Debug -- -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO
