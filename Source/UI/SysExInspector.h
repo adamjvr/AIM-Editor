@@ -50,6 +50,7 @@ private:
 
     juce::Label title;
     juce::Label summary;
+    juce::Label candidateSummary;
     juce::TextEditor log;
     juce::ToggleButton sysexOnly { "SysEx only" };
     juce::TextButton clearButton { "Clear" };

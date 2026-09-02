@@ -28,7 +28,7 @@
 - [x] find archived Ion MIDI/SysEx documentation and preserve provenance (candidate/community sources; hardware verification pending)
 - [x] identify candidate manufacturer/model SysEx framing
 - [x] map candidate single-patch request message
-- [ ] map edit-buffer update message
+- [x] implement guarded candidate edit-buffer/full-patch destination retargeting (hardware verification pending)
 - [x] map candidate single-program dump framing
 - [ ] map/verify bank-dump streaming behavior
 - [x] implement candidate 7-of-8 + checksum rules
@@ -54,7 +54,7 @@
 - [x] opt-in live NRPN editing
 - [x] incoming candidate NRPN decoding with no-echo ProgramState origin tracking
 - [x] candidate request patch UI (hardware verification pending)
-- [ ] update edit buffer
+- [x] guarded candidate update-to-Edit workflow requiring source template + explicit arming (hardware verification pending)
 - [x] program naming/category support
 - [x] load/save single-program `.syx` with source-template preservation
 - [x] import/export concatenated source-backed bank `.syx` without assuming bank-stream protocol
@@ -104,4 +104,6 @@
 - Purpose-built oscillator, filter, envelope, LFO/S&H/tempo, voice, effects, pre/post mixer, and output panels now replace the main generic control buckets, with large-landscape Front/Dual/Rear composition and conservative JSON-driven engineering-value formatting.
 - Large landscape surfaces now use segmented five-page navigation; smaller layouts retain the compact selector.
 - A small manual-derived label set improves LFO/S&H reset, portamento, and pitch-wheel selectors while protocol raw mappings remain candidate.
-- Next: compile/test on Rosie and macOS/iPadOS, tune the purpose-built geometry from device screenshots, then use hardware captures to promote candidate mappings to verified and implement verified edit-buffer writes.
+- Guarded hardware-transfer tools now expose patch/bank requests and source-template-preserving full sends to Edit 1–4. Full writes require explicit arming and automatically disarm after each transmission.
+- The SysEx inspector now surfaces the latest checksum-valid candidate patch metadata before loading it into semantic state.
+- Next: compile/test on Rosie and macOS/iPadOS, capture real Ion request/write behavior, promote verified protocol fields, and tune the purpose-built geometry from device screenshots.

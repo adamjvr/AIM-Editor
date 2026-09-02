@@ -16,6 +16,10 @@ SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegi
     summary.setJustificationType (juce::Justification::centredRight);
     summary.setColour (juce::Label::textColourId, juce::Colours::white.withAlpha (0.7f));
 
+    candidateSummary.setText ("No checksum-valid candidate Ion patch captured yet", juce::dontSendNotification);
+    candidateSummary.setColour (juce::Label::textColourId, juce::Colour::fromRGB (220, 160, 70));
+    candidateSummary.setFont (juce::FontOptions (11.0f));
+
     log.setMultiLine (true);
     log.setReadOnly (true);
     log.setScrollbarsShown (true);
@@ -27,7 +31,7 @@ SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegi
     sysexOnly.setToggleState (true, juce::dontSendNotification);
     sysexOnly.setTooltip ("Show only SysEx in the text view. JSON export still preserves the complete capture.");
 
-    for (auto* component : { static_cast<juce::Component*> (&title), &summary, &log, &sysexOnly,
+    for (auto* component : { static_cast<juce::Component*> (&title), &summary, &candidateSummary, &log, &sysexOnly,
                              &clearButton, &copyButton, &saveButton, &loadPatchButton, &closeButton })
         addAndMakeVisible (component);
 
@@ -82,7 +86,9 @@ void SysExInspector::resized()
     title.setBounds (header.removeFromLeft (juce::jmax (180, header.getWidth() / 2)));
     summary.setBounds (header);
 
-    area.removeFromTop (8);
+    area.removeFromTop (4);
+    candidateSummary.setBounds (area.removeFromTop (22));
+    area.removeFromTop (4);
     auto controls = area.removeFromBottom (32);
     const int gap = 6;
 
@@ -148,6 +154,14 @@ void SysExInspector::inspectCandidatePatch (const MidiCaptureEvent& event)
     latestCandidateName = patch.name;
     latestCandidatePatch = patch;
     latestCandidateProgram = std::move (program);
+    candidateSummary.setText ("Valid candidate patch: "
+                                + (patch.name.isNotEmpty() ? patch.name : juce::String ("<unnamed>"))
+                                + "  •  " + IonSysExCodec::bankName (static_cast<IonBank> (patch.bank))
+                                + " " + juce::String (patch.slot + 1)
+                                + "  •  firmware " + patch.firmwareVersion
+                                + "  •  checksum OK",
+                              juce::dontSendNotification);
+    candidateSummary.setColour (juce::Label::textColourId, juce::Colour::fromRGB (105, 210, 120));
     loadPatchButton.setEnabled (true);
     loadPatchButton.setButtonText (latestCandidateName.isNotEmpty() ? "Load " + latestCandidateName : "Load Patch");
 }
@@ -179,6 +193,8 @@ void SysExInspector::clearCapture()
     latestCandidateProgram.reset();
     latestCandidatePatch.reset();
     latestCandidateName.clear();
+    candidateSummary.setText ("No checksum-valid candidate Ion patch captured yet", juce::dontSendNotification);
+    candidateSummary.setColour (juce::Label::textColourId, juce::Colour::fromRGB (220, 160, 70));
     loadPatchButton.setEnabled (false);
     loadPatchButton.setButtonText ("Load Patch");
     log.setText ({}, false);

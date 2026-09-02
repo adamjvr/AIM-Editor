@@ -69,6 +69,29 @@ juce::MidiMessage IonSysExCodec::makeBankRequest (IonBank bank)
     return juce::MidiMessage::createSysExMessage (payload.data(), static_cast<int> (payload.size()));
 }
 
+juce::Result IonSysExCodec::retargetDecodedPatch (std::vector<std::uint8_t>& decoded,
+                                                   IonBank bank,
+                                                   int slot,
+                                                   bool multiple)
+{
+    if (decoded.size() != decodedSinglePatchSize)
+        return juce::Result::fail ("Decoded patch must contain exactly 378 bytes");
+
+    if (! isValidBank (static_cast<int> (bank)))
+        return juce::Result::fail ("Invalid Ion bank");
+
+    const auto maxSlot = bank == IonBank::edit ? 3 : 127;
+    if (slot < 0 || slot > maxSlot)
+        return juce::Result::fail ("Patch slot is outside the selected bank");
+
+    // Candidate header fields from the same community document used by the
+    // decoder/request codec. Payload bytes remain untouched.
+    decoded[4] = static_cast<std::uint8_t> (bank);
+    decoded[5] = multiple ? 0x01u : 0x00u;
+    decoded[6] = static_cast<std::uint8_t> (slot);
+    return juce::Result::ok();
+}
+
 std::vector<std::uint8_t> IonSysExCodec::encode7Of8 (const std::vector<std::uint8_t>& decoded)
 {
     if (decoded.empty())

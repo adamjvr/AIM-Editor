@@ -54,6 +54,15 @@ public:
     [[nodiscard]] static juce::MidiMessage makeSinglePatchRequest (IonBank bank, int slot);
     [[nodiscard]] static juce::MidiMessage makeBankRequest (IonBank bank);
 
+    /** Retarget the header of a decoded candidate patch image without touching
+        its semantic payload. This is used only by explicit hardware-transfer
+        actions; checksum regeneration remains the encoder's responsibility.
+    */
+    [[nodiscard]] static juce::Result retargetDecodedPatch (std::vector<std::uint8_t>& decoded,
+                                                             IonBank bank,
+                                                             int slot,
+                                                             bool multiple = false);
+
     /** Convert arbitrary full-width bytes to the Alesis 7-of-8 transport form.
         The final group is padded with zero bytes to seven decoded bytes.
     */

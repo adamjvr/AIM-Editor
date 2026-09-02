@@ -369,6 +369,27 @@ int main()
     if (redecodedFilter == nullptr || static_cast<int> (*redecodedFilter) != 777)
         return fail ("Ion encode/decode semantic round trip changed filter1.frequency");
 
+    // Explicit hardware-write retargeting must change only the candidate
+    // destination header before normal semantic/template encoding.
+    auto editTemplate = parsedPatch.decodedBytes;
+    if (const auto result = aim::IonSysExCodec::retargetDecodedPatch (editTemplate, aim::IonBank::edit, 2); result.failed())
+        return fail ("Candidate edit-buffer retarget failed: " + result.getErrorMessage());
+    if (editTemplate[4] != 4 || editTemplate[5] != 0 || editTemplate[6] != 2)
+        return fail ("Candidate edit-buffer retarget wrote incorrect header bytes");
+    if (aim::IonSysExCodec::retargetDecodedPatch (editTemplate, aim::IonBank::edit, 4).wasOk())
+        return fail ("Candidate edit-buffer retarget accepted invalid Edit slot");
+
+    aim::IonPatchDump editSource = parsedPatch;
+    editSource.decodedBytes = editTemplate;
+    juce::MidiMessage editMessage;
+    if (const auto result = aim::IonProgramEncoder::encodeOntoTemplate (decodedSyntheticProgram, registry, editSource, editMessage); result.failed())
+        return fail ("Candidate edit-buffer program encode failed: " + result.getErrorMessage());
+    aim::IonPatchDump editRoundTrip;
+    if (const auto result = aim::IonSysExCodec::decodeSinglePatchDump (editMessage, editRoundTrip); result.failed())
+        return fail ("Candidate edit-buffer message did not decode: " + result.getErrorMessage());
+    if (editRoundTrip.bank != 4 || editRoundTrip.slot != 2 || ! editRoundTrip.checksumValid)
+        return fail ("Candidate edit-buffer message lost destination/checksum metadata");
+
     const auto syxFileBytes = aim::IonSyxFileCodec::encodeFileBytes (reencodedMessage);
     if (syxFileBytes.getSize() != static_cast<std::size_t> (reencodedMessage.getSysExDataSize()) + 2u
         || static_cast<const std::uint8_t*> (syxFileBytes.getData())[0] != 0xf0

@@ -109,6 +109,8 @@ target_sources(AIMEditor PRIVATE
     Source/UI/SysExInspector.h
     Source/UI/ProgramLibrarian.cpp
     Source/UI/ProgramLibrarian.h
+    Source/UI/HardwareTransferPanel.cpp
+    Source/UI/HardwareTransferPanel.h
     Source/UI/Components/SectionPanel.cpp
     Source/UI/Components/SectionPanel.h
     Source/UI/Components/OscillatorPanel.cpp

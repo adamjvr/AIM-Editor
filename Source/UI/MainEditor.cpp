@@ -10,7 +10,8 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
       parameterTransmitter (programState, registryToUse, midiService),
       controlBar (midiService),
       sysExInspector (midiService, registryToUse),
-      programLibrarian (registryToUse, programState)
+      programLibrarian (registryToUse, programState),
+      hardwareTools (midiService, registryToUse, programState)
 {
     pages[0] = std::make_unique<EditorPage> ("front", "Front", registryToUse, programState);
     pages[1] = std::make_unique<EditorPage> ("dual1", "Dual 1", registryToUse, programState);
@@ -26,6 +27,7 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
     controlBar.onPageChanged = [this] (int pageIndex) { showPage (pageIndex); };
     controlBar.onSysExToolsRequested = [this] { showSysExInspector(); };
     controlBar.onLibrarianRequested = [this] { showProgramLibrarian(); };
+    controlBar.onHardwareToolsRequested = [this] { showHardwareTools(); };
     controlBar.onLiveEditingChanged = [this] (bool enabled)
     {
         parameterTransmitter.setEnabled (enabled);
@@ -45,6 +47,9 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
 
     programLibrarian.onClose = [this] { hideProgramLibrarian(); };
     addChildComponent (programLibrarian);
+
+    hardwareTools.onClose = [this] { hideHardwareTools(); };
+    addChildComponent (hardwareTools);
 
     midi.setMessageHandler ([safe = juce::Component::SafePointer<MainEditor> (this)] (const juce::MidiMessage& message) mutable
     {
@@ -86,6 +91,7 @@ void MainEditor::resized()
     const auto overlayBounds = getLocalBounds().reduced (margin);
     sysExInspector.setBounds (overlayBounds);
     programLibrarian.setBounds (overlayBounds);
+    hardwareTools.setBounds (overlayBounds);
 }
 
 void MainEditor::showPage (int pageIndex)
@@ -113,6 +119,7 @@ void MainEditor::updateViewedPageSize()
 void MainEditor::showSysExInspector()
 {
     programLibrarian.setVisible (false);
+    hardwareTools.setVisible (false);
     sysExInspector.setVisible (true);
     sysExInspector.toFront (true);
 }
@@ -125,6 +132,7 @@ void MainEditor::hideSysExInspector()
 void MainEditor::showProgramLibrarian()
 {
     sysExInspector.setVisible (false);
+    hardwareTools.setVisible (false);
     programLibrarian.setVisible (true);
     programLibrarian.toFront (true);
 }
@@ -132,6 +140,19 @@ void MainEditor::showProgramLibrarian()
 void MainEditor::hideProgramLibrarian()
 {
     programLibrarian.setVisible (false);
+}
+
+void MainEditor::showHardwareTools()
+{
+    sysExInspector.setVisible (false);
+    programLibrarian.setVisible (false);
+    hardwareTools.setVisible (true);
+    hardwareTools.toFront (true);
+}
+
+void MainEditor::hideHardwareTools()
+{
+    hardwareTools.setVisible (false);
 }
 
 void MainEditor::applyIncomingNrpn (const DecodedNrpn& decoded)

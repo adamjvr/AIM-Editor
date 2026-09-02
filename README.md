@@ -56,7 +56,8 @@ The project is now in its first functional-editor passes. It currently contains:
 - opt-in candidate live NRPN editing with explicit MIDI channel selection;
 - incoming NRPN decoding that updates shared state without MIDI feedback loops;
 - synchronized semantic parameter state shared by every editor page;
-- a live MIDI/SysEx capture inspector with JSON export;
+- a live MIDI/SysEx capture inspector with JSON export and checksum-valid candidate patch summary;
+- guarded hardware-transfer tools for patch/bank requests and source-template-preserving sends to Edit 1–4;
 - a candidate Ion/Micron 7-of-8 patch codec, checksum verifier, and single-patch request path;
 - machine-readable candidate SysEx and NRPN specifications with explicit evidence status;
 - 185 of 212 semantic parameters linked to candidate raw patch fields;
@@ -178,6 +179,16 @@ Research the candidate Ion SysEx format without building JUCE:
 Candidate NRPN live editing is deliberately disabled by default. See
 [`docs/LIVE_EDITING.md`](docs/LIVE_EDITING.md) for the no-echo safety model and
 hardware-verification workflow.
+
+## Guarded hardware transfer
+
+The **Update Edit Buffer** control now opens a dedicated candidate hardware-transfer surface rather than sending a full dump immediately. Full patch writes require a real 378-byte source template plus an explicit arm switch, and the arm resets after every send. Requests remain available without arming. See [`docs/HARDWARE_TRANSFER.md`](docs/HARDWARE_TRANSFER.md).
+
+The offline codec mirrors destination retargeting:
+
+```bash
+./tools/protocol/ion_sysex.py retarget source.syx edit1.syx --bank edit --slot 0
+```
 
 ## Reverse engineering
 

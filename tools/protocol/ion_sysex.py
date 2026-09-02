@@ -65,6 +65,22 @@ def make_patch_request(bank: int, slot: int, multiple: bool = False) -> bytes:
     return bytes((0xF0, 0x00, 0x00, 0x0E, 0x22, 0x41, bank, int(multiple), slot, 0xF7))
 
 
+def retarget_decoded_patch(decoded_input: bytes, bank: int, slot: int, multiple: bool = False) -> bytes:
+    """Retarget only the candidate destination header of a full decoded patch."""
+    if len(decoded_input) != 378:
+        raise ValueError(f"decoded patch must be 378 bytes, got {len(decoded_input)}")
+    if not 0 <= bank <= 4:
+        raise ValueError("bank must be 0..4")
+    max_slot = 3 if bank == 4 else 127
+    if not 0 <= slot <= max_slot:
+        raise ValueError(f"slot must be 0..{max_slot} for this bank")
+    decoded = bytearray(decoded_input)
+    decoded[4] = bank
+    decoded[5] = int(multiple)
+    decoded[6] = slot
+    return bytes(decoded)
+
+
 def read_u32be(data: bytes, offset: int) -> int:
     return int.from_bytes(data[offset:offset + 4], "big", signed=False)
 
@@ -234,6 +250,20 @@ def self_test() -> None:
     assert parsed["name"] == "AIM Test"
     assert parsed["checksum"]["valid"] is True
     assert parsed["fields"]["filter1.frequency"]["raw"] == 512
+
+    edit = retarget_decoded_patch(bytes(parsed["decoded_bytes"]), BANKS["edit"], 2)
+    edit_wire = encode_patch_sysex(edit)
+    edit_parsed = decode_patch_sysex(edit_wire)
+    assert edit_parsed["bank"] == 4
+    assert edit_parsed["slot"] == 2
+    assert edit_parsed["checksum"]["valid"] is True
+    try:
+        retarget_decoded_patch(edit, BANKS["edit"], 4)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("invalid Edit slot was accepted")
+
     print("PASS: candidate Ion SysEx self-test")
 
 
@@ -255,6 +285,12 @@ def main() -> int:
     repack.add_argument("input", type=Path)
     repack.add_argument("output", type=Path)
 
+    retarget = sub.add_parser("retarget", help="retarget a source-backed patch to another candidate hardware bank/slot")
+    retarget.add_argument("input", type=Path)
+    retarget.add_argument("output", type=Path)
+    retarget.add_argument("--bank", choices=sorted(BANKS), required=True)
+    retarget.add_argument("--slot", type=int, required=True)
+
     sub.add_parser("self-test", help="run protocol codec self-tests")
 
     args = parser.parse_args()
@@ -273,6 +309,11 @@ def main() -> int:
     if args.command == "repack":
         parsed = decode_patch_sysex(read_sysex(args.input))
         args.output.write_bytes(encode_patch_sysex(bytes(parsed["decoded_bytes"])))
+        return 0
+    if args.command == "retarget":
+        parsed = decode_patch_sysex(read_sysex(args.input))
+        retargeted = retarget_decoded_patch(bytes(parsed["decoded_bytes"]), BANKS[args.bank], args.slot)
+        args.output.write_bytes(encode_patch_sysex(retargeted))
         return 0
     if args.command == "self-test":
         self_test()

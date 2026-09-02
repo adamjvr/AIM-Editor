@@ -8,6 +8,7 @@
 #include "UI/GlobalControlBar.h"
 #include "UI/Panels/EditorPage.h"
 #include "UI/ProgramLibrarian.h"
+#include "UI/HardwareTransferPanel.h"
 #include "UI/SysExInspector.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -33,6 +34,8 @@ private:
     void hideSysExInspector();
     void showProgramLibrarian();
     void hideProgramLibrarian();
+    void showHardwareTools();
+    void hideHardwareTools();
     void applyIncomingNrpn (const DecodedNrpn& decoded);
 
     const ParameterRegistry& registry;
@@ -44,6 +47,7 @@ private:
     GlobalControlBar controlBar;
     SysExInspector sysExInspector;
     ProgramLibrarian programLibrarian;
+    HardwareTransferPanel hardwareTools;
     std::array<std::unique_ptr<EditorPage>, 5> pages;
     int currentPage = 0;
 };

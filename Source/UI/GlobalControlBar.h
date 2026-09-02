@@ -22,6 +22,7 @@ public:
     std::function<void (int)> onPageChanged;
     std::function<void()> onSysExToolsRequested;
     std::function<void()> onLibrarianRequested;
+    std::function<void()> onHardwareToolsRequested;
     std::function<void (bool)> onLiveEditingChanged;
     std::function<void (int)> onMidiChannelChanged;
 
@@ -50,7 +51,7 @@ private:
     juce::TextButton allNotesOff { "all notes off" };
     juce::TextButton librarian { "librarian" };
     juce::ToggleButton liveEdit { "live NRPN" };
-    juce::TextButton settings { "settings" };
+    juce::TextButton settings { "refresh MIDI" };
 
     juce::Label status;
 

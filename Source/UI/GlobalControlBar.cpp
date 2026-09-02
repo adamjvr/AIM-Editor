@@ -78,16 +78,26 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
         if (onLibrarianRequested)
             onLibrarianRequested();
     };
+    updateEditBuffer.onClick = [this]
+    {
+        if (onHardwareToolsRequested)
+            onHardwareToolsRequested();
+    };
+    settings.onClick = [this]
+    {
+        refreshMidiDevices();
+        status.setText ("MIDI devices refreshed", juce::dontSendNotification);
+    };
 
     requestPatch.setEnabled (true);
     requestPatch.setTooltip ("Send candidate Ion patch-request SysEx; capture and verify the response before treating the mapping as authoritative");
-    updateEditBuffer.setEnabled (false);
-    updateEditBuffer.setTooltip ("Enabled after the Ion edit-buffer protocol is verified");
+    updateEditBuffer.setEnabled (true);
+    updateEditBuffer.setTooltip ("Open guarded candidate hardware-transfer tools. Full patch writes require a captured source template and explicit arming.");
     sysexTools.setTooltip ("Open the live MIDI/SysEx capture inspector");
     librarian.setTooltip ("Open native JSON program/bank librarian and template-preserving .syx file tools");
     liveEdit.setToggleState (false, juce::dontSendNotification);
     liveEdit.setTooltip ("Opt-in candidate live editing: interactive controls send mapped Ion NRPN messages to the selected MIDI output. Patch loads/imports never echo.");
-    settings.setEnabled (false);
+    settings.setTooltip ("Re-scan JUCE MIDI input/output devices");
 
     status.setText ("protocol: candidate", juce::dontSendNotification);
     status.setJustificationType (juce::Justification::centredRight);

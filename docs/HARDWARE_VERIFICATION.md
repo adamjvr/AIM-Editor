@@ -49,3 +49,9 @@ Each decoded transaction records the NRPN number, raw 14-bit value, signed
 conversion when applicable, candidate parameter ID, and whether the observed
 value falls inside the current candidate range. Unknown NRPNs remain visible
 rather than being discarded.
+
+## Guarded full-write test path
+
+Pass 7 adds a dedicated hardware-transfer overlay. Full writes remain candidate and are blocked unless the current semantic program carries a complete 378-byte source patch. The user must explicitly arm the write, select Edit 1–4, and trigger the send; the arm resets immediately afterward.
+
+For the first hardware test, prefer an Edit buffer slot rather than a stored Red/Green/Blue/Yellow program. Capture the outbound SysEx and the Ion's subsequent response, then compare the returned patch to the source-backed intended state before promoting any write behavior to verified.
