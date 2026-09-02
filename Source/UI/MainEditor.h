@@ -4,6 +4,7 @@
 #include "Core/ParameterRegistry.h"
 #include "Core/ProgramState.h"
 #include "Core/ProgramHistory.h"
+#include "Core/ProgramDocumentTracker.h"
 #include "Midi/IonMidiService.h"
 #include "Midi/IonParameterTransmitter.h"
 #include "Midi/IonNrpnDecoder.h"
@@ -30,6 +31,9 @@ public:
     void resized() override;
     bool keyPressed (const juce::KeyPress& key) override;
 
+    [[nodiscard]] bool hasUnsavedChanges() const noexcept;
+    [[nodiscard]] juce::String unsavedChangesDescription() const;
+
 private:
     void showPage (int pageIndex);
     void updateViewedPageSize();
@@ -47,6 +51,7 @@ private:
     AppSettings& appSettings;
     ProgramState programState;
     ProgramHistory programHistory;
+    ProgramDocumentTracker documentTracker;
     IonNrpnDecoder nrpnDecoder;
     IonParameterTransmitter parameterTransmitter;
     juce::Viewport viewport;

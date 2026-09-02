@@ -9,10 +9,11 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
       appSettings (settings),
       programState (registryToUse),
       programHistory (programState),
+      documentTracker (programState),
       parameterTransmitter (programState, registryToUse, midiService),
       controlBar (midiService),
       sysExInspector (midiService, registryToUse),
-      programLibrarian (registryToUse, programState),
+      programLibrarian (registryToUse, programState, documentTracker),
       hardwareTools (midiService, registryToUse, programState)
 {
     pages[0] = std::make_unique<EditorPage> ("front", "Front", registryToUse, programState);
@@ -235,6 +236,18 @@ void MainEditor::persistSession()
     snapshot.pageIndex = currentPage;
     controlBar.captureSession (snapshot);
     appSettings.saveSession (snapshot);
+}
+
+bool MainEditor::hasUnsavedChanges() const noexcept
+{
+    return programLibrarian.hasUnsavedProgramChanges()
+        || programLibrarian.hasUnsavedBankChanges();
+}
+
+juce::String MainEditor::unsavedChangesDescription() const
+{
+    const auto summary = programLibrarian.unsavedSummary();
+    return summary.isNotEmpty() ? summary : juce::String ("unsaved editor changes");
 }
 
 void MainEditor::applyIncomingNrpn (const DecodedNrpn& decoded)

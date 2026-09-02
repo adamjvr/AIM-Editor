@@ -59,7 +59,13 @@ public:
         juce::LookAndFeel::setDefaultLookAndFeel (nullptr);
     }
 
-    void systemRequestedQuit() override { quit(); }
+    void systemRequestedQuit() override
+    {
+        if (mainWindow != nullptr)
+            mainWindow->requestQuit();
+        else
+            quit();
+    }
     void anotherInstanceStarted (const juce::String&) override {}
 
 private:

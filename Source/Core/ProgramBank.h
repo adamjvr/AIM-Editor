@@ -38,6 +38,14 @@ public:
     [[nodiscard]] int occupiedCount() const noexcept;
     [[nodiscard]] std::vector<int> occupiedSlots() const;
 
+    [[nodiscard]] bool operator== (const ProgramBank& other) const
+    {
+        return name == other.name
+            && hardwareBank == other.hardwareBank
+            && programs == other.programs;
+    }
+    [[nodiscard]] bool operator!= (const ProgramBank& other) const { return ! (*this == other); }
+
     void clear();
 
 private:

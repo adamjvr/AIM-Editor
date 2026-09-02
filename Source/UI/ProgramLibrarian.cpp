@@ -28,8 +28,9 @@ int hardwareBankValue (const juce::String& bank)
 }
 }
 ProgramLibrarian::ProgramLibrarian (const ParameterRegistry& registryToUse,
-                                    ProgramState& programState)
-    : registry (registryToUse), state (programState)
+                                    ProgramState& programState,
+                                    ProgramDocumentTracker& tracker)
+    : registry (registryToUse), state (programState), documentTracker (tracker), cleanBankBaseline (bank)
 {
     title.setText ("Program Librarian", juce::dontSendNotification);
     title.setFont (juce::FontOptions (20.0f));
@@ -266,6 +267,11 @@ void ProgramLibrarian::listBoxItemDoubleClicked (int row, const juce::MouseEvent
     loadSelectedSlot();
 }
 
+void ProgramLibrarian::parameterValueChanged (std::string_view, const juce::var&, ProgramChangeOrigin)
+{
+    updateStatus();
+}
+
 void ProgramLibrarian::programReplaced (ProgramChangeOrigin)
 {
     syncMetadataFromState();
@@ -275,6 +281,7 @@ void ProgramLibrarian::programReplaced (ProgramChangeOrigin)
 void ProgramLibrarian::programMetadataChanged (ProgramChangeOrigin)
 {
     syncMetadataFromState();
+    updateStatus();
 }
 
 void ProgramLibrarian::syncMetadataFromState()
@@ -296,15 +303,20 @@ void ProgramLibrarian::updateStatus()
                                 : bankId == "edit" ? 6 : 1;
     hardwareBank.setSelectedId (hardwareSelection, juce::dontSendNotification);
 
-    bankSummary.setText (bank.getName() + "  •  " + juce::String (bank.occupiedCount()) + "/128 stored",
+    const auto bankDirtyMarker = hasUnsavedBankChanges() ? " *" : "";
+    bankSummary.setText (bank.getName() + bankDirtyMarker + "  •  " + juce::String (bank.occupiedCount()) + "/128 stored",
                          juce::dontSendNotification);
 
     const auto templateReady = hasPatchTemplate();
-    status.setText (templateReady ? "SysEx template: ready" : "SysEx template: none",
-                    juce::dontSendNotification);
+    juce::String statusText;
+    if (hasUnsavedProgramChanges())
+        statusText << "PROGRAM *  •  ";
+    statusText << (templateReady ? "SysEx template: ready" : "SysEx template: none");
+    status.setText (statusText, juce::dontSendNotification);
     status.setColour (juce::Label::textColourId,
-                      templateReady ? juce::Colour::fromRGB (100, 205, 115)
-                                    : juce::Colour::fromRGB (220, 160, 70));
+                      hasUnsavedProgramChanges() ? juce::Colour::fromRGB (235, 185, 80)
+                                                : (templateReady ? juce::Colour::fromRGB (100, 205, 115)
+                                                                 : juce::Colour::fromRGB (220, 160, 70)));
 
     exportSyxButton.setEnabled (templateReady);
     exportBankSyxButton.setEnabled (bank.occupiedCount() > 0);
@@ -316,6 +328,26 @@ void ProgramLibrarian::updateStatus()
 bool ProgramLibrarian::hasPatchTemplate() const noexcept
 {
     return state.program().getSourcePatchBytes().size() == IonSysExCodec::decodedSinglePatchSize;
+}
+
+bool ProgramLibrarian::hasUnsavedProgramChanges() const noexcept
+{
+    return documentTracker.isDirty();
+}
+
+bool ProgramLibrarian::hasUnsavedBankChanges() const noexcept
+{
+    return bank != cleanBankBaseline;
+}
+
+juce::String ProgramLibrarian::unsavedSummary() const
+{
+    juce::StringArray items;
+    if (hasUnsavedProgramChanges())
+        items.add ("current program");
+    if (hasUnsavedBankChanges())
+        items.add ("librarian bank");
+    return items.joinIntoString (" and ");
 }
 
 void ProgramLibrarian::storeCurrentInSelectedSlot()
@@ -340,11 +372,21 @@ void ProgramLibrarian::storeCurrentInSelectedSlot()
 
 void ProgramLibrarian::loadSelectedSlot()
 {
-    const auto* program = bank.programAt (slotList.getSelectedRow());
-    if (program == nullptr)
+    const auto slot = slotList.getSelectedRow();
+    if (bank.programAt (slot) == nullptr)
         return;
 
-    state.replaceProgram (*program, ProgramChangeOrigin::import);
+    confirmDiscardProgramChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this), slot]
+    {
+        if (safe == nullptr)
+            return;
+        if (const auto* program = safe->bank.programAt (slot))
+        {
+            safe->programFile = {};
+            safe->state.replaceProgram (*program, ProgramChangeOrigin::import);
+            safe->updateStatus();
+        }
+    });
 }
 
 void ProgramLibrarian::clearSelectedSlot()
@@ -387,166 +429,230 @@ void ProgramLibrarian::pasteIntoSelectedSlot()
 
 void ProgramLibrarian::newBank()
 {
-    bank.clear();
-    updateStatus();
+    confirmDiscardBankChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this)]
+    {
+        if (safe == nullptr)
+            return;
+        safe->bank.clear();
+        safe->cleanBankBaseline = safe->bank;
+        safe->bankFile = {};
+        safe->updateStatus();
+    });
 }
 
 void ProgramLibrarian::importProgramJson()
 {
-    chooseFileToOpen ("Import AIM Editor program JSON", "*.json",
-                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
-                      {
-                          if (safe == nullptr)
-                              return;
+    confirmDiscardProgramChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this)]
+    {
+        if (safe == nullptr)
+            return;
 
-                          IonProgram program;
-                          if (const auto result = ProgramJson::decode (file.loadFileAsString(), program); result.failed())
-                          {
-                              safe->showError (result.getErrorMessage());
-                              return;
-                          }
+        safe->chooseFileToOpen ("Import AIM Editor program JSON", "*.json",
+                                [safe] (const juce::File& file)
+                                {
+                                    if (safe == nullptr)
+                                        return;
 
-                          safe->state.replaceProgram (program, ProgramChangeOrigin::import);
-                      });
+                                    IonProgram program;
+                                    if (const auto result = ProgramJson::decode (file.loadFileAsString(), program); result.failed())
+                                    {
+                                        safe->showError (result.getErrorMessage());
+                                        return;
+                                    }
+
+                                    safe->programFile = file;
+                                    safe->state.replaceProgram (program, ProgramChangeOrigin::import);
+                                    safe->updateStatus();
+                                });
+    });
 }
 
 void ProgramLibrarian::exportProgramJson()
 {
     const auto stem = safeFilenameStem (state.program().getName());
-    const auto suggested = juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
+    const auto suggested = programFile != juce::File{} ? programFile
+                         : juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
                                .getChildFile (stem + ".aimprogram.json");
-    const auto json = ProgramJson::encode (state.program());
 
-    chooseFileToSave ("Export AIM Editor program JSON", suggested, "*.json",
-                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this), json] (const juce::File& file)
+    chooseFileToSave ("Save AIM Editor program JSON", suggested, "*.json",
+                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
                       {
-                          if (safe != nullptr && ! file.replaceWithText (json))
-                              safe->showError ("Could not write program JSON.");
+                          if (safe != nullptr)
+                              safe->saveProgramJsonTo (file);
                       });
+}
+
+void ProgramLibrarian::saveProgramJsonTo (const juce::File& file)
+{
+    if (! file.replaceWithText (ProgramJson::encode (state.program())))
+    {
+        showError ("Could not write program JSON.");
+        return;
+    }
+
+    programFile = file;
+    documentTracker.markClean();
+    updateStatus();
 }
 
 void ProgramLibrarian::importBankJson()
 {
-    chooseFileToOpen ("Import AIM Editor bank JSON", "*.json",
-                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
-                      {
-                          if (safe == nullptr)
-                              return;
+    confirmDiscardBankChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this)]
+    {
+        if (safe == nullptr)
+            return;
 
-                          ProgramBank decoded;
-                          if (const auto result = BankJson::decode (file.loadFileAsString(), decoded); result.failed())
-                          {
-                              safe->showError (result.getErrorMessage());
-                              return;
-                          }
+        safe->chooseFileToOpen ("Import AIM Editor bank JSON", "*.json",
+                                [safe] (const juce::File& file)
+                                {
+                                    if (safe == nullptr)
+                                        return;
 
-                          safe->bank = std::move (decoded);
-                          safe->updateStatus();
-                      });
+                                    ProgramBank decoded;
+                                    if (const auto result = BankJson::decode (file.loadFileAsString(), decoded); result.failed())
+                                    {
+                                        safe->showError (result.getErrorMessage());
+                                        return;
+                                    }
+
+                                    safe->bank = std::move (decoded);
+                                    safe->cleanBankBaseline = safe->bank;
+                                    safe->bankFile = file;
+                                    safe->updateStatus();
+                                });
+    });
 }
 
 void ProgramLibrarian::exportBankJson()
 {
     const auto stem = safeFilenameStem (bank.getName());
-    const auto suggested = juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
+    const auto suggested = bankFile != juce::File{} ? bankFile
+                         : juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
                                .getChildFile (stem + ".aimbank.json");
-    const auto json = BankJson::encode (bank);
 
-    chooseFileToSave ("Export AIM Editor bank JSON", suggested, "*.json",
-                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this), json] (const juce::File& file)
+    chooseFileToSave ("Save AIM Editor bank JSON", suggested, "*.json",
+                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
                       {
-                          if (safe != nullptr && ! file.replaceWithText (json))
-                              safe->showError ("Could not write bank JSON.");
+                          if (safe != nullptr)
+                              safe->saveBankJsonTo (file);
                       });
+}
+
+void ProgramLibrarian::saveBankJsonTo (const juce::File& file)
+{
+    if (! file.replaceWithText (BankJson::encode (bank)))
+    {
+        showError ("Could not write bank JSON.");
+        return;
+    }
+
+    bankFile = file;
+    cleanBankBaseline = bank;
+    updateStatus();
 }
 
 void ProgramLibrarian::importSyx()
 {
-    chooseFileToOpen ("Import Ion SysEx patch or bank", "*.syx",
-                      [safe = juce::Component::SafePointer<ProgramLibrarian> (this)] (const juce::File& file)
-                      {
-                          if (safe == nullptr)
-                              return;
+    confirmDiscardAllChanges ([safe = juce::Component::SafePointer<ProgramLibrarian> (this)]
+    {
+        if (safe == nullptr)
+            return;
 
-                          std::vector<juce::MidiMessage> messages;
-                          if (const auto result = IonSyxFileCodec::loadMessagesFromFile (file, messages); result.failed())
-                          {
-                              safe->showError (result.getErrorMessage());
-                              return;
-                          }
-
-                          ProgramBank importedBank;
-                          importedBank.setName (file.getFileNameWithoutExtension());
-                          int accepted = 0;
-                          int ignored = 0;
-                          int firstSlot = -1;
-                          int firstBank = -1;
-                          bool mixedBanks = false;
-
-                          for (const auto& message : messages)
-                          {
-                              IonPatchDump patch;
-                              if (IonSysExCodec::decodeSinglePatchDump (message, patch).failed() || ! patch.checksumValid)
+        safe->chooseFileToOpen ("Import Ion SysEx patch or bank", "*.syx",
+                                [safe] (const juce::File& file)
                               {
-                                  ++ignored;
-                                  continue;
-                              }
+                                  if (safe == nullptr)
+                                      return;
 
-                              IonProgram program;
-                              if (IonProgramDecoder::decode (patch, safe->registry, program).failed()
-                                  || ! ProgramBank::isValidSlot (patch.slot))
-                              {
-                                  ++ignored;
-                                  continue;
-                              }
+                                  std::vector<juce::MidiMessage> messages;
+                                  if (const auto result = IonSyxFileCodec::loadMessagesFromFile (file, messages); result.failed())
+                                  {
+                                      safe->showError (result.getErrorMessage());
+                                      return;
+                                  }
 
-                              if (firstBank < 0)
-                                  firstBank = patch.bank;
-                              else if (patch.bank != firstBank)
-                                  mixedBanks = true;
+                                  ProgramBank importedBank;
+                                  importedBank.setName (file.getFileNameWithoutExtension());
+                                  int accepted = 0;
+                                  int ignored = 0;
+                                  int firstSlot = -1;
+                                  int firstBank = -1;
+                                  bool mixedBanks = false;
 
-                              if (firstSlot < 0)
-                                  firstSlot = patch.slot;
+                                  for (const auto& message : messages)
+                                  {
+                                      IonPatchDump patch;
+                                      if (IonSysExCodec::decodeSinglePatchDump (message, patch).failed() || ! patch.checksumValid)
+                                      {
+                                          ++ignored;
+                                          continue;
+                                      }
 
-                              (void) importedBank.setProgram (patch.slot, program);
-                              ++accepted;
-                          }
+                                      IonProgram program;
+                                      if (IonProgramDecoder::decode (patch, safe->registry, program).failed()
+                                          || ! ProgramBank::isValidSlot (patch.slot))
+                                      {
+                                          ++ignored;
+                                          continue;
+                                      }
 
-                          if (accepted == 0)
-                          {
-                              safe->showError ("No checksum-valid candidate Ion single-program dumps were found in this .syx file.");
-                              return;
-                          }
+                                      if (firstBank < 0)
+                                          firstBank = patch.bank;
+                                      else if (patch.bank != firstBank)
+                                          mixedBanks = true;
 
-                          if (! mixedBanks)
-                              importedBank.setHardwareBank (hardwareBankId (firstBank));
+                                      if (firstSlot < 0)
+                                          firstSlot = patch.slot;
 
-                          // One program behaves like a normal patch import. A
-                          // concatenated .syx populates the native librarian by
-                          // hardware slot without assuming bank-stream framing.
-                          if (accepted == 1 && messages.size() == 1u)
-                          {
-                              const auto* program = importedBank.programAt (firstSlot);
-                              if (program != nullptr)
-                                  safe->state.replaceProgram (*program, ProgramChangeOrigin::import);
-                          }
-                          else
-                          {
-                              safe->bank = std::move (importedBank);
-                              safe->slotList.selectRow (juce::jmax (0, firstSlot));
-                              if (const auto* program = safe->bank.programAt (firstSlot))
-                                  safe->state.replaceProgram (*program, ProgramChangeOrigin::import);
-                              safe->updateStatus();
+                                      (void) importedBank.setProgram (patch.slot, program);
+                                      ++accepted;
+                                  }
 
-                              if (ignored > 0)
-                                  juce::AlertWindow::showMessageBoxAsync (juce::MessageBoxIconType::InfoIcon,
-                                                                          "AIM Editor",
-                                                                          "Imported " + juce::String (accepted)
-                                                                            + " candidate Ion patches; ignored "
-                                                                            + juce::String (ignored)
-                                                                            + " non-patch or invalid SysEx messages.");
-                          }
-                      });
+                                  if (accepted == 0)
+                                  {
+                                      safe->showError ("No checksum-valid candidate Ion single-program dumps were found in this .syx file.");
+                                      return;
+                                  }
+
+                                  if (! mixedBanks)
+                                      importedBank.setHardwareBank (hardwareBankId (firstBank));
+
+                                  // One program behaves like a normal patch import. A
+                                  // concatenated .syx populates the native librarian by
+                                  // hardware slot without assuming bank-stream framing.
+                                  if (accepted == 1 && messages.size() == 1u)
+                                  {
+                                      const auto* program = importedBank.programAt (firstSlot);
+                                      if (program != nullptr)
+                                      {
+                                          safe->programFile = {};
+                                          safe->state.replaceProgram (*program, ProgramChangeOrigin::import);
+                                          safe->updateStatus();
+                                      }
+                                  }
+                                  else
+                                  {
+                                      safe->bank = std::move (importedBank);
+                                      safe->cleanBankBaseline = safe->bank;
+                                      safe->bankFile = {};
+                                      safe->slotList.selectRow (juce::jmax (0, firstSlot));
+                                      if (const auto* program = safe->bank.programAt (firstSlot))
+                                      {
+                                          safe->programFile = {};
+                                          safe->state.replaceProgram (*program, ProgramChangeOrigin::import);
+                                      }
+                                      safe->updateStatus();
+
+                                      if (ignored > 0)
+                                          juce::AlertWindow::showMessageBoxAsync (juce::MessageBoxIconType::InfoIcon,
+                                                                                  "AIM Editor",
+                                                                                  "Imported " + juce::String (accepted)
+                                                                                    + " candidate Ion patches; ignored "
+                                                                                    + juce::String (ignored)
+                                                                                    + " non-patch or invalid SysEx messages.");
+                                  }
+                              });
+    });
 }
 
 void ProgramLibrarian::exportSyx()
@@ -702,6 +808,76 @@ juce::String ProgramLibrarian::safeFilenameStem (juce::String name)
         name = name.replaceCharacter (forbidden[i], '_');
 
     return name.substring (0, 64);
+}
+
+void ProgramLibrarian::confirmDiscardProgramChanges (std::function<void()> action)
+{
+    if (! hasUnsavedProgramChanges())
+    {
+        action();
+        return;
+    }
+
+    const auto options = juce::MessageBoxOptions()
+                           .withIconType (juce::MessageBoxIconType::WarningIcon)
+                           .withTitle ("Unsaved program changes")
+                           .withMessage ("The current program has unsaved semantic edits. Continue and discard those edits?")
+                           .withButton ("Discard & Continue")
+                           .withButton ("Cancel")
+                           .withAssociatedComponent (this);
+    juce::AlertWindow::showAsync (options,
+                                  [action = std::move (action)] (int buttonIndex) mutable
+                                  {
+                                      if (buttonIndex == 0)
+                                          action();
+                                  });
+}
+
+void ProgramLibrarian::confirmDiscardBankChanges (std::function<void()> action)
+{
+    if (! hasUnsavedBankChanges())
+    {
+        action();
+        return;
+    }
+
+    const auto options = juce::MessageBoxOptions()
+                           .withIconType (juce::MessageBoxIconType::WarningIcon)
+                           .withTitle ("Unsaved bank changes")
+                           .withMessage ("The librarian bank has unsaved changes. Continue and discard those changes?")
+                           .withButton ("Discard & Continue")
+                           .withButton ("Cancel")
+                           .withAssociatedComponent (this);
+    juce::AlertWindow::showAsync (options,
+                                  [action = std::move (action)] (int buttonIndex) mutable
+                                  {
+                                      if (buttonIndex == 0)
+                                          action();
+                                  });
+}
+
+void ProgramLibrarian::confirmDiscardAllChanges (std::function<void()> action)
+{
+    if (! hasUnsavedProgramChanges() && ! hasUnsavedBankChanges())
+    {
+        action();
+        return;
+    }
+
+    const auto options = juce::MessageBoxOptions()
+                           .withIconType (juce::MessageBoxIconType::WarningIcon)
+                           .withTitle ("Unsaved AIM Editor changes")
+                           .withMessage ("Importing SysEx may replace the " + unsavedSummary()
+                                         + ". Continue and discard those unsaved changes?")
+                           .withButton ("Discard & Continue")
+                           .withButton ("Cancel")
+                           .withAssociatedComponent (this);
+    juce::AlertWindow::showAsync (options,
+                                  [action = std::move (action)] (int buttonIndex) mutable
+                                  {
+                                      if (buttonIndex == 0)
+                                          action();
+                                  });
 }
 
 void ProgramLibrarian::showError (const juce::String& message)

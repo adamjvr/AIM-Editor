@@ -125,6 +125,18 @@ def build_nrpn_evidence(capture_path: Path,
 
     embedded_check = analysis.get("embedded_cross_check") or {}
     cross_check_ok = embedded_check.get("present") is not True or embedded_check.get("match") is True
+
+    verification_context = capture.get("verification_context") if isinstance(capture.get("verification_context"), dict) else {}
+    app_expected = verification_context.get("observed_expected_nrpn_transactions")
+    app_distinct = verification_context.get("observed_distinct_semantic_values")
+    app_competing = verification_context.get("observed_competing_nrpn_numbers")
+    app_assessment_present = all(isinstance(value, int) and not isinstance(value, bool)
+                                 for value in (app_expected, app_distinct, app_competing))
+    app_assessment_cross_check = (not app_assessment_present
+                                  or (app_expected == len(matching)
+                                      and app_distinct == len(distinct_values)
+                                      and app_competing == len(other_numbers)))
+
     context_matches = tagged_parameter is None or tagged_parameter == parameter_id
     isolation = bool(confirm_isolation or _isolation_from_capture(capture))
     all_ranges_ok = bool(matching) and all(item.get("within_candidate_range") is not False for item in matching)
@@ -137,6 +149,8 @@ def build_nrpn_evidence(capture_path: Path,
         "candidate_nrpn_observed": bool(matching),
         "candidate_mapping_id_consistent": mapping_ids_ok,
         "embedded_decoder_cross_check": cross_check_ok,
+        "app_experiment_assessment_present": app_assessment_present,
+        "app_experiment_assessment_cross_check": app_assessment_cross_check,
         "values_within_candidate_range": all_ranges_ok,
         "distinct_values_observed": len(distinct_values),
         "recommended_distinct_values": recommended,
@@ -150,6 +164,7 @@ def build_nrpn_evidence(capture_path: Path,
         bool(matching),
         mapping_ids_ok,
         cross_check_ok,
+        app_assessment_cross_check,
         all_ranges_ok,
         enough_values,
         no_competing_nrpn,
@@ -454,6 +469,11 @@ def command_self_test(_: argparse.Namespace) -> int:
         "verification_context": {
             "parameter_id": "filter1.env_amount", "parameter_known": True,
             "user_confirmed_control_isolation": True, "note": "synthetic self-test",
+            "experiment_started_utc_ms": 0, "experiment_completed_utc_ms": utc,
+            "capture_frozen": True,
+            "observed_expected_nrpn_transactions": 3,
+            "observed_distinct_semantic_values": 3,
+            "observed_competing_nrpn_numbers": 0,
         },
         "events": events,
     }
@@ -463,6 +483,8 @@ def command_self_test(_: argparse.Namespace) -> int:
         capture_path.write_text(json.dumps(capture), encoding="utf-8")
         evidence = build_nrpn_evidence(capture_path, None, "input", False)
         assert evidence["result"] == "verified" and evidence["promotable"] is True
+        assert evidence["checks"]["app_experiment_assessment_present"] is True
+        assert evidence["checks"]["app_experiment_assessment_cross_check"] is True
         assert verify_seal(evidence)
 
         parameters = load_json(PARAMETERS_PATH)

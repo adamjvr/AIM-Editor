@@ -21,6 +21,7 @@ def main() -> int:
     run(sys.executable, "tools/validate_protocol_data.py")
     run(sys.executable, "tools/validate_native_formats.py")
     run(sys.executable, "tools/validate_session_safety.py")
+    run(sys.executable, "tools/validate_document_safety.py")
     run(sys.executable, "tools/protocol/ion_sysex.py", "self-test")
     run(sys.executable, "tools/protocol/ion_nrpn.py", "self-test")
     run(sys.executable, "tools/protocol/ion_patch_diff.py", "self-test")

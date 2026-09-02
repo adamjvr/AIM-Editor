@@ -80,6 +80,8 @@
 - [x] iPad landscape-first responsive composition and touch envelope/tracking surfaces (device tuning ongoing)
 - [x] core keyboard shortcuts + semantic undo/redo (MIDI learn remains optional/future)
 - [x] safe session restore for page/MIDI context; live editing and hardware-write arming intentionally never persist
+- [x] semantic unsaved-program/bank tracking and destructive-action/quit confirmation
+- [x] guided controlled-NRPN capture mode with freeze + offline raw-event cross-check
 
 ## Phase 5 — release engineering
 
@@ -114,5 +116,6 @@
 - The SysEx inspector now surfaces the latest checksum-valid candidate patch metadata before loading it into semantic state.
 - Session restore now remembers non-destructive editor/MIDI context while explicitly forcing Live NRPN and full-write arming off on every launch.
 - MIDI capture JSON now includes statefully reconstructed candidate NRPN transactions with semantic IDs/status while preserving raw events as the authoritative evidence.
-- Controlled captures can be tagged in-app with a semantic parameter ID and isolation confirmation; sealed verification JSON can then promote canonical NRPN/SysEx mappings while retaining a committed evidence trail.
+- Controlled captures can be tagged in-app with a semantic parameter ID and isolation confirmation; Start/Stop Test now freezes a bounded experiment and reports expected/distinct/competing NRPN observations before offline sealing.
+- Program and bank dirty state are now independent, undo-aware semantic baselines; loading/replacing/quit paths explicitly confirm before discarding unsaved edits.
 - Next: compile/test on Rosie and macOS/iPadOS, capture real Ion request/write behavior, promote verified protocol fields, and tune the purpose-built geometry from device screenshots.

@@ -5,6 +5,7 @@
 #include "Core/ProgramBank.h"
 #include "Core/ProgramJson.h"
 #include "Core/ProgramState.h"
+#include "Core/ProgramDocumentTracker.h"
 #include "Midi/IonProgramDecoder.h"
 #include "Midi/IonProgramEncoder.h"
 #include "Midi/IonSyxFileCodec.h"
@@ -30,13 +31,17 @@ class ProgramLibrarian final : public juce::Component,
 {
 public:
     ProgramLibrarian (const ParameterRegistry& registry,
-                      ProgramState& programState);
+                      ProgramState& programState,
+                      ProgramDocumentTracker& documentTracker);
     ~ProgramLibrarian() override;
 
     void paint (juce::Graphics&) override;
     void resized() override;
 
     [[nodiscard]] bool hasPatchTemplate() const noexcept;
+    [[nodiscard]] bool hasUnsavedProgramChanges() const noexcept;
+    [[nodiscard]] bool hasUnsavedBankChanges() const noexcept;
+    [[nodiscard]] juce::String unsavedSummary() const;
 
     std::function<void()> onClose;
 
@@ -46,7 +51,7 @@ private:
     void selectedRowsChanged (int lastRowSelected) override;
     void listBoxItemDoubleClicked (int row, const juce::MouseEvent&) override;
 
-    void parameterValueChanged (std::string_view, const juce::var&, ProgramChangeOrigin) override {}
+    void parameterValueChanged (std::string_view, const juce::var&, ProgramChangeOrigin) override;
     void programReplaced (ProgramChangeOrigin) override;
     void programMetadataChanged (ProgramChangeOrigin) override;
 
@@ -61,8 +66,10 @@ private:
 
     void importProgramJson();
     void exportProgramJson();
+    void saveProgramJsonTo (const juce::File& file);
     void importBankJson();
     void exportBankJson();
+    void saveBankJsonTo (const juce::File& file);
     void importSyx();
     void exportSyx();
     void exportBankSyx();
@@ -77,10 +84,17 @@ private:
 
     static juce::String safeFilenameStem (juce::String name);
     void showError (const juce::String& message);
+    void confirmDiscardProgramChanges (std::function<void()> action);
+    void confirmDiscardBankChanges (std::function<void()> action);
+    void confirmDiscardAllChanges (std::function<void()> action);
 
     const ParameterRegistry& registry;
     ProgramState& state;
+    ProgramDocumentTracker& documentTracker;
     ProgramBank bank;
+    ProgramBank cleanBankBaseline;
+    juce::File programFile;
+    juce::File bankFile;
     juce::Label title;
     juce::Label bankSummary;
     juce::Label status;
@@ -102,9 +116,9 @@ private:
     juce::TextButton newBankButton { "New Bank" };
 
     juce::TextButton importProgramButton { "Import Program JSON" };
-    juce::TextButton exportProgramButton { "Export Program JSON" };
+    juce::TextButton exportProgramButton { "Save Program JSON" };
     juce::TextButton importBankButton { "Import Bank JSON" };
-    juce::TextButton exportBankButton { "Export Bank JSON" };
+    juce::TextButton exportBankButton { "Save Bank JSON" };
     juce::TextButton importSyxButton { "Import .syx" };
     juce::TextButton exportSyxButton { "Export .syx" };
     juce::TextButton exportBankSyxButton { "Export Bank .syx" };

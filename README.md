@@ -63,7 +63,9 @@ The project is now in its first functional-editor passes. It currently contains:
 - 185 of 212 semantic parameters linked to candidate raw patch fields;
 - 194 of 212 semantic parameters linked to candidate NRPN addresses;
 - candidate Alesis signed-14-bit NRPN conversion kept separate from generic MIDI NRPN framing;
-- JSON Schemas and protocol/core round-trip tests.
+- JSON Schemas and protocol/core round-trip tests;
+- semantic unsaved-program and librarian-bank tracking with discard/quit protection;
+- a controlled NRPN Start/Stop verification mode that freezes evidence captures and cross-checks the inspector assessment offline against raw MIDI.
 
 ## Build
 
@@ -212,6 +214,10 @@ The offline codec mirrors destination retargeting:
 ```bash
 ./tools/protocol/ion_sysex.py retarget source.syx edit1.syx --bank edit --slot 0
 ```
+
+## Document safety and controlled verification
+
+AIM Editor now tracks the current semantic program and the native librarian bank against independent clean baselines. Destructive loads/imports and application quit explicitly warn before unsaved state is discarded. The MIDI/SysEx Inspector also provides a bounded **Start Test / Stop Test** workflow that freezes a controlled NRPN experiment before export; offline verification independently rebuilds the transaction stream from raw MIDI before promotion. See [`docs/DOCUMENT_SAFETY_AND_VERIFICATION_MODE.md`](docs/DOCUMENT_SAFETY_AND_VERIFICATION_MODE.md).
 
 ## Reverse engineering
 

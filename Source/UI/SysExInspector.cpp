@@ -3,6 +3,8 @@
 
 #include <juce_data_structures/juce_data_structures.h>
 
+#include <set>
+
 namespace aim
 {
 juce::var SysExInspector::CandidateNrpnTransaction::toJson() const
@@ -60,6 +62,19 @@ SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegi
                                               juce::Colours::white.withAlpha (0.35f));
     verificationNote.setTooltip ("Free-form human context stored with the raw capture. It never changes the captured MIDI bytes.");
 
+    startVerificationButton.setTooltip ("Clear the current capture and begin a controlled one-parameter hardware experiment.");
+    stopVerificationButton.setTooltip ("Freeze the controlled experiment so unrelated MIDI cannot contaminate the saved evidence.");
+    stopVerificationButton.setEnabled (false);
+    startVerificationButton.onClick = [this] { startVerificationExperiment(); };
+    stopVerificationButton.onClick = [this] { stopVerificationExperiment(); };
+
+    experimentAssessment.setText ("No controlled verification test running", juce::dontSendNotification);
+    experimentAssessment.setColour (juce::Label::textColourId, juce::Colours::white.withAlpha (0.55f));
+    experimentAssessment.setFont (juce::FontOptions (10.5f));
+    experimentAssessment.setJustificationType (juce::Justification::centredLeft);
+
+    verificationIsolation.onClick = [this] { updateExperimentAssessment(); };
+
     log.setMultiLine (true);
     log.setReadOnly (true);
     log.setScrollbarsShown (true);
@@ -73,7 +88,8 @@ SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegi
 
     for (auto* component : { static_cast<juce::Component*> (&title), &summary, &candidateSummary,
                              &verificationTagLabel, &verificationParameter, &verificationIsolation,
-                             &verificationStatus, &verificationNote, &log, &sysexOnly,
+                             &verificationStatus, &verificationNote, &startVerificationButton,
+                             &stopVerificationButton, &experimentAssessment, &log, &sysexOnly,
                              &clearButton, &copyButton, &saveButton, &loadPatchButton, &closeButton })
         addAndMakeVisible (component);
 
@@ -86,6 +102,8 @@ SysExInspector::SysExInspector (IonMidiService& midiService, const ParameterRegi
     loadPatchButton.onClick = [this] { loadLatestCandidateProgram(); };
     closeButton.onClick = [this]
     {
+        if (verificationExperimentActive)
+            stopVerificationExperiment();
         if (onClose)
             onClose();
     };
@@ -143,6 +161,13 @@ void SysExInspector::resized()
 
     area.removeFromTop (4);
     verificationNote.setBounds (area.removeFromTop (26));
+    area.removeFromTop (4);
+    auto experimentRow = area.removeFromTop (28);
+    startVerificationButton.setBounds (experimentRow.removeFromLeft (92));
+    experimentRow.removeFromLeft (6);
+    stopVerificationButton.setBounds (experimentRow.removeFromLeft (92));
+    experimentRow.removeFromLeft (8);
+    experimentAssessment.setBounds (experimentRow);
     area.removeFromTop (5);
     auto controls = area.removeFromBottom (32);
     const int gap = 6;
@@ -167,6 +192,9 @@ void SysExInspector::addEventOnMessageThread (MidiCaptureEvent event)
 {
     jassert (juce::MessageManager::getInstance()->isThisTheMessageThread());
 
+    if (verificationCaptureFrozen)
+        return;
+
     if (events.size() >= maxEvents)
         events.erase (events.begin(), events.begin() + static_cast<std::ptrdiff_t> (maxEvents / 8));
 
@@ -190,6 +218,9 @@ void SysExInspector::addEventOnMessageThread (MidiCaptureEvent event)
                          + juce::String (static_cast<juce::int64> (sysexCount)) + " SysEx / "
                          + juce::String (static_cast<juce::int64> (nrpnTransactions.size())) + " NRPN",
                      juce::dontSendNotification);
+
+    if (verificationExperimentActive)
+        updateExperimentAssessment();
 }
 
 void SysExInspector::inspectCandidatePatch (const MidiCaptureEvent& event)
@@ -286,6 +317,132 @@ void SysExInspector::updateVerificationContextStatus()
     verificationStatus.setColour (juce::Label::textColourId, juce::Colour::fromRGB (115, 205, 130));
 }
 
+int SysExInspector::recommendedDistinctValues (const ParameterDefinition& definition) const
+{
+    if (definition.kind == ParameterKind::boolean)
+        return 2;
+
+    if (definition.rawMin && definition.rawMax && *definition.rawMax - *definition.rawMin <= 1.0)
+        return 2;
+
+    return 3;
+}
+
+void SysExInspector::startVerificationExperiment()
+{
+    const auto parameterId = verificationParameter.getText().trim();
+    const auto* definition = parameterId.isNotEmpty() ? registry.find (parameterId.toStdString()) : nullptr;
+    if (definition == nullptr)
+    {
+        juce::AlertWindow::showMessageBoxAsync (juce::MessageBoxIconType::WarningIcon,
+                                                "AIM Editor",
+                                                "Enter a known semantic parameter ID before starting a verification test.");
+        return;
+    }
+
+    if (! definition->nrpn)
+    {
+        juce::AlertWindow::showMessageBoxAsync (juce::MessageBoxIconType::WarningIcon,
+                                                "AIM Editor",
+                                                "This parameter has no candidate NRPN mapping to test yet.");
+        return;
+    }
+
+    clearCapture();
+    verificationExperimentActive = true;
+    verificationCaptureFrozen = false;
+    verificationStartedUtcMs = juce::Time::currentTimeMillis();
+    verificationCompletedUtcMs = 0;
+    verificationParameter.setReadOnly (true);
+    verificationIsolation.setToggleState (false, juce::dontSendNotification);
+    startVerificationButton.setEnabled (false);
+    stopVerificationButton.setEnabled (true);
+    copyButton.setEnabled (false);
+    saveButton.setEnabled (false);
+    sysexOnly.setToggleState (false, juce::dontSendNotification);
+    rebuildLog();
+    updateExperimentAssessment();
+}
+
+void SysExInspector::stopVerificationExperiment()
+{
+    if (! verificationExperimentActive)
+        return;
+
+    verificationExperimentActive = false;
+    verificationCaptureFrozen = true;
+    verificationCompletedUtcMs = juce::Time::currentTimeMillis();
+    // Keep the target locked with the frozen capture. Clear explicitly before
+    // re-tagging evidence to a different semantic parameter.
+    verificationParameter.setReadOnly (true);
+    startVerificationButton.setEnabled (true);
+    stopVerificationButton.setEnabled (false);
+    copyButton.setEnabled (true);
+    saveButton.setEnabled (true);
+    updateExperimentAssessment();
+}
+
+void SysExInspector::updateExperimentAssessment()
+{
+    const auto parameterId = verificationParameter.getText().trim();
+    const auto* definition = parameterId.isNotEmpty() ? registry.find (parameterId.toStdString()) : nullptr;
+    if (definition == nullptr || ! definition->nrpn)
+    {
+        experimentAssessment.setText (verificationExperimentActive ? "Invalid verification target" : "No controlled verification test running",
+                                      juce::dontSendNotification);
+        experimentAssessment.setColour (juce::Label::textColourId,
+                                        verificationExperimentActive ? juce::Colour::fromRGB (235, 95, 95)
+                                                                     : juce::Colours::white.withAlpha (0.55f));
+        return;
+    }
+
+    int expectedCount = 0;
+    std::set<int> distinctValues;
+    std::set<int> competingNumbers;
+    for (const auto& transaction : nrpnTransactions)
+    {
+        if (transaction.direction != MidiDirection::input)
+            continue;
+
+        if (transaction.decoded.parameter == *definition->nrpn)
+        {
+            ++expectedCount;
+            if (transaction.semanticValue)
+                distinctValues.insert (*transaction.semanticValue);
+        }
+        else
+        {
+            competingNumbers.insert (transaction.decoded.parameter);
+        }
+    }
+
+    const auto recommended = recommendedDistinctValues (*definition);
+    juce::String text;
+    if (verificationExperimentActive)
+        text << "RECORDING • ";
+    else if (verificationCaptureFrozen)
+        text << "FROZEN • ";
+
+    text << "NRPN " << *definition->nrpn
+         << ": " << expectedCount << " tx / " << static_cast<int> (distinctValues.size())
+         << "/" << recommended << " distinct";
+
+    if (! competingNumbers.empty())
+        text << " • " << static_cast<int> (competingNumbers.size()) << " competing NRPN";
+    else
+        text << " • no competing NRPN";
+
+    const auto structurallyReady = static_cast<int> (distinctValues.size()) >= recommended
+                                && competingNumbers.empty();
+    if (verificationCaptureFrozen && structurallyReady)
+        text << (verificationIsolation.getToggleState() ? " • ready for offline sealing" : " • confirm isolation");
+
+    experimentAssessment.setText (text, juce::dontSendNotification);
+    experimentAssessment.setColour (juce::Label::textColourId,
+                                    structurallyReady ? juce::Colour::fromRGB (105, 210, 120)
+                                                      : juce::Colour::fromRGB (220, 160, 70));
+}
+
 void SysExInspector::loadLatestCandidateProgram()
 {
     if (! latestCandidateProgram || ! latestCandidatePatch || ! onLoadCandidateProgram)
@@ -309,6 +466,18 @@ void SysExInspector::rebuildLog()
 
 void SysExInspector::clearCapture()
 {
+    verificationExperimentActive = false;
+    verificationCaptureFrozen = false;
+    verificationStartedUtcMs = 0;
+    verificationCompletedUtcMs = 0;
+    verificationParameter.setReadOnly (false);
+    startVerificationButton.setEnabled (true);
+    stopVerificationButton.setEnabled (false);
+    copyButton.setEnabled (true);
+    saveButton.setEnabled (true);
+    experimentAssessment.setText ("No controlled verification test running", juce::dontSendNotification);
+    experimentAssessment.setColour (juce::Label::textColourId, juce::Colours::white.withAlpha (0.55f));
+
     events.clear();
     nrpnTransactions.clear();
     inputNrpnDecoder.reset();
@@ -331,8 +500,13 @@ void SysExInspector::copyJsonToClipboard()
 
 void SysExInspector::saveJson()
 {
+    auto stem = verificationParameter.getText().trim().replaceCharacters ("./\\: ", "_____");
+    if (stem.isEmpty())
+        stem = "aim-midi-capture";
+    else
+        stem = "verify-" + stem;
     const auto suggested = juce::File::getSpecialLocation (juce::File::userDocumentsDirectory)
-                               .getChildFile ("aim-midi-capture.json");
+                               .getChildFile (stem + ".json");
 
     fileChooser = std::make_unique<juce::FileChooser> ("Export AIM Editor MIDI capture",
                                                        suggested,
@@ -374,6 +548,39 @@ juce::String SysExInspector::makeCaptureJson() const
     verificationContext->setProperty ("parameter_known", parameterKnown);
     verificationContext->setProperty ("user_confirmed_control_isolation", verificationIsolation.getToggleState());
     verificationContext->setProperty ("note", verificationNote.getText());
+    verificationContext->setProperty ("experiment_started_utc_ms", verificationStartedUtcMs > 0
+                                                                   ? juce::var (static_cast<juce::int64> (verificationStartedUtcMs))
+                                                                   : juce::var());
+    verificationContext->setProperty ("experiment_completed_utc_ms", verificationCompletedUtcMs > 0
+                                                                     ? juce::var (static_cast<juce::int64> (verificationCompletedUtcMs))
+                                                                     : juce::var());
+    verificationContext->setProperty ("capture_frozen", verificationCaptureFrozen);
+
+    int expectedCount = 0;
+    std::set<int> distinctValues;
+    std::set<int> competingNumbers;
+    if (const auto* definition = parameterKnown ? registry.find (verificationParameterId.toStdString()) : nullptr;
+        definition != nullptr && definition->nrpn)
+    {
+        for (const auto& transaction : nrpnTransactions)
+        {
+            if (transaction.direction != MidiDirection::input)
+                continue;
+            if (transaction.decoded.parameter == *definition->nrpn)
+            {
+                ++expectedCount;
+                if (transaction.semanticValue)
+                    distinctValues.insert (*transaction.semanticValue);
+            }
+            else
+            {
+                competingNumbers.insert (transaction.decoded.parameter);
+            }
+        }
+    }
+    verificationContext->setProperty ("observed_expected_nrpn_transactions", expectedCount);
+    verificationContext->setProperty ("observed_distinct_semantic_values", static_cast<int> (distinctValues.size()));
+    verificationContext->setProperty ("observed_competing_nrpn_numbers", static_cast<int> (competingNumbers.size()));
     root->setProperty ("verification_context", juce::var (verificationContext));
 
     juce::Array<juce::var> jsonEvents;

@@ -58,6 +58,33 @@
         },
         "note": {
           "type": "string"
+        },
+        "experiment_started_utc_ms": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "experiment_completed_utc_ms": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "capture_frozen": {
+          "type": "boolean"
+        },
+        "observed_expected_nrpn_transactions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed_distinct_semantic_values": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed_competing_nrpn_numbers": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     }

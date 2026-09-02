@@ -61,6 +61,8 @@ add_library(AIMEditorCore STATIC
     Source/Core/ProgramState.h
     Source/Core/ProgramHistory.cpp
     Source/Core/ProgramHistory.h
+    Source/Core/ProgramDocumentTracker.cpp
+    Source/Core/ProgramDocumentTracker.h
     Source/Core/RandomizerEngine.cpp
     Source/Core/RandomizerEngine.h
     Source/Core/ProgramBank.cpp

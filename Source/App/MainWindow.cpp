@@ -25,6 +25,36 @@ MainWindow::MainWindow (const ParameterRegistry& registry, IonMidiService& midiS
 
 void MainWindow::closeButtonPressed()
 {
-    juce::JUCEApplication::getInstance()->systemRequestedQuit();
+    requestQuit();
+}
+
+void MainWindow::requestQuit()
+{
+    const auto* editor = dynamic_cast<MainEditor*> (getContentComponent());
+    if (editor == nullptr || ! editor->hasUnsavedChanges())
+    {
+        juce::JUCEApplication::getInstance()->quit();
+        return;
+    }
+
+    const auto message = "AIM Editor has unsaved changes in the "
+                       + editor->unsavedChangesDescription()
+                       + ".\n\nQuit without saving them?";
+
+    const auto options = juce::MessageBoxOptions()
+                           .withIconType (juce::MessageBoxIconType::WarningIcon)
+                           .withTitle ("Unsaved AIM Editor changes")
+                           .withMessage (message)
+                           .withButton ("Quit Without Saving")
+                           .withButton ("Cancel")
+                           .withAssociatedComponent (this);
+
+    juce::AlertWindow::showAsync (options,
+                                  [] (int buttonIndex)
+                                  {
+                                      if (buttonIndex == 0)
+                                          if (auto* app = juce::JUCEApplication::getInstance())
+                                              app->quit();
+                                  });
 }
 }

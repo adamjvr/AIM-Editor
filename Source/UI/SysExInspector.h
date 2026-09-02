@@ -40,6 +40,10 @@ private:
     void saveJson();
     void loadLatestCandidateProgram();
     void updateVerificationContextStatus();
+    void startVerificationExperiment();
+    void stopVerificationExperiment();
+    void updateExperimentAssessment();
+    [[nodiscard]] int recommendedDistinctValues (const ParameterDefinition& definition) const;
     [[nodiscard]] juce::String makeCaptureJson() const;
     [[nodiscard]] juce::String makeLogLine (const MidiCaptureEvent& event) const;
 
@@ -78,6 +82,9 @@ private:
     juce::ToggleButton verificationIsolation { "Only this control moved" };
     juce::Label verificationStatus;
     juce::TextEditor verificationNote;
+    juce::TextButton startVerificationButton { "Start Test" };
+    juce::TextButton stopVerificationButton { "Stop Test" };
+    juce::Label experimentAssessment;
     juce::TextEditor log;
     juce::ToggleButton sysexOnly { "SysEx only" };
     juce::TextButton clearButton { "Clear" };
@@ -86,5 +93,10 @@ private:
     juce::TextButton loadPatchButton { "Load Patch" };
     juce::TextButton closeButton { "Close" };
     std::unique_ptr<juce::FileChooser> fileChooser;
+
+    bool verificationExperimentActive = false;
+    bool verificationCaptureFrozen = false;
+    std::int64_t verificationStartedUtcMs = 0;
+    std::int64_t verificationCompletedUtcMs = 0;
 };
 }

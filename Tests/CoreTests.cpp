@@ -6,6 +6,7 @@
 #include "Core/BankJson.h"
 #include "Core/ProgramState.h"
 #include "Core/ProgramHistory.h"
+#include "Core/ProgramDocumentTracker.h"
 #include "Core/RandomizerEngine.h"
 #include "Midi/IonProtocol.h"
 #include "Midi/IonSysExCodec.h"
@@ -173,6 +174,38 @@ int main()
     historyState.replaceProgram (importedHistoryProgram, aim::ProgramChangeOrigin::import);
     if (history.canUndo() || history.canRedo() || history.size() != 1)
         return fail ("Imported program did not become a fresh undo/redo baseline");
+
+    // Unsaved-document tracking must follow semantic state rather than the
+    // existence of history entries. Undoing back to a clean baseline clears the
+    // dirty flag, while imports/hardware captures establish new clean baselines.
+    aim::ProgramState documentState (registry);
+    aim::ProgramHistory documentHistory (documentState, 8);
+    aim::ProgramDocumentTracker documentTracker (documentState);
+    const auto* documentInitialFrequency = documentState.valueFor ("filter1.frequency");
+    const auto documentInitial = documentInitialFrequency != nullptr ? static_cast<int> (*documentInitialFrequency) : 0;
+    if (documentTracker.isDirty())
+        return fail ("Fresh ProgramDocumentTracker started dirty");
+    if (documentState.setValue ("filter1.frequency", documentInitial + 1, aim::ProgramChangeOrigin::interactive).failed()
+        || ! documentTracker.isDirty())
+        return fail ("Interactive program edit did not mark document dirty");
+    if (! documentHistory.undo() || documentTracker.isDirty())
+        return fail ("Undo back to clean baseline did not clear document dirty state");
+    if (! documentHistory.redo() || ! documentTracker.isDirty())
+        return fail ("Redo away from clean baseline did not restore dirty state");
+    documentTracker.markClean();
+    if (documentTracker.isDirty())
+        return fail ("markClean did not establish a clean document baseline");
+    if (documentState.setValue ("filter1.resonance", 17, aim::ProgramChangeOrigin::interactive).failed()
+        || ! documentTracker.isDirty())
+        return fail ("Second local edit did not mark document dirty");
+    if (documentState.setValue ("filter2.resonance", 23, aim::ProgramChangeOrigin::protocolInput).failed()
+        || ! documentTracker.isDirty())
+        return fail ("Partial protocol input incorrectly cleared unrelated unsaved local edits");
+    auto capturedBaseline = documentState.snapshot();
+    capturedBaseline.setName ("Captured Baseline");
+    documentState.replaceProgram (capturedBaseline, aim::ProgramChangeOrigin::protocolInput);
+    if (documentTracker.isDirty())
+        return fail ("Protocol input did not establish a clean document baseline");
 
     const auto randomizerBaseline = historyState.snapshot();
     auto randomizerVariant = randomizerBaseline;
