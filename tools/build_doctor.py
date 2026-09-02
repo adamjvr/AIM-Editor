@@ -15,6 +15,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MIN_CMAKE = (3, 24, 0)
 PINNED_JUCE = "9.0.1"
+PINNED_JUCE_COMMIT = "e18f7f506c0b96f2c738a0bcd7fe6467a5005ad8"
+LINUX_APT_PACKAGES = [
+    "ninja-build",
+    "libasound2-dev",
+    "libjack-jackd2-dev",
+    "libfreetype6-dev",
+    "libx11-dev",
+    "libxcomposite-dev",
+    "libxcursor-dev",
+    "libxext-dev",
+    "libxinerama-dev",
+    "libxrandr-dev",
+    "libxrender-dev",
+    "libglu1-mesa-dev",
+    "mesa-common-dev",
+]
 
 
 def run_text(args: list[str]) -> str:
@@ -60,6 +76,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--json", action="store_true", help="emit machine-readable JSON")
     parser.add_argument("--require-local-juce", action="store_true", help="fail if no local pinned JUCE tree exists")
+    parser.add_argument("--strict-platform", action="store_true", help="treat missing platform SDK/development libraries as hard failures")
     args = parser.parse_args()
 
     checks: list[dict[str, object]] = []
@@ -113,13 +130,15 @@ def main() -> int:
     if platform.system() == "Linux":
         pkg = shutil.which("pkg-config")
         if not pkg:
-            add("linux-pkg-config", "warn", "pkg-config not found; Linux JUCE dependency check skipped")
+            add("linux-pkg-config", "fail" if args.strict_platform else "warn", "pkg-config not found; Linux JUCE dependency check skipped")
         else:
             # These are the libraries AIM Editor/JUCE currently needs in CI.
-            modules = ["alsa", "freetype2", "x11", "xext", "xinerama", "xrandr", "xcursor", "xcomposite", "xrender"]
+            modules = ["alsa", "jack", "freetype2", "x11", "xext", "xinerama", "xrandr", "xcursor", "xcomposite", "xrender"]
             missing = [module for module in modules if subprocess.call([pkg, "--exists", module], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) != 0]
             if missing:
-                add("linux-libs", "warn", "Missing pkg-config modules: " + ", ".join(missing))
+                status = "fail" if args.strict_platform else "warn"
+                hint = "sudo apt-get install " + " ".join(LINUX_APT_PACKAGES)
+                add("linux-libs", status, "Missing pkg-config modules: " + ", ".join(missing) + "; Debian/Ubuntu hint: " + hint)
             else:
                 add("linux-libs", "pass", "Core JUCE Linux development libraries are visible to pkg-config")
     elif platform.system() == "Darwin":
@@ -128,13 +147,14 @@ def main() -> int:
             detail = run_text([xcodebuild, "-version"]).replace("\n", "; ")
             add("xcode", "pass", detail)
         else:
-            add("xcode", "warn", "xcodebuild not found; macOS/iPadOS targets cannot be built here")
+            add("xcode", "fail" if args.strict_platform else "warn", "xcodebuild not found; macOS/iPadOS targets cannot be built here")
 
     result = {
         "format": "aim-editor.build-doctor",
         "schema_version": 1,
         "platform": platform.platform(),
         "pinned_juce": PINNED_JUCE,
+        "pinned_juce_commit": PINNED_JUCE_COMMIT,
         "checks": checks,
     }
     failures = [check for check in checks if check["status"] == "fail"]

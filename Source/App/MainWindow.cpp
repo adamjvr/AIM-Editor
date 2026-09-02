@@ -59,7 +59,10 @@ void MainWindow::requestQuit()
                            .withButton ("Cancel")
                            .withAssociatedComponent (this);
 
-    juce::AlertWindow::showAsync (options,
+    // JUCE 9 NativeMessageBox::showAsync returns the zero-based button index.
+    // Do not replace this with AlertWindow::showAsync: its legacy non-native
+    // AlertWindow result mapping is 1/2/0 for a three-button box.
+    juce::NativeMessageBox::showAsync (options,
                                   [safe = juce::Component::SafePointer<MainWindow> (this)] (int buttonIndex)
                                   {
                                       if (safe == nullptr)

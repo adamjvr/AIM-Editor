@@ -1,7 +1,8 @@
 param(
     [string]$BuildDir = "",
     [string]$BuildType = "Debug",
-    [switch]$Sanitize
+    [switch]$Sanitize,
+    [switch]$NoBootstrap
 )
 
 $ErrorActionPreference = "Stop"
@@ -10,8 +11,40 @@ if ([string]::IsNullOrWhiteSpace($BuildDir)) {
     $BuildDir = Join-Path $Root "build-local"
 }
 
+function Find-LocalJuce {
+    if (-not [string]::IsNullOrWhiteSpace($env:AIM_EDITOR_JUCE_PATH) -and
+        (Test-Path (Join-Path $env:AIM_EDITOR_JUCE_PATH "CMakeLists.txt"))) {
+        return $env:AIM_EDITOR_JUCE_PATH
+    }
+
+    $RepoJuce = Join-Path $Root ".deps\JUCE"
+    if (Test-Path (Join-Path $RepoJuce "CMakeLists.txt")) {
+        return $RepoJuce
+    }
+
+    $HomeJuce = Join-Path $HOME "GitHub\JUCE"
+    if (Test-Path (Join-Path $HomeJuce "CMakeLists.txt")) {
+        return $HomeJuce
+    }
+
+    return $null
+}
+
+$LocalJuce = Find-LocalJuce
+if ([string]::IsNullOrWhiteSpace($LocalJuce) -and -not $NoBootstrap) {
+    Write-Host "== Bootstrap pinned JUCE =="
+    & (Join-Path $Root "tools\bootstrap_juce.ps1")
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    $LocalJuce = Find-LocalJuce
+}
+
+if ([string]::IsNullOrWhiteSpace($LocalJuce)) {
+    throw "No local JUCE 9.0.1 tree is available. Run tools\bootstrap_juce.ps1 or set AIM_EDITOR_JUCE_PATH."
+}
+$env:AIM_EDITOR_JUCE_PATH = $LocalJuce
+
 Write-Host "== AIM Editor build doctor =="
-python (Join-Path $Root "tools\build_doctor.py")
+python (Join-Path $Root "tools\build_doctor.py") --require-local-juce --strict-platform
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host "`n== AIM Editor repository checks =="
@@ -21,25 +54,10 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 $CMakeArgs = @(
     "-S", $Root,
     "-B", $BuildDir,
-    "-DAIM_EDITOR_BUILD_TESTS=ON"
+    "-DAIM_EDITOR_BUILD_TESTS=ON",
+    "-DAIM_EDITOR_JUCE_PATH=$LocalJuce"
 )
 
-$LocalJuce = $env:AIM_EDITOR_JUCE_PATH
-if ([string]::IsNullOrWhiteSpace($LocalJuce)) {
-    $RepoJuce = Join-Path $Root ".deps\JUCE"
-    if (Test-Path (Join-Path $RepoJuce "CMakeLists.txt")) {
-        $LocalJuce = $RepoJuce
-    }
-}
-if ([string]::IsNullOrWhiteSpace($LocalJuce)) {
-    $HomeJuce = Join-Path $HOME "GitHub\JUCE"
-    if (Test-Path (Join-Path $HomeJuce "CMakeLists.txt")) {
-        $LocalJuce = $HomeJuce
-    }
-}
-if (-not [string]::IsNullOrWhiteSpace($LocalJuce)) {
-    $CMakeArgs += "-DAIM_EDITOR_JUCE_PATH=$LocalJuce"
-}
 if ($Sanitize) {
     $CMakeArgs += "-DAIM_EDITOR_ENABLE_SANITIZERS=ON"
 }

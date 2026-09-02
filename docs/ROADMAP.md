@@ -19,7 +19,7 @@
 - [x] candidate Alesis signed-14-bit NRPN value codec
 - [x] five-page responsive GUI shell
 - [x] bottom MIDI/program control strip
-- [x] SHA-256-pinned JUCE bootstrap, build doctor, and Linux/macOS/Windows build/test helpers
+- [x] SHA-256-pinned JUCE bootstrap, exact JUCE 9.0.1 commit/version gate, strict build doctor, and Linux/macOS/Windows build/test helpers
 - [ ] select project license
 
 ## Phase 1 — protocol archaeology
@@ -90,7 +90,7 @@
 
 ## Phase 5 — release engineering
 
-- [ ] CI for macOS, Windows, Linux (workflow exists; hosted jobs currently fail before steps start)
+- [ ] CI for macOS, Windows, Linux (verified-JUCE workflow exists; hosted jobs currently fail before steps start)
 - [ ] signed/notarized macOS builds
 - [ ] iPadOS signing/distribution plan
 - [ ] Windows installer
@@ -124,7 +124,8 @@
 - Controlled captures can be tagged in-app with a semantic parameter ID and isolation confirmation; Start/Stop Test now freezes a bounded experiment and reports expected/distinct/competing NRPN observations before offline sealing.
 - Program and bank dirty state are independent, undo-aware semantic baselines; destructive loads and quit now support Save & Continue/Save & Quit as well as explicit discard/cancel paths.
 - A fresh semantic Init can be created explicitly without fabricating any source-patch bytes, and verification coverage can be summarized from the canonical JSON/evidence tree with `ion_verification_report.py`.
-- JUCE 9.0.1 can now be bootstrapped from official platform archives with pinned SHA-256 verification; the build doctor checks C/C++ toolchains and detectable platform prerequisites before configuration.
+- JUCE 9.0.1 can now be bootstrapped from official platform archives with pinned SHA-256 verification; CMake also rejects local version drift and pins network fallback to the exact 9.0.1 release commit. The strict build doctor turns missing platform prerequisites into a pre-configure failure.
 - Program/bank/SysEx opening now converges on one guarded dispatcher with Save All and desktop document shortcuts; command-line/second-instance launches use the same path and CMake declares `.syx` association metadata.
 - Hardware testing can be pulled from a deterministic priority queue with `ion_verification_plan.py`; the planner remains read-only and has no promotion authority.
-- Next: compile/test on Rosie and macOS/iPadOS, capture real Ion request/write behavior, promote verified protocol fields, and tune the purpose-built geometry from device screenshots.
+- Destructive three-button dialogs now use JUCE 9 `NativeMessageBox::showAsync` for a stable zero-based callback contract; the ambiguous legacy AlertWindow result mapping is statically rejected.
+- Next: pass the strict real JUCE compile/CTest gate on Rosie and macOS/iPadOS before adding more features, then capture real Ion request/write behavior, promote verified protocol fields, and tune purpose-built geometry from device screenshots.

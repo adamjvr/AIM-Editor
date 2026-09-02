@@ -1058,7 +1058,10 @@ void ProgramLibrarian::confirmDiscardProgramChanges (std::function<void()> actio
                            .withButton ("Discard & Continue")
                            .withButton ("Cancel")
                            .withAssociatedComponent (this);
-    juce::AlertWindow::showAsync (options,
+    // JUCE 9 NativeMessageBox::showAsync returns the zero-based button index.
+    // Do not replace this with AlertWindow::showAsync: its legacy non-native
+    // AlertWindow result mapping is 1/2/0 for a three-button box.
+    juce::NativeMessageBox::showAsync (options,
                                   [safe = juce::Component::SafePointer<ProgramLibrarian> (this), action = std::move (action)] (int buttonIndex) mutable
                                   {
                                       if (safe == nullptr)
@@ -1095,7 +1098,10 @@ void ProgramLibrarian::confirmDiscardBankChanges (std::function<void()> action)
                            .withButton ("Discard & Continue")
                            .withButton ("Cancel")
                            .withAssociatedComponent (this);
-    juce::AlertWindow::showAsync (options,
+    // JUCE 9 NativeMessageBox::showAsync returns the zero-based button index.
+    // Do not replace this with AlertWindow::showAsync: its legacy non-native
+    // AlertWindow result mapping is 1/2/0 for a three-button box.
+    juce::NativeMessageBox::showAsync (options,
                                   [safe = juce::Component::SafePointer<ProgramLibrarian> (this), action = std::move (action)] (int buttonIndex) mutable
                                   {
                                       if (safe == nullptr)
@@ -1133,7 +1139,10 @@ void ProgramLibrarian::confirmDiscardAllChanges (std::function<void()> action)
                            .withButton ("Discard & Continue")
                            .withButton ("Cancel")
                            .withAssociatedComponent (this);
-    juce::AlertWindow::showAsync (options,
+    // JUCE 9 NativeMessageBox::showAsync returns the zero-based button index.
+    // Do not replace this with AlertWindow::showAsync: its legacy non-native
+    // AlertWindow result mapping is 1/2/0 for a three-button box.
+    juce::NativeMessageBox::showAsync (options,
                                   [safe = juce::Component::SafePointer<ProgramLibrarian> (this), action = std::move (action)] (int buttonIndex) mutable
                                   {
                                       if (safe == nullptr)

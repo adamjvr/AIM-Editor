@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   data-validation:
     runs-on: ubuntu-latest
@@ -44,6 +47,15 @@ jobs:
             libglu1-mesa-dev \
             mesa-common-dev
 
+      - name: Bootstrap verified JUCE (Unix)
+        if: runner.os != 'Windows'
+        run: ./tools/bootstrap_juce.sh
+
+      - name: Bootstrap verified JUCE (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./tools/bootstrap_juce.ps1
+
       - name: Configure (Unix)
         if: runner.os != 'Windows'
         run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
@@ -72,6 +84,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Bootstrap verified JUCE
+        run: ./tools/bootstrap_juce.sh
       - name: Configure iPadOS simulator
         run: >-
           cmake -S . -B build-ios -G Xcode

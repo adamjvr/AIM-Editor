@@ -68,30 +68,26 @@ The project is now in its first functional-editor passes. It currently contains:
 - save-aware application quit plus an explicit semantic New Program workflow that never invents SysEx bytes;
 - unified guarded document Open/Save All handling with desktop Ctrl/Cmd+O, Ctrl/Cmd+S, and Ctrl/Cmd+Shift+S shortcuts;
 - single-instance command-line/second-launch document forwarding through the same librarian safety path, with `.syx` association metadata declared in CMake;
-- SHA-256-pinned JUCE 9.0.1 bootstrap/build-doctor tooling for repeatable local builds;
+- SHA-256-verified JUCE 9.0.1 bootstrap plus an exact upstream commit/version gate for repeatable local builds;
+- JUCE 9 destructive confirmation dialogs use a statically guarded zero-based result contract so Save/Discard/Cancel cannot change meaning between native and custom alert implementations;
 - a deterministic read-only NRPN/SysEx hardware-verification work queue;
 - a controlled NRPN Start/Stop verification mode that freezes evidence captures and cross-checks the inspector assessment offline against raw MIDI.
 
 ## Build
 
-AIM Editor is pinned to JUCE 9.0.1. The preferred first build uses the SHA-256-verified official release archive instead of relying on an implicit network fetch:
+AIM Editor is pinned to **JUCE 9.0.1** and the exact upstream commit `e18f7f506c0b96f2c738a0bcd7fe6467a5005ad8`. The preferred build is one command; when no local JUCE tree is available the helper bootstraps the SHA-256-verified official release archive into `.deps/JUCE`, runs the strict platform doctor, validates the repository, configures CMake, compiles, and runs CTest:
 
 ```bash
-./tools/build_doctor.py
-./tools/bootstrap_juce.sh
-AIM_EDITOR_JUCE_PATH="$PWD/.deps/JUCE" ./tools/build_and_test.sh
+./tools/build_and_test.sh
 ```
 
 On Windows PowerShell:
 
 ```powershell
-python .\tools\build_doctor.py
-.\tools\bootstrap_juce.ps1
-$env:AIM_EDITOR_JUCE_PATH="$PWD\.deps\JUCE"
 .\tools\build_and_test.ps1
 ```
 
-The bootstrap aborts on a JUCE archive checksum mismatch. CMake can also use any already-verified checkout with `-DAIM_EDITOR_JUCE_PATH=/path/to/JUCE`; if no local tree is supplied, the pinned FetchContent path remains available. See [`docs/BUILD_AND_DOCUMENT_WORKFLOW.md`](docs/BUILD_AND_DOCUMENT_WORKFLOW.md).
+To use an already-verified JUCE checkout, set `AIM_EDITOR_JUCE_PATH` or pass `-DAIM_EDITOR_JUCE_PATH=/path/to/JUCE`. CMake rejects a local JUCE tree whose declared version is not exactly 9.0.1; the network FetchContent fallback is pinned to the exact commit rather than a movable tag. The bootstrap aborts on an archive checksum mismatch. See [`docs/BUILD_AND_DOCUMENT_WORKFLOW.md`](docs/BUILD_AND_DOCUMENT_WORKFLOW.md).
 
 For macOS desktop, the normal helper configures/builds/tests through CMake. For the iPad Simulator on a Mac with Xcode installed:
 
@@ -157,7 +153,7 @@ Export it to a spreadsheet-friendly CSV without changing JSON as the source of t
 ./tools/export_parameter_database.py --format csv --output exports/parameter-database.csv
 ```
 
-Run `./tools/build_doctor.py` for a non-mutating build preflight and `./tools/build_and_test.sh` (or `.ps1` on Windows) for the complete repository-check/configure/build/CTest pipeline.
+Run `./tools/build_doctor.py --strict-platform` for a non-mutating strict platform preflight, or use `./tools/build_and_test.sh` (or `.ps1` on Windows) for the complete verified-JUCE bootstrap/repository-check/configure/build/CTest pipeline.
 
 Undo/redo is semantic and shared across every editor view. It never echoes back to live MIDI. See [`docs/UNDO_AND_WORKFLOW.md`](docs/UNDO_AND_WORKFLOW.md).
 

@@ -5,11 +5,13 @@ project(AIMEditor VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(AIM_EDITOR_BUILD_TESTS "Build AIM Editor tests" ON)
 option(AIM_EDITOR_ENABLE_SANITIZERS "Enable AddressSanitizer and UndefinedBehaviorSanitizer on supported desktop compilers" OFF)
 set(AIM_EDITOR_JUCE_PATH "" CACHE PATH "Path to a local JUCE checkout. If empty, JUCE is fetched.")
-set(AIM_EDITOR_JUCE_TAG "9.0.1" CACHE STRING "JUCE git tag used when fetching JUCE")
+set(AIM_EDITOR_JUCE_TAG "9.0.1" CACHE STRING "Pinned JUCE release version")
+set(AIM_EDITOR_JUCE_COMMIT "e18f7f506c0b96f2c738a0bcd7fe6467a5005ad8" CACHE STRING "Exact JUCE commit used by FetchContent")
 
 include(cmake/JUCE.cmake)
 

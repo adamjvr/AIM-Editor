@@ -37,6 +37,7 @@ def main() -> int:
     require(librarian, "saveUnsavedBank", "save-aware destructive actions")
     require(librarian, "saveUnsavedChanges", "save-aware destructive actions")
     require(librarian, "Save & Continue", "save-aware destructive actions")
+    require(librarian, "juce::NativeMessageBox::showAsync (options", "zero-based destructive-dialog result contract")
     require(librarian, "newProgram()", "explicit new-program workflow")
     require(librarian_header, 'newProgramButton { "New Program" }', "explicit new-program workflow")
     require(librarian, "openDocumentFile", "unified document open")
@@ -51,6 +52,7 @@ def main() -> int:
     require(cmake, "DOCUMENT_EXTENSIONS syx", "OS .syx association")
     require(window, "hasUnsavedChanges()", "quit protection")
     require(window, "Save & Quit", "quit protection")
+    require(window, "juce::NativeMessageBox::showAsync (options", "zero-based quit-dialog result contract")
     require(window, "Quit Without Saving", "quit protection")
     require(window, "saveUnsavedChanges", "quit save chain")
 
