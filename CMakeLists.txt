@@ -117,6 +117,16 @@ target_sources(AIMEditor PRIVATE
     Source/UI/Components/FilterPanel.h
     Source/UI/Components/EnvelopePanel.cpp
     Source/UI/Components/EnvelopePanel.h
+    Source/UI/Components/ModulatorPanel.cpp
+    Source/UI/Components/ModulatorPanel.h
+    Source/UI/Components/VoicePanel.cpp
+    Source/UI/Components/VoicePanel.h
+    Source/UI/Components/EffectsPanel.cpp
+    Source/UI/Components/EffectsPanel.h
+    Source/UI/Components/MixerPanel.cpp
+    Source/UI/Components/MixerPanel.h
+    Source/UI/Components/OutputPanel.cpp
+    Source/UI/Components/OutputPanel.h
     Source/UI/Components/ModMatrixPanel.cpp
     Source/UI/Components/ModMatrixPanel.h
     Source/UI/Components/RandomizerPanel.cpp

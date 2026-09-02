@@ -3581,7 +3581,25 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 4,
-        "default_raw": null
+        "default_raw": null,
+        "values": [
+          {
+            "raw": 0,
+            "id": "mono"
+          },
+          {
+            "raw": 1,
+            "id": "poly"
+          },
+          {
+            "raw": 2,
+            "id": "key_mono"
+          },
+          {
+            "raw": 3,
+            "id": "key_poly"
+          }
+        ]
       },
       "display": {
         "unit": null,
@@ -3621,7 +3639,8 @@
           "dual2"
         ],
         "control": "selector"
-      }
+      },
+      "notes": "Enum labels/order follow the Ion reference manual; raw ordinal binding remains candidate until hardware capture verification."
     },
     {
       "id": "lfo2.rate",
@@ -3781,7 +3800,25 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 4,
-        "default_raw": null
+        "default_raw": null,
+        "values": [
+          {
+            "raw": 0,
+            "id": "mono"
+          },
+          {
+            "raw": 1,
+            "id": "poly"
+          },
+          {
+            "raw": 2,
+            "id": "key_mono"
+          },
+          {
+            "raw": 3,
+            "id": "key_poly"
+          }
+        ]
       },
       "display": {
         "unit": null,
@@ -3821,7 +3858,8 @@
           "dual2"
         ],
         "control": "selector"
-      }
+      },
+      "notes": "Enum labels/order follow the Ion reference manual; raw ordinal binding remains candidate until hardware capture verification."
     },
     {
       "id": "sample_hold.rate",
@@ -3983,7 +4021,25 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 4,
-        "default_raw": null
+        "default_raw": null,
+        "values": [
+          {
+            "raw": 0,
+            "id": "mono"
+          },
+          {
+            "raw": 1,
+            "id": "poly"
+          },
+          {
+            "raw": 2,
+            "id": "key_mono"
+          },
+          {
+            "raw": 3,
+            "id": "key_poly"
+          }
+        ]
       },
       "display": {
         "unit": null,
@@ -4021,7 +4077,8 @@
           "dual2"
         ],
         "control": "selector"
-      }
+      },
+      "notes": "Enum labels/order follow the Ion reference manual; raw ordinal binding remains candidate until hardware capture verification."
     },
     {
       "id": "voice.unison",
@@ -4346,7 +4403,17 @@
         "kind": "enum",
         "raw_min": 0,
         "raw_max": 1,
-        "default_raw": null
+        "default_raw": null,
+        "values": [
+          {
+            "raw": 0,
+            "id": "held"
+          },
+          {
+            "raw": 1,
+            "id": "all"
+          }
+        ]
       },
       "display": {
         "unit": null,
@@ -4385,7 +4452,7 @@
         ],
         "control": "selector"
       },
-      "notes": "Protocol binding aliases to voice.pitch_bender_mode; candidate mapping."
+      "notes": "Protocol binding aliases to voice.pitch_bender_mode; candidate mapping. Enum labels/order follow the Ion reference manual; raw ordinal binding remains candidate until hardware capture verification."
     },
     {
       "id": "voice.portamento_type",
@@ -4465,7 +4532,17 @@
         "kind": "enum",
         "raw_min": null,
         "raw_max": null,
-        "default_raw": null
+        "default_raw": null,
+        "values": [
+          {
+            "raw": 0,
+            "id": "normal"
+          },
+          {
+            "raw": 1,
+            "id": "legato"
+          }
+        ]
       },
       "display": {
         "unit": null,
@@ -4487,7 +4564,8 @@
           "dual2"
         ],
         "control": "selector"
-      }
+      },
+      "notes": "Enum labels/order follow the Ion reference manual; raw ordinal binding remains candidate until hardware capture verification."
     },
     {
       "id": "env.pitch.attack",

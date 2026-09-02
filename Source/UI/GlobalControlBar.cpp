@@ -29,9 +29,29 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
     pageSelector.setSelectedId (1, juce::dontSendNotification);
     pageSelector.onChange = [this]
     {
+        const auto index = pageSelector.getSelectedItemIndex();
+        for (std::size_t i = 0; i < pageButtons.size(); ++i)
+            if (pageButtons[i] != nullptr)
+                pageButtons[i]->setToggleState (static_cast<int> (i) == index, juce::dontSendNotification);
         if (onPageChanged)
-            onPageChanged (pageSelector.getSelectedItemIndex());
+            onPageChanged (index);
     };
+
+    const juce::StringArray pageNames { "Front", "D1", "D2", "Rnd", "Rear" };
+    for (std::size_t i = 0; i < pageButtons.size(); ++i)
+    {
+        pageButtons[i] = std::make_unique<juce::TextButton> (pageNames[static_cast<int> (i)]);
+        pageButtons[i]->setClickingTogglesState (true);
+        pageButtons[i]->setRadioGroupId (0x41494d);
+        pageButtons[i]->setToggleState (i == 0u, juce::dontSendNotification);
+        pageButtons[i]->onClick = [this, i]
+        {
+            pageSelector.setSelectedItemIndex (static_cast<int> (i), juce::dontSendNotification);
+            if (onPageChanged)
+                onPageChanged (static_cast<int> (i));
+        };
+        addAndMakeVisible (*pageButtons[i]);
+    }
 
     midiInput.onChange = [this] { selectMidiInput(); };
     midiOutput.onChange = [this] { selectMidiOutput(); };
@@ -91,7 +111,8 @@ void GlobalControlBar::paint (juce::Graphics& g)
     g.drawText ("PROGRAM", programSelector.getBounds().translated (0, -15), juce::Justification::centredLeft);
     g.drawText ("MIDI OUT", midiOutput.getBounds().translated (0, -15), juce::Justification::centredLeft);
     g.drawText ("CH", midiChannel.getBounds().translated (0, -15), juce::Justification::centredLeft);
-    g.drawText ("PANEL", pageSelector.getBounds().translated (0, -15), juce::Justification::centredLeft);
+    g.drawText ("PANEL", (pageTabsBounds.isEmpty() ? pageSelector.getBounds() : pageTabsBounds).translated (0, -15),
+                juce::Justification::centredLeft);
 }
 
 void GlobalControlBar::resized()
@@ -117,7 +138,28 @@ void GlobalControlBar::resized()
     selectorRow.removeFromLeft (gap);
     midiChannel.setBounds (selectorRow.removeFromLeft (selectorWidth));
     selectorRow.removeFromLeft (gap);
-    pageSelector.setBounds (selectorRow);
+
+    pageTabsBounds = selectorRow;
+    const auto useSegmentedPages = getWidth() >= 900;
+    pageSelector.setVisible (! useSegmentedPages);
+    pageSelector.setBounds (pageTabsBounds);
+    if (useSegmentedPages)
+    {
+        auto tabs = pageTabsBounds;
+        constexpr int tabGap = 2;
+        const auto tabWidth = juce::jmax (24, (tabs.getWidth() - tabGap * 4) / 5);
+        for (auto& button : pageButtons)
+        {
+            button->setVisible (true);
+            button->setBounds (tabs.removeFromLeft (tabWidth));
+            tabs.removeFromLeft (tabGap);
+        }
+    }
+    else
+    {
+        for (auto& button : pageButtons)
+            button->setVisible (false);
+    }
 
     area.removeFromTop (getWidth() < 1000 ? 10 : 7);
     auto buttonRow = area.removeFromTop (rowHeight);

@@ -43,6 +43,8 @@ The project is now in its first functional-editor passes. It currently contains:
 - a deterministic, seedable semantic patch Randomizer with section/type scopes, strength control, and one-step restore;
 - a touch/mouse 33-point Tracking Generator curve editor backed directly by the JSON parameter model;
 - purpose-built oscillator, dual-filter, and three-envelope editor blocks instead of only generic control grids;
+- purpose-built LFO/S&H/tempo, voice, effects, pre/post mixer, and output blocks covering the remaining main signal-path groups;
+- segmented Front/Dual 1/Dual 2/Randomizer/Rear navigation on large landscape surfaces with compact-window fallback;
 - touch/mouse Pitch, Filter, and Amp envelope curve editing backed by the same semantic state as the knobs;
 - signal-oriented large-landscape Front/Dual/Rear layouts with automatic compact-window fallback;
 - procedural high-DPI Ion-style knobs, selectors, and LED toggles suitable for desktop and iPad;

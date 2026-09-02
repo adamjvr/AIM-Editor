@@ -39,6 +39,18 @@ EditorPage::EditorPage (juce::String pageKey,
             section = std::make_unique<FilterPanel> (registry, state);
         else if (group == "envelopes")
             section = std::make_unique<EnvelopePanel> (registry, state);
+        else if (group == "modulators")
+            section = std::make_unique<ModulatorPanel> (registry, state);
+        else if (group == "voice")
+            section = std::make_unique<VoicePanel> (registry, state);
+        else if (group == "effects")
+            section = std::make_unique<EffectsPanel> (registry, state);
+        else if (group == "pre_filter_mix")
+            section = std::make_unique<MixerPanel> (MixerPanel::Mode::preFilter, registry, state);
+        else if (group == "post_filter_mix")
+            section = std::make_unique<MixerPanel> (MixerPanel::Mode::postFilter, registry, state);
+        else if (group == "output")
+            section = std::make_unique<OutputPanel> (registry, state);
         else if (group == "mod_matrix")
             section = std::make_unique<ModMatrixPanel> (registry, state);
         else if (group == "tracking_generator")
@@ -67,29 +79,29 @@ void EditorPage::paint (juce::Graphics& g)
 {
     g.fillAll (juce::Colour::fromRGB (162, 162, 159));
 
-    auto top = getLocalBounds().removeFromTop (42).reduced (14, 6);
+    auto top = getLocalBounds().removeFromTop (30).reduced (14, 3);
     g.setColour (juce::Colours::black.withAlpha (0.72f));
-    g.setFont (juce::FontOptions (18.0f).withStyle ("Bold"));
+    g.setFont (juce::FontOptions (14.0f).withStyle ("Bold"));
     g.drawText (title, top, juce::Justification::centredLeft, false);
 
     g.setColour (juce::Colours::black.withAlpha (0.46f));
-    g.setFont (juce::FontOptions (11.0f));
-    g.drawText ("AIM Editor — shared JSON state / touch-ready controls", top,
+    g.setFont (juce::FontOptions (9.5f));
+    g.drawText ("shared JSON state • desktop / iPad touch surface", top,
                 juce::Justification::centredRight, false);
 
     // A faint signal-flow rail visually ties the purpose-built desktop layout
     // together without hard-coding protocol or parameter behavior into paint().
-    if ((key == "front" || key == "dual1" || key == "dual2") && getWidth() >= 1000)
+    if ((key == "front" || key == "dual1" || key == "dual2") && getWidth() >= 900)
     {
         g.setColour (juce::Colours::black.withAlpha (0.12f));
-        g.drawHorizontalLine (51, 18.0f, static_cast<float> (getWidth() - 18));
+        g.drawHorizontalLine (35, 18.0f, static_cast<float> (getWidth() - 18));
     }
 }
 
 void EditorPage::resized()
 {
     auto area = getLocalBounds().reduced (12);
-    area.removeFromTop (42);
+    area.removeFromTop (30);
 
     if (key == "randomizer")
     {
@@ -116,7 +128,7 @@ void EditorPage::resized()
         return;
     }
 
-    if (area.getWidth() >= 1000 && (key == "front" || key == "dual1" || key == "dual2"))
+    if (area.getWidth() >= 900 && (key == "front" || key == "dual1" || key == "dual2"))
     {
         constexpr int gap = 10;
         int y = area.getY();
@@ -178,7 +190,7 @@ int EditorPage::preferredHeightForWidth (int width) const
     if (key == "randomizer")
     {
         if (auto* randomizer = sectionFor ("randomizer"))
-            return 54 + randomizer->preferredHeightForWidth (usableWidth) + 12;
+            return 42 + randomizer->preferredHeightForWidth (usableWidth) + 12;
     }
 
     if (key == "rear" && usableWidth >= 760)
@@ -189,36 +201,36 @@ int EditorPage::preferredHeightForWidth (int width) const
         const auto* tracking = sectionFor ("tracking_generator");
         const auto matrixHeight = matrix != nullptr ? matrix->preferredHeightForWidth (leftWidth) : 0;
         const auto trackingHeight = tracking != nullptr ? tracking->preferredHeightForWidth (rightWidth) : 0;
-        return 54 + juce::jmax (matrixHeight, trackingHeight) + 12;
+        return 42 + juce::jmax (matrixHeight, trackingHeight) + 12;
     }
 
-    if (usableWidth >= 1000 && key == "front")
+    if (usableWidth >= 900 && key == "front")
     {
         auto total = rowPreferredHeight (usableWidth, { { "oscillators", 0.36f }, { "pre_filter_mix", 0.24f }, { "filters", 0.40f } });
         total += gap + rowPreferredHeight (usableWidth, { { "modulators", 0.22f }, { "voice", 0.18f },
                                                            { "post_filter_mix", 0.22f }, { "output", 0.18f }, { "effects", 0.20f } });
         if (auto* envelopes = sectionFor ("envelopes")) total += gap + envelopes->preferredHeightForWidth (usableWidth);
         if (auto* matrix = sectionFor ("mod_matrix")) total += gap + matrix->preferredHeightForWidth (usableWidth);
-        return 54 + total + 12;
+        return 42 + total + 12;
     }
 
-    if (usableWidth >= 1000 && key == "dual1")
+    if (usableWidth >= 900 && key == "dual1")
     {
         auto total = rowPreferredHeight (usableWidth, { { "oscillators", 0.36f }, { "pre_filter_mix", 0.24f }, { "filters", 0.40f } });
         total += gap + rowPreferredHeight (usableWidth, { { "modulators", 0.25f }, { "voice", 0.20f },
                                                            { "post_filter_mix", 0.25f }, { "output", 0.30f } });
         if (auto* matrix = sectionFor ("mod_matrix")) total += gap + matrix->preferredHeightForWidth (usableWidth);
-        return 54 + total + 12;
+        return 42 + total + 12;
     }
 
-    if (usableWidth >= 1000 && key == "dual2")
+    if (usableWidth >= 900 && key == "dual2")
     {
         auto total = rowPreferredHeight (usableWidth, { { "pre_filter_mix", 0.24f }, { "filters", 0.38f },
                                                          { "post_filter_mix", 0.22f }, { "output", 0.16f } });
         total += gap + rowPreferredHeight (usableWidth, { { "modulators", 0.30f }, { "voice", 0.25f }, { "effects", 0.45f } });
         if (auto* envelopes = sectionFor ("envelopes")) total += gap + envelopes->preferredHeightForWidth (usableWidth);
         if (auto* matrix = sectionFor ("mod_matrix")) total += gap + matrix->preferredHeightForWidth (usableWidth);
-        return 54 + total + 12;
+        return 42 + total + 12;
     }
 
     return masonryPreferredHeight (width);
@@ -331,7 +343,7 @@ int EditorPage::masonryPreferredHeight (int width) const
     }
 
     const auto contentHeight = columnHeights.empty() ? 0 : *std::max_element (columnHeights.begin(), columnHeights.end());
-    return 54 + juce::jmax (120, contentHeight) + 12;
+    return 42 + juce::jmax (120, contentHeight) + 12;
 }
 
 int EditorPage::columnCountForWidth (int width) const

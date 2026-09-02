@@ -12,6 +12,7 @@ IonLookAndFeel::IonLookAndFeel()
     setColour (juce::ComboBox::textColourId, juce::Colours::white);
     setColour (juce::ComboBox::outlineColourId, juce::Colour::fromRGB (20, 20, 20));
     setColour (juce::TextButton::buttonColourId, juce::Colour::fromRGB (52, 52, 52));
+    setColour (juce::TextButton::buttonOnColourId, juce::Colour::fromRGB (150, 34, 34));
     setColour (juce::TextButton::textColourOffId, juce::Colours::white);
     setColour (juce::Slider::textBoxTextColourId, juce::Colours::black);
     setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::transparentBlack);

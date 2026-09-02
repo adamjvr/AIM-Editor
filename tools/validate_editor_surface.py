@@ -20,6 +20,15 @@ REQUIRED_SECTION_MINIMUMS = {
     "env_amp": 13,
     "mod_matrix": 48,
     "tracking_generator": 38,
+    "lfo1": 4,
+    "lfo2": 4,
+    "sample_hold": 4,
+    "tempo_arp": 3,
+    "voice": 9,
+    "effects": 7,
+    "pre_filter_mix": 12,
+    "post_filter_mix": 6,
+    "output": 7,
 }
 
 REQUIRED_ENVELOPE_IDS = {
@@ -71,6 +80,7 @@ def main() -> int:
 
     print("PASS: purpose-built editor JSON surface")
     print("PASS: oscillator lanes 3, filter lanes 2, envelope lanes 3")
+    print("PASS: LFO/S&H/tempo, voice, effects, pre/post mixer, and output surfaces present")
     print(f"PASS: {executable}/{len(parameters)} parameters have executable display transforms")
     print(f"INFO: {unknown}/{len(parameters)} parameters intentionally remain raw/unknown display transforms")
     return 0

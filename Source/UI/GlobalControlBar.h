@@ -5,7 +5,9 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
+#include <array>
 #include <functional>
+#include <memory>
 
 namespace aim
 {
@@ -39,6 +41,8 @@ private:
     juce::ComboBox midiOutput;
     juce::ComboBox midiChannel;
     juce::ComboBox pageSelector;
+    std::array<std::unique_ptr<juce::TextButton>, 5> pageButtons;
+    juce::Rectangle<int> pageTabsBounds;
 
     juce::TextButton requestPatch { "request patch" };
     juce::TextButton sysexTools { "sysex tools" };

@@ -37,6 +37,20 @@ its screen-space segment lengths reproduce undocumented firmware timing. Draggin
 updates the same raw parameter values as the knobs; engineering display text is
 calculated only from transforms explicitly present in JSON.
 
+
+### Modulators, Voice, Effects and Mixers
+
+`ModulatorPanel` keeps LFO 1, LFO 2, Sample & Hold, and tempo/arpeggiator
+controls as recognizable generator lanes. `VoicePanel` separates unison,
+portamento, and play-mode behavior. `EffectsPanel` keeps the effect modulation
+controls together while explicitly warning that several candidate parameter
+meanings vary with the selected effect algorithm.
+
+`MixerPanel` presents the pre-filter sources and post-filter returns as named
+channels, and `OutputPanel` separates drive, level/mix, and routing. These
+replace the remaining large generic control buckets on the primary editor
+pages.
+
 ### Mod Matrix and Tracking Generator
 
 The Mod Matrix and Tracking Generator remain dedicated editors because tabular
@@ -44,7 +58,7 @@ routing and a 33-point curve cannot be represented well by generic knobs.
 
 ## Responsive page composition
 
-At large landscape widths, Front/Dual pages use explicit signal-oriented rows:
+At landscape widths of roughly 900 px and above, Front/Dual pages use explicit signal-oriented rows:
 
 - Front: oscillator/pre-filter/filter path; modulation/voice/post/output/effects;
   envelopes; Mod Matrix.
@@ -54,7 +68,7 @@ At large landscape widths, Front/Dual pages use explicit signal-oriented rows:
   Mod Matrix.
 - Rear: Mod Matrix and Tracking Generator side-by-side.
 
-At smaller widths the same components automatically fall back to a masonry
+Large landscape surfaces also expose a compact five-button page selector. At smaller widths the same components automatically fall back to a masonry
 layout. This keeps the editor usable on smaller desktop windows and portrait
 orientations without creating a second UI implementation.
 

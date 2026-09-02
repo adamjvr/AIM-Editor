@@ -3,12 +3,17 @@
 #include "Core/ParameterRegistry.h"
 #include "Core/ProgramState.h"
 #include "UI/Components/EnvelopePanel.h"
+#include "UI/Components/EffectsPanel.h"
 #include "UI/Components/FilterPanel.h"
+#include "UI/Components/MixerPanel.h"
 #include "UI/Components/ModMatrixPanel.h"
+#include "UI/Components/ModulatorPanel.h"
 #include "UI/Components/OscillatorPanel.h"
+#include "UI/Components/OutputPanel.h"
 #include "UI/Components/RandomizerPanel.h"
 #include "UI/Components/SectionPanel.h"
 #include "UI/Components/TrackingGeneratorPanel.h"
+#include "UI/Components/VoicePanel.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
 

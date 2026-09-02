@@ -74,7 +74,7 @@
 - [x] Randomizer
 - [x] scalable vector/procedural Ion-style control foundation
 - [ ] accessibility
-- [ ] high-DPI desktop polish
+- [x] high-DPI procedural control/navigation foundation (device-by-device polish ongoing)
 - [x] iPad landscape-first responsive composition and touch envelope/tracking surfaces (device tuning ongoing)
 - [ ] keyboard shortcuts and MIDI learn where appropriate
 
@@ -101,5 +101,7 @@
 - The 12-slot Mod Matrix now has a purpose-built responsive editor backed by reusable JSON source/destination enum tables; currently unknown source raw values are preserved rather than coerced.
 - The Randomizer is now semantic/data-driven, deterministic when seeded, scoped by synth section and parameter kind, and intentionally avoids automatic bulk MIDI writes.
 - The Tracking Generator now exposes all 33 candidate curve bytes (-16..+16) as canonical JSON parameters with candidate NRPN 121..153 and SysEx offsets 304..336, plus a touch/mouse graph editor.
-- Purpose-built oscillator, filter, and envelope panels now replace the largest generic control buckets, with large-landscape Front/Dual/Rear composition and conservative JSON-driven engineering-value formatting.
-- Next: compile/test on Rosie and macOS/iPadOS, tune geometry from screenshots, then use hardware captures to promote candidate mappings to verified and implement verified edit-buffer writes.
+- Purpose-built oscillator, filter, envelope, LFO/S&H/tempo, voice, effects, pre/post mixer, and output panels now replace the main generic control buckets, with large-landscape Front/Dual/Rear composition and conservative JSON-driven engineering-value formatting.
+- Large landscape surfaces now use segmented five-page navigation; smaller layouts retain the compact selector.
+- A small manual-derived label set improves LFO/S&H reset, portamento, and pitch-wheel selectors while protocol raw mappings remain candidate.
+- Next: compile/test on Rosie and macOS/iPadOS, tune the purpose-built geometry from device screenshots, then use hardware captures to promote candidate mappings to verified and implement verified edit-buffer writes.
