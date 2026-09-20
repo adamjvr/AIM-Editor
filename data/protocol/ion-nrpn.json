@@ -18,6 +18,11 @@
       "title": "Common FAQ \u2013 MIDI implementation / NRPNs",
       "url": "https://ion-micron-miniak.fandom.com/wiki/Common_FAQ",
       "note": "The source explicitly calls this table preliminary and says it contains mistakes. AIM Editor therefore keeps every imported mapping candidate until verified independently or against hardware."
+    },
+    "independent_corroboration": {
+      "source": "research/external/micronau-evidence.json",
+      "scope": "selected transport/parameter facts only",
+      "hardware_verified": false
     }
   },
   "transport": {
@@ -116,6 +121,22 @@
       ],
       "reason": "Slots 2..12 use 0..114 in the same source table.",
       "status": "likely_source_error"
+    },
+    {
+      "id": "micronau-nrpn-105",
+      "number": 105,
+      "aim_candidate": "lfo1.sync",
+      "micronau_candidate": "micron file id",
+      "status": "hold_per_device_hardware_verification_required",
+      "source": "research/external/micronau-evidence.json"
+    },
+    {
+      "id": "micronau-nrpn-250",
+      "number": 250,
+      "aim_candidate": "effects.param_a_synced",
+      "micronau_candidate": "fifth selected FX2 parameter",
+      "status": "hold_algorithm_and_device_verification_required",
+      "source": "research/external/micronau-evidence.json"
     }
   ],
   "parameters": [
@@ -2236,7 +2257,14 @@
       "max": 50,
       "value_encoding": "signed_14_wrap",
       "status": "candidate",
-      "hardware_verified": false
+      "hardware_verified": false,
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      },
+      "device_availability": [
+        "micron"
+      ]
     },
     {
       "number": 231,
@@ -2336,7 +2364,14 @@
       "max": 6,
       "value_encoding": "unsigned_14",
       "status": "candidate",
-      "hardware_verified": false
+      "hardware_verified": false,
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      },
+      "device_availability": [
+        "micron"
+      ]
     },
     {
       "number": 246,
@@ -2347,7 +2382,14 @@
       "value_encoding": "signed_14_wrap",
       "status": "candidate",
       "hardware_verified": false,
-      "notes": "Source marks this range with ***; transport/value behavior needs verification."
+      "notes": "Source marks this range with ***; transport/value behavior needs verification.",
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      },
+      "device_availability": [
+        "micron"
+      ]
     },
     {
       "number": 247,
@@ -2358,7 +2400,14 @@
       "value_encoding": "signed_14_wrap",
       "status": "candidate",
       "hardware_verified": false,
-      "notes": "Source marks this range with ***; transport/value behavior needs verification."
+      "notes": "Source marks this range with ***; transport/value behavior needs verification.",
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      },
+      "device_availability": [
+        "micron"
+      ]
     },
     {
       "number": 248,
@@ -2369,7 +2418,14 @@
       "value_encoding": "signed_14_wrap",
       "status": "candidate",
       "hardware_verified": false,
-      "notes": "Source marks this range with ***; transport/value behavior needs verification."
+      "notes": "Source marks this range with ***; transport/value behavior needs verification.",
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      },
+      "device_availability": [
+        "micron"
+      ]
     },
     {
       "number": 249,
@@ -2380,7 +2436,14 @@
       "value_encoding": "signed_14_wrap",
       "status": "candidate",
       "hardware_verified": false,
-      "notes": "Source marks this range with ***; transport/value behavior needs verification."
+      "notes": "Source marks this range with ***; transport/value behavior needs verification.",
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      },
+      "device_availability": [
+        "micron"
+      ]
     },
     {
       "number": 250,
@@ -2390,7 +2453,14 @@
       "max": 24,
       "value_encoding": "unsigned_14",
       "status": "candidate",
-      "hardware_verified": false
+      "hardware_verified": false,
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      },
+      "device_availability": [
+        "micron"
+      ]
     },
     {
       "number": 512,

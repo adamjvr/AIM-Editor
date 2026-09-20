@@ -382,6 +382,20 @@ int main()
     if (editRequest.getSysExData()[7] != 3)
         return fail ("Ion edit-bank patch request did not clamp slot to 0..3");
 
+    // Independent Micronau evidence shows that Micron Program requests use
+    // product ID 0x26 even though returned/shared Program dumps use 0x22.
+    const auto micronRequest = aim::IonSysExCodec::makeSinglePatchRequest (aim::IonFamilyDevice::micron, 7, 127);
+    const std::vector<std::uint8_t> expectedMicronRequestPayload { 0x00, 0x00, 0x0e, 0x26, 0x41, 0x07, 0x00, 0x7f };
+    if (! micronRequest.isSysEx()
+        || micronRequest.getSysExDataSize() != static_cast<int> (expectedMicronRequestPayload.size())
+        || ! std::equal (expectedMicronRequestPayload.begin(), expectedMicronRequestPayload.end(), micronRequest.getSysExData()))
+        return fail ("Micron single-Program request framing failed");
+
+    if (aim::profileFor (aim::IonFamilyDevice::micron).programDumpProductId != aim::IonSysExCodec::productId
+        || aim::profileFor (aim::IonFamilyDevice::ion).requestProductId != 0x22
+        || aim::profileFor (aim::IonFamilyDevice::micron).requestProductId != 0x26)
+        return fail ("Ion-family device profile transport IDs drifted");
+
     // Known 7-of-8 bit arrangement: MSBs 1,0,1,0,1,0,1 become 0b1010101.
     const std::vector<std::uint8_t> sevenFullBytes { 0x80, 0x01, 0x82, 0x03, 0x84, 0x05, 0x86 };
     const auto eightMidiBytes = aim::IonSysExCodec::encode7Of8 (sevenFullBytes);

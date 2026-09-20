@@ -2,6 +2,7 @@
 
 #include "Core/AppSettings.h"
 #include "Midi/IonMidiService.h"
+#include "Midi/IonFamilyDevice.h"
 #include "Midi/IonSysExCodec.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -24,6 +25,7 @@ public:
     void setSelectedPage (int pageIndex);
     void restoreSession (const SessionSnapshot& snapshot);
     void captureSession (SessionSnapshot& snapshot) const;
+    [[nodiscard]] IonFamilyDevice selectedDevice() const noexcept;
 
     std::function<void (int)> onPageChanged;
     std::function<void()> onSysExToolsRequested;
@@ -31,6 +33,7 @@ public:
     std::function<void()> onHardwareToolsRequested;
     std::function<void (bool)> onLiveEditingChanged;
     std::function<void (int)> onMidiChannelChanged;
+    std::function<void (IonFamilyDevice)> onDeviceChanged;
     std::function<void()> onUndoRequested;
     std::function<void()> onRedoRequested;
     std::function<void()> onPersistentContextChanged;
@@ -41,10 +44,13 @@ private:
     void selectMidiOutput();
     void sendAllNotesOff();
     void requestCurrentPatch();
+    void refreshBankSelector();
     void refreshProgramSelector();
+    void applyDeviceProfile (IonFamilyDevice device, bool notify);
 
     IonMidiService& midi;
 
+    juce::ComboBox deviceSelector;
     juce::ComboBox midiInput;
     juce::ComboBox midiBank;
     juce::ComboBox programSelector;

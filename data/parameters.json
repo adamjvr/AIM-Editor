@@ -4,7 +4,9 @@
   "schema_version": 2,
   "device": {
     "manufacturer": "Alesis",
-    "model": "Ion"
+    "model": "Ion/Micron Program family",
+    "family": "alesis-ion-family",
+    "profiles_source": "data/device-profiles.json"
   },
   "research_state": {
     "status": "incomplete",
@@ -13,7 +15,9 @@
     "protocol_source": "data/protocol/ion-sysex.json",
     "candidate_sysex_bindings": 151,
     "candidate_warning": "Candidate mappings are community-derived and not yet hardware-verified. Unknown/conflicting fields remain unmapped rather than guessed.",
-    "candidate_nrpn_mappings": 160
+    "candidate_nrpn_mappings": 160,
+    "family_architecture": "Shared 378-byte Ion/Micron Program model; device-specific request/storage capabilities live in data/device-profiles.json.",
+    "micron_corroboration": "research/external/micronau-evidence.json"
   },
   "parameters": [
     {

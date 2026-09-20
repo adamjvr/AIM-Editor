@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aim-editor.local/schema/micronau-evidence.schema.json",
+  "title": "AIM Editor external protocol evidence summary",
+  "type": "object",
+  "required": ["format", "schema_version", "subject", "source", "program_transport", "device_request", "parameter_inventory", "micron_extensions", "aim_crosscheck"],
+  "properties": {
+    "format": { "const": "aim-editor.external-protocol-evidence" },
+    "schema_version": { "const": 1 },
+    "source": {
+      "type": "object",
+      "required": ["name", "repository", "commit", "license", "policy"]
+    },
+    "program_transport": {
+      "type": "object",
+      "required": ["single_program_wire_bytes", "encoded_payload_bytes", "decoded_bytes", "program_dump_product_id", "program_tag", "program_data_bytes"]
+    },
+    "device_request": {
+      "type": "object",
+      "required": ["micron_request_product_id", "opcode", "bank_count", "program_count"]
+    },
+    "parameter_inventory": { "type": "object" },
+    "micron_extensions": { "type": "object" },
+    "aim_crosscheck": { "type": "object" }
+  },
+  "additionalProperties": true
+}

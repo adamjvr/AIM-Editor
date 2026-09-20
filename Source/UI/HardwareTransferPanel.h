@@ -3,6 +3,7 @@
 #include "Core/ParameterRegistry.h"
 #include "Core/ProgramState.h"
 #include "Midi/IonMidiService.h"
+#include "Midi/IonFamilyDevice.h"
 #include "Midi/IonProgramEncoder.h"
 #include "Midi/IonSysExCodec.h"
 
@@ -12,7 +13,7 @@
 
 namespace aim
 {
-/** Explicit hardware-transfer surface for candidate Ion SysEx operations.
+/** Explicit hardware-transfer surface for guarded Ion-family SysEx operations.
 
     Full program writes are deliberately gated behind an arm toggle and a real
     378-byte source template. AIM Editor never fabricates unknown patch bytes.
@@ -28,6 +29,7 @@ public:
 
     void paint (juce::Graphics&) override;
     void resized() override;
+    void setDeviceProfile (IonFamilyDevice deviceToUse);
 
     std::function<void()> onClose;
 
@@ -36,6 +38,7 @@ private:
     void programReplaced (ProgramChangeOrigin) override { updateState(); }
     void programMetadataChanged (ProgramChangeOrigin) override { updateState(); }
 
+    void refreshBankSelector();
     void refreshProgramSelector();
     void requestSelectedPatch();
     void requestSelectedBank();
@@ -46,6 +49,7 @@ private:
     IonMidiService& midi;
     const ParameterRegistry& registry;
     ProgramState& state;
+    IonFamilyDevice device = IonFamilyDevice::ion;
 
     juce::Label title;
     juce::Label warning;

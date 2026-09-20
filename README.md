@@ -270,4 +270,9 @@ error.
 
 ## Current build gate
 
-Rosie now passes the pinned JUCE 9.0.1 prerequisite, repository, and CMake configure gates and has entered the **real JUCE 9.0.1/GCC compiler loop**. Pass 18 repairs the complete first compiler-error wave (BinaryData symbol spelling, `StringArray` API usage, heterogeneous component-pointer lists, mutable paint geometry, and explicit `juce::File` resets). The project is not yet declared build-green until a subsequent Ninja build and CTest complete successfully.
+Linux is build/test-green against pinned JUCE 9.0.1. On EVE, the Apple gate builds the native macOS app + CTest and the signed physical-iPadOS arm64 app concurrently, then launches both successful products. The iPad path installs/launches only on connected hardware; simulator validation is intentionally retired.
+
+
+## Ion / Micron hardware profiles
+
+AIM Editor uses one shared 378-byte Ion-family Program model with an explicit hardware profile selector. Ion requests use product ID `0x22`; Micron requests use `0x26`; returned Program dumps remain the shared `0x22` format. Micron bank-stream/full-write behavior stays disabled until hardware verified. See `docs/research/ION_MICRON_FAMILY.md`.

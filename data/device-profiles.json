@@ -1,0 +1,71 @@
+{
+  "$schema": "../schemas/device-profiles.schema.json",
+  "format": "aim-editor.ion-family-device-profiles",
+  "schema_version": 1,
+  "family": "alesis-ion-family",
+  "research_policy": {
+    "rule": "Shared Program-format facts and device-shell behavior are tracked separately. Independent software corroboration does not equal physical-hardware verification.",
+    "verification_scope": "per-device"
+  },
+  "program_format": {
+    "manufacturer_id": [0, 0, 14],
+    "program_dump_product_id": 34,
+    "program_tag": "Q01SYNTH",
+    "decoded_bytes": 378,
+    "program_data_offset": 63,
+    "program_data_bytes": 315,
+    "encoded_payload_bytes": 432,
+    "wire_bytes": 434,
+    "transport": "Alesis 7-of-8",
+    "status": "independently_corroborated"
+  },
+  "devices": [
+    {
+      "id": "ion",
+      "manufacturer": "Alesis",
+      "model": "Ion",
+      "request_product_id": 34,
+      "request_bank_count": 5,
+      "request_addressing": "bank + single/bank flag + 7-bit program",
+      "bank_labels": ["Red", "Green", "Blue", "Yellow/User", "Edit"],
+      "capabilities": {
+        "single_program_request": true,
+        "bank_dump_request": true,
+        "edit_buffers": 4,
+        "micron_fx2": false,
+        "micron_xyz_assignments": false
+      },
+      "evidence": {
+        "status": "candidate_hardware_verification_pending",
+        "primary_source": "data/protocol/ion-sysex.json"
+      }
+    },
+    {
+      "id": "micron",
+      "manufacturer": "Alesis",
+      "model": "Micron",
+      "request_product_id": 38,
+      "program_dump_product_id": 34,
+      "request_bank_count": 8,
+      "request_program_count": 128,
+      "request_addressing": "zero-based bank + program high bit + program low 7 bits",
+      "capabilities": {
+        "single_program_request": true,
+        "bank_dump_request": false,
+        "bank_dump_request_status": "unknown_disabled",
+        "ion_edit_buffers": false,
+        "full_program_write_status": "unknown_disabled",
+        "micron_fx2": true,
+        "micron_xyz_assignments": true,
+        "micron_file_id": true,
+        "program_category": true
+      },
+      "evidence": {
+        "status": "independently_corroborated_hardware_verification_pending",
+        "source": "research/external/micronau-evidence.json",
+        "repository": "retroware/micronau",
+        "commit": "0a1f14d8c5bce11663b464cef54e2035aba6ab1a"
+      }
+    }
+  ]
+}

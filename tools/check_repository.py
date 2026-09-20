@@ -57,6 +57,7 @@ def main() -> int:
     run(sys.executable, "tools/validate_parameter_database.py")
     run(sys.executable, "tools/validate_editor_surface.py")
     run(sys.executable, "tools/validate_protocol_data.py")
+    run(sys.executable, "tools/validate_ion_family.py")
     run(sys.executable, "tools/validate_native_formats.py")
     run(sys.executable, "tools/validate_session_safety.py")
     run(sys.executable, "tools/validate_document_safety.py")

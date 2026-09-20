@@ -6,13 +6,21 @@ namespace aim
 GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
     : midi (midiService)
 {
-    for (auto* component : std::initializer_list<juce::Component*> { static_cast<juce::Component*> (&midiInput), &midiBank, &programSelector, &midiOutput,
+    for (auto* component : std::initializer_list<juce::Component*> { static_cast<juce::Component*> (&deviceSelector), &midiInput, &midiBank, &programSelector, &midiOutput,
                              &midiChannel, &pageSelector, &requestPatch, &sysexTools, &updateEditBuffer,
                              &allNotesOff, &librarian, &undo, &redo, &liveEdit, &settings, &status })
         addAndMakeVisible (component);
 
-    midiBank.addItemList ({ "Red", "Green", "Blue", "Yellow/User", "Edit" }, 1);
-    midiBank.setSelectedId (1, juce::dontSendNotification);
+    deviceSelector.addItem ("Ion", 1);
+    deviceSelector.addItem ("Micron", 2);
+    deviceSelector.setSelectedId (1, juce::dontSendNotification);
+    deviceSelector.setTooltip ("Select the physical Ion-family hardware shell. Programs share the same 378-byte format; request/storage capabilities remain device-specific.");
+    deviceSelector.onChange = [this]
+    {
+        applyDeviceProfile (selectedDevice(), true);
+    };
+
+    refreshBankSelector();
     midiBank.onChange = [this]
     {
         refreshProgramSelector();
@@ -112,13 +120,13 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
     };
 
     requestPatch.setEnabled (true);
-    requestPatch.setTooltip ("Send candidate Ion patch-request SysEx; capture and verify the response before treating the mapping as authoritative");
+    requestPatch.setTooltip ("Request the selected Program using the active Ion-family device profile (Ion request ID 0x22; Micron request ID 0x26). Returned Program dumps use the shared 0x22/378-byte format.");
     updateEditBuffer.setEnabled (true);
     updateEditBuffer.setTooltip ("Open guarded candidate hardware-transfer tools. Full patch writes require a captured source template and explicit arming.");
     sysexTools.setTooltip ("Open the live MIDI/SysEx capture inspector");
     librarian.setTooltip ("Open native JSON program/bank librarian and template-preserving .syx file tools");
     liveEdit.setToggleState (false, juce::dontSendNotification);
-    liveEdit.setTooltip ("Opt-in candidate live editing: interactive controls send mapped Ion NRPN messages to the selected MIDI output. Patch loads/imports never echo.");
+    liveEdit.setTooltip ("Opt-in candidate live editing: interactive controls send mapped Ion-family NRPN messages to the selected MIDI output. Patch loads/imports never echo.");
     settings.setTooltip ("Re-scan JUCE MIDI input/output devices without dropping still-available selections");
     undo.setTooltip ("Undo the last semantic editor change. Undo never echoes MIDI back to hardware.");
     redo.setTooltip ("Redo the last semantic editor change. Redo never echoes MIDI back to hardware.");
@@ -136,6 +144,34 @@ void GlobalControlBar::setHistoryAvailability (bool canUndo, bool canRedo)
 {
     undo.setEnabled (canUndo);
     redo.setEnabled (canRedo);
+}
+
+IonFamilyDevice GlobalControlBar::selectedDevice() const noexcept
+{
+    return deviceSelector.getSelectedId() == 2 ? IonFamilyDevice::micron : IonFamilyDevice::ion;
+}
+
+void GlobalControlBar::applyDeviceProfile (IonFamilyDevice device, bool notify)
+{
+    const auto previousBank = juce::jmax (0, midiBank.getSelectedItemIndex());
+    refreshBankSelector();
+    midiBank.setSelectedItemIndex (juce::jmin (previousBank, juce::jmax (0, midiBank.getNumItems() - 1)),
+                                   juce::dontSendNotification);
+    refreshProgramSelector();
+
+    const auto& profile = profileFor (device);
+    status.setText (juce::String (profile.displayName.data()) + " profile", juce::dontSendNotification);
+    updateEditBuffer.setTooltip (profile.supportsIonEditBuffers
+                                     ? "Open guarded Ion hardware-transfer tools. Full patch writes require a captured source template and explicit arming."
+                                     : "Open Micron hardware-transfer tools. Full Program writes remain disabled until Micron destination/storage semantics are verified on hardware.");
+
+    if (notify)
+    {
+        if (onDeviceChanged)
+            onDeviceChanged (device);
+        if (onPersistentContextChanged)
+            onPersistentContextChanged();
+    }
 }
 
 void GlobalControlBar::setSelectedPage (int pageIndex)
@@ -156,7 +192,12 @@ void GlobalControlBar::restoreSession (const SessionSnapshot& snapshot)
     // never sends a patch request/write.
     liveEdit.setToggleState (false, juce::dontSendNotification);
 
-    midiBank.setSelectedItemIndex (juce::jlimit (0, 4, snapshot.bankIndex), juce::dontSendNotification);
+    const auto restoredDevice = deviceFromId (snapshot.deviceProfileId.toStdString());
+    deviceSelector.setSelectedId (restoredDevice == IonFamilyDevice::micron ? 2 : 1, juce::dontSendNotification);
+    applyDeviceProfile (restoredDevice, false);
+
+    const auto maxBankIndex = juce::jmax (0, midiBank.getNumItems() - 1);
+    midiBank.setSelectedItemIndex (juce::jlimit (0, maxBankIndex, snapshot.bankIndex), juce::dontSendNotification);
     refreshProgramSelector();
     const auto maxProgramIndex = juce::jmax (0, programSelector.getNumItems() - 1);
     programSelector.setSelectedItemIndex (juce::jlimit (0, maxProgramIndex, snapshot.programIndex), juce::dontSendNotification);
@@ -197,6 +238,7 @@ void GlobalControlBar::captureSession (SessionSnapshot& snapshot) const
     snapshot.midiChannel = juce::jlimit (1, 16, midiChannel.getSelectedId());
     snapshot.bankIndex = juce::jmax (0, midiBank.getSelectedItemIndex());
     snapshot.programIndex = juce::jmax (0, programSelector.getSelectedItemIndex());
+    snapshot.deviceProfileId = juce::String (profileFor (selectedDevice()).id.data());
     snapshot.midiInputIdentifier = midi.currentInputIdentifier();
     snapshot.midiOutputIdentifier = midi.currentOutputIdentifier();
 }
@@ -218,6 +260,7 @@ void GlobalControlBar::paint (juce::Graphics& g)
         g.drawText (text, header, juce::Justification::centredLeft, false);
     };
 
+    drawSelectorHeader ("DEVICE", deviceSelector.getBounds());
     drawSelectorHeader ("MIDI IN", midiInput.getBounds());
     drawSelectorHeader ("BANK", midiBank.getBounds());
     drawSelectorHeader ("PROGRAM", programSelector.getBounds());
@@ -246,8 +289,10 @@ void GlobalControlBar::resized()
     // Hardware/program context stays visible across every page. MIDI channel
     // is explicit because live NRPN editing is channel-sensitive.
     auto selectorRow = area.removeFromTop (rowHeight);
-    const int selectorWidth = juce::jmax (78, (selectorRow.getWidth() - gap * 5) / 6);
+    const int selectorWidth = juce::jmax (68, (selectorRow.getWidth() - gap * 6) / 7);
 
+    deviceSelector.setBounds (selectorRow.removeFromLeft (selectorWidth));
+    selectorRow.removeFromLeft (gap);
     midiInput.setBounds (selectorRow.removeFromLeft (selectorWidth));
     selectorRow.removeFromLeft (gap);
     midiBank.setBounds (selectorRow.removeFromLeft (selectorWidth));
@@ -404,13 +449,33 @@ void GlobalControlBar::sendAllNotesOff()
         midi.sendNow (juce::MidiMessage::allNotesOff (channel));
 }
 
+void GlobalControlBar::refreshBankSelector()
+{
+    const auto previous = juce::jmax (0, midiBank.getSelectedItemIndex());
+    midiBank.clear (juce::dontSendNotification);
+
+    if (selectedDevice() == IonFamilyDevice::ion)
+    {
+        midiBank.addItemList ({ "Red", "Green", "Blue", "Yellow/User", "Edit" }, 1);
+    }
+    else
+    {
+        for (int bank = 1; bank <= micronDeviceProfile.requestBankCount; ++bank)
+            midiBank.addItem ("Bank " + juce::String (bank), bank);
+    }
+
+    midiBank.setSelectedItemIndex (juce::jmin (previous, juce::jmax (0, midiBank.getNumItems() - 1)),
+                                   juce::dontSendNotification);
+}
+
 void GlobalControlBar::refreshProgramSelector()
 {
     const auto previous = juce::jmax (0, programSelector.getSelectedItemIndex());
     programSelector.clear (juce::dontSendNotification);
 
-    const bool isEdit = midiBank.getSelectedItemIndex() == static_cast<int> (IonBank::edit);
-    const int programCount = isEdit ? 4 : 128;
+    const bool isIonEdit = selectedDevice() == IonFamilyDevice::ion
+                        && midiBank.getSelectedItemIndex() == static_cast<int> (IonBank::edit);
+    const int programCount = isIonEdit ? 4 : 128;
 
     for (int index = 0; index < programCount; ++index)
         programSelector.addItem (juce::String (index + 1) + "/" + juce::String (programCount), index + 1);
@@ -422,13 +487,15 @@ void GlobalControlBar::requestCurrentPatch()
 {
     const auto bankIndex = midiBank.getSelectedItemIndex();
     const auto programIndex = programSelector.getSelectedItemIndex();
-
-    if (! IonSysExCodec::isValidBank (bankIndex) || programIndex < 0)
+    if (bankIndex < 0 || programIndex < 0)
         return;
 
-    const auto bank = static_cast<IonBank> (bankIndex);
-    midi.sendNow (IonSysExCodec::makeSinglePatchRequest (bank, programIndex));
+    const auto device = selectedDevice();
+    const auto& profile = profileFor (device);
+    if (bankIndex >= profile.requestBankCount)
+        return;
 
-    status.setText ("request sent (candidate)", juce::dontSendNotification);
+    midi.sendNow (IonSysExCodec::makeSinglePatchRequest (device, bankIndex, programIndex));
+    status.setText (juce::String (profile.displayName.data()) + " request sent", juce::dontSendNotification);
 }
 }

@@ -21,7 +21,12 @@
       "url": "https://medias.audiofanzine.com/files/midi-sysex-472872.pdf",
       "note": "Candidate until independently verified against Alesis Ion hardware/captures. The source contains at least one apparent oscillator-offset typo, so ambiguous fields are not silently guessed."
     },
-    "hardware_verified": false
+    "hardware_verified": false,
+    "independent_corroboration": {
+      "source": "research/external/micronau-evidence.json",
+      "scope": "selected transport/parameter facts only",
+      "hardware_verified": false
+    }
   },
   "manufacturer_id_payload_hex": "00 00 0E",
   "product_id": 34,
@@ -108,6 +113,11 @@
     {
       "field": "bank_dump_length_arithmetic",
       "issue": "The BEE text writes the bank-length formula with a 56-byte header, but its printed 46,154-byte normal-bank result corresponds to a 63-byte header (63 + 128*315 decoded bytes). Its printed 1,506-byte Edit-bank result instead corresponds to 56 + 4*315. Single-patch framing also proves a 63-byte pre-patch region. Bank-dump parsing therefore remains deliberately unimplemented until hardware or an independent dump resolves the contradiction."
+    },
+    {
+      "id": "micronau-nrpn-105-conflict",
+      "description": "Micronau labels NRPN 105 as Micron file ID while the current AIM candidate NRPN source labels 105 as LFO 1 tempo sync. This remains an explicit per-device conflict and is not promoted.",
+      "source": "research/external/micronau-evidence.json"
     }
   ],
   "fields": [
@@ -241,6 +251,21 @@
       }
     },
     {
+      "id": "voice.portamento_type",
+      "offset": 78,
+      "width_bytes": 1,
+      "kind": "bitfield",
+      "status": "candidate",
+      "mask": 192,
+      "shift": 6,
+      "enum": {
+        "0": "fixed",
+        "1": "scaled",
+        "2": "gliss_fixed",
+        "3": "gliss_scaled"
+      }
+    },
+    {
       "id": "voice.unison",
       "offset": 78,
       "width_bytes": 1,
@@ -265,19 +290,14 @@
       }
     },
     {
-      "id": "voice.portamento_type",
-      "offset": 78,
+      "id": "voice.portamento_enable",
+      "offset": 79,
       "width_bytes": 1,
       "kind": "bitfield",
       "status": "candidate",
-      "mask": 192,
-      "shift": 6,
-      "enum": {
-        "0": "fixed",
-        "1": "scaled",
-        "2": "gliss_fixed",
-        "3": "gliss_scaled"
-      }
+      "mask": 128,
+      "shift": 7,
+      "source_enum_text": "{0,1}={on,off}; polarity requires hardware verification"
     },
     {
       "id": "voice.unison_detune",
@@ -290,16 +310,6 @@
       "raw_min": 0,
       "raw_max": 100,
       "unit": "percent"
-    },
-    {
-      "id": "voice.portamento_enable",
-      "offset": 79,
-      "width_bytes": 1,
-      "kind": "bitfield",
-      "status": "candidate",
-      "mask": 128,
-      "shift": 7,
-      "source_enum_text": "{0,1}={on,off}; polarity requires hardware verification"
     },
     {
       "id": "voice.portamento_time",
@@ -432,32 +442,6 @@
       "unit": "octave"
     },
     {
-      "id": "osc2.octave",
-      "offset": 101,
-      "width_bytes": 1,
-      "kind": "bitfield",
-      "status": "candidate",
-      "mask": 7,
-      "shift": 0,
-      "raw_min": 0,
-      "raw_max": 6,
-      "display_transform": "raw-3",
-      "unit": "octave"
-    },
-    {
-      "id": "osc3.octave",
-      "offset": 102,
-      "width_bytes": 1,
-      "kind": "bitfield",
-      "status": "candidate",
-      "mask": 7,
-      "shift": 0,
-      "raw_min": 0,
-      "raw_max": 6,
-      "display_transform": "raw-3",
-      "unit": "octave"
-    },
-    {
       "id": "osc1.semitone",
       "offset": 95,
       "width_bytes": 1,
@@ -468,58 +452,6 @@
       "raw_min": 0,
       "raw_max": 14,
       "display_transform": "raw-7",
-      "unit": "semitone"
-    },
-    {
-      "id": "osc2.semitone",
-      "offset": 101,
-      "width_bytes": 1,
-      "kind": "bitfield",
-      "status": "candidate",
-      "mask": 240,
-      "shift": 4,
-      "raw_min": 0,
-      "raw_max": 14,
-      "display_transform": "raw-7",
-      "unit": "semitone"
-    },
-    {
-      "id": "osc3.semitone",
-      "offset": 102,
-      "width_bytes": 1,
-      "kind": "bitfield",
-      "status": "candidate",
-      "mask": 240,
-      "shift": 4,
-      "raw_min": 0,
-      "raw_max": 14,
-      "display_transform": "raw-7",
-      "unit": "semitone"
-    },
-    {
-      "id": "osc1.wave",
-      "offset": 97,
-      "width_bytes": 1,
-      "kind": "bitfield",
-      "status": "candidate",
-      "mask": 3,
-      "shift": 0,
-      "enum": {
-        "0": "sine",
-        "1": "tri_saw",
-        "2": "pulse"
-      }
-    },
-    {
-      "id": "osc1.pitch_bender_range",
-      "offset": 97,
-      "width_bytes": 1,
-      "kind": "bitfield",
-      "status": "candidate",
-      "mask": 60,
-      "shift": 2,
-      "raw_min": 0,
-      "raw_max": 12,
       "unit": "semitone"
     },
     {
@@ -545,16 +477,29 @@
       }
     },
     {
-      "id": "osc.sync_type",
-      "offset": 98,
+      "id": "osc1.pitch_bender_range",
+      "offset": 97,
       "width_bytes": 1,
       "kind": "bitfield",
       "status": "candidate",
-      "mask": 1,
+      "mask": 60,
+      "shift": 2,
+      "raw_min": 0,
+      "raw_max": 12,
+      "unit": "semitone"
+    },
+    {
+      "id": "osc1.wave",
+      "offset": 97,
+      "width_bytes": 1,
+      "kind": "bitfield",
+      "status": "candidate",
+      "mask": 3,
       "shift": 0,
       "enum": {
-        "0": "soft",
-        "1": "hard"
+        "0": "sine",
+        "1": "tri_saw",
+        "2": "pulse"
       }
     },
     {
@@ -569,6 +514,19 @@
         "0": "3_to_2_to_1",
         "1": "2_to_1_and_3_to_1",
         "2": "2_to_1"
+      }
+    },
+    {
+      "id": "osc.sync_type",
+      "offset": 98,
+      "width_bytes": 1,
+      "kind": "bitfield",
+      "status": "candidate",
+      "mask": 1,
+      "shift": 0,
+      "enum": {
+        "0": "soft",
+        "1": "hard"
       }
     },
     {
@@ -611,6 +569,58 @@
         "0": "linear",
         "1": "exponential"
       }
+    },
+    {
+      "id": "osc2.octave",
+      "offset": 101,
+      "width_bytes": 1,
+      "kind": "bitfield",
+      "status": "candidate",
+      "mask": 7,
+      "shift": 0,
+      "raw_min": 0,
+      "raw_max": 6,
+      "display_transform": "raw-3",
+      "unit": "octave"
+    },
+    {
+      "id": "osc2.semitone",
+      "offset": 101,
+      "width_bytes": 1,
+      "kind": "bitfield",
+      "status": "candidate",
+      "mask": 240,
+      "shift": 4,
+      "raw_min": 0,
+      "raw_max": 14,
+      "display_transform": "raw-7",
+      "unit": "semitone"
+    },
+    {
+      "id": "osc3.octave",
+      "offset": 102,
+      "width_bytes": 1,
+      "kind": "bitfield",
+      "status": "candidate",
+      "mask": 7,
+      "shift": 0,
+      "raw_min": 0,
+      "raw_max": 6,
+      "display_transform": "raw-3",
+      "unit": "octave"
+    },
+    {
+      "id": "osc3.semitone",
+      "offset": 102,
+      "width_bytes": 1,
+      "kind": "bitfield",
+      "status": "candidate",
+      "mask": 240,
+      "shift": 4,
+      "raw_min": 0,
+      "raw_max": 14,
+      "display_transform": "raw-7",
+      "unit": "semitone"
     },
     {
       "id": "osc2.pitch_bender_range",
@@ -1078,7 +1088,14 @@
       "kind": "u8",
       "status": "candidate",
       "raw_min": 0,
-      "raw_max": 161
+      "raw_max": 161,
+      "device_availability": [
+        "micron"
+      ],
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      }
     },
     {
       "id": "performance_knob.y.assignment",
@@ -1087,7 +1104,14 @@
       "kind": "u8",
       "status": "candidate",
       "raw_min": 0,
-      "raw_max": 161
+      "raw_max": 161,
+      "device_availability": [
+        "micron"
+      ],
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      }
     },
     {
       "id": "performance_knob.z.assignment",
@@ -1096,7 +1120,14 @@
       "kind": "u8",
       "status": "candidate",
       "raw_min": 0,
-      "raw_max": 161
+      "raw_max": 161,
+      "device_availability": [
+        "micron"
+      ],
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      }
     },
     {
       "id": "env.amp.attack",
@@ -1243,6 +1274,19 @@
       "raw_max": 100
     },
     {
+      "id": "env.amp.freerun",
+      "offset": 192,
+      "width_bytes": 1,
+      "kind": "bitfield",
+      "status": "candidate",
+      "mask": 128,
+      "shift": 7,
+      "enum": {
+        "0": "release",
+        "1": "freerun"
+      }
+    },
+    {
       "id": "env.amp.loop_mode",
       "offset": 192,
       "width_bytes": 1,
@@ -1285,8 +1329,8 @@
       }
     },
     {
-      "id": "env.amp.freerun",
-      "offset": 192,
+      "id": "env.filter.freerun",
+      "offset": 193,
       "width_bytes": 1,
       "kind": "bitfield",
       "status": "candidate",
@@ -1340,8 +1384,8 @@
       }
     },
     {
-      "id": "env.filter.freerun",
-      "offset": 193,
+      "id": "env.pitch.freerun",
+      "offset": 194,
       "width_bytes": 1,
       "kind": "bitfield",
       "status": "candidate",
@@ -1392,19 +1436,6 @@
         "2": "key_mono",
         "3": "key_poly",
         "4": "arp_mono"
-      }
-    },
-    {
-      "id": "env.pitch.freerun",
-      "offset": 194,
-      "width_bytes": 1,
-      "kind": "bitfield",
-      "status": "candidate",
-      "mask": 128,
-      "shift": 7,
-      "enum": {
-        "0": "release",
-        "1": "freerun"
       }
     },
     {
@@ -1769,17 +1800,6 @@
       "raw_max": 4
     },
     {
-      "id": "tempo_arp.pattern",
-      "offset": 220,
-      "width_bytes": 1,
-      "kind": "bitfield",
-      "status": "candidate",
-      "mask": 31,
-      "shift": 0,
-      "raw_min": 0,
-      "raw_max": 31
-    },
-    {
       "id": "tempo_arp.multiplier",
       "offset": 220,
       "width_bytes": 1,
@@ -1798,6 +1818,17 @@
         "5": "3",
         "6": "4"
       }
+    },
+    {
+      "id": "tempo_arp.pattern",
+      "offset": 220,
+      "width_bytes": 1,
+      "kind": "bitfield",
+      "status": "candidate",
+      "mask": 31,
+      "shift": 0,
+      "raw_min": 0,
+      "raw_max": 31
     },
     {
       "id": "tempo_arp.length",
@@ -1823,17 +1854,17 @@
       "raw_max": 4
     },
     {
-      "id": "tempo_arp.octave_span",
+      "id": "tempo_arp.mode",
       "offset": 222,
       "width_bytes": 1,
       "kind": "bitfield",
       "status": "candidate",
-      "mask": 3,
-      "shift": 0,
+      "mask": 192,
+      "shift": 6,
       "enum": {
-        "0": "up",
-        "1": "down",
-        "2": "centered"
+        "0": "on",
+        "1": "off",
+        "2": "latch"
       }
     },
     {
@@ -1848,17 +1879,17 @@
       "raw_max": 5
     },
     {
-      "id": "tempo_arp.mode",
+      "id": "tempo_arp.octave_span",
       "offset": 222,
       "width_bytes": 1,
       "kind": "bitfield",
       "status": "candidate",
-      "mask": 192,
-      "shift": 6,
+      "mask": 3,
+      "shift": 0,
       "enum": {
-        "0": "on",
-        "1": "off",
-        "2": "latch"
+        "0": "up",
+        "1": "down",
+        "2": "centered"
       }
     },
     {
@@ -1883,6 +1914,116 @@
       "enum_ref": "modulation-sources-plus-extreme"
     },
     {
+      "id": "mod_matrix.slot02.source",
+      "offset": 231,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot03.source",
+      "offset": 232,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot04.source",
+      "offset": 233,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot05.source",
+      "offset": 234,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot06.source",
+      "offset": 235,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot07.source",
+      "offset": 236,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot08.source",
+      "offset": 237,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot09.source",
+      "offset": 238,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot10.source",
+      "offset": 239,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot11.source",
+      "offset": 240,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
+      "id": "mod_matrix.slot12.source",
+      "offset": 241,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 115,
+      "enum_ref": "modulation-sources-plus-extreme"
+    },
+    {
       "id": "mod_matrix.slot01.destination",
       "offset": 242,
       "width_bytes": 1,
@@ -1893,8 +2034,239 @@
       "enum_ref": "modulation-destinations"
     },
     {
+      "id": "mod_matrix.slot02.destination",
+      "offset": 243,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot03.destination",
+      "offset": 244,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot04.destination",
+      "offset": 245,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot05.destination",
+      "offset": 246,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot06.destination",
+      "offset": 247,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot07.destination",
+      "offset": 248,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot08.destination",
+      "offset": 249,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot09.destination",
+      "offset": 250,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot10.destination",
+      "offset": 251,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot11.destination",
+      "offset": 252,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
+      "id": "mod_matrix.slot12.destination",
+      "offset": 253,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 78,
+      "enum_ref": "modulation-destinations"
+    },
+    {
       "id": "mod_matrix.slot01.level",
       "offset": 254,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot02.level",
+      "offset": 256,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot03.level",
+      "offset": 258,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot04.level",
+      "offset": 260,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot05.level",
+      "offset": 262,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot06.level",
+      "offset": 264,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot07.level",
+      "offset": 266,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot08.level",
+      "offset": 268,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot09.level",
+      "offset": 270,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot10.level",
+      "offset": 272,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot11.level",
+      "offset": 274,
+      "width_bytes": 2,
+      "kind": "s16be",
+      "status": "candidate",
+      "raw_min": -1000,
+      "raw_max": 1000,
+      "scale": 0.1,
+      "unit": "percent"
+    },
+    {
+      "id": "mod_matrix.slot12.level",
+      "offset": 276,
       "width_bytes": 2,
       "kind": "s16be",
       "status": "candidate",
@@ -1915,70 +2287,8 @@
       "unit": "percent"
     },
     {
-      "id": "mod_matrix.slot02.source",
-      "offset": 231,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot02.destination",
-      "offset": 243,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot02.level",
-      "offset": 256,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
       "id": "mod_matrix.slot02.offset",
       "offset": 280,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
-      "id": "mod_matrix.slot03.source",
-      "offset": 232,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot03.destination",
-      "offset": 244,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot03.level",
-      "offset": 258,
       "width_bytes": 2,
       "kind": "s16be",
       "status": "candidate",
@@ -1999,70 +2309,8 @@
       "unit": "percent"
     },
     {
-      "id": "mod_matrix.slot04.source",
-      "offset": 233,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot04.destination",
-      "offset": 245,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot04.level",
-      "offset": 260,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
       "id": "mod_matrix.slot04.offset",
       "offset": 284,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
-      "id": "mod_matrix.slot05.source",
-      "offset": 234,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot05.destination",
-      "offset": 246,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot05.level",
-      "offset": 262,
       "width_bytes": 2,
       "kind": "s16be",
       "status": "candidate",
@@ -2083,70 +2331,8 @@
       "unit": "percent"
     },
     {
-      "id": "mod_matrix.slot06.source",
-      "offset": 235,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot06.destination",
-      "offset": 247,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot06.level",
-      "offset": 264,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
       "id": "mod_matrix.slot06.offset",
       "offset": 288,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
-      "id": "mod_matrix.slot07.source",
-      "offset": 236,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot07.destination",
-      "offset": 248,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot07.level",
-      "offset": 266,
       "width_bytes": 2,
       "kind": "s16be",
       "status": "candidate",
@@ -2167,70 +2353,8 @@
       "unit": "percent"
     },
     {
-      "id": "mod_matrix.slot08.source",
-      "offset": 237,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot08.destination",
-      "offset": 249,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot08.level",
-      "offset": 268,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
       "id": "mod_matrix.slot08.offset",
       "offset": 292,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
-      "id": "mod_matrix.slot09.source",
-      "offset": 238,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot09.destination",
-      "offset": 250,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot09.level",
-      "offset": 270,
       "width_bytes": 2,
       "kind": "s16be",
       "status": "candidate",
@@ -2251,37 +2375,6 @@
       "unit": "percent"
     },
     {
-      "id": "mod_matrix.slot10.source",
-      "offset": 239,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot10.destination",
-      "offset": 251,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot10.level",
-      "offset": 272,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
       "id": "mod_matrix.slot10.offset",
       "offset": 296,
       "width_bytes": 2,
@@ -2293,70 +2386,8 @@
       "unit": "percent"
     },
     {
-      "id": "mod_matrix.slot11.source",
-      "offset": 240,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot11.destination",
-      "offset": 252,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot11.level",
-      "offset": 274,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
       "id": "mod_matrix.slot11.offset",
       "offset": 298,
-      "width_bytes": 2,
-      "kind": "s16be",
-      "status": "candidate",
-      "raw_min": -1000,
-      "raw_max": 1000,
-      "scale": 0.1,
-      "unit": "percent"
-    },
-    {
-      "id": "mod_matrix.slot12.source",
-      "offset": 241,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 115,
-      "enum_ref": "modulation-sources-plus-extreme"
-    },
-    {
-      "id": "mod_matrix.slot12.destination",
-      "offset": 253,
-      "width_bytes": 1,
-      "kind": "s8",
-      "status": "candidate",
-      "raw_min": 0,
-      "raw_max": 78,
-      "enum_ref": "modulation-destinations"
-    },
-    {
-      "id": "mod_matrix.slot12.level",
-      "offset": 276,
       "width_bytes": 2,
       "kind": "s16be",
       "status": "candidate",
@@ -2863,6 +2894,47 @@
       "width_bytes": 1,
       "kind": "s8",
       "status": "candidate"
+    },
+    {
+      "id": "effects.fx1_fx2_balance",
+      "offset": 352,
+      "width_bytes": 1,
+      "kind": "s8",
+      "status": "candidate",
+      "raw_min": -50,
+      "raw_max": 50,
+      "device_availability": [
+        "micron"
+      ],
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      }
+    },
+    {
+      "id": "effects2.type",
+      "offset": 353,
+      "width_bytes": 1,
+      "kind": "u8",
+      "status": "candidate",
+      "raw_min": 0,
+      "raw_max": 6,
+      "device_availability": [
+        "micron"
+      ],
+      "enum": {
+        "0": "bypass",
+        "1": "mono_delay",
+        "2": "stereo_delay",
+        "3": "split_lr_delay",
+        "4": "hall_reverb",
+        "5": "plate_reverb",
+        "6": "room_reverb"
+      },
+      "corroboration": {
+        "source": "research/external/micronau-evidence.json",
+        "status": "independently_corroborated_hardware_verification_pending"
+      }
     },
     {
       "id": "unknown.356",

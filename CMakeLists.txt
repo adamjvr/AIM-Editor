@@ -32,12 +32,14 @@ juce_add_binary_data(AIMEditorData
     NAMESPACE AIMBinaryData
     SOURCES
         data/parameters.json
+        data/device-profiles.json
         data/protocol/ion-sysex.json
         data/protocol/ion-nrpn.json
         data/enums/modulation-sources.json
         data/enums/modulation-destinations.json
         data/enums/filter-types.json
         schemas/parameter-database.schema.json
+        schemas/device-profiles.schema.json
         schemas/program.schema.json
         schemas/bank.schema.json
         schemas/midi-capture.schema.json
@@ -88,6 +90,7 @@ add_library(AIMEditorMidi STATIC
     Source/Midi/MidiCaptureEvent.h
     Source/Midi/IonMidiService.cpp
     Source/Midi/IonMidiService.h
+    Source/Midi/IonFamilyDevice.h
     Source/Midi/IonProtocol.cpp
     Source/Midi/IonProtocol.h
     Source/Midi/IonParameterTransmitter.cpp

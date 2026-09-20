@@ -11,15 +11,16 @@ namespace
 constexpr std::array<std::uint8_t, 4> requestPrefix { 0x00, 0x00, 0x0e, 0x22 };
 constexpr std::array<std::uint8_t, 8> synthTag { 'Q', '0', '1', 'S', 'Y', 'N', 'T', 'H' };
 
-std::vector<std::uint8_t> requestPayload (IonBank bank, bool multiple, int slot)
+std::vector<std::uint8_t> requestPayload (std::uint8_t requestProductId, int bank, int highOrMultiple, int slotLow)
 {
     std::vector<std::uint8_t> bytes;
     bytes.reserve (8);
     bytes.insert (bytes.end(), requestPrefix.begin(), requestPrefix.end());
+    bytes[3] = requestProductId;
     bytes.push_back (IonSysExCodec::requestPatchOpcode);
     bytes.push_back (static_cast<std::uint8_t> (bank));
-    bytes.push_back (multiple ? 0x01 : 0x00);
-    bytes.push_back (static_cast<std::uint8_t> (slot));
+    bytes.push_back (static_cast<std::uint8_t> (highOrMultiple));
+    bytes.push_back (static_cast<std::uint8_t> (slotLow));
     return bytes;
 }
 }
@@ -48,15 +49,30 @@ juce::var IonPatchDump::toJsonSummary() const
     return juce::var (object);
 }
 
-juce::MidiMessage IonSysExCodec::makeSinglePatchRequest (IonBank bank, int slot)
+juce::MidiMessage IonSysExCodec::makeSinglePatchRequest (IonFamilyDevice device, int bank, int slot)
 {
-    const auto bankValue = static_cast<int> (bank);
-    if (! isValidBank (bankValue))
-        bank = IonBank::red;
+    const auto& profile = profileFor (device);
 
-    const auto maxSlot = bank == IonBank::edit ? 3 : 127;
-    slot = std::clamp (slot, 0, maxSlot);
-    const auto payload = requestPayload (bank, false, slot);
+    if (device == IonFamilyDevice::ion)
+    {
+        bank = std::clamp (bank, static_cast<int> (IonBank::red), static_cast<int> (IonBank::edit));
+        const auto maxSlot = bank == static_cast<int> (IonBank::edit) ? 3 : 127;
+        slot = std::clamp (slot, 0, maxSlot);
+    }
+    else if (device == IonFamilyDevice::micron)
+    {
+        bank = std::clamp (bank, 0, profile.requestBankCount - 1);
+        slot = std::clamp (slot, 0, 127);
+    }
+
+    // Micronau independently confirms that Micron requests use product 0x26
+    // while returned/shared Program images remain product 0x22. The program
+    // address is split over the final two request bytes; current supported
+    // ranges fit in 7 bits, so the high bit remains zero for single requests.
+    const auto payload = requestPayload (profile.requestProductId,
+                                         bank,
+                                         (slot >> 7) & 0x01,
+                                         slot & 0x7f);
     return juce::MidiMessage::createSysExMessage (payload.data(), static_cast<int> (payload.size()));
 }
 
@@ -65,7 +81,7 @@ juce::MidiMessage IonSysExCodec::makeBankRequest (IonBank bank)
     if (! isValidBank (static_cast<int> (bank)))
         bank = IonBank::red;
 
-    const auto payload = requestPayload (bank, true, 0);
+    const auto payload = requestPayload (ionDeviceProfile.requestProductId, static_cast<int> (bank), 1, 0);
     return juce::MidiMessage::createSysExMessage (payload.data(), static_cast<int> (payload.size()));
 }
 

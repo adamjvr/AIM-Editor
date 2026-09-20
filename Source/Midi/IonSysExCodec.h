@@ -3,6 +3,8 @@
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_core/juce_core.h>
 
+#include "IonFamilyDevice.h"
+
 #include <cstddef>
 #include <cstdint>
 #include <vector>
@@ -44,14 +46,22 @@ struct IonPatchDump
 class IonSysExCodec
 {
 public:
-    static constexpr std::uint8_t productId = 0x22;
+    static constexpr std::uint8_t productId = 0x22; // shared Program dump product ID
     static constexpr std::uint8_t requestPatchOpcode = 0x41;
     static constexpr std::size_t encodedSinglePatchPayloadSize = 432;
     static constexpr std::size_t decodedSinglePatchSize = 378;
     static constexpr std::size_t patchDataOffset = 63;
     static constexpr std::size_t patchDataSize = 315;
 
-    [[nodiscard]] static juce::MidiMessage makeSinglePatchRequest (IonBank bank, int slot);
+    [[nodiscard]] static juce::MidiMessage makeSinglePatchRequest (IonFamilyDevice device,
+                                                                    int bank,
+                                                                    int slot);
+
+    // Backward-compatible Ion-only convenience overload.
+    [[nodiscard]] static juce::MidiMessage makeSinglePatchRequest (IonBank bank, int slot)
+    {
+        return makeSinglePatchRequest (IonFamilyDevice::ion, static_cast<int> (bank), slot);
+    }
     [[nodiscard]] static juce::MidiMessage makeBankRequest (IonBank bank);
 
     /** Retarget the header of a decoded candidate patch image without touching

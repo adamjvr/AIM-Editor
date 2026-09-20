@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aim-editor.local/schema/device-profiles.schema.json",
+  "title": "AIM Editor Ion-family device profiles",
+  "type": "object",
+  "required": ["format", "schema_version", "family", "program_format", "devices"],
+  "properties": {
+    "format": { "const": "aim-editor.ion-family-device-profiles" },
+    "schema_version": { "const": 1 },
+    "family": { "const": "alesis-ion-family" },
+    "program_format": {
+      "type": "object",
+      "required": ["program_dump_product_id", "decoded_bytes", "encoded_payload_bytes", "wire_bytes"],
+      "properties": {
+        "program_dump_product_id": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "decoded_bytes": { "type": "integer", "minimum": 1 },
+        "encoded_payload_bytes": { "type": "integer", "minimum": 1 },
+        "wire_bytes": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": true
+    },
+    "devices": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["id", "manufacturer", "model", "request_product_id", "request_bank_count", "capabilities", "evidence"],
+        "properties": {
+          "id": { "enum": ["ion", "micron"] },
+          "manufacturer": { "const": "Alesis" },
+          "model": { "type": "string", "minLength": 1 },
+          "request_product_id": { "type": "integer", "minimum": 0, "maximum": 127 },
+          "request_bank_count": { "type": "integer", "minimum": 1 },
+          "capabilities": { "type": "object" },
+          "evidence": { "type": "object" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

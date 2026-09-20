@@ -24,6 +24,7 @@ def main() -> int:
         "session.midi_channel",
         "session.bank",
         "session.program",
+        "session.device_profile",
         "session.midi_input_identifier",
         "session.midi_output_identifier",
     }

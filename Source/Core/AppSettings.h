@@ -20,6 +20,7 @@ struct SessionSnapshot
     int midiChannel = 1;
     int bankIndex = 0;
     int programIndex = 0;
+    juce::String deviceProfileId { "ion" };
     juce::String midiInputIdentifier;
     juce::String midiOutputIdentifier;
 };

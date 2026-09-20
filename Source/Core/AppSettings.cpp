@@ -8,6 +8,7 @@ constexpr auto pageKey = "session.page";
 constexpr auto midiChannelKey = "session.midi_channel";
 constexpr auto bankKey = "session.bank";
 constexpr auto programKey = "session.program";
+constexpr auto deviceProfileKey = "session.device_profile";
 constexpr auto midiInputKey = "session.midi_input_identifier";
 constexpr auto midiOutputKey = "session.midi_output_identifier";
 }
@@ -35,8 +36,11 @@ SessionSnapshot AppSettings::loadSession()
     {
         snapshot.pageIndex = juce::jlimit (0, 4, settings->getIntValue (pageKey, 0));
         snapshot.midiChannel = juce::jlimit (1, 16, settings->getIntValue (midiChannelKey, 1));
-        snapshot.bankIndex = juce::jlimit (0, 4, settings->getIntValue (bankKey, 0));
+        snapshot.bankIndex = juce::jlimit (0, 7, settings->getIntValue (bankKey, 0));
         snapshot.programIndex = juce::jmax (0, settings->getIntValue (programKey, 0));
+        snapshot.deviceProfileId = settings->getValue (deviceProfileKey, "ion");
+        if (snapshot.deviceProfileId != "micron")
+            snapshot.deviceProfileId = "ion";
         snapshot.midiInputIdentifier = settings->getValue (midiInputKey);
         snapshot.midiOutputIdentifier = settings->getValue (midiOutputKey);
     }
@@ -49,8 +53,9 @@ void AppSettings::saveSession (const SessionSnapshot& snapshot)
     {
         settings->setValue (pageKey, juce::jlimit (0, 4, snapshot.pageIndex));
         settings->setValue (midiChannelKey, juce::jlimit (1, 16, snapshot.midiChannel));
-        settings->setValue (bankKey, juce::jlimit (0, 4, snapshot.bankIndex));
+        settings->setValue (bankKey, juce::jlimit (0, 7, snapshot.bankIndex));
         settings->setValue (programKey, juce::jmax (0, snapshot.programIndex));
+        settings->setValue (deviceProfileKey, snapshot.deviceProfileId == "micron" ? "micron" : "ion");
         settings->setValue (midiInputKey, snapshot.midiInputIdentifier);
         settings->setValue (midiOutputKey, snapshot.midiOutputIdentifier);
     }

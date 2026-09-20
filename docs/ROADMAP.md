@@ -181,3 +181,11 @@
 - Make the aggregate Apple gate launch the successful macOS app as well as installing/launching the physical iPad build.
 
 - Pass 30: first Apple chrome cleanup — product title, ASCII-safe page banner, non-overlapping global selector headings, and hard physical-iPad status-bar suppression.
+
+## Pass 31 — Ion/Micron family architecture
+
+- Promoted the architecture from Ion-only request assumptions to a shared Ion-family Program model with explicit Ion and Micron hardware profiles.
+- Shared Program dumps remain `0x22`, 434 bytes on wire / 378 bytes decoded; Micron single-Program requests use `0x26` while Ion requests use `0x22`.
+- Added a persistent DEVICE selector and device-aware request bank/program addressing.
+- Micron bank requests and full writes are disabled until hardware evidence closes those semantics; Ion guarded Edit-buffer writes remain unchanged.
+- Added pinned Micronau corroboration, selected Micron FX2/X-Y-Z facts, and explicit conflict holds without importing GPL implementation code.

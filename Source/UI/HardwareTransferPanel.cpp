@@ -8,7 +8,7 @@ HardwareTransferPanel::HardwareTransferPanel (IonMidiService& midiService,
                                               ProgramState& programState)
     : midi (midiService), registry (parameterRegistry), state (programState)
 {
-    title.setText ("Ion Hardware Transfer", juce::dontSendNotification);
+    title.setText ("Alesis Ion Hardware Transfer", juce::dontSendNotification);
     title.setFont (juce::FontOptions (18.0f));
     title.setColour (juce::Label::textColourId, juce::Colours::white);
 
@@ -24,7 +24,7 @@ HardwareTransferPanel::HardwareTransferPanel (IonMidiService& midiService,
     for (auto* label : { &bankLabel, &programLabel, &editSlotLabel })
         label->setColour (juce::Label::textColourId, juce::Colours::white.withAlpha (0.68f));
 
-    bank.addItemList ({ "Red", "Green", "Blue", "Yellow/User", "Edit" }, 1);
+    refreshBankSelector();
     bank.setSelectedId (1, juce::dontSendNotification);
     bank.onChange = [this] { refreshProgramSelector(); };
     refreshProgramSelector();
@@ -62,6 +62,42 @@ HardwareTransferPanel::~HardwareTransferPanel()
     state.removeListener (this);
 }
 
+void HardwareTransferPanel::setDeviceProfile (IonFamilyDevice deviceToUse)
+{
+    device = deviceToUse;
+    armWrites.setToggleState (false, juce::dontSendNotification);
+    refreshBankSelector();
+    refreshProgramSelector();
+
+    const auto& profile = profileFor (device);
+    title.setText (juce::String (profile.displayName.data()) + " Hardware Transfer", juce::dontSendNotification);
+    requestBank.setEnabled (profile.supportsBankDumpRequest);
+    requestBank.setTooltip (profile.supportsBankDumpRequest
+                                ? "Request the selected Ion bank using the candidate bank-dump request framing."
+                                : "Disabled for Micron until bank-stream request behavior is independently verified.");
+
+    editSlotLabel.setVisible (profile.supportsIonEditBuffers);
+    editSlot.setVisible (profile.supportsIonEditBuffers);
+    armWrites.setVisible (profile.supportsIonEditBuffers);
+    sendEditBuffer.setVisible (profile.supportsIonEditBuffers);
+
+    if (device == IonFamilyDevice::micron)
+    {
+        warning.setText ("Micron single-program requests are independently corroborated: request product ID 0x26, shared Program dumps 0x22/378 bytes. "
+                         "Bank-dump requests and full Program writes stay disabled until Micron storage/destination semantics are hardware-verified.",
+                         juce::dontSendNotification);
+    }
+    else
+    {
+        warning.setText ("Candidate Ion protocol: patch requests and full-patch writes use the shared 378-byte Program format. "
+                         "Writes stay disabled until explicitly armed and the current program has a captured/imported source template.",
+                         juce::dontSendNotification);
+    }
+
+    updateState();
+    resized();
+}
+
 void HardwareTransferPanel::paint (juce::Graphics& g)
 {
     g.setColour (juce::Colours::black.withAlpha (0.40f));
@@ -88,25 +124,28 @@ void HardwareTransferPanel::resized()
     area.removeFromTop (8);
 
     auto selectors = area.removeFromTop (52);
-    auto column = [&selectors] (int count)
-    {
-        constexpr int localGap = 8;
-        return (selectors.getWidth() - localGap * (count - 1)) / count;
-    };
-    const auto selectorWidth = column (3);
+    const auto selectorCount = device == IonFamilyDevice::ion ? 3 : 2;
+    const auto selectorWidth = (selectors.getWidth() - gap * (selectorCount - 1)) / selectorCount;
 
     auto bankArea = selectors.removeFromLeft (selectorWidth);
     selectors.removeFromLeft (gap);
-    auto programArea = selectors.removeFromLeft (selectorWidth);
-    selectors.removeFromLeft (gap);
-    auto editArea = selectors;
+    auto programArea = device == IonFamilyDevice::ion ? selectors.removeFromLeft (selectorWidth) : selectors;
+    juce::Rectangle<int> editArea;
+    if (device == IonFamilyDevice::ion)
+    {
+        selectors.removeFromLeft (gap);
+        editArea = selectors;
+    }
 
     bankLabel.setBounds (bankArea.removeFromTop (18));
     bank.setBounds (bankArea.removeFromTop (30));
     programLabel.setBounds (programArea.removeFromTop (18));
     program.setBounds (programArea.removeFromTop (30));
-    editSlotLabel.setBounds (editArea.removeFromTop (18));
-    editSlot.setBounds (editArea.removeFromTop (30));
+    if (device == IonFamilyDevice::ion)
+    {
+        editSlotLabel.setBounds (editArea.removeFromTop (18));
+        editSlot.setBounds (editArea.removeFromTop (30));
+    }
 
     area.removeFromTop (10);
     sourceStatus.setBounds (area.removeFromTop (24));
@@ -126,12 +165,32 @@ void HardwareTransferPanel::resized()
     closeButton.setBounds (area.removeFromBottom (32).removeFromRight (96));
 }
 
+void HardwareTransferPanel::refreshBankSelector()
+{
+    const auto previous = juce::jmax (0, bank.getSelectedItemIndex());
+    bank.clear (juce::dontSendNotification);
+
+    if (device == IonFamilyDevice::ion)
+    {
+        bank.addItemList ({ "Red", "Green", "Blue", "Yellow/User", "Edit" }, 1);
+    }
+    else
+    {
+        for (int index = 1; index <= micronDeviceProfile.requestBankCount; ++index)
+            bank.addItem ("Bank " + juce::String (index), index);
+    }
+
+    bank.setSelectedItemIndex (juce::jmin (previous, juce::jmax (0, bank.getNumItems() - 1)),
+                               juce::dontSendNotification);
+}
+
 void HardwareTransferPanel::refreshProgramSelector()
 {
     const auto previous = juce::jmax (0, program.getSelectedItemIndex());
     program.clear (juce::dontSendNotification);
 
-    const bool editBank = bank.getSelectedItemIndex() == static_cast<int> (IonBank::edit);
+    const bool editBank = device == IonFamilyDevice::ion
+                       && bank.getSelectedItemIndex() == static_cast<int> (IonBank::edit);
     const auto count = editBank ? 4 : 128;
     for (int slot = 0; slot < count; ++slot)
         program.addItem (juce::String (slot + 1) + "/" + juce::String (count), slot + 1);
@@ -143,21 +202,28 @@ void HardwareTransferPanel::requestSelectedPatch()
 {
     const auto bankIndex = bank.getSelectedItemIndex();
     const auto slot = program.getSelectedItemIndex();
-    if (! IonSysExCodec::isValidBank (bankIndex) || slot < 0)
+    const auto& profile = profileFor (device);
+    if (bankIndex < 0 || bankIndex >= profile.requestBankCount || slot < 0)
         return;
 
-    midi.sendNow (IonSysExCodec::makeSinglePatchRequest (static_cast<IonBank> (bankIndex), slot));
-    transferStatus.setText ("patch request sent", juce::dontSendNotification);
+    midi.sendNow (IonSysExCodec::makeSinglePatchRequest (device, bankIndex, slot));
+    transferStatus.setText (juce::String (profile.displayName.data()) + " patch request sent", juce::dontSendNotification);
 }
 
 void HardwareTransferPanel::requestSelectedBank()
 {
+    if (device != IonFamilyDevice::ion)
+    {
+        transferStatus.setText ("Micron bank request not enabled", juce::dontSendNotification);
+        return;
+    }
+
     const auto bankIndex = bank.getSelectedItemIndex();
     if (! IonSysExCodec::isValidBank (bankIndex))
         return;
 
     midi.sendNow (IonSysExCodec::makeBankRequest (static_cast<IonBank> (bankIndex)));
-    transferStatus.setText ("bank request sent", juce::dontSendNotification);
+    transferStatus.setText ("Ion bank request sent", juce::dontSendNotification);
 }
 
 void HardwareTransferPanel::sendCurrentToEditBuffer()
@@ -196,16 +262,19 @@ void HardwareTransferPanel::sendCurrentToEditBuffer()
 void HardwareTransferPanel::updateState()
 {
     const auto templateReady = hasPatchTemplate();
+    const auto ionWriteMode = device == IonFamilyDevice::ion;
+
     sourceStatus.setText (templateReady
                             ? "Source template: ready — unknown bytes/bits will be preserved"
-                            : "Source template: none — capture/import a valid Ion patch before full writes",
+                            : "Source template: none — capture/import a valid Ion-family Program before full writes",
                           juce::dontSendNotification);
     sourceStatus.setColour (juce::Label::textColourId,
                             templateReady ? juce::Colour::fromRGB (105, 210, 120)
                                           : juce::Colour::fromRGB (225, 165, 80));
 
-    sendEditBuffer.setEnabled (templateReady && armWrites.getToggleState());
-    if (! templateReady)
+    sendEditBuffer.setEnabled (ionWriteMode && templateReady && armWrites.getToggleState());
+    armWrites.setEnabled (ionWriteMode && templateReady);
+    if (! ionWriteMode || ! templateReady)
         armWrites.setToggleState (false, juce::dontSendNotification);
 }
 

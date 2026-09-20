@@ -1,0 +1,190 @@
+{
+  "$schema": "../../schemas/micronau-evidence.schema.json",
+  "format": "aim-editor.external-protocol-evidence",
+  "schema_version": 1,
+  "subject": "Alesis Micron / Ion-family Program protocol",
+  "source": {
+    "name": "micronau",
+    "repository": "retroware/micronau",
+    "commit": "0a1f14d8c5bce11663b464cef54e2035aba6ab1a",
+    "user_supplied_archive": "micronau-master.zip",
+    "archive_sha256": "4d127cdb6cc261d2e3f834eabe5cba3a49c578877e6783dea4a871a57233ad45",
+    "license": "GPL-2.0-or-later",
+    "policy": "Protocol facts may corroborate AIM's independently implemented model; GPL implementation code is not copied into AIM Editor."
+  },
+  "program_transport": {
+    "single_program_wire_bytes": 434,
+    "encoded_payload_bytes": 432,
+    "decoded_bytes": 378,
+    "program_dump_product_id": 34,
+    "program_tag": "Q01SYNTH",
+    "program_data_bytes": 315,
+    "default_syx_sha256": "3316a957c026609b8afe6a3d4445382c85a95c2a1c931d31e17f9f65976cc761",
+    "default_syx_name": "micronAU",
+    "evidence": [
+      {
+        "path": "Source/IonSysex.cpp",
+        "fact": "SYSEX_PROGRAM_SIZE is 434 and program messages use product ID 0x22"
+      },
+      {
+        "path": "Source/default.syx",
+        "fact": "434-byte specimen decodes via 7-of-8 to 378 bytes with Q01SYNTH and 315-byte data length"
+      }
+    ]
+  },
+  "device_request": {
+    "micron_request_product_id": 38,
+    "opcode": 65,
+    "request_bytes_without_f0_f7": 8,
+    "bank_count": 8,
+    "program_count": 128,
+    "address_encoding": "bank, program bit 7, program bits 0..6",
+    "evidence": [
+      {
+        "path": "Source/micronau.cpp",
+        "line": 499,
+        "fact": "request template begins 00 00 0E 26 41"
+      },
+      {
+        "path": "Source/micronau.cpp",
+        "lines": "514-516",
+        "fact": "bank and program address populate request bytes 5..7"
+      },
+      {
+        "path": "Source/parameters.xml",
+        "lines": "4-5",
+        "fact": "editor exposes 8 banks and 128 programs"
+      }
+    ]
+  },
+  "parameter_inventory": {
+    "parameter_elements": 318,
+    "with_nrpn_attribute": 294,
+    "with_sysexoffset_attribute": 285,
+    "note": "Counts are research inventory statistics, not a claim that every entry is a direct hardware parameter. Micronau also uses internal/meta NRPN identifiers."
+  },
+  "micron_extensions": {
+    "xyz_assignments": [
+      {
+        "id": "performance_knob.x.assignment",
+        "source_name": "Knob x",
+        "sysex_bit_offset": 792,
+        "decoded_byte_offset": 162,
+        "source_nrpn": 411,
+        "raw_min": 0,
+        "raw_max": 161
+      },
+      {
+        "id": "performance_knob.y.assignment",
+        "source_name": "Knob y",
+        "sysex_bit_offset": 800,
+        "decoded_byte_offset": 163,
+        "source_nrpn": 412,
+        "raw_min": 0,
+        "raw_max": 161
+      },
+      {
+        "id": "performance_knob.z.assignment",
+        "source_name": "Knob z",
+        "sysex_bit_offset": 808,
+        "decoded_byte_offset": 164,
+        "source_nrpn": 413,
+        "raw_min": 0,
+        "raw_max": 161
+      }
+    ],
+    "category": {
+      "sysex_bit_offset": 184,
+      "decoded_byte_offset": 86,
+      "source_nrpn": 666,
+      "raw_min": 0,
+      "raw_max": 10,
+      "labels": [
+        "recent",
+        "faves",
+        "bass",
+        "lead",
+        "pad",
+        "string",
+        "brass",
+        "key",
+        "comp",
+        "drum",
+        "sfx"
+      ]
+    },
+    "micron_file_id": {
+      "sysex_bit_offset": 2360,
+      "source_nrpn": 105,
+      "raw_min": 0,
+      "raw_max": 16383,
+      "status": "conflict_hold",
+      "decoded_byte_offsets": [
+        357,
+        358
+      ],
+      "high_byte_offset": 357,
+      "low_byte_offset": 358
+    },
+    "fx1_fx2_balance": {
+      "sysex_bit_offset": 2312,
+      "decoded_byte_offset": 352,
+      "internal_nrpn": 742,
+      "hardware_nrpn_after_micronau_offset": 230,
+      "raw_min": -50,
+      "raw_max": 50
+    },
+    "fx2": {
+      "type_source_name": "Delay type",
+      "sysex_bit_offset": 2320,
+      "decoded_byte_offset": 353,
+      "internal_selector_nrpn": 801,
+      "hardware_selector_nrpn": 245,
+      "types": [
+        "bypass",
+        "mono delay",
+        "stereo delay",
+        "split L/R delay",
+        "hall reverb",
+        "plate reverb",
+        "room reverb"
+      ],
+      "hardware_parameter_nrpn_range": [
+        246,
+        250
+      ],
+      "note": "Micronau assigns internal per-algorithm NRPNs and maps the selected FX2 algorithm back onto five hardware parameter NRPNs."
+    }
+  },
+  "aim_crosscheck": {
+    "agreements": [
+      "Shared Program dump product ID 0x22",
+      "434-byte wire / 432-byte payload / 378-byte decoded Program image",
+      "Q01SYNTH tag and 315-byte Program-data body",
+      "X/Y/Z assignment byte offsets 162/163/164",
+      "FX1/FX2 balance hardware NRPN 230",
+      "FX2 selector hardware NRPN 245 and parameter range 246..250",
+      "11-value Program category vocabulary"
+    ],
+    "conflicts_or_holds": [
+      {
+        "topic": "Micron request product ID",
+        "micronau": "0x26",
+        "prior_aim_behavior": "0x22-only request framing",
+        "resolution": "Pass 31 device profiles use 0x22 for Ion requests and 0x26 for Micron requests while retaining shared 0x22 Program dumps."
+      },
+      {
+        "topic": "NRPN 105",
+        "micronau": "Micron file ID",
+        "aim_candidate": "LFO 1 tempo sync",
+        "resolution": "Do not merge or promote. Preserve as an explicit per-device/conflicting evidence item pending hardware capture."
+      },
+      {
+        "topic": "FX2 parameter 250",
+        "micronau": "fifth FX2 algorithm parameter after dynamic mapping",
+        "aim_candidate": "effects.param_a_synced",
+        "resolution": "Treat as device/algorithm-sensitive conflict until captured on hardware."
+      }
+    ]
+  }
+}
