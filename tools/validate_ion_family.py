@@ -109,6 +109,39 @@ def main() -> int:
         require(fields.get(field_id, {}).get("offset") == offset,
                 f"existing shared Program map lost corroborated {field_id} offset {offset}")
 
+
+    params = load_json("data/parameters.json")
+    param_ids = {item["id"] for item in params["parameters"]}
+    for parameter_id in (
+        "micron.xyz.x_assignment",
+        "micron.xyz.y_assignment",
+        "micron.xyz.z_assignment",
+        "micron.fx2.balance",
+        "micron.fx2.type",
+    ):
+        require(parameter_id in param_ids, f"Micron device-aware UI lost {parameter_id}")
+
+    page = (ROOT / "Source/UI/Panels/EditorPage.cpp").read_text(encoding="utf-8")
+    micron_panel = (ROOT / "Source/UI/Components/MicronExtensionsPanel.cpp").read_text(encoding="utf-8")
+    oscillator_panel = (ROOT / "Source/UI/Components/OscillatorPanel.cpp").read_text(encoding="utf-8")
+    require('entry.group == "micron_extensions"' in page and "IonFamilyDevice::micron" in page,
+            "Micron-only editor section must be capability-gated by selected device")
+    require('"Alesis Micron Editor"' in page and '"Alesis ION Editor"' in page,
+            "front-page identity must follow selected device")
+    require('"Front", "Dual 1", "Dual 2", "Random", "Rear"' in bar,
+            "desktop page navigation must remain self-explanatory")
+    require('drawSelectorHeader ("VIEW"' in bar and "getWidth() >= 1180" in bar,
+            "page navigation must stay explicit and collapse before labels are crushed")
+    require("MICRON CONTROLS" in micron_panel and "X / Y / Z ASSIGNMENTS" in micron_panel
+            and "FX2 / DELAY + REVERB" in micron_panel,
+            "Micron mode must expose a dedicated X/Y/Z + FX2 product surface")
+    require("getWidth() < 700" in oscillator_panel and "154" in oscillator_panel,
+            "OSC COMMON row must preserve the wider two-by-two selector layout")
+
+    cmake = (ROOT / "CMakeLists.txt").read_text(encoding="utf-8")
+    require("assets/branding/aim-editor-icon.png" in cmake and "ICON_BIG" in cmake,
+            "AIM Editor application icon must be wired into the JUCE app target")
+
     nrpn = load_json("data/protocol/ion-nrpn.json")
     numbers = {entry["number"]: entry for entry in nrpn["parameters"]}
     for number in (230, 245, 246, 247, 248, 249, 250):
@@ -118,6 +151,7 @@ def main() -> int:
     print("PASS: Ion request 0x22 / Micron request 0x26 device split is explicit")
     print("PASS: Micron-only bank/write behavior remains disabled until hardware verification")
     print("PASS: Micronau evidence is pinned, provenance-backed, and kept behind a clean implementation boundary")
+    print("PASS: Micron device-aware UI, explicit page labels, and branded app icon are guarded")
     return 0
 
 

@@ -49,6 +49,7 @@ public:
         loadEnumTable (AIMBinaryData::modulationsources_json, AIMBinaryData::modulationsources_jsonSize);
         loadEnumTable (AIMBinaryData::modulationdestinations_json, AIMBinaryData::modulationdestinations_jsonSize);
         loadEnumTable (AIMBinaryData::filtertypes_json, AIMBinaryData::filtertypes_jsonSize);
+        loadEnumTable (AIMBinaryData::micronassignableparameters_json, AIMBinaryData::micronassignableparameters_jsonSize);
 
         mainWindow = std::make_unique<MainWindow> (registry, midiService, appSettings);
         openFirstDocumentFromCommandLine (commandLine);

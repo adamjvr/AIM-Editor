@@ -17,7 +17,9 @@
     "candidate_warning": "Candidate mappings are community-derived and not yet hardware-verified. Unknown/conflicting fields remain unmapped rather than guessed.",
     "candidate_nrpn_mappings": 160,
     "family_architecture": "Shared 378-byte Ion/Micron Program model; device-specific request/storage capabilities live in data/device-profiles.json.",
-    "micron_corroboration": "research/external/micronau-evidence.json"
+    "micron_corroboration": "research/external/micronau-evidence.json",
+    "micron_device_parameters_exposed": 5,
+    "micron_hardware_verification": "pending_physical_micron_capture"
   },
   "parameters": [
     {
@@ -10680,6 +10682,306 @@
         "control": "compact_value"
       },
       "notes": "Candidate tracking-generator curve point reconstructed from protocol field map; verify on hardware."
+    },
+    {
+      "id": "micron.xyz.x_assignment",
+      "name": "X Assignment",
+      "section": "micron_extensions",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": 0,
+        "raw_max": 161,
+        "default_raw": 0,
+        "enum_table": "micron-assignable-parameters"
+      },
+      "display": {
+        "unit": null,
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 155,
+        "sysex": {
+          "offset": 162,
+          "bits": 8,
+          "encoding": "u8",
+          "width_bytes": 1,
+          "field_id": "micron.xyz.x_assignment"
+        },
+        "evidence": {
+          "source": "research/external/micronau-evidence.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "unsigned_14",
+          "source_id": "performance.knob_x",
+          "min": 0,
+          "max": 161
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      },
+      "availability": [
+        "micron"
+      ],
+      "notes": "Micron-only performance knob assignment. SysEx byte offset independently corroborated by Micronau; hardware NRPN root is retained as a candidate pending physical Micron capture."
+    },
+    {
+      "id": "micron.xyz.y_assignment",
+      "name": "Y Assignment",
+      "section": "micron_extensions",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": 0,
+        "raw_max": 161,
+        "default_raw": 0,
+        "enum_table": "micron-assignable-parameters"
+      },
+      "display": {
+        "unit": null,
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 156,
+        "sysex": {
+          "offset": 163,
+          "bits": 8,
+          "encoding": "u8",
+          "width_bytes": 1,
+          "field_id": "micron.xyz.y_assignment"
+        },
+        "evidence": {
+          "source": "research/external/micronau-evidence.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "unsigned_14",
+          "source_id": "performance.knob_y",
+          "min": 0,
+          "max": 161
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      },
+      "availability": [
+        "micron"
+      ],
+      "notes": "Micron-only performance knob assignment. SysEx byte offset independently corroborated by Micronau; hardware NRPN root is retained as a candidate pending physical Micron capture."
+    },
+    {
+      "id": "micron.xyz.z_assignment",
+      "name": "Z Assignment",
+      "section": "micron_extensions",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": 0,
+        "raw_max": 161,
+        "default_raw": 0,
+        "enum_table": "micron-assignable-parameters"
+      },
+      "display": {
+        "unit": null,
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 157,
+        "sysex": {
+          "offset": 164,
+          "bits": 8,
+          "encoding": "u8",
+          "width_bytes": 1,
+          "field_id": "micron.xyz.z_assignment"
+        },
+        "evidence": {
+          "source": "research/external/micronau-evidence.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "unsigned_14",
+          "source_id": "performance.knob_z",
+          "min": 0,
+          "max": 161
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      },
+      "availability": [
+        "micron"
+      ],
+      "notes": "Micron-only performance knob assignment. SysEx byte offset independently corroborated by Micronau; hardware NRPN root is retained as a candidate pending physical Micron capture."
+    },
+    {
+      "id": "micron.fx2.balance",
+      "name": "FX1 / FX2 Balance",
+      "section": "micron_extensions",
+      "type": "continuous",
+      "domain": {
+        "kind": "continuous",
+        "raw_min": -50,
+        "raw_max": 50,
+        "default_raw": 0
+      },
+      "display": {
+        "unit": null,
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 230,
+        "sysex": {
+          "offset": 352,
+          "bits": 8,
+          "encoding": "s8",
+          "width_bytes": 1,
+          "field_id": "micron.fx2.balance"
+        },
+        "evidence": {
+          "source": "research/external/micronau-evidence.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "signed_14_wrap",
+          "source_id": "effects.balance",
+          "min": -50,
+          "max": 50
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "knob"
+      },
+      "availability": [
+        "micron"
+      ],
+      "notes": "Micron-only FX1/FX2 balance; independently corroborated by Micronau."
+    },
+    {
+      "id": "micron.fx2.type",
+      "name": "FX2 Type",
+      "section": "micron_extensions",
+      "type": "enum",
+      "domain": {
+        "kind": "enum",
+        "raw_min": 0,
+        "raw_max": 6,
+        "default_raw": 0,
+        "values": [
+          {
+            "raw": 0,
+            "id": "bypass",
+            "name": "Bypass"
+          },
+          {
+            "raw": 1,
+            "id": "mono_delay",
+            "name": "Mono Delay"
+          },
+          {
+            "raw": 2,
+            "id": "stereo_delay",
+            "name": "Stereo Delay"
+          },
+          {
+            "raw": 3,
+            "id": "split_delay",
+            "name": "Split L/R Delay"
+          },
+          {
+            "raw": 4,
+            "id": "hall_reverb",
+            "name": "Hall Reverb"
+          },
+          {
+            "raw": 5,
+            "id": "plate_reverb",
+            "name": "Plate Reverb"
+          },
+          {
+            "raw": 6,
+            "id": "room_reverb",
+            "name": "Room Reverb"
+          }
+        ]
+      },
+      "display": {
+        "unit": null,
+        "transform": "raw"
+      },
+      "protocol": {
+        "status": "candidate",
+        "nrpn": 245,
+        "sysex": {
+          "offset": 353,
+          "bits": 8,
+          "encoding": "u8",
+          "width_bytes": 1,
+          "field_id": "micron.fx2.type"
+        },
+        "evidence": {
+          "source": "research/external/micronau-evidence.json",
+          "status": "candidate",
+          "hardware_verified": false
+        },
+        "nrpn_evidence": {
+          "source": "data/protocol/ion-nrpn.json",
+          "status": "candidate",
+          "hardware_verified": false,
+          "value_encoding": "unsigned_14",
+          "source_id": "effects2.type",
+          "min": 0,
+          "max": 6
+        }
+      },
+      "ui": {
+        "pages": [
+          "front",
+          "dual2"
+        ],
+        "control": "selector"
+      },
+      "availability": [
+        "micron"
+      ],
+      "notes": "Micron-only second effects processor type. Parameter meanings are algorithm-dependent."
     }
   ],
   "compound_structures": [

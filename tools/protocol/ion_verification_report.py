@@ -149,11 +149,11 @@ def as_markdown(report: dict[str, Any]) -> str:
 
 def self_test() -> int:
     report = build_report()
-    if report["parameter_count"] != 212:
-        raise AssertionError(f"expected 212 parameters, got {report['parameter_count']}")
-    if report["protocols"]["nrpn"]["mapped"] != 194:
+    if report["parameter_count"] != 217:
+        raise AssertionError(f"expected 217 parameters, got {report['parameter_count']}")
+    if report["protocols"]["nrpn"]["mapped"] != 199:
         raise AssertionError("candidate NRPN coverage changed unexpectedly")
-    if report["protocols"]["sysex"]["mapped"] != 185:
+    if report["protocols"]["sysex"]["mapped"] != 190:
         raise AssertionError("candidate SysEx coverage changed unexpectedly")
     if report["evidence"]["invalid_seal_paths"]:
         raise AssertionError("committed verification evidence has invalid seals")

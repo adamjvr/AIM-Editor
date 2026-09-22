@@ -76,12 +76,16 @@ void OscillatorPanel::paint (juce::Graphics& g)
 
     if (! globalControls.empty())
     {
-        auto strip = getLocalBounds().reduced (8).removeFromBottom (62);
+        const auto compact = getWidth() < 700;
+        auto strip = getLocalBounds().reduced (8).removeFromBottom (compact ? 154 : 72);
         g.setColour (juce::Colours::black.withAlpha (0.08f));
         g.fillRoundedRectangle (strip.toFloat(), 5.0f);
         g.setColour (juce::Colours::black.withAlpha (0.58f));
         g.setFont (juce::FontOptions (9.5f).withStyle ("Bold"));
-        g.drawText ("COMMON", strip.removeFromLeft (48), juce::Justification::centred);
+        if (compact)
+            g.drawText ("COMMON", strip.removeFromTop (18).reduced (6, 0), juce::Justification::centredLeft);
+        else
+            g.drawText ("COMMON", strip.removeFromLeft (50), juce::Justification::centred);
     }
 }
 
@@ -90,7 +94,8 @@ void OscillatorPanel::resized()
     auto area = getLocalBounds().reduced (8);
     area.removeFromTop (31);
 
-    const auto commonHeight = globalControls.empty() ? 0 : 62;
+    const auto compactCommon = getWidth() < 700;
+    const auto commonHeight = globalControls.empty() ? 0 : (compactCommon ? 154 : 72);
     auto laneArea = area;
     if (commonHeight > 0)
         laneArea.removeFromBottom (commonHeight + 4);
@@ -105,10 +110,28 @@ void OscillatorPanel::resized()
 
     if (! globalControls.empty())
     {
-        auto strip = area.removeFromBottom (commonHeight).withTrimmedLeft (48);
-        const auto cell = juce::jmax (64, strip.getWidth() / static_cast<int> (globalControls.size()));
-        for (auto& control : globalControls)
-            control->setBounds (strip.removeFromLeft (cell));
+        auto strip = area.removeFromBottom (commonHeight);
+        if (compactCommon)
+        {
+            strip.removeFromTop (18);
+            const auto halfH = strip.getHeight() / 2;
+            for (std::size_t i = 0; i < globalControls.size(); ++i)
+            {
+                const auto row = static_cast<int> (i / 2u);
+                const auto col = static_cast<int> (i % 2u);
+                const auto halfW = strip.getWidth() / 2;
+                globalControls[i]->setBounds (strip.getX() + col * halfW,
+                                              strip.getY() + row * halfH,
+                                              halfW, halfH);
+            }
+        }
+        else
+        {
+            strip = strip.withTrimmedLeft (50);
+            const auto cell = juce::jmax (82, strip.getWidth() / static_cast<int> (globalControls.size()));
+            for (auto& control : globalControls)
+                control->setBounds (strip.removeFromLeft (cell));
+        }
     }
 }
 
@@ -124,6 +147,6 @@ void OscillatorPanel::layoutLane (Lane& lane, juce::Rectangle<int> bounds)
 
 int OscillatorPanel::preferredHeightForWidth (int width) const
 {
-    return width < 330 ? 470 : (width < 520 ? 410 : 380);
+    return width < 330 ? 560 : (width < 700 ? 480 : 394);
 }
 }

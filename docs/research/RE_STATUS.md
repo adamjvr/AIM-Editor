@@ -36,8 +36,8 @@ None of this section is promoted to hardware-verified yet.
 - Live MIDI/SysEx inspector with raw JSON capture and optional candidate decode.
 - 234 candidate NRPN definitions.
 - Alesis candidate signed-14-bit NRPN semantics.
-- 185/212 semantic parameters mapped to candidate SysEx fields.
-- 194/212 semantic parameters mapped to candidate NRPN addresses.
+- 190/217 semantic parameters mapped to candidate SysEx fields.
+- 199/217 semantic parameters mapped to candidate NRPN addresses.
 - 33 candidate Tracking Generator curve points promoted into the canonical semantic database.
 - Modulation source/destination and filter-type enum datasets.
 

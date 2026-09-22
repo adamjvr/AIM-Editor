@@ -1,0 +1,822 @@
+{
+  "format": "aim-editor.enum-table",
+  "schema_version": 1,
+  "id": "micron-assignable-parameters",
+  "name": "Micron X/Y/Z assignable parameters",
+  "values": [
+    {
+      "value": 0,
+      "id": "polyphony",
+      "name": "Polyphony"
+    },
+    {
+      "value": 1,
+      "id": "unison",
+      "name": "Unison"
+    },
+    {
+      "value": 2,
+      "id": "unison_detune",
+      "name": "Unison Detune"
+    },
+    {
+      "value": 3,
+      "id": "porta",
+      "name": "Porta"
+    },
+    {
+      "value": 4,
+      "id": "portatype",
+      "name": "PortaType"
+    },
+    {
+      "value": 5,
+      "id": "portatime",
+      "name": "PortaTime"
+    },
+    {
+      "value": 6,
+      "id": "pitch_wheel",
+      "name": "Pitch Wheel"
+    },
+    {
+      "value": 7,
+      "id": "analog_drift",
+      "name": "Analog drift"
+    },
+    {
+      "value": 8,
+      "id": "osc_sync",
+      "name": "Osc Sync"
+    },
+    {
+      "value": 9,
+      "id": "fm_amount",
+      "name": "FM Amount"
+    },
+    {
+      "value": 10,
+      "id": "fm_type",
+      "name": "FM Type"
+    },
+    {
+      "value": 11,
+      "id": "o1_wave",
+      "name": "O1 wave"
+    },
+    {
+      "value": 12,
+      "id": "o1_shape",
+      "name": "O1 shape"
+    },
+    {
+      "value": 13,
+      "id": "o1_octave",
+      "name": "O1 octave"
+    },
+    {
+      "value": 14,
+      "id": "o1_transpose",
+      "name": "O1 transpose"
+    },
+    {
+      "value": 15,
+      "id": "o1_pitch",
+      "name": "O1 pitch"
+    },
+    {
+      "value": 16,
+      "id": "o1_pwheel",
+      "name": "O1 PWheel"
+    },
+    {
+      "value": 17,
+      "id": "o2_wave",
+      "name": "O2 wave"
+    },
+    {
+      "value": 18,
+      "id": "o2_shape",
+      "name": "O2 shape"
+    },
+    {
+      "value": 19,
+      "id": "o2_octave",
+      "name": "O2 octave"
+    },
+    {
+      "value": 20,
+      "id": "o2_transpose",
+      "name": "O2 transpose"
+    },
+    {
+      "value": 21,
+      "id": "o2_pitch",
+      "name": "O2 pitch"
+    },
+    {
+      "value": 22,
+      "id": "o2_pwheel",
+      "name": "O2 PWheel"
+    },
+    {
+      "value": 23,
+      "id": "o3_wave",
+      "name": "O3 wave"
+    },
+    {
+      "value": 24,
+      "id": "o3_shape",
+      "name": "O3 shape"
+    },
+    {
+      "value": 25,
+      "id": "o3_octave",
+      "name": "O3 octave"
+    },
+    {
+      "value": 26,
+      "id": "o3_transpose",
+      "name": "O3 transpose"
+    },
+    {
+      "value": 27,
+      "id": "o3_pitch",
+      "name": "O3 pitch"
+    },
+    {
+      "value": 28,
+      "id": "o3_pwheel",
+      "name": "O3 PWheel"
+    },
+    {
+      "value": 29,
+      "id": "o1_level",
+      "name": "O1 level"
+    },
+    {
+      "value": 30,
+      "id": "o2_level",
+      "name": "O2 level"
+    },
+    {
+      "value": 31,
+      "id": "o3_level",
+      "name": "O3 level"
+    },
+    {
+      "value": 32,
+      "id": "ring_level",
+      "name": "Ring level"
+    },
+    {
+      "value": 33,
+      "id": "noise_level",
+      "name": "Noise level"
+    },
+    {
+      "value": 34,
+      "id": "extin_level",
+      "name": "ExtIn level"
+    },
+    {
+      "value": 35,
+      "id": "o1_bal",
+      "name": "O1 bal"
+    },
+    {
+      "value": 36,
+      "id": "o2_bal",
+      "name": "O2 bal"
+    },
+    {
+      "value": 37,
+      "id": "o3_bal",
+      "name": "O3 bal"
+    },
+    {
+      "value": 38,
+      "id": "ring_bal",
+      "name": "Ring bal"
+    },
+    {
+      "value": 39,
+      "id": "noise_bal",
+      "name": "Noise bal"
+    },
+    {
+      "value": 40,
+      "id": "extin_bal",
+      "name": "ExtIn bal"
+    },
+    {
+      "value": 41,
+      "id": "series_level",
+      "name": "Series level"
+    },
+    {
+      "value": 42,
+      "id": "noise_type",
+      "name": "Noise type"
+    },
+    {
+      "value": 43,
+      "id": "f1_type",
+      "name": "F1 type"
+    },
+    {
+      "value": 44,
+      "id": "f1_freq",
+      "name": "F1 freq"
+    },
+    {
+      "value": 45,
+      "id": "f1_res",
+      "name": "F1 res"
+    },
+    {
+      "value": 46,
+      "id": "f1_keytrk",
+      "name": "F1 keytrk"
+    },
+    {
+      "value": 47,
+      "id": "f1_env_amt",
+      "name": "F1 env amt"
+    },
+    {
+      "value": 48,
+      "id": "f2_offset",
+      "name": "F2 offset"
+    },
+    {
+      "value": 49,
+      "id": "f2_type",
+      "name": "F2 type"
+    },
+    {
+      "value": 50,
+      "id": "f2_freq",
+      "name": "F2 freq"
+    },
+    {
+      "value": 51,
+      "id": "f2_res",
+      "name": "F2 res"
+    },
+    {
+      "value": 52,
+      "id": "f2_keytrk",
+      "name": "F2 keytrk"
+    },
+    {
+      "value": 53,
+      "id": "f2_env_amt",
+      "name": "F2 env amt"
+    },
+    {
+      "value": 54,
+      "id": "f1_level",
+      "name": "F1 level"
+    },
+    {
+      "value": 55,
+      "id": "f2_level",
+      "name": "F2 level"
+    },
+    {
+      "value": 56,
+      "id": "preflt_level",
+      "name": "Preflt level"
+    },
+    {
+      "value": 57,
+      "id": "f1_pan",
+      "name": "F1 pan"
+    },
+    {
+      "value": 58,
+      "id": "f2_pan",
+      "name": "F2 pan"
+    },
+    {
+      "value": 59,
+      "id": "preflt_pan",
+      "name": "Preflt pan"
+    },
+    {
+      "value": 60,
+      "id": "preflt_src",
+      "name": "Preflt src"
+    },
+    {
+      "value": 61,
+      "id": "f1_sign",
+      "name": "F1 sign"
+    },
+    {
+      "value": 62,
+      "id": "drive_type",
+      "name": "Drive type"
+    },
+    {
+      "value": 63,
+      "id": "drive_level",
+      "name": "Drive level"
+    },
+    {
+      "value": 64,
+      "id": "prog_level",
+      "name": "Prog level"
+    },
+    {
+      "value": 65,
+      "id": "fx_mix",
+      "name": "Fx mix"
+    },
+    {
+      "value": 66,
+      "id": "e1_atk_time",
+      "name": "E1 atk time"
+    },
+    {
+      "value": 67,
+      "id": "e1_atk_slope",
+      "name": "E1 atk slope"
+    },
+    {
+      "value": 68,
+      "id": "e1_dec_time",
+      "name": "E1 dec time"
+    },
+    {
+      "value": 69,
+      "id": "e1_dec_slope",
+      "name": "E1 dec slope"
+    },
+    {
+      "value": 70,
+      "id": "e1_sus_time",
+      "name": "E1 sus time"
+    },
+    {
+      "value": 71,
+      "id": "e1_sus_level",
+      "name": "E1 sus level"
+    },
+    {
+      "value": 72,
+      "id": "e1_rel_time",
+      "name": "E1 rel time"
+    },
+    {
+      "value": 73,
+      "id": "e1_rel_slope",
+      "name": "E1 rel slope"
+    },
+    {
+      "value": 74,
+      "id": "e1_velocity",
+      "name": "E1 velocity"
+    },
+    {
+      "value": 75,
+      "id": "e1_reset",
+      "name": "E1 reset"
+    },
+    {
+      "value": 76,
+      "id": "e1_freerun",
+      "name": "E1 freerun"
+    },
+    {
+      "value": 77,
+      "id": "e1_loop",
+      "name": "E1 loop"
+    },
+    {
+      "value": 78,
+      "id": "e1_pedal",
+      "name": "E1 pedal"
+    },
+    {
+      "value": 79,
+      "id": "e2_atk_time",
+      "name": "E2 atk time"
+    },
+    {
+      "value": 80,
+      "id": "e2_atk_slope",
+      "name": "E2 atk slope"
+    },
+    {
+      "value": 81,
+      "id": "e2_dec_time",
+      "name": "E2 dec time"
+    },
+    {
+      "value": 82,
+      "id": "e2_dec_slope",
+      "name": "E2 dec slope"
+    },
+    {
+      "value": 83,
+      "id": "e2_sus_time",
+      "name": "E2 sus time"
+    },
+    {
+      "value": 84,
+      "id": "e2_sus_level",
+      "name": "E2 sus level"
+    },
+    {
+      "value": 85,
+      "id": "e2_rel_time",
+      "name": "E2 rel time"
+    },
+    {
+      "value": 86,
+      "id": "e2_rel_slope",
+      "name": "E2 rel slope"
+    },
+    {
+      "value": 87,
+      "id": "e2_velocity",
+      "name": "E2 velocity"
+    },
+    {
+      "value": 88,
+      "id": "e2_reset",
+      "name": "E2 reset"
+    },
+    {
+      "value": 89,
+      "id": "e2_freerun",
+      "name": "E2 freerun"
+    },
+    {
+      "value": 90,
+      "id": "e2_loop",
+      "name": "E2 loop"
+    },
+    {
+      "value": 91,
+      "id": "e2_pedal",
+      "name": "E2 pedal"
+    },
+    {
+      "value": 92,
+      "id": "e3_atk_time",
+      "name": "E3 atk time"
+    },
+    {
+      "value": 93,
+      "id": "e3_atk_slope",
+      "name": "E3 atk slope"
+    },
+    {
+      "value": 94,
+      "id": "e3_dec_time",
+      "name": "E3 dec time"
+    },
+    {
+      "value": 95,
+      "id": "e3_dec_slope",
+      "name": "E3 dec slope"
+    },
+    {
+      "value": 96,
+      "id": "e3_sus_time",
+      "name": "E3 Sus time"
+    },
+    {
+      "value": 97,
+      "id": "e3_sus_level",
+      "name": "E3 Sus level"
+    },
+    {
+      "value": 98,
+      "id": "e3_rel_time",
+      "name": "E3 rel time"
+    },
+    {
+      "value": 99,
+      "id": "e3_rel_slope",
+      "name": "E3 rel slope"
+    },
+    {
+      "value": 100,
+      "id": "e3_velocity",
+      "name": "E3 velocity"
+    },
+    {
+      "value": 101,
+      "id": "e3_reset",
+      "name": "E3 reset"
+    },
+    {
+      "value": 102,
+      "id": "e3_freerun",
+      "name": "E3 freerun"
+    },
+    {
+      "value": 103,
+      "id": "e3_loop",
+      "name": "E3 loop"
+    },
+    {
+      "value": 104,
+      "id": "e3_pedal",
+      "name": "E3 pedal"
+    },
+    {
+      "value": 105,
+      "id": "lfo1_sync",
+      "name": "Lfo1 sync"
+    },
+    {
+      "value": 106,
+      "id": "lfo1_rate",
+      "name": "Lfo1 rate"
+    },
+    {
+      "value": 107,
+      "id": "lfo1_reset",
+      "name": "Lfo1 reset"
+    },
+    {
+      "value": 108,
+      "id": "lfo1_m1_slider",
+      "name": "Lfo1 M1 slider"
+    },
+    {
+      "value": 109,
+      "id": "lfo2_sync",
+      "name": "Lfo2 sync"
+    },
+    {
+      "value": 110,
+      "id": "lfo2_rate",
+      "name": "Lfo2 rate"
+    },
+    {
+      "value": 111,
+      "id": "lfo2_reset",
+      "name": "Lfo2 reset"
+    },
+    {
+      "value": 112,
+      "id": "lfo2_m1_slider",
+      "name": "Lfo2 M1 slider"
+    },
+    {
+      "value": 113,
+      "id": "s_h_sync",
+      "name": "S/H sync"
+    },
+    {
+      "value": 114,
+      "id": "s_h_rate",
+      "name": "S/H rate"
+    },
+    {
+      "value": 115,
+      "id": "s_h_reset",
+      "name": "S/H reset"
+    },
+    {
+      "value": 116,
+      "id": "s_h_input",
+      "name": "S/H input"
+    },
+    {
+      "value": 117,
+      "id": "s_h_smoothing",
+      "name": "S/H smoothing"
+    },
+    {
+      "value": 118,
+      "id": "tracking",
+      "name": "Tracking"
+    },
+    {
+      "value": 119,
+      "id": "trk_preset",
+      "name": "Trk preset"
+    },
+    {
+      "value": 120,
+      "id": "track_grid",
+      "name": "Track Grid"
+    },
+    {
+      "value": 121,
+      "id": "trk_x_16",
+      "name": "Trk x=-16"
+    },
+    {
+      "value": 122,
+      "id": "trk_x_15",
+      "name": "Trk x=-15"
+    },
+    {
+      "value": 123,
+      "id": "trk_x_14",
+      "name": "Trk x=-14"
+    },
+    {
+      "value": 124,
+      "id": "trk_x_13",
+      "name": "Trk x=-13"
+    },
+    {
+      "value": 125,
+      "id": "trk_x_12",
+      "name": "Trk x=-12"
+    },
+    {
+      "value": 126,
+      "id": "trk_x_11",
+      "name": "Trk x=-11"
+    },
+    {
+      "value": 127,
+      "id": "trk_x_10",
+      "name": "Trk x=-10"
+    },
+    {
+      "value": 128,
+      "id": "trk_x_9",
+      "name": "Trk x=-9"
+    },
+    {
+      "value": 129,
+      "id": "trk_x_8",
+      "name": "Trk x=-8"
+    },
+    {
+      "value": 130,
+      "id": "trk_x_7",
+      "name": "Trk x=-7"
+    },
+    {
+      "value": 131,
+      "id": "trk_x_6",
+      "name": "Trk x=-6"
+    },
+    {
+      "value": 132,
+      "id": "trk_x_5",
+      "name": "Trk x=-5"
+    },
+    {
+      "value": 133,
+      "id": "trk_x_4",
+      "name": "Trk x=-4"
+    },
+    {
+      "value": 134,
+      "id": "trk_x_3",
+      "name": "Trk x=-3"
+    },
+    {
+      "value": 135,
+      "id": "trk_x_2",
+      "name": "Trk x=-2"
+    },
+    {
+      "value": 136,
+      "id": "trk_x_1",
+      "name": "Trk x=-1"
+    },
+    {
+      "value": 137,
+      "id": "trk_x_0",
+      "name": "Trk x=0"
+    },
+    {
+      "value": 138,
+      "id": "trk_x_1_2",
+      "name": "Trk x=1"
+    },
+    {
+      "value": 139,
+      "id": "trk_x_2_2",
+      "name": "Trk x=2"
+    },
+    {
+      "value": 140,
+      "id": "trk_x_3_2",
+      "name": "Trk x=3"
+    },
+    {
+      "value": 141,
+      "id": "trk_x_4_2",
+      "name": "Trk x=4"
+    },
+    {
+      "value": 142,
+      "id": "trk_x_5_2",
+      "name": "Trk x=5"
+    },
+    {
+      "value": 143,
+      "id": "trk_x_6_2",
+      "name": "Trk x=6"
+    },
+    {
+      "value": 144,
+      "id": "trk_x_7_2",
+      "name": "Trk x=7"
+    },
+    {
+      "value": 145,
+      "id": "trk_x_8_2",
+      "name": "Trk x=8"
+    },
+    {
+      "value": 146,
+      "id": "trk_x_9_2",
+      "name": "Trk x=9"
+    },
+    {
+      "value": 147,
+      "id": "trk_x_10_2",
+      "name": "Trk x=10"
+    },
+    {
+      "value": 148,
+      "id": "trk_x_11_2",
+      "name": "Trk x=11"
+    },
+    {
+      "value": 149,
+      "id": "trk_x_12_2",
+      "name": "Trk x=12"
+    },
+    {
+      "value": 150,
+      "id": "trk_x_13_2",
+      "name": "Trk x=13"
+    },
+    {
+      "value": 151,
+      "id": "trk_x_14_2",
+      "name": "Trk x=14"
+    },
+    {
+      "value": 152,
+      "id": "trk_x_15_2",
+      "name": "Trk x=15"
+    },
+    {
+      "value": 153,
+      "id": "trk_x_16_2",
+      "name": "Trk x=16"
+    },
+    {
+      "value": 154,
+      "id": "category",
+      "name": "Category"
+    },
+    {
+      "value": 155,
+      "id": "knob_x_param",
+      "name": "Knob X param"
+    },
+    {
+      "value": 156,
+      "id": "knob_y_param",
+      "name": "Knob Y param"
+    },
+    {
+      "value": 157,
+      "id": "knob_z_param",
+      "name": "Knob Z param"
+    },
+    {
+      "value": 158,
+      "id": "f2_freq_offset",
+      "name": "F2 freq Offset"
+    },
+    {
+      "value": 159,
+      "id": "lfo1_rate_sync",
+      "name": "Lfo1 rate sync"
+    },
+    {
+      "value": 160,
+      "id": "lfo2_rate_sync",
+      "name": "Lfo2 rate sync"
+    },
+    {
+      "value": 161,
+      "id": "s_h_rate_sync",
+      "name": "S/H rate sync"
+    }
+  ],
+  "research": {
+    "status": "independently_corroborated_hardware_verification_pending",
+    "source": "research/external/micronau-evidence.json"
+  }
+}

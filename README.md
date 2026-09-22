@@ -37,7 +37,7 @@ The project is now in its first functional-editor passes. It currently contains:
 - a typed parameter registry loaded from JSON, including explicit enum domains;
 - an observable semantic `ProgramState` shared across all editor views;
 - JSON-driven knob/selector/toggle control construction rather than hard-coded per-widget protocol logic;
-- 212 human-readable semantic parameters, including the complete 33-point candidate Tracking Generator curve;
+- 217 human-readable semantic parameters, including the complete 33-point candidate Tracking Generator curve;
 - native `.aimprogram.json` and sparse `.aimbank.json` import/export;
 - a 128-slot program librarian with name/category editing;
 - a deterministic, seedable semantic patch Randomizer with section/type scopes, strength control, and one-step restore;
@@ -60,8 +60,8 @@ The project is now in its first functional-editor passes. It currently contains:
 - guarded hardware-transfer tools for patch/bank requests and source-template-preserving sends to Edit 1–4;
 - a candidate Ion/Micron 7-of-8 patch codec, checksum verifier, and single-patch request path;
 - machine-readable candidate SysEx and NRPN specifications with explicit evidence status;
-- 185 of 212 semantic parameters linked to candidate raw patch fields;
-- 194 of 212 semantic parameters linked to candidate NRPN addresses;
+- 190 of 217 semantic parameters linked to candidate raw patch fields;
+- 199 of 217 semantic parameters linked to candidate NRPN addresses;
 - candidate Alesis signed-14-bit NRPN conversion kept separate from generic MIDI NRPN framing;
 - JSON Schemas and protocol/core round-trip tests;
 - semantic unsaved-program and librarian-bank tracking with save/discard/cancel protection;
@@ -276,3 +276,5 @@ Linux is build/test-green against pinned JUCE 9.0.1. On EVE, the Apple gate buil
 ## Ion / Micron hardware profiles
 
 AIM Editor uses one shared 378-byte Ion-family Program model with an explicit hardware profile selector. Ion requests use product ID `0x22`; Micron requests use `0x26`; returned Program dumps remain the shared `0x22` format. Micron bank-stream/full-write behavior stays disabled until hardware verified. See `docs/research/ION_MICRON_FAMILY.md`.
+
+The editor shell is now capability-aware: Ion mode hides Micron-only controls, while Micron mode exposes a dedicated X/Y/Z + FX2 surface and relabels the shared effects block as FX1. The physical Micron is the current hardware-verification target; Ion mappings remain candidate until Ion hardware is available.

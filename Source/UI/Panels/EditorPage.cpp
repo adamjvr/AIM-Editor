@@ -26,7 +26,7 @@ EditorPage::EditorPage (juce::String pageKey,
 
     const juce::StringArray preferredOrder {
         "oscillators", "pre_filter_mix", "filters", "post_filter_mix", "output",
-        "effects", "envelopes", "modulators", "voice", "mod_matrix", "tracking_generator"
+        "effects", "micron_extensions", "envelopes", "modulators", "voice", "mod_matrix", "tracking_generator"
     };
 
     auto addGroup = [&] (const juce::String& group,
@@ -51,6 +51,8 @@ EditorPage::EditorPage (juce::String pageKey,
             section = std::make_unique<MixerPanel> (MixerPanel::Mode::postFilter, registry, state);
         else if (group == "output")
             section = std::make_unique<OutputPanel> (registry, state);
+        else if (group == "micron_extensions")
+            section = std::make_unique<MicronExtensionsPanel> (registry, state);
         else if (group == "mod_matrix")
             section = std::make_unique<ModMatrixPanel> (registry, state);
         else if (group == "tracking_generator")
@@ -75,11 +77,55 @@ EditorPage::EditorPage (juce::String pageKey,
         addGroup (group, parameters);
 }
 
+void EditorPage::setDeviceProfile (IonFamilyDevice device)
+{
+    deviceProfile = device;
+    if (key == "front")
+        title = device == IonFamilyDevice::micron ? "Alesis Micron Editor" : "Alesis ION Editor";
+
+    for (auto& entry : sections)
+    {
+        if (entry.group == "micron_extensions")
+            entry.section->setVisible (device == IonFamilyDevice::micron);
+
+        if (auto* effects = dynamic_cast<EffectsPanel*> (entry.section.get()))
+            effects->setDeviceProfile (device);
+    }
+
+    resized();
+    repaint();
+}
+
 void EditorPage::paint (juce::Graphics& g)
 {
     g.fillAll (juce::Colour::fromRGB (162, 162, 159));
 
     auto top = getLocalBounds().removeFromTop (30).reduced (14, 3);
+
+    // Compact AIM hardware-editor mark: silver utility chassis, dark panel and
+    // red controls. This mirrors the application icon without depending on a
+    // raster asset inside the live editor surface.
+    auto mark = top.removeFromLeft (28).toFloat().reduced (1.0f);
+    g.setColour (juce::Colour::fromRGB (205, 206, 203));
+    g.fillRoundedRectangle (mark, 5.0f);
+    g.setColour (juce::Colour::fromRGB (88, 89, 87));
+    g.drawRoundedRectangle (mark, 5.0f, 1.2f);
+    auto screen = mark.reduced (4.0f).withHeight (8.0f);
+    g.setColour (juce::Colour::fromRGB (39, 39, 39));
+    g.fillRoundedRectangle (screen, 2.0f);
+    g.setColour (juce::Colour::fromRGB (225, 35, 35));
+    g.drawLine (screen.getX() + 2.0f, screen.getCentreY() + 1.5f,
+                screen.getCentreX(), screen.getY() + 2.0f, 1.4f);
+    g.drawLine (screen.getCentreX(), screen.getY() + 2.0f,
+                screen.getRight() - 2.0f, screen.getCentreY() + 1.5f, 1.4f);
+    const auto knobY = mark.getBottom() - 6.0f;
+    for (int i = 0; i < 3; ++i)
+    {
+        const auto x = mark.getX() + 7.0f + static_cast<float> (i) * 7.0f;
+        g.fillEllipse (x - 1.7f, knobY - 1.7f, 3.4f, 3.4f);
+    }
+
+    top.removeFromLeft (7);
     auto titleArea = top.removeFromLeft (juce::jmax (280, top.getWidth() / 2));
     auto metaArea = top;
 
@@ -89,8 +135,10 @@ void EditorPage::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::black.withAlpha (0.46f));
     g.setFont (juce::FontOptions (9.5f));
-    g.drawText ("shared JSON state / desktop + iPad touch surface", metaArea,
-                juce::Justification::centredRight, false);
+    const auto profileText = deviceProfile == IonFamilyDevice::micron
+                               ? "Micron profile / X-Y-Z + FX2 / shared 378-byte Program"
+                               : "ION profile / fixed banks + Edit buffers / shared 378-byte Program";
+    g.drawText (profileText, metaArea, juce::Justification::centredRight, false);
 
     // A faint signal-flow rail visually ties the purpose-built desktop layout
     // together without hard-coding protocol or parameter behavior into paint().
@@ -143,6 +191,12 @@ void EditorPage::resized()
             y = layoutRow (area, y, { { "modulators", 0.22f }, { "voice", 0.18f }, { "post_filter_mix", 0.22f },
                                       { "output", 0.18f }, { "effects", 0.20f } });
             y += gap;
+            if (auto* micron = sectionFor ("micron_extensions"))
+            {
+                const auto h = micron->preferredHeightForWidth (area.getWidth());
+                micron->setBounds (area.getX(), y, area.getWidth(), h);
+                y += h + gap;
+            }
             if (auto* envelopes = sectionFor ("envelopes"))
             {
                 const auto h = envelopes->preferredHeightForWidth (area.getWidth());
@@ -171,6 +225,12 @@ void EditorPage::resized()
         y += gap;
         y = layoutRow (area, y, { { "modulators", 0.30f }, { "voice", 0.25f }, { "effects", 0.45f } });
         y += gap;
+        if (auto* micron = sectionFor ("micron_extensions"))
+        {
+            const auto h = micron->preferredHeightForWidth (area.getWidth());
+            micron->setBounds (area.getX(), y, area.getWidth(), h);
+            y += h + gap;
+        }
         if (auto* envelopes = sectionFor ("envelopes"))
         {
             const auto h = envelopes->preferredHeightForWidth (area.getWidth());
@@ -212,6 +272,7 @@ int EditorPage::preferredHeightForWidth (int width) const
         auto total = rowPreferredHeight (usableWidth, { { "oscillators", 0.36f }, { "pre_filter_mix", 0.24f }, { "filters", 0.40f } });
         total += gap + rowPreferredHeight (usableWidth, { { "modulators", 0.22f }, { "voice", 0.18f },
                                                            { "post_filter_mix", 0.22f }, { "output", 0.18f }, { "effects", 0.20f } });
+        if (auto* micron = sectionFor ("micron_extensions")) total += gap + micron->preferredHeightForWidth (usableWidth);
         if (auto* envelopes = sectionFor ("envelopes")) total += gap + envelopes->preferredHeightForWidth (usableWidth);
         if (auto* matrix = sectionFor ("mod_matrix")) total += gap + matrix->preferredHeightForWidth (usableWidth);
         return 42 + total + 12;
@@ -231,6 +292,7 @@ int EditorPage::preferredHeightForWidth (int width) const
         auto total = rowPreferredHeight (usableWidth, { { "pre_filter_mix", 0.24f }, { "filters", 0.38f },
                                                          { "post_filter_mix", 0.22f }, { "output", 0.16f } });
         total += gap + rowPreferredHeight (usableWidth, { { "modulators", 0.30f }, { "voice", 0.25f }, { "effects", 0.45f } });
+        if (auto* micron = sectionFor ("micron_extensions")) total += gap + micron->preferredHeightForWidth (usableWidth);
         if (auto* envelopes = sectionFor ("envelopes")) total += gap + envelopes->preferredHeightForWidth (usableWidth);
         if (auto* matrix = sectionFor ("mod_matrix")) total += gap + matrix->preferredHeightForWidth (usableWidth);
         return 42 + total + 12;
@@ -245,7 +307,9 @@ EditorSection* EditorPage::sectionFor (const juce::String& group) const
     {
         return entry.group == group;
     });
-    return found != sections.end() ? found->section.get() : nullptr;
+    if (found == sections.end() || ! found->section->isVisible())
+        return nullptr;
+    return found->section.get();
 }
 
 int EditorPage::rowPreferredHeight (int width,
@@ -323,6 +387,8 @@ void EditorPage::layoutMasonry (juce::Rectangle<int> area)
 
     for (const auto& entry : sections)
     {
+        if (! entry.section->isVisible())
+            continue;
         const auto shortest = std::min_element (columnY.begin(), columnY.end());
         const auto column = static_cast<int> (std::distance (columnY.begin(), shortest));
         const auto height = entry.section->preferredHeightForWidth (cellWidth);
@@ -341,6 +407,8 @@ int EditorPage::masonryPreferredHeight (int width) const
     std::vector<int> columnHeights (static_cast<std::size_t> (columns), 0);
     for (const auto& entry : sections)
     {
+        if (! entry.section->isVisible())
+            continue;
         const auto shortest = std::min_element (columnHeights.begin(), columnHeights.end());
         *shortest += entry.section->preferredHeightForWidth (cellWidth) + gap;
     }
@@ -373,6 +441,7 @@ juce::String EditorPage::titleForGroup (const juce::String& group)
     if (group == "post_filter_mix") return "POST FILTER MIX";
     if (group == "output") return "OUTPUT";
     if (group == "effects") return "EFFECTS";
+    if (group == "micron_extensions") return "MICRON X/Y/Z + FX2";
     if (group == "envelopes") return "ENVELOPES";
     if (group == "modulators") return "LFO / ARP / S&H";
     if (group == "voice") return "VOICE";

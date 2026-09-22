@@ -213,10 +213,10 @@ def to_markdown(plan: dict[str, Any], limit: int | None = None) -> str:
 def self_test() -> int:
     nrpn = build_plan("nrpn", None, None, False)
     sysex = build_plan("sysex", None, None, False)
-    if len(nrpn["items"]) != 194:
-        raise RuntimeError(f"expected 194 mapped NRPN verification items, got {len(nrpn['items'])}")
-    if len(sysex["items"]) != 185:
-        raise RuntimeError(f"expected 185 mapped SysEx verification items, got {len(sysex['items'])}")
+    if len(nrpn["items"]) != 199:
+        raise RuntimeError(f"expected 199 mapped NRPN verification items, got {len(nrpn['items'])}")
+    if len(sysex["items"]) != 190:
+        raise RuntimeError(f"expected 190 mapped SysEx verification items, got {len(sysex['items'])}")
     if not nrpn["items"] or nrpn["items"][0]["current_status"] not in {"candidate", "verified"}:
         raise RuntimeError("NRPN plan ordering/status invalid")
     if "procedure" not in sysex["items"][0] or len(sysex["items"][0]["procedure"]) < 4:

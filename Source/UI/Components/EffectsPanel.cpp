@@ -4,7 +4,7 @@ namespace aim
 {
 namespace
 {
-void drawChrome (juce::Graphics& g, juce::Rectangle<float> bounds)
+void drawChrome (juce::Graphics& g, juce::Rectangle<float> bounds, const juce::String& title)
 {
     g.setColour (juce::Colour::fromRGB (205, 205, 203));
     g.fillRoundedRectangle (bounds, 10.0f);
@@ -17,7 +17,7 @@ void drawChrome (juce::Graphics& g, juce::Rectangle<float> bounds)
     g.fillRect (header.withTop (header.getCentreY()));
     g.setColour (juce::Colour::fromRGB (225, 30, 30));
     g.setFont (juce::FontOptions (13.0f).withStyle ("Bold"));
-    g.drawText ("EFFECTS", header.reduced (8.0f, 0.0f), juce::Justification::centredLeft, true);
+    g.drawText (title, header.reduced (8.0f, 0.0f), juce::Justification::centredLeft, true);
 }
 }
 
@@ -49,7 +49,8 @@ void EffectsPanel::addControls (std::vector<std::unique_ptr<ParameterControl>>& 
 
 void EffectsPanel::paint (juce::Graphics& g)
 {
-    drawChrome (g, getLocalBounds().toFloat().reduced (0.5f));
+    drawChrome (g, getLocalBounds().toFloat().reduced (0.5f),
+                deviceProfile == IonFamilyDevice::micron ? "FX1 / MOD FX" : "EFFECTS");
 
     auto area = getLocalBounds().reduced (8);
     area.removeFromTop (31);
@@ -67,8 +68,20 @@ void EffectsPanel::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::black.withAlpha (0.48f));
     g.setFont (juce::FontOptions (8.6f));
-    g.drawText ("FX labels depend on the selected hardware algorithm",
+    g.drawText (deviceProfile == IonFamilyDevice::micron
+                    ? "Micron FX2 delay/reverb controls are exposed in MICRON CONTROLS"
+                    : "FX labels depend on the selected hardware algorithm",
                 note, juce::Justification::centred, true);
+}
+
+
+void EffectsPanel::setDeviceProfile (IonFamilyDevice device)
+{
+    if (deviceProfile == device)
+        return;
+
+    deviceProfile = device;
+    repaint();
 }
 
 void EffectsPanel::resized()

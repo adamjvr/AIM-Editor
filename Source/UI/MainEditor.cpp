@@ -50,12 +50,19 @@ MainEditor::MainEditor (const ParameterRegistry& registryToUse, IonMidiService& 
     controlBar.onDeviceChanged = [this] (IonFamilyDevice device)
     {
         hardwareTools.setDeviceProfile (device);
+        for (auto& page : pages)
+            if (page != nullptr)
+                page->setDeviceProfile (device);
+        updateViewedPageSize();
     };
     controlBar.onPersistentContextChanged = [this] { persistSession(); };
 
     const auto restoredSession = appSettings.loadSession();
     controlBar.restoreSession (restoredSession);
     hardwareTools.setDeviceProfile (controlBar.selectedDevice());
+    for (auto& page : pages)
+        if (page != nullptr)
+            page->setDeviceProfile (controlBar.selectedDevice());
     addAndMakeVisible (controlBar);
     showPage (restoredSession.pageIndex);
 

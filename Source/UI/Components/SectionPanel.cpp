@@ -27,7 +27,8 @@ juce::String compactParameterName (const ParameterDefinition& definition)
             name = name.substring (prefix.length()).trimStart();
     };
 
-    if (id.startsWith ("osc1.")) stripPrefix ("Oscillator 1 ");
+    if (id == "osc.sync") name = "Sync";
+    else if (id.startsWith ("osc1.")) stripPrefix ("Oscillator 1 ");
     else if (id.startsWith ("osc2.")) stripPrefix ("Oscillator 2 ");
     else if (id.startsWith ("osc3.")) stripPrefix ("Oscillator 3 ");
     else if (id.startsWith ("filter1.")) stripPrefix ("Filter 1 ");
@@ -183,15 +184,27 @@ ParameterControl::~ParameterControl()
 void ParameterControl::resized()
 {
     auto area = getLocalBounds().reduced (3);
-    label.setBounds (area.removeFromBottom (28));
-    valueLabel.setBounds (area.removeFromBottom (16));
+
+    // Compact rows (notably OSC COMMON and Micron X/Y/Z) used to spend almost
+    // their entire height on the two text labels, leaving ComboBoxes crushed.
+    // Preserve a real 24px interaction target first, then fit text around it.
+    if (getHeight() < 78)
+    {
+        valueLabel.setBounds (area.removeFromTop (14));
+        label.setBounds (area.removeFromBottom (20));
+    }
+    else
+    {
+        label.setBounds (area.removeFromBottom (28));
+        valueLabel.setBounds (area.removeFromBottom (16));
+    }
 
     if (widgetKind == WidgetKind::slider)
         slider.setBounds (area.reduced (5, 0));
     else if (widgetKind == WidgetKind::selector)
-        selector.setBounds (area.withSizeKeepingCentre (juce::jmax (24, area.getWidth() - 6), 24));
+        selector.setBounds (area.withSizeKeepingCentre (juce::jmax (24, area.getWidth() - 6), 26));
     else
-        toggle.setBounds (area.withSizeKeepingCentre (24, 24));
+        toggle.setBounds (area.withSizeKeepingCentre (26, 26));
 }
 
 void ParameterControl::parameterValueChanged (std::string_view id,

@@ -6,6 +6,7 @@
 #include "UI/Components/EffectsPanel.h"
 #include "UI/Components/FilterPanel.h"
 #include "UI/Components/MixerPanel.h"
+#include "UI/Components/MicronExtensionsPanel.h"
 #include "UI/Components/ModMatrixPanel.h"
 #include "UI/Components/ModulatorPanel.h"
 #include "UI/Components/OscillatorPanel.h"
@@ -14,6 +15,7 @@
 #include "UI/Components/SectionPanel.h"
 #include "UI/Components/TrackingGeneratorPanel.h"
 #include "UI/Components/VoicePanel.h"
+#include "Midi/IonFamilyDevice.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -34,6 +36,7 @@ public:
 
     void paint (juce::Graphics&) override;
     void resized() override;
+    void setDeviceProfile (IonFamilyDevice device);
 
     [[nodiscard]] int preferredHeightForWidth (int width) const;
     [[nodiscard]] const juce::String& getPageKey() const noexcept { return key; }
@@ -59,6 +62,7 @@ private:
 
     juce::String key;
     juce::String title;
+    IonFamilyDevice deviceProfile = IonFamilyDevice::ion;
     std::vector<SectionEntry> sections;
 };
 }

@@ -46,7 +46,7 @@
 
 - [ ] complete parameter value domains
 - [ ] complete enum tables (3 reusable tables + inline domains are loaded; incomplete candidate domains remain explicit)
-- [ ] complete display transforms (85/212 currently executable from JSON; unknowns remain raw)
+- [ ] complete display transforms (90/217 currently executable from JSON; unknowns remain raw)
 - [ ] map every SysEx field/bit
 - [ ] verify all modulation source/destination IDs on hardware (115 source candidates / 79 destination candidates loaded)
 - [x] decode candidate tracking-generator points into first-class JSON parameters (hardware verification pending)
@@ -189,3 +189,22 @@
 - Added a persistent DEVICE selector and device-aware request bank/program addressing.
 - Micron bank requests and full writes are disabled until hardware evidence closes those semantics; Ion guarded Edit-buffer writes remain unchanged.
 - Added pinned Micronau corroboration, selected Micron FX2/X-Y-Z facts, and explicit conflict holds without importing GPL implementation code.
+
+
+## Pass 32 — Micron-first device-aware UI
+
+- Treat the user's physical Micron as the primary hardware-verification target; Ion mappings remain candidate until physical Ion testing is available.
+- Switch the editor shell by selected device: Ion hides Micron-only controls, while Micron exposes X/Y/Z assignments plus FX1/FX2 balance and FX2 type.
+- Replace cryptic page initials with responsive Front / Dual 1 / Dual 2 / Random / Rear navigation.
+- Reflow the Oscillator COMMON strip into a two-row layout at constrained widths to eliminate truncated Sync/FM Source/Noise selectors.
+- Add an original silver/red AIM Editor application icon and source SVG inspired by professional MIDI utility hardware, without copying Apple's artwork.
+- Continue to keep Micron bank streaming/full-program writes disabled until physical-hardware evidence closes those semantics.
+
+## Pass 33 — device-aware product surface cleanup
+
+- Replaced the generic Micron extension bucket with a dedicated X/Y/Z + FX2 control surface.
+- Made the shared Effects panel identify itself as FX1 in Micron mode.
+- Fixed the cramped OSCILLATORS / COMMON layout with a taller 2x2 responsive strip and compact ParameterControl geometry.
+- Reframed the bottom page switcher as an explicit VIEW selector with full page names and safe collapse behavior.
+- Added a matching silver/red AIM utility mark to the live editor banner while retaining the branded application icon.
+- Physical Micron remains the primary hardware-verification target; Ion verification is deferred until hardware is available.

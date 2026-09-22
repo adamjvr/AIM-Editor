@@ -38,6 +38,8 @@ juce_add_binary_data(AIMEditorData
         data/enums/modulation-sources.json
         data/enums/modulation-destinations.json
         data/enums/filter-types.json
+        data/enums/micron-assignable-parameters.json
+        assets/branding/aim-editor-icon.png
         schemas/parameter-database.schema.json
         schemas/device-profiles.schema.json
         schemas/program.schema.json
@@ -118,6 +120,8 @@ target_link_libraries(AIMEditorMidi
 
 juce_add_gui_app(AIMEditor
     PRODUCT_NAME "AIM Editor"
+    ICON_BIG "${CMAKE_CURRENT_SOURCE_DIR}/assets/branding/aim-editor-icon.png"
+    ICON_SMALL "${CMAKE_CURRENT_SOURCE_DIR}/assets/branding/aim-editor-icon.png"
     COMPANY_NAME "AIM Editor"
     BUNDLE_ID "com.rothamplification.aimeditor"
     DOCUMENT_EXTENSIONS syx
@@ -170,6 +174,8 @@ target_sources(AIMEditor PRIVATE
     Source/UI/Components/EffectsPanel.h
     Source/UI/Components/MixerPanel.cpp
     Source/UI/Components/MixerPanel.h
+    Source/UI/Components/MicronExtensionsPanel.cpp
+    Source/UI/Components/MicronExtensionsPanel.h
     Source/UI/Components/OutputPanel.cpp
     Source/UI/Components/OutputPanel.h
     Source/UI/Components/ModMatrixPanel.cpp

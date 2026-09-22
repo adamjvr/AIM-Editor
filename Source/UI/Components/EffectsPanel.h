@@ -3,6 +3,7 @@
 #include "Core/ParameterRegistry.h"
 #include "Core/ProgramState.h"
 #include "UI/Components/SectionPanel.h"
+#include "Midi/IonFamilyDevice.h"
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
@@ -19,6 +20,7 @@ public:
 
     void paint (juce::Graphics&) override;
     void resized() override;
+    void setDeviceProfile (IonFamilyDevice device);
     [[nodiscard]] int preferredHeightForWidth (int width) const override;
 
 private:
@@ -32,5 +34,6 @@ private:
     std::vector<std::unique_ptr<ParameterControl>> toneControls;
     std::vector<std::unique_ptr<ParameterControl>> modulationControls;
     std::vector<std::unique_ptr<ParameterControl>> modeControls;
+    IonFamilyDevice deviceProfile = IonFamilyDevice::ion;
 };
 }

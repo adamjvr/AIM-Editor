@@ -57,13 +57,20 @@ GlobalControlBar::GlobalControlBar (IonMidiService& midiService)
             onPageChanged (index);
     };
 
-    const juce::StringArray pageNames { "F", "D1", "D2", "Rnd", "R" };
+    const juce::StringArray pageNames { "Front", "Dual 1", "Dual 2", "Random", "Rear" };
+    const juce::StringArray pageHints { "Front editor (Cmd+1)", "Dual 1 editor (Cmd+2)", "Dual 2 editor (Cmd+3)",
+                                        "Randomizer (Cmd+4)", "Rear / modulation editor (Cmd+5)" };
     for (std::size_t i = 0; i < pageButtons.size(); ++i)
     {
         pageButtons[i] = std::make_unique<juce::TextButton> (pageNames[static_cast<int> (i)]);
         pageButtons[i]->setClickingTogglesState (true);
         pageButtons[i]->setRadioGroupId (0x41494d);
         pageButtons[i]->setToggleState (i == 0u, juce::dontSendNotification);
+        pageButtons[i]->setTooltip (pageHints[static_cast<int> (i)]);
+        pageButtons[i]->setColour (juce::TextButton::buttonColourId, juce::Colour::fromRGB (43, 43, 43));
+        pageButtons[i]->setColour (juce::TextButton::buttonOnColourId, juce::Colour::fromRGB (164, 38, 38));
+        pageButtons[i]->setColour (juce::TextButton::textColourOffId, juce::Colours::white.withAlpha (0.92f));
+        pageButtons[i]->setColour (juce::TextButton::textColourOnId, juce::Colours::white);
         pageButtons[i]->onClick = [this, i]
         {
             pageSelector.setSelectedItemIndex (static_cast<int> (i), juce::dontSendNotification);
@@ -266,13 +273,13 @@ void GlobalControlBar::paint (juce::Graphics& g)
     drawSelectorHeader ("PROGRAM", programSelector.getBounds());
     drawSelectorHeader ("MIDI OUT", midiOutput.getBounds());
     drawSelectorHeader ("CH", midiChannel.getBounds());
-    drawSelectorHeader ("PANEL", pageTabsBounds.isEmpty() ? pageSelector.getBounds() : pageTabsBounds);
+    drawSelectorHeader ("VIEW", pageTabsBounds.isEmpty() ? pageSelector.getBounds() : pageTabsBounds);
 }
 
 void GlobalControlBar::resized()
 {
     auto area = getLocalBounds().reduced (12, 8);
-    area.removeFromTop (14);
+    area.removeFromTop (17);
 
     constexpr int gap = 6;
     const int rowHeight = 28;
@@ -286,33 +293,32 @@ void GlobalControlBar::resized()
     liveEdit.setButtonText (compactActions ? "Live" : "live NRPN");
     settings.setButtonText (compactActions ? "Refresh" : "refresh MIDI");
 
-    // Hardware/program context stays visible across every page. MIDI channel
-    // is explicit because live NRPN editing is channel-sensitive.
     auto selectorRow = area.removeFromTop (rowHeight);
-    const int selectorWidth = juce::jmax (68, (selectorRow.getWidth() - gap * 6) / 7);
+    // Full page names are intentionally never ellipsized. At narrower widths
+    // collapse to the page selector rather than recreating the old cryptic tabs.
+    const auto useSegmentedPages = getWidth() >= 1180;
 
-    deviceSelector.setBounds (selectorRow.removeFromLeft (selectorWidth));
-    selectorRow.removeFromLeft (gap);
-    midiInput.setBounds (selectorRow.removeFromLeft (selectorWidth));
-    selectorRow.removeFromLeft (gap);
-    midiBank.setBounds (selectorRow.removeFromLeft (selectorWidth));
-    selectorRow.removeFromLeft (gap);
-    programSelector.setBounds (selectorRow.removeFromLeft (selectorWidth));
-    selectorRow.removeFromLeft (gap);
-    midiOutput.setBounds (selectorRow.removeFromLeft (selectorWidth));
-    selectorRow.removeFromLeft (gap);
-    midiChannel.setBounds (selectorRow.removeFromLeft (selectorWidth));
-    selectorRow.removeFromLeft (gap);
-
-    pageTabsBounds = selectorRow;
-    const auto useSegmentedPages = getWidth() >= 900;
-    pageSelector.setVisible (! useSegmentedPages);
-    pageSelector.setBounds (pageTabsBounds);
     if (useSegmentedPages)
     {
+        const auto available = selectorRow.getWidth();
+        const int deviceW = juce::jlimit (105, 140, available / 10);
+        const int midiW = juce::jlimit (135, 190, available / 8);
+        const int bankW = juce::jlimit (110, 155, available / 9);
+        const int programW = juce::jlimit (100, 135, available / 10);
+        const int channelW = 64;
+
+        deviceSelector.setBounds (selectorRow.removeFromLeft (deviceW)); selectorRow.removeFromLeft (gap);
+        midiInput.setBounds (selectorRow.removeFromLeft (midiW)); selectorRow.removeFromLeft (gap);
+        midiBank.setBounds (selectorRow.removeFromLeft (bankW)); selectorRow.removeFromLeft (gap);
+        programSelector.setBounds (selectorRow.removeFromLeft (programW)); selectorRow.removeFromLeft (gap);
+        midiOutput.setBounds (selectorRow.removeFromLeft (midiW)); selectorRow.removeFromLeft (gap);
+        midiChannel.setBounds (selectorRow.removeFromLeft (channelW)); selectorRow.removeFromLeft (gap);
+
+        pageTabsBounds = selectorRow;
+        pageSelector.setVisible (false);
         auto tabs = pageTabsBounds;
-        constexpr int tabGap = 2;
-        const auto tabWidth = juce::jmax (24, (tabs.getWidth() - tabGap * 4) / 5);
+        constexpr int tabGap = 3;
+        const auto tabWidth = juce::jmax (48, (tabs.getWidth() - tabGap * 4) / 5);
         for (auto& button : pageButtons)
         {
             button->setVisible (true);
@@ -322,6 +328,16 @@ void GlobalControlBar::resized()
     }
     else
     {
+        const int selectorWidth = juce::jmax (68, (selectorRow.getWidth() - gap * 6) / 7);
+        deviceSelector.setBounds (selectorRow.removeFromLeft (selectorWidth)); selectorRow.removeFromLeft (gap);
+        midiInput.setBounds (selectorRow.removeFromLeft (selectorWidth)); selectorRow.removeFromLeft (gap);
+        midiBank.setBounds (selectorRow.removeFromLeft (selectorWidth)); selectorRow.removeFromLeft (gap);
+        programSelector.setBounds (selectorRow.removeFromLeft (selectorWidth)); selectorRow.removeFromLeft (gap);
+        midiOutput.setBounds (selectorRow.removeFromLeft (selectorWidth)); selectorRow.removeFromLeft (gap);
+        midiChannel.setBounds (selectorRow.removeFromLeft (selectorWidth)); selectorRow.removeFromLeft (gap);
+        pageTabsBounds = selectorRow;
+        pageSelector.setVisible (true);
+        pageSelector.setBounds (pageTabsBounds);
         for (auto& button : pageButtons)
             button->setVisible (false);
     }
@@ -329,27 +345,19 @@ void GlobalControlBar::resized()
     area.removeFromTop (getWidth() < 1000 ? 10 : 7);
     auto buttonRow = area.removeFromTop (rowHeight);
 
-    const int statusWidth = juce::jlimit (100, 150, buttonRow.getWidth() / 6);
+    const int statusWidth = juce::jlimit (110, 175, buttonRow.getWidth() / 6);
     status.setBounds (buttonRow.removeFromRight (statusWidth));
     buttonRow.removeFromRight (gap);
 
     const int buttonWidth = juce::jmax (54, (buttonRow.getWidth() - gap * 8) / 9);
-    requestPatch.setBounds (buttonRow.removeFromLeft (buttonWidth));
-    buttonRow.removeFromLeft (gap);
-    sysexTools.setBounds (buttonRow.removeFromLeft (buttonWidth));
-    buttonRow.removeFromLeft (gap);
-    librarian.setBounds (buttonRow.removeFromLeft (buttonWidth));
-    buttonRow.removeFromLeft (gap);
-    undo.setBounds (buttonRow.removeFromLeft (buttonWidth));
-    buttonRow.removeFromLeft (gap);
-    redo.setBounds (buttonRow.removeFromLeft (buttonWidth));
-    buttonRow.removeFromLeft (gap);
-    updateEditBuffer.setBounds (buttonRow.removeFromLeft (buttonWidth));
-    buttonRow.removeFromLeft (gap);
-    allNotesOff.setBounds (buttonRow.removeFromLeft (buttonWidth));
-    buttonRow.removeFromLeft (gap);
-    liveEdit.setBounds (buttonRow.removeFromLeft (buttonWidth));
-    buttonRow.removeFromLeft (gap);
+    requestPatch.setBounds (buttonRow.removeFromLeft (buttonWidth)); buttonRow.removeFromLeft (gap);
+    sysexTools.setBounds (buttonRow.removeFromLeft (buttonWidth)); buttonRow.removeFromLeft (gap);
+    librarian.setBounds (buttonRow.removeFromLeft (buttonWidth)); buttonRow.removeFromLeft (gap);
+    undo.setBounds (buttonRow.removeFromLeft (buttonWidth)); buttonRow.removeFromLeft (gap);
+    redo.setBounds (buttonRow.removeFromLeft (buttonWidth)); buttonRow.removeFromLeft (gap);
+    updateEditBuffer.setBounds (buttonRow.removeFromLeft (buttonWidth)); buttonRow.removeFromLeft (gap);
+    allNotesOff.setBounds (buttonRow.removeFromLeft (buttonWidth)); buttonRow.removeFromLeft (gap);
+    liveEdit.setBounds (buttonRow.removeFromLeft (buttonWidth)); buttonRow.removeFromLeft (gap);
     settings.setBounds (buttonRow);
 }
 
